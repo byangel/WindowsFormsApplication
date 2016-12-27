@@ -10,7 +10,7 @@ using XA_SESSIONLib;
 
 namespace PackageSellSystemTrading{
     public class ExXASessionClass : XASessionClass {
- 
+  
       
 
         // 생성자
