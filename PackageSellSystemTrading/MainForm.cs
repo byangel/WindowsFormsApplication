@@ -24,7 +24,7 @@ namespace PackageSellSystemTrading
             InitializeComponent();
         }
         private ExXASessionClass exXASessionClass;
-        private Angel_t1833 angel_t1833;
+        private Xing_t1833 xing_t1833;
 
         // 로그인 정보
         public bool loginAt = false;
@@ -35,20 +35,32 @@ namespace PackageSellSystemTrading
             //실운영 : hts.ebestsec.co.kr
             //모의투자 : demo.ebestsec.co.kr
             exXASessionClass = new ExXASessionClass();//로그인
-           
-            
-            angel_t1833 = new Angel_t1833();//종목검색
-            combox_targetServer.Items.Add("모의투자");
-            combox_targetServer.Items.Add("실서버");
-            combox_targetServer.SelectedIndex = 0;
 
+            xing_t1833 = new Xing_t1833();//종목검색
+            this.xing_t1833.mainForm = this;
+
+            //폼 초기화
+            formInit();
 
             //개발완료시 제거해주자.
             input_loginId.Text = "neloi";
             input_loginPass.Text = "neloi1"; 
             input_publicPass.Text = "";
-            input_accountPass.Text = "0000";
+            //input_accountPass.Text = "0000";
         }
+
+        private void formInit()
+        {
+            //서버 선택 콤보 초기화
+            combox_targetServer.Items.Add("모의투자");
+            combox_targetServer.Items.Add("실서버");
+            combox_targetServer.SelectedIndex = 0;
+
+            //종목검색 그리드 초기화
+            //grd_searchBuy
+
+        }
+
         //로그인 버튼 클릭 이벤트
         private void mf_loginBtn_Click(object sender, EventArgs e) {
             try {
@@ -58,7 +70,7 @@ namespace PackageSellSystemTrading
                 String loginId     = input_loginId.Text;
                 String loginPass   = input_loginPass.Text;
                 String publicPass  = input_publicPass.Text;
-                String accountPass = input_accountPass.Text;
+                //String accountPass = input_accountPass.Text;
                 if (loginId == "" && loginPass=="")
                 {
 
@@ -83,6 +95,7 @@ namespace PackageSellSystemTrading
             } 
 
         }
+
         //로그아웃 버튼 클릭 이벤트
         private void logOutBtn_Click(object sender, EventArgs e)  {
             //로그인이면
@@ -97,8 +110,10 @@ namespace PackageSellSystemTrading
 
         //매수 할 종목 검색
         private void searchBtn_Click(object sender, EventArgs e)  {
-            angel_t1833.call_request("test");
+            xing_t1833.call_request("test");
         }
+
+       
     }//end class
 }//end namespace
 

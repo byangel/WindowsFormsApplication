@@ -10,12 +10,12 @@ using XA_SESSIONLib;
 using XA_DATASETLib;
 
 namespace PackageSellSystemTrading{
-    public class Angel_t1833 : XAQueryClass{
- 
-      
+    public class Xing_t1833 : XAQueryClass{
 
+
+        public MainForm mainForm;
         // 생성자
-        public Angel_t1833()
+        public Xing_t1833()
         {
             //String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
             //base.ResFileName = startupPath+"₩Resources₩t1833.res";
@@ -28,7 +28,7 @@ namespace PackageSellSystemTrading{
         }   // end function
 
         // 소멸자
-        ~Angel_t1833()
+        ~Xing_t1833()
         {
           
         }
@@ -45,13 +45,26 @@ namespace PackageSellSystemTrading{
 
             int iCount = base.GetBlockCount("t1833OutBlock1");
 
-            for (int i = 0; i < iCount; i++)
-            {
-                string shcode  = base.GetFieldData("t1833OutBlock1", "shcode", i);
-                string hname   = base.GetFieldData("t1833OutBlock1", "hname", i);
-                string signcnt = base.GetFieldData("t1833OutBlock1", "signcnt", i);
-                string volume  = base.GetFieldData("t1833OutBlock1", "volume", i);
-                MessageBox.Show(hname);
+            // 매수종목 검색 그리드 초기화
+            mainForm.grd_searchBuy.Rows.Clear();
+            string[] row = new string[7];
+            int addIndex;
+            for (int i = 0; i < iCount; i++) {
+                row[0] = base.GetFieldData("t1833OutBlock1", "shcode" , i); //종목코드
+                row[1] = base.GetFieldData("t1833OutBlock1", "hname"  , i); //종목명
+                row[2] = base.GetFieldData("t1833OutBlock1", "close", i); //현재가
+                row[3] = base.GetFieldData("t1833OutBlock1", "sign"   , i); //전일대비구분 
+                row[4] = base.GetFieldData("t1833OutBlock1", "change" , i); //전일대비
+                row[5] = base.GetFieldData("t1833OutBlock1", "diff"   , i); //등락율
+                row[6] = base.GetFieldData("t1833OutBlock1", "volume" , i); //거래량
+                //row[0] = base.GetFieldData("t1833OutBlock1", "signcnt", i);//연속봉수
+                //1.그리드 데이터 추가
+                addIndex = mainForm.grd_searchBuy.Rows.Add(row);
+
+                //2.계좌에 존제 여부 체크
+
+                //3.매수
+                Log.WriteLine("t1833.ReceiveDataEventHandler :: ");
             }
                       
             
@@ -86,7 +99,7 @@ namespace PackageSellSystemTrading{
             //MessageBox.Show(startupPath);
             //  file file =(file) Properties.Resources.Condition.na;
             base.RequestService("t1833", startupPath+"\\Resources\\Condition.ADF");
-            
+            Log.WriteLine("t1833.call_request :: " + szFileName);
         }	// end function
 
 
