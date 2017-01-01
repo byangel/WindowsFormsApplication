@@ -25,6 +25,7 @@ namespace PackageSellSystemTrading
         }
         private ExXASessionClass exXASessionClass;
         private Xing_t1833 xing_t1833;
+        private Xing_t0424 xing_t0424;
 
         // 로그인 정보
         public bool loginAt = false;
@@ -35,16 +36,19 @@ namespace PackageSellSystemTrading
             //실운영 : hts.ebestsec.co.kr
             //모의투자 : demo.ebestsec.co.kr
             exXASessionClass = new ExXASessionClass();//로그인
+            exXASessionClass.mainForm = this;
 
             xing_t1833 = new Xing_t1833();//종목검색
             this.xing_t1833.mainForm = this;
+            xing_t0424 = new Xing_t0424();// 주식잔고2
+            this.xing_t0424.mainForm = this;
 
             //폼 초기화
             formInit();
 
             //개발완료시 제거해주자.
             input_loginId.Text = "neloi";
-            input_loginPass.Text = "neloi1"; 
+            input_loginPw.Text = "neloi1"; 
             input_publicPass.Text = "";
             //input_accountPass.Text = "0000";
         }
@@ -61,40 +65,6 @@ namespace PackageSellSystemTrading
 
         }
 
-        //로그인 버튼 클릭 이벤트
-        private void mf_loginBtn_Click(object sender, EventArgs e) {
-            try {
-
-                String mServerAddress="";
-
-                String loginId     = input_loginId.Text;
-                String loginPass   = input_loginPass.Text;
-                String publicPass  = input_publicPass.Text;
-                //String accountPass = input_accountPass.Text;
-                if (loginId == "" && loginPass=="")
-                {
-
-                }
-
-                switch (combox_targetServer.SelectedIndex){
-                    case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
-                    case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
-                }
-                //MessageBox.Show(mServerAddress);
-                //서버접속
-                if (exXASessionClass.IsConnected() == false){
-                    this.exXASessionClass.ConnectServer(mServerAddress, 20001);
-                }
-
-                // 로그인
-                bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
-                
-
-            }catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            } 
-
-        }
 
         //로그아웃 버튼 클릭 이벤트
         private void logOutBtn_Click(object sender, EventArgs e)  {
@@ -113,7 +83,44 @@ namespace PackageSellSystemTrading
             xing_t1833.call_request("test");
         }
 
-       
+
+        //로그인 버튼 클릭 이벤트
+        private void btn_login_click(object sender, EventArgs e)
+        {
+            try{
+                String mServerAddress = "";
+
+                String loginId    = input_loginId.Text;
+                String loginPass  = input_loginPw.Text;
+                String publicPass = input_publicPass.Text;
+                //String accountPass = input_accountPass.Text;
+                if (loginId == "" && loginPass == "")
+                {
+
+                }
+
+                switch (combox_targetServer.SelectedIndex)
+                {
+                    case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
+                    case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
+                }
+                //MessageBox.Show(mServerAddress);
+                //서버접속
+                if (exXASessionClass.IsConnected() == false)
+                {
+                    this.exXASessionClass.ConnectServer(mServerAddress, 20001);
+                }
+
+                // 로그인
+                bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }//end class
 }//end namespace
 

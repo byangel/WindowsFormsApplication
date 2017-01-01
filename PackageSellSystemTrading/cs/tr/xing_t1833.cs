@@ -38,11 +38,7 @@ namespace PackageSellSystemTrading{
 		/// 미체결내역 조회 관련(T0434) 수신 처리부
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
-		void _IXAQueryEvents_ReceiveDataEventHandler(string szTrCode)
-        {
-            //이벤트를 받았다면 서버에서 수신된 데이터를 가져와야 한다.
-            String cnt = base.GetFieldData("t1833OutBlock", "jongCnt", 0);
-
+		void _IXAQueryEvents_ReceiveDataEventHandler(string szTrCode){
             int iCount = base.GetBlockCount("t1833OutBlock1");
 
             // 매수종목 검색 그리드 초기화
@@ -52,11 +48,11 @@ namespace PackageSellSystemTrading{
             for (int i = 0; i < iCount; i++) {
                 row[0] = base.GetFieldData("t1833OutBlock1", "shcode" , i); //종목코드
                 row[1] = base.GetFieldData("t1833OutBlock1", "hname"  , i); //종목명
-                row[2] = base.GetFieldData("t1833OutBlock1", "close", i); //현재가
+                row[2] = Util.GetNumberFormat(base.GetFieldData("t1833OutBlock1", "close"  , i)); //현재가
                 row[3] = base.GetFieldData("t1833OutBlock1", "sign"   , i); //전일대비구분 
-                row[4] = base.GetFieldData("t1833OutBlock1", "change" , i); //전일대비
+                row[4] = Util.GetNumberFormat(base.GetFieldData("t1833OutBlock1", "change" , i)); //전일대비
                 row[5] = base.GetFieldData("t1833OutBlock1", "diff"   , i); //등락율
-                row[6] = base.GetFieldData("t1833OutBlock1", "volume" , i); //거래량
+                row[6] = Util.GetNumberFormat(base.GetFieldData("t1833OutBlock1", "volume" , i)); //거래량
                 //row[0] = base.GetFieldData("t1833OutBlock1", "signcnt", i);//연속봉수
                 //1.그리드 데이터 추가
                 addIndex = mainForm.grd_searchBuy.Rows.Add(row);
@@ -96,8 +92,7 @@ namespace PackageSellSystemTrading{
         {
 
             String startupPath = Application.StartupPath.Replace("\\bin\\Debug","");
-            //MessageBox.Show(startupPath);
-            //  file file =(file) Properties.Resources.Condition.na;
+ 
             base.RequestService("t1833", startupPath+"\\Resources\\Condition.ADF");
             Log.WriteLine("t1833.call_request :: " + szFileName);
         }	// end function

@@ -10,14 +10,14 @@ using XA_SESSIONLib;
 
 namespace PackageSellSystemTrading{
     public class ExXASessionClass : XASessionClass {
-  
-      
+
+        public MainForm mainForm;
 
         // 생성자
         public ExXASessionClass()
         {
             //이벤트등록 문법이 어떤 구조인지 잘모르겠다.
-            base._IXASessionEvents_Event_Login += _IXASessionEvents_LoginEventHandler;
+            base._IXASessionEvents_Event_Login += loginEventHandler;
 
             //xASessionClass._IXASessionEvents_Event_Logout += new _IXASessionEvents_LogoutEventHandler(clsXASession__IXASessionEvents_Event_Logout);
             //xASessionClass.Disconnect += new _IXASessionEvents_DisconnectEventHandler(clsXASession_Disconnect);
@@ -34,7 +34,7 @@ namespace PackageSellSystemTrading{
 
 
         #region XASession 이벤트 핸들러
-        private  void _IXASessionEvents_LoginEventHandler(string szCode, string szMsg)
+        private  void loginEventHandler(string szCode, string szMsg)
         { 
         //private new void _IXASessionEvents_Event_Login(string szCode, string szMsg) {
            
@@ -62,15 +62,19 @@ namespace PackageSellSystemTrading{
                     // 뉴스 정보 실시간 등록
                     //mainForm.mxRealNws.call_advise();
 
-                    // 계좌정보 가져오기 - 처음꺼 하나만 가져옴
-                    String mAccount = GetAccountList(0);
-                    //mainForm.Text += "; " + mAccount;
-                    int accountListCount = GetAccountListCount();
-                    msg = "accountCount:" + accountListCount.ToString() + " / " + mAccount;
-                    // 로그인 
+                    //로그인 성공시 계좌 목록을 콤보박스에 출력
+                    String account;
+                    int accountListCount = base.GetAccountListCount();
+                    for (int i=0;i<accountListCount; i++) {
+                        account = base.GetAccountList(i);
+                        mainForm.comBox_account.Items.Add(account);
+                    }
+                    //로그인 성공시 계좌 목록을 콤보박스에 출력
                  
-                       
-                        
+                    mainForm.comBox_account.SelectedIndex = 0;
+
+                    msg = "성공적으로 로그인 하였습니다.";
+                    // 로그인          
 
                     // 서버의 시간 검색 타이머 스타트 - 여기서 PC의 시간을 서버 시간과 동기화 시킴
                     //mainForm.Timer0167.Start();
