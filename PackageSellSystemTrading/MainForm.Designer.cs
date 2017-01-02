@@ -76,19 +76,21 @@
             this.comBox_account = new System.Windows.Forms.ComboBox();
             this.input_accountPw = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btn_accountSearch = new System.Windows.Forms.Button();
+            this.input_sunamt1 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.input_tdtsunik = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.input_tappamt = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.input_mamt = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.input_dtsunik = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.input_sunamt = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.h_totalCount = new System.Windows.Forms.Label();
+            this.input_accoun0424_log = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.grd_searchBuy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ds_server)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
@@ -246,9 +248,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(548, 16);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 16;
-            this.label5.Text = "계좌잔고";
+            this.label5.Text = "보유종목수";
             // 
             // combox_targetServer
             // 
@@ -448,21 +450,22 @@
             this.label8.TabIndex = 21;
             this.label8.Text = "계좌비밀번호";
             // 
-            // button1
+            // btn_accountSearch
             // 
-            this.button1.Location = new System.Drawing.Point(550, 282);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 29);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "계좌검색";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_accountSearch.Location = new System.Drawing.Point(550, 319);
+            this.btn_accountSearch.Name = "btn_accountSearch";
+            this.btn_accountSearch.Size = new System.Drawing.Size(83, 29);
+            this.btn_accountSearch.TabIndex = 25;
+            this.btn_accountSearch.Text = "계좌검색";
+            this.btn_accountSearch.UseVisualStyleBackColor = true;
+            this.btn_accountSearch.Click += new System.EventHandler(this.btn_accountSearch_Click);
             // 
-            // textBox1
+            // input_sunamt1
             // 
-            this.textBox1.Location = new System.Drawing.Point(1105, 249);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(88, 21);
-            this.textBox1.TabIndex = 27;
+            this.input_sunamt1.Location = new System.Drawing.Point(1105, 249);
+            this.input_sunamt1.Name = "input_sunamt1";
+            this.input_sunamt1.Size = new System.Drawing.Size(88, 21);
+            this.input_sunamt1.TabIndex = 27;
             // 
             // label9
             // 
@@ -473,12 +476,12 @@
             this.label9.TabIndex = 26;
             this.label9.Text = "예수금(D2)";
             // 
-            // textBox2
+            // input_tdtsunik
             // 
-            this.textBox2.Location = new System.Drawing.Point(1105, 384);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(88, 21);
-            this.textBox2.TabIndex = 29;
+            this.input_tdtsunik.Location = new System.Drawing.Point(1105, 384);
+            this.input_tdtsunik.Name = "input_tdtsunik";
+            this.input_tdtsunik.Size = new System.Drawing.Size(88, 21);
+            this.input_tdtsunik.TabIndex = 29;
             // 
             // label10
             // 
@@ -489,12 +492,12 @@
             this.label10.TabIndex = 28;
             this.label10.Text = "평가손익";
             // 
-            // textBox3
+            // input_tappamt
             // 
-            this.textBox3.Location = new System.Drawing.Point(1105, 357);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(88, 21);
-            this.textBox3.TabIndex = 31;
+            this.input_tappamt.Location = new System.Drawing.Point(1105, 357);
+            this.input_tappamt.Name = "input_tappamt";
+            this.input_tappamt.Size = new System.Drawing.Size(88, 21);
+            this.input_tappamt.TabIndex = 31;
             // 
             // label11
             // 
@@ -505,12 +508,12 @@
             this.label11.TabIndex = 30;
             this.label11.Text = "평가금액";
             // 
-            // textBox4
+            // input_mamt
             // 
-            this.textBox4.Location = new System.Drawing.Point(1105, 330);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(88, 21);
-            this.textBox4.TabIndex = 33;
+            this.input_mamt.Location = new System.Drawing.Point(1105, 330);
+            this.input_mamt.Name = "input_mamt";
+            this.input_mamt.Size = new System.Drawing.Size(88, 21);
+            this.input_mamt.TabIndex = 33;
             // 
             // label12
             // 
@@ -521,12 +524,12 @@
             this.label12.TabIndex = 32;
             this.label12.Text = "매입금액";
             // 
-            // textBox5
+            // input_dtsunik
             // 
-            this.textBox5.Location = new System.Drawing.Point(1105, 303);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(88, 21);
-            this.textBox5.TabIndex = 35;
+            this.input_dtsunik.Location = new System.Drawing.Point(1105, 303);
+            this.input_dtsunik.Name = "input_dtsunik";
+            this.input_dtsunik.Size = new System.Drawing.Size(88, 21);
+            this.input_dtsunik.TabIndex = 35;
             // 
             // label13
             // 
@@ -537,12 +540,12 @@
             this.label13.TabIndex = 34;
             this.label13.Text = "실현손익";
             // 
-            // textBox6
+            // input_sunamt
             // 
-            this.textBox6.Location = new System.Drawing.Point(1105, 276);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(88, 21);
-            this.textBox6.TabIndex = 37;
+            this.input_sunamt.Location = new System.Drawing.Point(1105, 276);
+            this.input_sunamt.Name = "input_sunamt";
+            this.input_sunamt.Size = new System.Drawing.Size(88, 21);
+            this.input_sunamt.TabIndex = 37;
             // 
             // label14
             // 
@@ -553,24 +556,42 @@
             this.label14.TabIndex = 36;
             this.label14.Text = "추정자산";
             // 
+            // h_totalCount
+            // 
+            this.h_totalCount.AutoSize = true;
+            this.h_totalCount.Location = new System.Drawing.Point(607, 16);
+            this.h_totalCount.Name = "h_totalCount";
+            this.h_totalCount.Size = new System.Drawing.Size(11, 12);
+            this.h_totalCount.TabIndex = 38;
+            this.h_totalCount.Text = "0";
+            // 
+            // input_accoun0424_log
+            // 
+            this.input_accoun0424_log.Location = new System.Drawing.Point(550, 282);
+            this.input_accoun0424_log.Name = "input_accoun0424_log";
+            this.input_accoun0424_log.Size = new System.Drawing.Size(465, 21);
+            this.input_accoun0424_log.TabIndex = 39;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1233, 633);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.input_accoun0424_log);
+            this.Controls.Add(this.h_totalCount);
+            this.Controls.Add(this.input_sunamt);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.input_dtsunik);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.input_mamt);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.input_tappamt);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.input_tdtsunik);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.input_sunamt1);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn_accountSearch);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.comBox_account);
             this.Controls.Add(this.input_accountPw);
@@ -650,22 +671,24 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sininter;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_accountSearch;
         public System.Windows.Forms.ComboBox comBox_account;
         public System.Windows.Forms.TextBox input_accountPw;
         public System.Windows.Forms.DataGridView grd_accoun0424;
-        public System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.TextBox input_sunamt1;
         private System.Windows.Forms.Label label9;
-        public System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.TextBox input_tdtsunik;
         private System.Windows.Forms.Label label10;
-        public System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.TextBox input_tappamt;
         private System.Windows.Forms.Label label11;
-        public System.Windows.Forms.TextBox textBox4;
+        public System.Windows.Forms.TextBox input_mamt;
         private System.Windows.Forms.Label label12;
-        public System.Windows.Forms.TextBox textBox5;
+        public System.Windows.Forms.TextBox input_dtsunik;
         private System.Windows.Forms.Label label13;
-        public System.Windows.Forms.TextBox textBox6;
+        public System.Windows.Forms.TextBox input_sunamt;
         private System.Windows.Forms.Label label14;
+        public System.Windows.Forms.Label h_totalCount;
+        public System.Windows.Forms.TextBox input_accoun0424_log;
     }
 }
 

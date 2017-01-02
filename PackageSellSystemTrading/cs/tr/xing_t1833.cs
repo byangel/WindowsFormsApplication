@@ -23,8 +23,8 @@ namespace PackageSellSystemTrading{
 
             //base.Request(false); //연속조회가 아닐경우 false
 
-            base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(_IXAQueryEvents_ReceiveDataEventHandler);
-            base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(_IXAQueryEvents_ReceiveMessageEventHandler);
+            base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
+            base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
         }   // end function
 
         // 소멸자
@@ -38,7 +38,7 @@ namespace PackageSellSystemTrading{
 		/// 미체결내역 조회 관련(T0434) 수신 처리부
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
-		void _IXAQueryEvents_ReceiveDataEventHandler(string szTrCode){
+		void receiveDataEventHandler(string szTrCode){
             int iCount = base.GetBlockCount("t1833OutBlock1");
 
             // 매수종목 검색 그리드 초기화
@@ -66,7 +66,7 @@ namespace PackageSellSystemTrading{
             
         }
 
-        void _IXAQueryEvents_ReceiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage)
+        void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage)
         {
 
             if (nMessageCode != "00000")

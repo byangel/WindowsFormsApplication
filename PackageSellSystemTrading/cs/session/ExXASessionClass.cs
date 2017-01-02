@@ -69,8 +69,6 @@ namespace PackageSellSystemTrading{
                         account = base.GetAccountList(i);
                         mainForm.comBox_account.Items.Add(account);
                     }
-                    //로그인 성공시 계좌 목록을 콤보박스에 출력
-                 
                     mainForm.comBox_account.SelectedIndex = 0;
 
                     msg = "성공적으로 로그인 하였습니다.";
@@ -106,7 +104,9 @@ namespace PackageSellSystemTrading{
                     msg = szCode + " :: " + szMsg;
                 }
                 MessageBox.Show(msg);
-            } catch (Exception ex)  {
+
+            }
+            catch (Exception ex)  {
                 MessageBox.Show(ex.Message);
                 //Log.WriteLine(ex.Message);
                 // Log.WriteLine(ex.StackTrace);

@@ -50,7 +50,7 @@ namespace PackageSellSystemTrading
             input_loginId.Text = "neloi";
             input_loginPw.Text = "neloi1"; 
             input_publicPass.Text = "";
-            //input_accountPass.Text = "0000";
+            input_accountPw.Text = "0000";
         }
 
         private void formInit()
@@ -94,32 +94,29 @@ namespace PackageSellSystemTrading
                 String loginPass  = input_loginPw.Text;
                 String publicPass = input_publicPass.Text;
                 //String accountPass = input_accountPass.Text;
-                if (loginId == "" && loginPass == "")
-                {
+                if (loginId == "" && loginPass == ""){
 
                 }
 
-                switch (combox_targetServer.SelectedIndex)
-                {
+                switch (combox_targetServer.SelectedIndex){
                     case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
                     case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
                 }
                 //MessageBox.Show(mServerAddress);
                 //서버접속
-                if (exXASessionClass.IsConnected() == false)
-                {
+                if (exXASessionClass.IsConnected() == false){
                     this.exXASessionClass.ConnectServer(mServerAddress, 20001);
                 }
 
-                // 로그인
+                // 로그인 호출
                 bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
-
-
-            }
-            catch (Exception ex)
-            {
+            }catch (Exception ex){
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btn_accountSearch_Click(object sender, EventArgs e) {
+            xing_t0424.call_request();
         }
     }//end class
 }//end namespace
