@@ -10,25 +10,21 @@ using XA_SESSIONLib;
 using XA_DATASETLib;
 
 namespace PackageSellSystemTrading{
-    public class Xing_t1833 : XAQueryClass{
+    //현물 취소주문
+    public class Xing_CSPAT00800 : XAQueryClass{
 
-        private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
         // 생성자
-        public Xing_t1833()
+        public Xing_CSPAT00800()
         {
-            //String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-            //base.ResFileName = startupPath+"₩Resources₩t1833.res";
-            base.ResFileName = "₩res₩t1833.res";
-
-            //base.Request(false); //연속조회가 아닐경우 false
+            base.ResFileName = "₩res₩CSPAT00800.res";
 
             base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
         }   // end function
 
         // 소멸자
-        ~Xing_t1833()
+        ~Xing_CSPAT00800()
         {
           
         }
@@ -41,7 +37,7 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
             int iCount = base.GetBlockCount("t1833OutBlock1");
 
-            //매수종목 검색 그리드 초기화
+            // 매수종목 검색 그리드 초기화
             mainForm.grd_searchBuy.Rows.Clear();
             string[] row = new string[7];
             int addIndex;
@@ -60,49 +56,47 @@ namespace PackageSellSystemTrading{
                 //2.계좌에 존제 여부 체크
 
                 //3.매수
-                //Log.WriteLine("t1833.ReceiveDataEventHandler :: ");
+                Log.WriteLine("t1833.ReceiveDataEventHandler :: ");
             }
-
-            //로그 및 중복 요청 처리
-            mainForm.input_t1833_log.Text = "조건검색 요청 완료";
-            completeAt = true;//중복호출 여부
-
+                      
+            
         }
 
-        void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
+        void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage)
+        {
 
-            try {
-                if (nMessageCode == "00000") {
-                    MessageBox.Show("t1833 :: " + nMessageCode + " :: " + szMessage);
-                    //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                } else {
-                    Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                    mainForm.input_t1833_log.Text = nMessageCode + " :: " + szMessage;
-                    completeAt = true;//중복호출 방지
+            try{
+                if (nMessageCode == "00000"){
+                    ;
+                }else{
+                    Log.WriteLine("CSPAT00800 :: " + nMessageCode + " :: " + szMessage);
+                    //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage; 
                 }
-            } catch (Exception ex) {
+            }catch (Exception ex){
                 Log.WriteLine(ex.Message);
                 Log.WriteLine(ex.StackTrace);
             }
         }
 
         /// <summary>
-		/// 종목검색 호출
+		/// 현물 취소 주문
 		/// </summary>
-		public void call_request(string szFileName){
-            if (completeAt) {
-                String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
+		/// <param name="OrgOrdNo">원주문번호</param>
+		/// <param name="IsuNo">종목번호</param>
+		/// <param name="OrdQty">주문수량</param>
+		public void call_request(string OrgOrdNo, string IsuNo, string OrdQty)
+        {
 
-                base.RequestService("t1833", startupPath + "\\Resources\\Condition.ADF");
-                Log.WriteLine("t1833.call_request :: " + szFileName);
+            String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
+            String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
-                completeAt = false;//중복호출 방지
-                //폼 메세지.
-                mainForm.input_t1833_log.Text = "조건검색 요청을 하였습니다.";
+            base.SetFieldData("CSPAT00800InBlock1", "AcntNo", 0, account);      // 계좌번호
+            base.SetFieldData("CSPAT00800InBlock1", "InptPwd", 0, accountPw);   // 입력비밀번호
+            base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo", 0, OrgOrdNo);                    // 원주문번호
+            base.SetFieldData("CSPAT00800InBlock1", "IsuNo", 0, "A" + IsuNo);                    // 종목번호
+            base.SetFieldData("CSPAT00800InBlock1", "OrdQty", 0, OrdQty);                        // 주문수량
 
-            } else {
-                mainForm.input_t1833_log.Text = "[중복]조건검색 요청을 하였습니다.";
-            }
+            base.Request(false);
         }
 
 

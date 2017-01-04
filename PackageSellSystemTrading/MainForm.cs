@@ -26,7 +26,8 @@ namespace PackageSellSystemTrading
         private ExXASessionClass exXASessionClass;
         private Xing_t1833 xing_t1833;
         private Xing_t0424 xing_t0424;
-
+        private Xing_CSPAT00600 xing_CSPAT00600;
+        private Xing_CSPAQ12300 xing_CSPAQ12300;
         // 로그인 정보
         public bool loginAt = false;
 
@@ -38,10 +39,16 @@ namespace PackageSellSystemTrading
             exXASessionClass = new ExXASessionClass();//로그인
             exXASessionClass.mainForm = this;
 
-            xing_t1833 = new Xing_t1833();//종목검색
+            this.xing_t1833 = new Xing_t1833();//종목검색
             this.xing_t1833.mainForm = this;
-            xing_t0424 = new Xing_t0424();// 주식잔고2
+            this.xing_t0424 = new Xing_t0424();// 주식잔고2
             this.xing_t0424.mainForm = this;
+            this.xing_CSPAT00600 = new Xing_CSPAT00600();// 정상주문
+            this.xing_CSPAT00600.mainForm = this;
+
+            this.xing_CSPAQ12300 = new Xing_CSPAQ12300();// 현물계좌 잔고내역 조회
+            this.xing_CSPAQ12300.mainForm = this;
+
 
             //폼 초기화
             formInit();
@@ -115,8 +122,28 @@ namespace PackageSellSystemTrading
             }
         }
 
+        //주식 잔고2
         private void btn_accountSearch_Click(object sender, EventArgs e) {
             xing_t0424.call_request();
+        }
+
+
+        //주문
+        private void btn_buyTest_Click(object sender, EventArgs e)
+        {
+            /// <summary>
+            /// 현물정상주문
+            /// </summary>
+            /// <param name="IsuNo">종목번호</param>
+            /// <param name="Quantity">수량</param>
+            /// <param name="Price">가격</param>
+            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+            xing_CSPAT00600.call_request("005930", "2", "1830000", "2");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            xing_CSPAQ12300.call_request();
         }
     }//end class
 }//end namespace

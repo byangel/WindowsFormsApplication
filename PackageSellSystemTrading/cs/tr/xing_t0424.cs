@@ -11,15 +11,16 @@ using XA_DATASETLib;
 using System.Threading;
 
 namespace PackageSellSystemTrading{
+    //주식 잔고2
     public class Xing_t0424 : XAQueryClass{
 
-        private Boolean completeFlag;//실행 가능여부.
+        private Boolean completeAt=true;//완료여부.
         public MainForm mainForm;
 
         public int mamt;      //매입금액
         public int tappamt;   //평가금액
         public int tdtsunik;  //평가손익
-        //public int sunamt;    //추정자산
+        public int sunamt;    //추정자산
         public int h_totalCount;
 
         public int testCount = 0;
@@ -33,7 +34,6 @@ namespace PackageSellSystemTrading{
             base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
 
-            completeFlag = true;
         }   // end function
 
         // 소멸자
@@ -43,8 +43,12 @@ namespace PackageSellSystemTrading{
         }
 
 
+        String tmpMamt;
+        String tmpTappamt;
+        String tmpTdtsunik;
+
         /// <summary>
-		/// 주식잔고2(T0424) 수신 처리부
+		/// 주식잔고2(T0424) 데이터 응답 처리
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
@@ -78,9 +82,7 @@ namespace PackageSellSystemTrading{
                 row[16] = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
                 //1.그리드 데이터 추가
-                addIndex = mainForm.grd_accoun0424.Rows.Add(row);
-                //mainForm.grd_accoun0424.Rows[addIndex].HeaderCell.Value = addIndex;
-
+                addIndex = mainForm.grd_accoun0424.Rows.Add(row);  
             }
 
 
@@ -102,21 +104,22 @@ namespace PackageSellSystemTrading{
                 //연속 데이타 정보를 호출.
                 base.SetFieldData("t0424InBlock", "cts_expcode", 0, cts_expcode);      // CTS종목번호 : 처음 조회시는 SPACE
                 base.Request(true); //연속조회일경우 true
-                mainForm.input_accoun0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
+                mainForm.input_t0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
             }else{//마지막 데이타일때 메인폼에 출력해준다.
-                //mainForm.input_sunamt.Text   = Util.GetNumberFormat(this.sunamt);  // 추정순자산
+               
                 mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
                 mainForm.input_tappamt.Text  = Util.GetNumberFormat(this.tappamt); // 평가금액
                 mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.tdtsunik);// 평가손익
-                
+
+                String sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// 추정D1예수금
+                mainForm.input_sunamt1.Text = Util.GetNumberFormat(sunamt1);      // 추정D1예수금
                 mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.GetFieldData("t0424OutBlock", "dtsunik", 0)); // 실현손익
-                mainForm.input_sunamt1.Text = Util.GetNumberFormat(this.GetFieldData("t0424OutBlock", "sunamt1", 0)); // 추정D2예수금
-                mainForm.input_sunamt.Text  = Util.GetNumberFormat(this.GetFieldData("t0424OutBlock", "sunamt", 0));  // 추정순자산
+                mainForm.input_sunamt.Text  = (int.Parse(sunamt1) + this.tappamt).ToString(); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
+                mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
 
-                mainForm.h_totalCount.Text = this.h_totalCount.ToString();
-
-                mainForm.input_accoun0424_log.Text = "잔고조회 요청을 완료 하였습니다.";
-                completeFlag = true;
+                //로그 및 중복 요청 처리
+                mainForm.input_t0424_log.Text = "잔고조회 요청을 완료 하였습니다.";
+                completeAt = true;
             }
 
            
@@ -130,8 +133,8 @@ namespace PackageSellSystemTrading{
                 }
                 else{
                     Log.WriteLine("t0424 :: " + nMessageCode + " :: " + szMessage);
-                    mainForm.input_accoun0424_log.Text = nMessageCode + " :: " + szMessage;
-                    completeFlag = true;//중복호출 방지
+                    mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
+                    completeAt = true;//중복호출 방지
                 }
             }catch (Exception ex){
                 Log.WriteLine(ex.Message);
@@ -146,7 +149,7 @@ namespace PackageSellSystemTrading{
 		public void call_request()
         {
             
-            if (completeFlag) {
+            if (completeAt) {
                 String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
                 String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
@@ -165,21 +168,20 @@ namespace PackageSellSystemTrading{
                     mainForm.grd_accoun0424.Rows.Clear();
 
                     //멤버변수 초기화
-                    //this.sunamt       = 0;  //추정순자산
-                    this.mamt = 0;  //매입금액
-                    this.tappamt = 0;  //평가금액
-                    this.tdtsunik = 0;  //평가손익
-                    this.h_totalCount = 0;  //보유종목수
+                    this.mamt = 0;        //매입금액
+                    this.tappamt = 0;     //평가금액
+                    this.tdtsunik = 0;    //평가손익
+                    this.h_totalCount = 0;//보유종목수
 
                     base.Request(false);  //연속조회일경우 true
-                    completeFlag = false;//중복호출 방지
+                    completeAt = false;//중복호출 방지
                     //폼 메세지.
-                    mainForm.input_accoun0424_log.Text = "잔고조회를 요청을 하였습니다.";
+                    mainForm.input_t0424_log.Text = "잔고조회를 요청을 하였습니다.";
                     
                 }
 
             } else {
-                mainForm.input_accoun0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
+                mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
             }
             
 

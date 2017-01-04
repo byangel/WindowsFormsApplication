@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -90,7 +96,16 @@
             this.input_sunamt = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.h_totalCount = new System.Windows.Forms.Label();
-            this.input_accoun0424_log = new System.Windows.Forms.TextBox();
+            this.input_t0424_log = new System.Windows.Forms.TextBox();
+            this.input_t1833_log = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.input_PnlRat = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.input_Dps = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.input_Evrprc = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_searchBuy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ds_server)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
@@ -169,6 +184,14 @@
             // 
             // grd_searchBuy
             // 
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_searchBuy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.grd_searchBuy.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd_searchBuy.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.shcode,
@@ -178,8 +201,24 @@
             this.change,
             this.diff,
             this.volume});
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grd_searchBuy.DefaultCellStyle = dataGridViewCellStyle14;
             this.grd_searchBuy.Location = new System.Drawing.Point(12, 31);
             this.grd_searchBuy.Name = "grd_searchBuy";
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_searchBuy.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.grd_searchBuy.RowTemplate.Height = 23;
             this.grd_searchBuy.Size = new System.Drawing.Size(532, 245);
             this.grd_searchBuy.TabIndex = 13;
@@ -235,7 +274,7 @@
             // 
             // searchBtn
             // 
-            this.searchBtn.Location = new System.Drawing.Point(33, 282);
+            this.searchBtn.Location = new System.Drawing.Point(12, 309);
             this.searchBtn.Name = "searchBtn";
             this.searchBtn.Size = new System.Drawing.Size(83, 29);
             this.searchBtn.TabIndex = 14;
@@ -306,6 +345,14 @@
             // 
             // grd_accoun0424
             // 
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_accoun0424.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.grd_accoun0424.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd_accoun0424.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sellCheck,
@@ -325,8 +372,24 @@
             this.fee,
             this.tax,
             this.sininter});
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grd_accoun0424.DefaultCellStyle = dataGridViewCellStyle17;
             this.grd_accoun0424.Location = new System.Drawing.Point(550, 31);
             this.grd_accoun0424.Name = "grd_accoun0424";
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_accoun0424.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.grd_accoun0424.RowTemplate.Height = 23;
             this.grd_accoun0424.Size = new System.Drawing.Size(465, 245);
             this.grd_accoun0424.TabIndex = 20;
@@ -474,7 +537,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 12);
             this.label9.TabIndex = 26;
-            this.label9.Text = "예수금(D2)";
+            this.label9.Text = "예수금(D1)";
             // 
             // input_tdtsunik
             // 
@@ -565,19 +628,103 @@
             this.h_totalCount.TabIndex = 38;
             this.h_totalCount.Text = "0";
             // 
-            // input_accoun0424_log
+            // input_t0424_log
             // 
-            this.input_accoun0424_log.Location = new System.Drawing.Point(550, 282);
-            this.input_accoun0424_log.Name = "input_accoun0424_log";
-            this.input_accoun0424_log.Size = new System.Drawing.Size(465, 21);
-            this.input_accoun0424_log.TabIndex = 39;
+            this.input_t0424_log.Location = new System.Drawing.Point(550, 282);
+            this.input_t0424_log.Name = "input_t0424_log";
+            this.input_t0424_log.Size = new System.Drawing.Size(465, 21);
+            this.input_t0424_log.TabIndex = 39;
+            // 
+            // input_t1833_log
+            // 
+            this.input_t1833_log.Location = new System.Drawing.Point(12, 282);
+            this.input_t1833_log.Name = "input_t1833_log";
+            this.input_t1833_log.Size = new System.Drawing.Size(465, 21);
+            this.input_t1833_log.TabIndex = 40;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(650, 319);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(83, 29);
+            this.button1.TabIndex = 41;
+            this.button1.Text = "매수테스트";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btn_buyTest_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(1046, 416);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(41, 12);
+            this.label15.TabIndex = 42;
+            this.label15.Text = "손익율";
+            // 
+            // input_PnlRat
+            // 
+            this.input_PnlRat.Location = new System.Drawing.Point(1105, 411);
+            this.input_PnlRat.Name = "input_PnlRat";
+            this.input_PnlRat.Size = new System.Drawing.Size(88, 21);
+            this.input_PnlRat.TabIndex = 43;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(739, 319);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(83, 29);
+            this.button2.TabIndex = 44;
+            this.button2.Text = "현물계좌";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // input_Dps
+            // 
+            this.input_Dps.Location = new System.Drawing.Point(1105, 222);
+            this.input_Dps.Name = "input_Dps";
+            this.input_Dps.Size = new System.Drawing.Size(88, 21);
+            this.input_Dps.TabIndex = 46;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(1038, 231);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 12);
+            this.label16.TabIndex = 45;
+            this.label16.Text = "예수금";
+            // 
+            // input_Evrprc
+            // 
+            this.input_Evrprc.Location = new System.Drawing.Point(1105, 438);
+            this.input_Evrprc.Name = "input_Evrprc";
+            this.input_Evrprc.Size = new System.Drawing.Size(88, 21);
+            this.input_Evrprc.TabIndex = 48;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(1046, 443);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(41, 12);
+            this.label17.TabIndex = 47;
+            this.label17.Text = "제비용";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1233, 633);
-            this.Controls.Add(this.input_accoun0424_log);
+            this.Controls.Add(this.input_Evrprc);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.input_Dps);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.input_PnlRat);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.input_t1833_log);
+            this.Controls.Add(this.input_t0424_log);
             this.Controls.Add(this.h_totalCount);
             this.Controls.Add(this.input_sunamt);
             this.Controls.Add(this.label14);
@@ -637,7 +784,6 @@
         public  System.Windows.Forms.DataGridView grd_searchBuy;
         private System.Windows.Forms.Button searchBtn;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox combox_targetServer;
         private System.Data.DataSet ds_server;
         private System.Data.DataTable dataTable1;
         private System.Data.DataTable dataTable2;
@@ -688,7 +834,17 @@
         public System.Windows.Forms.TextBox input_sunamt;
         private System.Windows.Forms.Label label14;
         public System.Windows.Forms.Label h_totalCount;
-        public System.Windows.Forms.TextBox input_accoun0424_log;
+        public System.Windows.Forms.TextBox input_t0424_log;
+        public System.Windows.Forms.TextBox input_t1833_log;
+        public System.Windows.Forms.ComboBox combox_targetServer;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label15;
+        public System.Windows.Forms.TextBox input_PnlRat;
+        private System.Windows.Forms.Button button2;
+        public System.Windows.Forms.TextBox input_Dps;
+        private System.Windows.Forms.Label label16;
+        public System.Windows.Forms.TextBox input_Evrprc;
+        private System.Windows.Forms.Label label17;
     }
 }
 

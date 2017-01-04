@@ -39,11 +39,9 @@ namespace PackageSellSystemTrading{
         //private new void _IXASessionEvents_Event_Login(string szCode, string szMsg) {
            
             String msg = null;
-            try
-            {
+            try{
                 // 정상적으로 로그인 되었으면...
-                if (szCode == "0000")
-                {
+                if (szCode == "0000"){
 
                     //Log.WriteLine(szCode + " :: " + szMsg);
 
@@ -90,19 +88,20 @@ namespace PackageSellSystemTrading{
                     //mainForm.ButtonAutoBuyStart.Enabled = false;
                     //mainForm.ButtonAutoBuyStop.Enabled = true;
                     // }
-                } else if (szCode == "5201")  {
+                }else if (szCode == "5201"){
                     // 프로그램 재시작
                     msg = szCode + ":" + szMsg + ": [  -13] Request ID가 이상합니다.";
                     //Log.WriteLine(szCode + " :: " + szMsg);
                     // mainForm.fnRestartProgram();
-                }  else if (szCode == "2003")  { // 인증서가 없습니다.
+                }else if (szCode == "2003"){ // 인증서가 없습니다.
                     msg = szCode + ":" + szMsg + ": [공인인증] Full 인증과정에서 다음과 같은 오류가 발생하였습니다.";
                     // mainForm.TimerLogin.Stop();
 
-                }  else {
-                    //Log.WriteLine(szCode + " :: " + szMsg);
+                }else{
+                   //Log.WriteLine(szCode + " :: " + szMsg);
                     msg = szCode + " :: " + szMsg;
                 }
+                Log.WriteLine("ExXASession :: " + szCode + " :: " + szMsg);
                 MessageBox.Show(msg);
 
             }
