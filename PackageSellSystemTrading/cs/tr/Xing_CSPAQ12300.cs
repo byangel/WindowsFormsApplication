@@ -79,7 +79,7 @@ namespace PackageSellSystemTrading{
                 //row[16] = base.GetFieldData("CSPAQ12300OutBlock3", "sininter", i); //신용이자
 
                 //1.그리드 데이터 추가
-                addIndex = mainForm.grd_accoun0424.Rows.Add(row);  
+                addIndex = mainForm.grd_t0424.Rows.Add(row);  
             }
 
 
@@ -162,7 +162,7 @@ namespace PackageSellSystemTrading{
                     MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
                 }else{
                     // 계좌잔고 그리드 초기화
-                    mainForm.grd_accoun0424.Rows.Clear();
+                    mainForm.grd_t0424.Rows.Clear();
 
                     //멤버변수 초기화
                     //this.sunamt       = 0;  //추정순자산
