@@ -102,6 +102,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\6만급등족목_70%25.ADF" />
+    <None Include="Resources\6만급등종목.ADF" />
     <None Include="Resources\Condition.ADF" />
     <None Include="Resources\t1833.res" />
   </ItemGroup>

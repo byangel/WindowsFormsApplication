@@ -26,9 +26,57 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int sellPoint {
+        public double SELL_STOP_RATE {
             get {
-                return ((int)(this["sellPoint"]));
+                return ((double)(this["SELL_STOP_RATE"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LOGIN_ID {
+            get {
+                return ((string)(this["LOGIN_ID"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LOGIN_PW {
+            get {
+                return ((string)(this["LOGIN_PW"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PUBLIC_PW {
+            get {
+                return ((string)(this["PUBLIC_PW"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ACCOUNT_PW {
+            get {
+                return ((string)(this["ACCOUNT_PW"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MAX_LIMIT_AMT {
+            get {
+                return ((string)(this["MAX_LIMIT_AMT"]));
+            }
+            set {
+                this["MAX_LIMIT_AMT"] = value;
             }
         }
     }

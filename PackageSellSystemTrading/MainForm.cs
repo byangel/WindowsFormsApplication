@@ -14,25 +14,25 @@ using XA_DATASETLib;
 using XA_SESSIONLib;
 
 
-namespace PackageSellSystemTrading
-{
-    public partial class MainForm : System.Windows.Forms.Form
-    {
+namespace PackageSellSystemTrading{
+    public partial class MainForm : System.Windows.Forms.Form{
 
-        public MainForm()
-        {
+        public MainForm(){
             InitializeComponent();
         }
         private ExXASessionClass exXASessionClass;
         private Xing_t1833 xing_t1833;
         private Xing_t0424 xing_t0424;
-        private Xing_CSPAT00600 xing_CSPAT00600;
-        private Xing_CSPAQ12300 xing_CSPAQ12300;
+        public Xing_CSPAT00600 xing_CSPAT00600;
+        public Xing_CSPAQ12300 xing_CSPAQ12300;
 
+        //table
         public DataTable dataTable_t0424;
 
         // 로그인 정보
-        public bool loginAt = false;
+        public bool loginAt;
+
+        //1회 주문시 매입금액
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -54,7 +54,7 @@ namespace PackageSellSystemTrading
 
 
             //폼 초기화
-            formInit();
+            initForm();
 
             //개발완료시 제거해주자.
             input_loginId.Text = "neloi";
@@ -63,25 +63,23 @@ namespace PackageSellSystemTrading
             input_accountPw.Text = "0000";
         }
 
-        private void formInit()
+        private void initForm()
         {
             //서버 선택 콤보 초기화
             combox_targetServer.Items.Add("모의투자");
             combox_targetServer.Items.Add("실서버");
             combox_targetServer.SelectedIndex = 0;
 
-            //종목검색 그리드 초기화
-            dataTable_t0424 = new DataTable();
+            //계좌잔고 그리드 초기화
+            dataTable_t0424 = new DataTable("dataTable_t0424");
             grd_t0424.DataSource = dataTable_t0424;
-
-       
-            dataTable_t0424.Columns.Add("expcode"); //코드
-            dataTable_t0424.Columns.Add("hname");   //종목명
-            dataTable_t0424.Columns.Add("mdposqt"); //매도가능
-            dataTable_t0424.Columns.Add("price"   , typeof(int));   //현재가
-            dataTable_t0424.Columns.Add("appamt"  , typeof(int));  //평가금액
-            dataTable_t0424.Columns.Add("dtsunik" , typeof(int)); //평가손익
-            dataTable_t0424.Columns.Add("sunikrt"); //수익율
+            dataTable_t0424.Columns.Add("expcode" , typeof(String)); //코드
+            dataTable_t0424.Columns.Add("hname"   , typeof(String));   //종목명
+            dataTable_t0424.Columns.Add("mdposqt" , typeof(String)); //매도가능
+            dataTable_t0424.Columns.Add("price"   , typeof(int));    //현재가
+            dataTable_t0424.Columns.Add("appamt"  , typeof(int));    //평가금액
+            dataTable_t0424.Columns.Add("dtsunik" , typeof(int));    //평가손익
+            dataTable_t0424.Columns.Add("sunikrt" , typeof(String));    //수익율
             dataTable_t0424.Columns.Add("pamt"    , typeof(int));    //평균단가
             dataTable_t0424.Columns.Add("mamt"    , typeof(int));    //매입금액
             dataTable_t0424.Columns.Add("msat"    , typeof(int));    //당일매수금액
@@ -90,24 +88,8 @@ namespace PackageSellSystemTrading
             dataTable_t0424.Columns.Add("mpmd"    , typeof(int));    //당일매도단가
             dataTable_t0424.Columns.Add("fee"     , typeof(int));     //수수료
             dataTable_t0424.Columns.Add("tax"     , typeof(int));     //제세금
-            dataTable_t0424.Columns.Add("sininter"); //신용이자
+            dataTable_t0424.Columns.Add("sininter", typeof(String)); //신용이자
 
-            //grd_t0424_.Columns[1].HeaderText = "코드";
-            //grd_t0424_.Columns[2].HeaderText = "종목명";
-            //grd_t0424_.Columns[3].HeaderText = "매도가능";
-            //grd_t0424_.Columns[4].HeaderText = "현재가";
-            //grd_t0424_.Columns[5].HeaderText = "평가금액";
-            //grd_t0424_.Columns[6].HeaderText = "평가손익";
-            //grd_t0424_.Columns[7].HeaderText = "수익율";
-            //grd_t0424_.Columns[8].HeaderText = "평균단가";
-            //grd_t0424_.Columns[9].HeaderText = "매입금액";
-            //grd_t0424_.Columns[10].HeaderText = "당일매수금액";
-            //grd_t0424_.Columns[11].HeaderText = "당일매수단가";
-            //grd_t0424_.Columns[12].HeaderText = "당일매도금액";
-            //grd_t0424_.Columns[13].HeaderText = "당일매도단가";
-            //grd_t0424_.Columns[14].HeaderText = "수수료";
-            //grd_t0424_.Columns[15].HeaderText = "제세금";
-            //grd_t0424_.Columns[16].HeaderText = "신용이자";
         }
 
 
@@ -132,32 +114,30 @@ namespace PackageSellSystemTrading
         //로그인 버튼 클릭 이벤트
         private void btn_login_click(object sender, EventArgs e)
         {
-            try{
-                String mServerAddress = "";
+           
+            String mServerAddress = "";
 
-                String loginId    = input_loginId.Text;
-                String loginPass  = input_loginPw.Text;
-                String publicPass = input_publicPass.Text;
-                //String accountPass = input_accountPass.Text;
-                if (loginId == "" && loginPass == ""){
+            String loginId    = input_loginId.Text;
+            String loginPass  = input_loginPw.Text;
+            String publicPass = input_publicPass.Text;
+            //String accountPass = input_accountPass.Text;
+            if (loginId == "" && loginPass == ""){
 
-                }
-
-                switch (combox_targetServer.SelectedIndex){
-                    case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
-                    case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
-                }
-                //MessageBox.Show(mServerAddress);
-                //서버접속
-                if (exXASessionClass.IsConnected() == false){
-                    this.exXASessionClass.ConnectServer(mServerAddress, 20001);
-                }
-
-                // 로그인 호출
-                bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
-            }catch (Exception ex){
-                MessageBox.Show(ex.Message);
             }
+
+            switch (combox_targetServer.SelectedIndex){
+                case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
+                case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
+            }
+            //MessageBox.Show(mServerAddress);
+            //서버접속
+            if (exXASessionClass.IsConnected() == false){
+                this.exXASessionClass.ConnectServer(mServerAddress, 20001);
+            }
+
+            // 로그인 호출
+            bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
+           
         }
 
         //주식 잔고2
@@ -191,6 +171,7 @@ namespace PackageSellSystemTrading
             //xing_CSPAQ12300.call_request();
         }
 
+     
     }//end class
 }//end namespace
 

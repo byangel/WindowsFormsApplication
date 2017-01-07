@@ -32,7 +32,7 @@ namespace PackageSellSystemTrading {
 
             //base.Request(false); //연속조회가 아닐경우 false
 
-            base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
+            base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
 
         }   // end function
@@ -42,11 +42,6 @@ namespace PackageSellSystemTrading {
         {
 
         }
-
-
-        String tmpMamt;
-        String tmpTappamt;
-        String tmpTdtsunik;
 
         /// <summary>
 		/// 주식잔고2(T0424) 데이터 응답 처리
@@ -62,61 +57,53 @@ namespace PackageSellSystemTrading {
 
             //1.계좌 잔고 목록을 그리드에 추가
             int iCount = base.GetBlockCount("t0424OutBlock1");
-            string[] row = new string[17];
-            t0424Vo t0424Vo = new t0424Vo();
-
-            int addIndex;
+ 
+            DataRow[] dataRowArray;
+            String expcode;
+            DataRow tmpDataRow;
             for (int i = 0; i < iCount; i++) {
-               
-                DataRow newrow = mainForm.dataTable_t0424.NewRow();
-                
-                newrow["expcode"]  = base.GetFieldData("t0424OutBlock1", "expcode" , i); //코드
-                newrow["hname"]    = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
-                newrow["mdposqt"]  = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
-                newrow["price"]    = base.GetFieldData("t0424OutBlock1", "price"   , i); //현재가
-                newrow["appamt"]   = base.GetFieldData("t0424OutBlock1", "appamt"  , i); //평가금액
-                newrow["dtsunik"]  = base.GetFieldData("t0424OutBlock1", "dtsunik" , i); //평가손익
-                newrow["sunikrt"]  = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
-                newrow["pamt"]     = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
-                newrow["mamt"]     = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
-                newrow["msat"]     = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
+                expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
+
+                //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
+                dataRowArray = mainForm.dataTable_t0424.Select("expcode = '"+ expcode +"'");
+                if (dataRowArray.Length > 0){
+                    tmpDataRow = dataRowArray[0];
+                }else{
+                    tmpDataRow = mainForm.dataTable_t0424.NewRow();
+                }
+          
+                tmpDataRow["expcode"]  = base.GetFieldData("t0424OutBlock1", "expcode" , i); //종목코드
+                tmpDataRow["hname"]    = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
+                tmpDataRow["mdposqt"]  = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
+                tmpDataRow["price"]    = base.GetFieldData("t0424OutBlock1", "price"   , i); //현재가
+                tmpDataRow["appamt"]   = base.GetFieldData("t0424OutBlock1", "appamt"  , i); //평가금액
+                tmpDataRow["dtsunik"]  = base.GetFieldData("t0424OutBlock1", "dtsunik" , i); //평가손익
+                tmpDataRow["sunikrt"]  = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
+                tmpDataRow["pamt"]     = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
+                tmpDataRow["mamt"]     = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
+                tmpDataRow["msat"]     = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
                 //newrow["mpms"]     = base.GetFieldData("t0424OutBlock1", "mpms"  , i); //당일매수단가
-                newrow["mdat"]     = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
+                tmpDataRow["mdat"]     = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
                 //newrow["mpmd"]     = base.GetFieldData("t0424OutBlock1", "mpmd"  , i); //당일매도단가
-                newrow["fee"]      = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
-                newrow["tax"]      = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
-                newrow["sininter"] = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
+                tmpDataRow["fee"]      = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
+                tmpDataRow["tax"]      = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
+                tmpDataRow["sininter"] = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
-                //row[0] = "false"; //판매 선택
-                row[1] = base.GetFieldData("t0424OutBlock1", "expcode", i); //코드
-                row[2] = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
-                row[3] = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
-                row[4] = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
-                row[5] = base.GetFieldData("t0424OutBlock1", "appamt", i); //평가금액
-                row[6] = base.GetFieldData("t0424OutBlock1", "dtsunik", i); //평가손익
-                row[7] = base.GetFieldData("t0424OutBlock1", "sunikrt", i); //수익율
-                row[8] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
-                row[9] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
-                row[10] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "msat", i)); //당일매수금액
-                row[11] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mpms", i)); //당일매수단가
-                row[12] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mdat", i)); //당일매도금액
-                row[13] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mpmd", i)); //당일매도단가
-                row[14] = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
-                row[15] = base.GetFieldData("t0424OutBlock1", "tax", i); //제세금
-                row[16] = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
-
-
-
-                //1.그리드 데이터 추가
-                //addIndex = mainForm.grd_t0424.Rows.Add(row);
-                mainForm.dataTable_t0424.Rows.Add(newrow);
+                //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
+                if (dataRowArray.Length == 0){
+                    mainForm.dataTable_t0424.Rows.Add(tmpDataRow);
+                }
+                //if ((i % 2) == 0)
+                // {
+                //     tmpDataRow["hname"] = "xxx";
+                //}
+                //MessageBox.Show("2");
+                //mainForm.dataTable_t0424.AcceptChanges();
+                //Thread.Sleep(100);
             }
-           
 
-            // 계좌정보 써머리 계산 
-            //String tmpMamt     = base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0);//매입금액
-            //String tmpTappamt  = base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0);//평가금액
-            //String tmpTdtsunik = base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0);//평가손익
+
+            // 계좌정보 써머리 계산 - 연속 조회이기때문에 합산후 마지막에 폼으로 출력.
             this.mamt     += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
             this.tappamt  += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
             this.tdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
@@ -124,49 +111,49 @@ namespace PackageSellSystemTrading {
             this.h_totalCount += iCount;
 
             //2.연속 데이타 정보가 남아있는지 구분
-            //if (base.IsNext) 
-            if (cts_expcode != "")
+            if (base.IsNext) 
+            //if (cts_expcode != "")
             {
                 //연속 데이타 정보를 호출.
                 base.SetFieldData("t0424InBlock", "cts_expcode", 0, cts_expcode);      // CTS종목번호 : 처음 조회시는 SPACE
                 base.Request(true); //연속조회일경우 true
-                mainForm.input_t0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
+                //mainForm.input_t0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
             } else {//마지막 데이타일때 메인폼에 출력해준다.
 
-                mainForm.input_mamt.Text = Util.GetNumberFormat(this.mamt);    // 매입금액
-                mainForm.input_tappamt.Text = Util.GetNumberFormat(this.tappamt); // 평가금액
+                mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
+                mainForm.input_tappamt.Text  = Util.GetNumberFormat(this.tappamt); // 평가금액
                 mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.tdtsunik);// 평가손익
 
-                String sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// 추정D1예수금
+                String sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// D1예수금
                 String dtsunik = this.GetFieldData("t0424OutBlock", "dtsunik", 0);// 실현손익
-                mainForm.input_sunamt1.Text = Util.GetNumberFormat(sunamt1);      // 추정D1예수금
-                mainForm.input_dtsunik.Text = Util.GetNumberFormat(dtsunik); // 실현손익
-                mainForm.input_sunamt.Text = Util.GetNumberFormat((int.Parse(sunamt1) + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
-                mainForm.h_totalCount.Text = this.h_totalCount.ToString();       //종목수
+                mainForm.input_sunamt1.Text = Util.GetNumberFormat(sunamt1);      // D1예수금
+                mainForm.input_dtsunik.Text = Util.GetNumberFormat(dtsunik);      // 실현손익
+                mainForm.input_sunamt.Text  = Util.GetNumberFormat((int.Parse(sunamt1) + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
+                mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
 
                 //로그 및 중복 요청 처리
-                mainForm.input_t0424_log.Text = "잔고조회 요청을 완료 하였습니다.";
-                completeAt = true;
+                //mainForm.input_t0424_log.Text = "잔고조회 요청을 완료 하였습니다.";
+                completeAt = true;   
             }
 
-
-        }
+           
+        }//end
 
         //이벤트 메세지.
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage) {
-            try {
+            
                 if (nMessageCode == "00000") {
                     ;
+                }else {
+               
+                Log.WriteLine("t0424 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
+                completeAt = true;//중복호출 방지
+
                 }
-                else {
-                    Log.WriteLine("t0424 :: " + nMessageCode + " :: " + szMessage);
-                    mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
-                    completeAt = true;//중복호출 방지
-                }
-            } catch (Exception ex) {
-                Log.WriteLine(ex.Message);
-                Log.WriteLine(ex.StackTrace);
-            }
+            
+            
+
 
         }
 
@@ -193,7 +180,7 @@ namespace PackageSellSystemTrading {
                 } else {
                     // 계좌잔고 그리드 초기화
                     //mainForm.grd_t0424.Rows.Clear();
-                    mainForm.dataTable_t0424.Clear();
+                    //mainForm.dataTable_t0424.Clear();
 
                     //멤버변수 초기화
                     this.mamt = 0;        //매입금액
@@ -219,25 +206,5 @@ namespace PackageSellSystemTrading {
     } //end class 
 
 
-    public class t0424Vo{
-
-        //t0424OutBlock1
-        public string expcode { get; set; }//코드
-        public string hname   { get; set; }//종목명
-        public string mdposqt { get; set; }//매도가능
-        public string price   { get; set; }//현재가
-        public string appamt  { get; set; }//평가금액
-        public string dtsunik { get; set; }//평가손익
-        public string sunikrt { get; set; }//수익율
-        public string pamt    { get; set; }//평균단가
-        public string mamt    { get; set; }//매입금액
-        public string msat    { get; set; }//당일매수금액
-        public string mpms    { get; set; }//당일매수단가
-        public string mdat    { get; set; }//당일매도금액
-        public string mpmd    { get; set; }//당일매도단가
-        public string fee     { get; set; }//수수료
-        public string tax     { get; set; }//제세금
-        public string sininter{ get; set; }//신용이자
-
-    }
+   
 }   // end namespace

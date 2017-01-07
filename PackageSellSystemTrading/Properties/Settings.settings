@@ -2,8 +2,23 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PackageSellSystemTrading.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="sellPoint" Type="System.Int32" Scope="Application">
+    <Setting Name="SELL_STOP_RATE" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="LOGIN_ID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LOGIN_PW" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PUBLIC_PW" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ACCOUNT_PW" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MAX_LIMIT_AMT" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

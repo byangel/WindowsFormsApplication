@@ -29,43 +29,33 @@ namespace PackageSellSystemTrading{
           
         }
 
-        public int testCount = 0;
         /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-            try{ 
-                //로그 및 중복 요청 처리
-                Log.WriteLine("CSPAT00600 :: 데이터 응답 처리가 완료 되었습니다.");
-            }
-            catch (Exception ex){
-                Log.WriteLine(ex.Message);
-                Log.WriteLine(ex.StackTrace);
-            }
-
-
+            
+           //로그 및 중복 요청 처리
+           Log.WriteLine("CSPAT00600 :: 데이터 응답 처리가 완료 되었습니다.");
+ 
         }
 
         //현물정상주문 메세지 처리
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage)
         {
-            try{
-                if (nMessageCode == "00000"){
-                    ;
-                }else{
-                    Log.WriteLine("CSPAT00600 :: " + nMessageCode + " :: " + szMessage);
-                    //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
-                    // 01222 :: 모의투자 매도잔고가 부족합니다  
-                    // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
-                    // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
-                    // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
-                    // 01219 :: 모의투자 매매금지 종목
-                }
-            }catch (Exception ex){
-                Log.WriteLine(ex.Message);
-                Log.WriteLine(ex.StackTrace);
+            
+            if (nMessageCode == "00000"){
+                ;
+            }else{
+                Log.WriteLine("CSPAT00600 :: " + nMessageCode + " :: " + szMessage);
+                //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
+                // 01222 :: 모의투자 매도잔고가 부족합니다  
+                // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
+                // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
+                // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
+                // 01219 :: 모의투자 매매금지 종목
             }
+   
         }
 
         /// <summary>

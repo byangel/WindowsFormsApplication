@@ -34,12 +34,11 @@ namespace PackageSellSystemTrading{
 
 
         #region XASession 이벤트 핸들러
-        private  void loginEventHandler(string szCode, string szMsg)
-        { 
+        private  void loginEventHandler(string szCode, string szMsg){ 
         //private new void _IXASessionEvents_Event_Login(string szCode, string szMsg) {
            
             String msg = null;
-            try{
+           
                 // 정상적으로 로그인 되었으면...
                 if (szCode == "0000"){
 
@@ -105,13 +104,9 @@ namespace PackageSellSystemTrading{
                 MessageBox.Show(msg);
 
             }
-            catch (Exception ex)  {
-                MessageBox.Show(ex.Message);
-                //Log.WriteLine(ex.Message);
-                // Log.WriteLine(ex.StackTrace);
-            }
+           
 
-        }
+        
         #endregion
 
     } //end class 
