@@ -117,10 +117,10 @@ namespace PackageSellSystemTrading{
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
-		public void call_request(string szFileName){
+		public void call_request(string conditionFileName){
             if (completeAt) {
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\Condition.ADF");//_6만급등족목_70_
+                base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
 
                 completeAt = false;//중복호출 방지
                 //폼 메세지.

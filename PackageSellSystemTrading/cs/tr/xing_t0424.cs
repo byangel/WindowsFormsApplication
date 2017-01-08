@@ -160,40 +160,35 @@ namespace PackageSellSystemTrading {
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
-		public void call_request()
+		public void call_request(String account, String accountPw )
         {
 
             if (completeAt) {
-                String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
-                String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
+                //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
+                //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
-                base.SetFieldData("t0424InBlock", "accno", 0, account);    // 계좌번호
+                base.SetFieldData("t0424InBlock", "accno" , 0, account);    // 계좌번호
                 base.SetFieldData("t0424InBlock", "passwd", 0, accountPw);  // 비밀번호
-                base.SetFieldData("t0424InBlock", "prcgb", 0, "1");        // 단가구분 : 1-평균단가, 2:BEP단가
-                base.SetFieldData("t0424InBlock", "chegb", 0, "2");        // 체결구분 : 0-결제기준, 2-체결기준
-                base.SetFieldData("t0424InBlock", "dangb", 0, "0");        // 단일가구분 : 0-정규장, 1-시간외단일가 
+                base.SetFieldData("t0424InBlock", "prcgb" , 0, "1");        // 단가구분 : 1-평균단가, 2:BEP단가
+                base.SetFieldData("t0424InBlock", "chegb" , 0, "2");        // 체결구분 : 0-결제기준, 2-체결기준
+                base.SetFieldData("t0424InBlock", "dangb" , 0, "0");        // 단일가구분 : 0-정규장, 1-시간외단일가 
                 base.SetFieldData("t0424InBlock", "charge", 0, "1");        // 제비용포함여부 : 0-미포함, 1-포함
                 base.SetFieldData("t0424InBlock", "cts_expcode", 0, "");      // CTS종목번호 : 처음 조회시는 SPACE
 
-                if (accountPw == "" || account == "") {
-                    MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
-                } else {
-                    // 계좌잔고 그리드 초기화
-                    //mainForm.grd_t0424.Rows.Clear();
-                    //mainForm.dataTable_t0424.Clear();
+                // 계좌잔고 그리드 초기화
+                //mainForm.grd_t0424.Rows.Clear();
+                //mainForm.dataTable_t0424.Clear();
 
-                    //멤버변수 초기화
-                    this.mamt = 0;        //매입금액
-                    this.tappamt = 0;     //평가금액
-                    this.tdtsunik = 0;    //평가손익
-                    this.h_totalCount = 0;//보유종목수
+                //멤버변수 초기화
+                this.mamt = 0;        //매입금액
+                this.tappamt = 0;     //평가금액
+                this.tdtsunik = 0;    //평가손익
+                this.h_totalCount = 0;//보유종목수
 
-                    base.Request(false);  //연속조회일경우 true
-                    completeAt = false;//중복호출 방지
-                    //폼 메세지.
-                    mainForm.input_t0424_log.Text = "잔고조회를 요청을 하였습니다.";
-
-                }
+                base.Request(false);  //연속조회일경우 true
+                completeAt = false;//중복호출 방지
+                //폼 메세지.
+                mainForm.input_t0424_log.Text = "잔고조회를 요청을 하였습니다.";
 
             } else {
                 mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";

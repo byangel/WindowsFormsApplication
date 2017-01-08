@@ -65,7 +65,7 @@ namespace PackageSellSystemTrading{
         /// <param name="Quantity">수량</param>
         /// <param name="Price">가격</param>
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_request(string IsuNo, string Quantity, string Price, string DivideBuySell)
+        public void call_request(String account, String accountPw, String IsuNo, String Quantity, String Price, String DivideBuySell)
         {
             //모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
@@ -74,8 +74,8 @@ namespace PackageSellSystemTrading{
             }
 
             //if (completeAt){
-                String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
-                String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
+                //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
+                //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
                 base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, account);       // 계좌번호
                 base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, accountPw);     // 입력비밀번호
