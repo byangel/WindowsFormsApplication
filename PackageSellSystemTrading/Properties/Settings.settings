@@ -2,23 +2,32 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PackageSellSystemTrading.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SELL_STOP_RATE" Type="System.Double" Scope="Application">
+    <Setting Name="SELL_RATE" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="LOGIN_ID" Type="System.String" Scope="Application">
+    <Setting Name="LOGIN_ID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LOGIN_PW" Type="System.String" Scope="Application">
+    <Setting Name="LOGIN_PW" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="PUBLIC_PW" Type="System.String" Scope="Application">
+    <Setting Name="PUBLIC_PW" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ACCOUNT_PW" Type="System.String" Scope="Application">
+    <Setting Name="ACCOUNT_PW" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MAX_LIMIT_AMT" Type="System.String" Scope="User">
+    <Setting Name="MANAGE_AMT_LIMIT" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">500000000</Value>
+    </Setting>
+    <Setting Name="SERVER_INDEX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ACCOUNT" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="BUY_STOP_RATE" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">90</Value>
     </Setting>
   </Settings>
 </SettingsFile>

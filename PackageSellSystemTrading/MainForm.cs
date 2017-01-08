@@ -30,7 +30,6 @@ namespace PackageSellSystemTrading{
         public DataTable dataTable_t0424;
 
         // 로그인 정보
-        public bool loginAt;
         public String account   = "";
         public String accountPw = "";
         //1회 주문시 매입금액
@@ -57,19 +56,19 @@ namespace PackageSellSystemTrading{
             //폼 초기화
             initForm();
 
-            //개발완료시 제거해주자.
-            input_loginId.Text = "neloi";
-            input_loginPw.Text = "neloi1"; 
-            input_publicPass.Text = "";
             
         }
 
         private void initForm()
         {
+
+            //개발완료시 제거해주자.
+            input_loginId.Text = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
+            input_loginPw.Text = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
+            input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
+
             //서버 선택 콤보 초기화
-            combox_targetServer.Items.Add("모의투자");
-            combox_targetServer.Items.Add("실서버");
-            combox_targetServer.SelectedIndex = 0;
+            combox_targetServer.SelectedIndex = Properties.Settings.Default.SERVER_INDEX;
 
             //계좌잔고 그리드 초기화
             dataTable_t0424 = new DataTable("dataTable_t0424");
@@ -94,48 +93,31 @@ namespace PackageSellSystemTrading{
         }
 
 
-        //설정저장
+        //properties 저장
         private void btn_config_save_Click(object sender, EventArgs e)  {
 
 
             // UI 필드 값을 읽어서 변수에 담음 - 비번등은 암호화 시킴
-            string szServerAddress = TextServerAddress.Text.Trim();
-            string szLoginId = Util.Encrypt(TextLoginId.Text.Trim());
-            string szLoginPw = Util.Encrypt(TextLoginPw.Text.Trim());
-            string szPublicPw = Util.Encrypt(TextPublicPw.Text.Trim());
-            string szAccountPw = Util.Encrypt(TextAccountPw.Text.Trim());
-
-            // 로그인 버튼이 사용가능한 상태라면 세션 TR 변수에 값을 세팅
-            if (ButtonLogin.Enabled == true)
-            {
-                mxSession.mServerAddress = szServerAddress;
-                mxSession.mLoginId = szLoginId;
-                mxSession.mLoginPw = szLoginPw;
-                mxSession.mPublicPw = szPublicPw;
-                mxSession.mAccountPw = szAccountPw;
-            }
+            int    serverIndex   = combox_targetServer.SelectedIndex;
+            string loginId       = Util.Encrypt(input_loginId.Text.Trim());
+            string loginPw       = Util.Encrypt(input_loginPw.Text.Trim());
+            string publicPw      = Util.Encrypt(input_publicPw.Text.Trim());
+ 
+        
 
             // 설정 파일에 저장
-            Properties.Settings.Default.SERVER_ADDRESS = szServerAddress;
-            Properties.Settings.Default.LOGIN_ID = szLoginId;
-            Properties.Settings.Default.LOGIN_PW = szLoginPw;
-            Properties.Settings.Default.PUBLIC_PW = szPublicPw;
-            Properties.Settings.Default.ACCOUNT_PW = szAccountPw;
-            Properties.Settings.Default.AUTO_LOGIN = CheckAutoLogin.Checked;
-            Properties.Settings.Default.TRAY_YN = CheckTrayYN.Checked;
+            Properties.Settings.Default.SERVER_INDEX = serverIndex;
+            Properties.Settings.Default.LOGIN_ID     = loginId;
+            Properties.Settings.Default.LOGIN_PW     = loginPw;
+            Properties.Settings.Default.PUBLIC_PW    = publicPw;
+            Properties.Settings.Default.ACCOUNT      = account;
+            Properties.Settings.Default.ACCOUNT_PW   = accountPw;
+            //Properties.Settings.Default.AUTO_LOGIN = CheckAutoLogin.Checked;
+            //Properties.Settings.Default.TRAY_YN = CheckTrayYN.Checked;
 
             Properties.Settings.Default.Save();
-
             MessageBox.Show("로그인 설정을 저장했습니다..!!");
 
-
-            //로그인이면
-            if (this.exXASessionClass.IsConnected()) {
-                this.exXASessionClass.Logout();
-            }
-            else {
-                MessageBox.Show("접속되어있지 않습니다.");
-            }
         }
 
         //로그아웃 버튼 클릭 이벤트
@@ -168,7 +150,7 @@ namespace PackageSellSystemTrading{
 
             String loginId    = input_loginId.Text;
             String loginPass  = input_loginPw.Text;
-            String publicPass = input_publicPass.Text;
+            String publicPass = input_publicPw.Text;
             //String accountPass = input_accountPass.Text;
             if (loginId == "" && loginPass == ""){
 
@@ -231,7 +213,27 @@ namespace PackageSellSystemTrading{
             //xing_CSPAQ12300.call_request();
         }
 
-       
+        //배팅금액
+        public decimal battingAmt;
+        //로그인후 프로그램 초기화 필요한 동작 및 프로그램 로직 실행시 필요한 값들을 설정한다.
+        public void projectInit()
+        {
+            //설정 저장버튼 활성화 
+            btn_config_save.Enabled = true;
+
+            //1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
+            //매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
+            //소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원
+            decimal totalAmt =( int.Parse(input_sunamt1.Text.Replace(",","")) + int.Parse(input_mamt.Text.Replace(",", "")) )/10000000; 
+            //MessageBox.Show(totalAmt.ToString());
+            //소수점제거 후 배팅금액 구한다.
+            battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
+            //MessageBox.Show(battingAmt.ToString());
+            
+            
+            //
+        }
+
     }//end class
 }//end namespace
 

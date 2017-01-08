@@ -11,7 +11,7 @@ using XA_DATASETLib;
 using System.Threading;
 
 namespace PackageSellSystemTrading{
-    //현물계좌 잔고내역 조회(API) - 계좌정보 체크에 사용한다.
+    //현물계좌 잔고내역 조회(API) - 계좌 비밀번호 체크에 사용한다.
     public class Xing_CSPAQ12300 : XAQueryClass{
 
         private Boolean completeAt = true;//완료여부.
@@ -56,6 +56,9 @@ namespace PackageSellSystemTrading{
                     //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
                     mainForm.account   = this.account;
                     mainForm.accountPw = this.accountPw;
+
+                    // 계좌정보 조회.
+                    mainForm.xing_t0424.call_request(this.account, this.accountPw);
 
                     //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
                     accountForm.Close();

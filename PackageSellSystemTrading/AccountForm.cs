@@ -37,6 +37,20 @@ namespace PackageSellSystemTrading
 
         //확인
         private void btn_account_check_Click(object sender, EventArgs e){
+            accountCheck();
+        }
+
+        //비밀번호 에서 엔터 이벤트.
+        private void input_accountPw_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter){
+                accountCheck();
+            }
+        }
+
+
+        private void accountCheck()
+        {
             String listBox_account = this.listBox_account.Text;
             String input_accountPw = this.input_accountPw.Text;
 
@@ -45,7 +59,6 @@ namespace PackageSellSystemTrading
             }else{
                 mainForm.xing_CSPAQ12300.call_request(this, listBox_account, input_accountPw);
             }
-
         }
     }
 }

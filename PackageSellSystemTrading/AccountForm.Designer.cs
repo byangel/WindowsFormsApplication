@@ -40,6 +40,7 @@
             this.input_accountPw.Name = "input_accountPw";
             this.input_accountPw.Size = new System.Drawing.Size(116, 21);
             this.input_accountPw.TabIndex = 26;
+            this.input_accountPw.KeyDown += new System.Windows.Forms.KeyEventHandler(this.input_accountPw_KeyDown);
             // 
             // label8
             // 

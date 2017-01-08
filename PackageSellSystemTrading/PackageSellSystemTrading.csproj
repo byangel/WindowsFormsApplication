@@ -103,7 +103,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -114,7 +114,6 @@
     <None Include="Resources\6만급등족목_70%25.ADF" />
     <None Include="Resources\6만급등종목.ADF" />
     <None Include="Resources\Condition.ADF" />
-    <None Include="Resources\t1833.res" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

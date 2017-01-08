@@ -13,7 +13,7 @@ namespace PackageSellSystemTrading.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -23,60 +23,111 @@ namespace PackageSellSystemTrading.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public double SELL_STOP_RATE {
+        public int SELL_RATE {
             get {
-                return ((double)(this["SELL_STOP_RATE"]));
+                return ((int)(this["SELL_RATE"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LOGIN_ID {
-            get {
-                return ((string)(this["LOGIN_ID"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LOGIN_PW {
-            get {
-                return ((string)(this["LOGIN_PW"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string PUBLIC_PW {
-            get {
-                return ((string)(this["PUBLIC_PW"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ACCOUNT_PW {
-            get {
-                return ((string)(this["ACCOUNT_PW"]));
+            set {
+                this["SELL_RATE"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MAX_LIMIT_AMT {
+        public string LOGIN_ID {
             get {
-                return ((string)(this["MAX_LIMIT_AMT"]));
+                return ((string)(this["LOGIN_ID"]));
             }
             set {
-                this["MAX_LIMIT_AMT"] = value;
+                this["LOGIN_ID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LOGIN_PW {
+            get {
+                return ((string)(this["LOGIN_PW"]));
+            }
+            set {
+                this["LOGIN_PW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PUBLIC_PW {
+            get {
+                return ((string)(this["PUBLIC_PW"]));
+            }
+            set {
+                this["PUBLIC_PW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ACCOUNT_PW {
+            get {
+                return ((string)(this["ACCOUNT_PW"]));
+            }
+            set {
+                this["ACCOUNT_PW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500000000")]
+        public long MANAGE_AMT_LIMIT {
+            get {
+                return ((long)(this["MANAGE_AMT_LIMIT"]));
+            }
+            set {
+                this["MANAGE_AMT_LIMIT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SERVER_INDEX {
+            get {
+                return ((int)(this["SERVER_INDEX"]));
+            }
+            set {
+                this["SERVER_INDEX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ACCOUNT {
+            get {
+                return ((string)(this["ACCOUNT"]));
+            }
+            set {
+                this["ACCOUNT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("90")]
+        public int BUY_STOP_RATE {
+            get {
+                return ((int)(this["BUY_STOP_RATE"]));
+            }
+            set {
+                this["BUY_STOP_RATE"] = value;
             }
         }
     }

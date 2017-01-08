@@ -8,25 +8,23 @@ using System.Text;
 using System.Windows.Forms;
 using XA_SESSIONLib;
 
-namespace PackageSellSystemTrading{
+namespace PackageSellSystemTrading {
     public class ExXASessionClass : XASessionClass {
 
         public MainForm mainForm;
 
         // 생성자
-        public ExXASessionClass()
-        {
+        public ExXASessionClass() {
             //이벤트등록 문법이 어떤 구조인지 잘모르겠다.
             base._IXASessionEvents_Event_Login += loginEventHandler;
 
             //xASessionClass._IXASessionEvents_Event_Logout += new _IXASessionEvents_LogoutEventHandler(clsXASession__IXASessionEvents_Event_Logout);
             //xASessionClass.Disconnect += new _IXASessionEvents_DisconnectEventHandler(clsXASession_Disconnect);
-           
+
         }   // end function
 
         // 소멸자
-        ~ExXASessionClass()
-        {
+        ~ExXASessionClass() {
             //this.iXASession.Logout();
             //this.iXASession.DisconnectServer();
         }
@@ -34,11 +32,11 @@ namespace PackageSellSystemTrading{
 
 
         #region XASession 이벤트 핸들러
-        private  void loginEventHandler(string szCode, string szMsg){ 
+        private void loginEventHandler(string szCode, string szMsg) {
             String msg = null;
-           
+
             // 정상적으로 로그인 되었으면...
-            if (szCode == "0000"){
+            if (szCode == "0000") {
 
                 //Log.WriteLine(szCode + " :: " + szMsg);
 
@@ -57,7 +55,7 @@ namespace PackageSellSystemTrading{
                 // 뉴스 정보 실시간 등록
                 //mainForm.mxRealNws.call_advise();
 
-                   
+
 
                 msg = "성공적으로 로그인 하였습니다.";
                 // 로그인          
@@ -84,33 +82,32 @@ namespace PackageSellSystemTrading{
                 AccountForm accountForm = new AccountForm(mainForm);
                 accountForm.ShowDialog();
 
-                if (mainForm.account == "" || mainForm.accountPw == ""){
+                if (mainForm.account == "" || mainForm.accountPw == "") {
                     msg = "계좌 비밀번호를 설정해주세요.";
-                }
-            }
-            else if (szCode == "5201"){
-                    // 프로그램 재시작
-                    msg = szCode + ":" + szMsg + ": [  -13] Request ID가 이상합니다.";
-                    //Log.WriteLine(szCode + " :: " + szMsg);
-                    // mainForm.fnRestartProgram();
-                }else if (szCode == "2003"){ // 인증서가 없습니다.
-                    msg = szCode + ":" + szMsg + ": [공인인증] Full 인증과정에서 다음과 같은 오류가 발생하였습니다.";
-                    // mainForm.TimerLogin.Stop();
+                } 
+            } else if (szCode == "5201") {
+                // 프로그램 재시작
+                msg = szCode + ":" + szMsg + ": [  -13] Request ID가 이상합니다.";
+                //Log.WriteLine(szCode + " :: " + szMsg);
+                // mainForm.fnRestartProgram();
+            } else if (szCode == "2003") { // 인증서가 없습니다.
+                msg = szCode + ":" + szMsg + ": [공인인증] Full 인증과정에서 다음과 같은 오류가 발생하였습니다.";
+                // mainForm.TimerLogin.Stop();
 
-                }else{
-                   //Log.WriteLine(szCode + " :: " + szMsg);
-                    msg = szCode + " :: " + szMsg;
-                }
-                Log.WriteLine("ExXASession :: " + szCode + " :: " + szMsg);
-                MessageBox.Show(msg);
-                
-                
+            } else {
+                //Log.WriteLine(szCode + " :: " + szMsg);
+                msg = szCode + " :: " + szMsg;
             }
-           
+            Log.WriteLine("ExXASession :: " + szCode + " :: " + szMsg);
+            MessageBox.Show(msg);
+            
+            //로그인후 프로그램 초기화.
+            mainForm.projectInit();
 
-        
+        }
+
+
         #endregion
-
     } //end class 
-   
-}   // end namespace
+
+}// end namespace
