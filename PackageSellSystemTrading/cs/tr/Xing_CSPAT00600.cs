@@ -55,7 +55,7 @@ namespace PackageSellSystemTrading{
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
             }
-   
+            mainForm.tempLog.Text = "CSPAT00600 :: " + nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>

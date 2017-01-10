@@ -142,17 +142,14 @@ namespace PackageSellSystemTrading {
         //이벤트 메세지.
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage) {
             
-                if (nMessageCode == "00000") {
-                    ;
-                }else {
-               
+            if (nMessageCode == "00000") {
+                ;
+            }else {
                 Log.WriteLine("t0424 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
+            }
 
-                }
-            
-            
+            mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
 
 
         }
@@ -191,7 +188,7 @@ namespace PackageSellSystemTrading {
                 mainForm.input_t0424_log.Text = "잔고조회를 요청을 하였습니다.";
 
             } else {
-                mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
+                mainForm.input_t0424_log.Text = "[중복]요청을 하였습니다.";
             }
 
 

@@ -21,10 +21,11 @@ namespace PackageSellSystemTrading{
             InitializeComponent();
         }
         public ExXASessionClass exXASessionClass;
-        public Xing_t1833 xing_t1833;
-        public Xing_t0424 xing_t0424;
-        public Xing_CSPAT00600 xing_CSPAT00600;
-        public Xing_CSPAQ12300 xing_CSPAQ12300;
+        public Xing_t1833 xing_t1833;//조건검색
+        public Xing_t0424 xing_t0424;//잔고2
+        public Xing_t0425 xing_t0425;//체결/미체결
+        public Xing_CSPAT00600 xing_CSPAT00600;//주식주문
+        public Xing_CSPAQ12300 xing_CSPAQ12300;//계좌정보 --계좌 비밀번호설정용으로 사용
 
         //table
         public DataTable dataTable_t0424;
@@ -46,6 +47,8 @@ namespace PackageSellSystemTrading{
             this.xing_t1833.mainForm = this;
             this.xing_t0424 = new Xing_t0424();// 주식잔고2
             this.xing_t0424.mainForm = this;
+            this.xing_t0425 = new Xing_t0425();// 체결/미체결
+            this.xing_t0425.mainForm = this;
             this.xing_CSPAT00600 = new Xing_CSPAT00600();// 정상주문
             this.xing_CSPAT00600.mainForm = this;
 
@@ -196,7 +199,7 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>  
-                xing_CSPAT00600.call_request(this.account, this.accountPw, "005930", "2", "1830000", "2");
+                xing_CSPAT00600.call_request(this.account, this.accountPw, "000030", "200", "14000", "1");
             }
  
         }
@@ -229,11 +232,14 @@ namespace PackageSellSystemTrading{
             //소수점제거 후 배팅금액 구한다.
             battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
             //MessageBox.Show(battingAmt.ToString());
-            
-            
+
             //
         }
 
+        private void btn_t0425_Click(object sender, EventArgs e)
+        {
+            xing_t0425.call_request(this.account, this.accountPw);
+        }
     }//end class
 }//end namespace
 

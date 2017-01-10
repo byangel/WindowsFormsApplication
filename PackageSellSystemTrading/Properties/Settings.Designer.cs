@@ -86,12 +86,12 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("500000000")]
-        public long MANAGE_AMT_LIMIT {
+        public long PROGRM_AMT_LIMIT {
             get {
-                return ((long)(this["MANAGE_AMT_LIMIT"]));
+                return ((long)(this["PROGRM_AMT_LIMIT"]));
             }
             set {
-                this["MANAGE_AMT_LIMIT"] = value;
+                this["PROGRM_AMT_LIMIT"] = value;
             }
         }
         

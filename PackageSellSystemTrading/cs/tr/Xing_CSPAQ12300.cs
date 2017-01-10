@@ -67,7 +67,7 @@ namespace PackageSellSystemTrading{
                     MessageBox.Show("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
                     completeAt = true;//중복호출 방지
                 }
-                Log.WriteLine("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
+               
             }
             catch (Exception ex){
                 Log.WriteLine(ex.Message);

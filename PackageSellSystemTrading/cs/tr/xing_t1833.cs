@@ -45,6 +45,7 @@ namespace PackageSellSystemTrading{
             string[] row = new string[7];
             int addIndex;
 
+            DataRow[] dataRowArray;
             String shcode;//종목코드
             String close; //현재가
             for (int i = 0; i < iCount; i++) {
@@ -63,18 +64,15 @@ namespace PackageSellSystemTrading{
                 addIndex = mainForm.grd_t1833.Rows.Add(row);
 
                 //2.계좌에 존제 여부 체크
-                DataRow[] dataRowArray;
-                DataRow tmpDataRow;
+               
+               
                 //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
                 
                 dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
-                if (dataRowArray.Length > 0){//보유종목이면..
-                        tmpDataRow = dataRowArray[0];
-                    //mainForm.grd_t1833.Rows[addIndex].Cells["close"].Style.BackColor = Color.Gray;
-                    mainForm.grd_t1833.Rows[addIndex].DefaultCellStyle.BackColor = Color.Gray;
-
-                }
-                else{//보유종목이 아니면...
+                if (dataRowArray.Length > 0){//보유종목이면..하이라키...
+                    mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
+                    //mainForm.grd_t1833.Rows[addIndex].DefaultCellStyle.BackColor = Color.Gray;
+                }else{//보유종목이 아니면...
                        
                 }
                 //3.매수
@@ -82,7 +80,7 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                String Quantity = "10";// Properties / price;
+                
                 //1.금일 매수이력이 있으면 매수하지 않는다.
                 //2.보유종목 매수 시기가 1시간이상 이전이고 수익률이 -3% 이하이면 반복매수한다.
                 //mainForm.xing_CSPAT00600.call_request(shcode, Quantity, close, "2");
@@ -104,14 +102,13 @@ namespace PackageSellSystemTrading{
 
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
            
-         
-                if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되나?
-                    ;
-                } else {
-                    Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                    mainForm.input_t1833_log1.Text = nMessageCode + " :: " + szMessage;
-                    completeAt = true;//중복호출 방지
-                }
+            if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되나?
+                ;
+            } else {
+                Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
+                completeAt = true;//중복호출 방지
+            }
+            mainForm.input_t1833_log1.Text = nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>
