@@ -13,6 +13,9 @@ namespace PackageSellSystemTrading {
 
         public MainForm mainForm;
 
+        public String account = "";
+        public String accountPw = "";
+
         // 생성자
         public ExXASessionClass() {
             //이벤트등록 문법이 어떤 구조인지 잘모르겠다.
@@ -33,7 +36,7 @@ namespace PackageSellSystemTrading {
 
         #region XASession 이벤트 핸들러
         private void loginEventHandler(string szCode, string szMsg) {
-            String msg = null;
+            String msg = "";
 
             // 정상적으로 로그인 되었으면...
             if (szCode == "0000") {
@@ -57,7 +60,7 @@ namespace PackageSellSystemTrading {
 
 
 
-                msg = "성공적으로 로그인 하였습니다.";
+                //msg = "성공적으로 로그인 하였습니다.";
                 // 로그인          
 
                 // 서버의 시간 검색 타이머 스타트 - 여기서 PC의 시간을 서버 시간과 동기화 시킴
@@ -79,12 +82,16 @@ namespace PackageSellSystemTrading {
 
                 //로그인 성공시 계좌 목록을 콤보박스에 출력
                 //계좌정보 설정 폼 팝업 호출
-                AccountForm accountForm = new AccountForm(mainForm);
+                AccountForm accountForm = new AccountForm(this);
                 accountForm.ShowDialog();
 
-                if (mainForm.account == "" || mainForm.accountPw == "") {
-                    msg = "계좌 비밀번호를 설정해주세요.";
-                } 
+                if (this.account == "" || this.accountPw == "") {
+                    msg = "계좌 및 계좌 비밀번호를 설정해주세요.";
+                }else{
+                    //로그인후 프로그램 초기화.
+                    mainForm.projectInit();
+                }
+                
             } else if (szCode == "5201") {
                 // 프로그램 재시작
                 msg = szCode + ":" + szMsg + ": [  -13] Request ID가 이상합니다.";
@@ -99,11 +106,11 @@ namespace PackageSellSystemTrading {
                 msg = szCode + " :: " + szMsg;
             }
             Log.WriteLine("ExXASession :: " + szCode + " :: " + szMsg);
-            MessageBox.Show(msg);
-            
-            //로그인후 프로그램 초기화.
-            mainForm.projectInit();
 
+            if (msg != ""){
+                MessageBox.Show(msg);
+            }
+            
         }
 
 

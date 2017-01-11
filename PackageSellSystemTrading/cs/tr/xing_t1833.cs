@@ -73,7 +73,7 @@ namespace PackageSellSystemTrading{
                     mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
                     //mainForm.grd_t1833.Rows[addIndex].DefaultCellStyle.BackColor = Color.Gray;
                 }else{//보유종목이 아니면...
-                       
+                    ;
                 }
                 //3.매수
                 /// <param name="IsuNo">종목번호</param>
@@ -87,46 +87,45 @@ namespace PackageSellSystemTrading{
                 //Log.WriteLine("t1833.ReceiveDataEventHandler :: ");
             }
 
-            if (base.IsNext){ 
-                base.Request(true); //연속조회일경우 true
-                mainForm.input_t1833_log1.Text = "[연속조회]조건검색.";
-                mainForm.input_t1833_log2.Text = "대기";
-            }
-            else{//마지막 데이타일때 메인폼에 출력해준다.
-                //로그 및 중복 요청 처리
-                mainForm.input_t1833_log2.Text = "[]조건검색 응답 완료";
-                completeAt = true;//중복호출 여부
-            }
+           
+           mainForm.input_t1833_log1.Text = "[]조건검색 응답 완료";
+            completeAt = true;//중복호출 여부
+    
 
         }
 
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
-           
-            if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되나?
-                ;
-            } else {
+          
+            if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
+              
+            } else { 
                 Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.input_t1833_log1.Text = "t1833 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }
-            mainForm.input_t1833_log1.Text = nMessageCode + " :: " + szMessage;
+            
+
         }
 
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
 		public void call_request(string conditionFileName){
+
+            
             if (completeAt) {
+               
+                //폼 메세지.
+                completeAt = false;//중복호출 방지
+                mainForm.input_t1833_log1.Text = "조건검색 요청.";
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
                 base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
 
-                completeAt = false;//중복호출 방지
-                //폼 메세지.
-                mainForm.input_t1833_log1.Text = "[]조건검색 요청.";
-                mainForm.input_t1833_log2.Text = "대기";
+                //mainForm.input_t1833_log2.Text = "대기";
 
             } else {
                 mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
-                mainForm.input_t1833_log2.Text = "대기";
+                //mainForm.input_t1833_log2.Text = "대기";
             }
         }
 

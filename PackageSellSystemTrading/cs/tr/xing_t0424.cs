@@ -15,13 +15,14 @@ namespace PackageSellSystemTrading {
     //주식 잔고2
     public class Xing_t0424 : XAQueryClass {
 
-        private Boolean completeAt = true;//완료여부.
+        public Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
         public int mamt;      //매입금액
         public int tappamt;   //평가금액
         public int tdtsunik;  //평가손익
         public int sunamt;    //추정자산
+        public int sunamt1;   //d1예수금
         public int h_totalCount;
 
         public int testCount = 0;
@@ -146,10 +147,11 @@ namespace PackageSellSystemTrading {
                 ;
             }else {
                 Log.WriteLine("t0424 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }
 
-            mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
+            
 
 
         }
@@ -161,6 +163,7 @@ namespace PackageSellSystemTrading {
         {
 
             if (completeAt) {
+                this.completeAt = false;//중복호출 방지
                 //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
                 //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
@@ -183,7 +186,7 @@ namespace PackageSellSystemTrading {
                 this.h_totalCount = 0;//보유종목수
 
                 base.Request(false);  //연속조회일경우 true
-                completeAt = false;//중복호출 방지
+                
                 //폼 메세지.
                 mainForm.input_t0424_log.Text = "잔고조회를 요청을 하였습니다.";
 

@@ -15,10 +15,10 @@ namespace PackageSellSystemTrading{
     public class Xing_CSPAQ12300 : XAQueryClass{
 
         private Boolean completeAt = true;//완료여부.
-        public MainForm mainForm;
         private String  account;
         private String  accountPw;
-        private AccountForm accountForm;
+
+        public AccountForm accountForm;
         // 생성자
         public Xing_CSPAQ12300()
         {
@@ -54,11 +54,8 @@ namespace PackageSellSystemTrading{
             try{
                 if (nMessageCode == "00136" || nMessageCode == "00133") {
                     //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
-                    mainForm.account   = this.account;
-                    mainForm.accountPw = this.accountPw;
-
-                    // 계좌정보 조회.
-                    mainForm.xing_t0424.call_request(this.account, this.accountPw);
+                    accountForm.exXASessionClass.account   = this.account;
+                    accountForm.exXASessionClass.accountPw = this.accountPw;
 
                     //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
                     accountForm.Close();

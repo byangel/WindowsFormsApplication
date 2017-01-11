@@ -13,7 +13,7 @@ namespace PackageSellSystemTrading{
     //현물 정상주문
     public class Xing_CSPAT00600 : XAQueryClass{
 
-
+        private String IsuNo;
         public MainForm mainForm;
         // 생성자
         public Xing_CSPAT00600() {
@@ -55,7 +55,7 @@ namespace PackageSellSystemTrading{
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
             }
-            mainForm.tempLog.Text = "CSPAT00600 :: " + nMessageCode + " :: " + szMessage;
+            mainForm.tempLog.Text = "CSPAT00600 :: ["+ this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>
@@ -67,6 +67,7 @@ namespace PackageSellSystemTrading{
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
         public void call_request(String account, String accountPw, String IsuNo, String Quantity, String Price, String DivideBuySell)
         {
+            this.IsuNo = IsuNo;
             //모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {

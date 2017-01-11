@@ -25,14 +25,11 @@ namespace PackageSellSystemTrading{
         public Xing_t0424 xing_t0424;//잔고2
         public Xing_t0425 xing_t0425;//체결/미체결
         public Xing_CSPAT00600 xing_CSPAT00600;//주식주문
-        public Xing_CSPAQ12300 xing_CSPAQ12300;//계좌정보 --계좌 비밀번호설정용으로 사용
+        
 
         //table
         public DataTable dataTable_t0424;
 
-        // 로그인 정보
-        public String account   = "";
-        public String accountPw = "";
         //1회 주문시 매입금액
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -52,8 +49,7 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAT00600 = new Xing_CSPAT00600();// 정상주문
             this.xing_CSPAT00600.mainForm = this;
 
-            this.xing_CSPAQ12300 = new Xing_CSPAQ12300();// 현물계좌 잔고내역 조회
-            this.xing_CSPAQ12300.mainForm = this;
+            
 
 
             //폼 초기화
@@ -113,8 +109,8 @@ namespace PackageSellSystemTrading{
             Properties.Settings.Default.LOGIN_ID     = loginId;
             Properties.Settings.Default.LOGIN_PW     = loginPw;
             Properties.Settings.Default.PUBLIC_PW    = publicPw;
-            Properties.Settings.Default.ACCOUNT      = account;
-            Properties.Settings.Default.ACCOUNT_PW   = accountPw;
+            Properties.Settings.Default.ACCOUNT      = this.exXASessionClass.account;
+            Properties.Settings.Default.ACCOUNT_PW   = this.exXASessionClass.accountPw;
             //Properties.Settings.Default.AUTO_LOGIN = CheckAutoLogin.Checked;
             //Properties.Settings.Default.TRAY_YN = CheckTrayYN.Checked;
 
@@ -177,10 +173,10 @@ namespace PackageSellSystemTrading{
         //주식 잔고2
         private void btn_accountSearch_Click(object sender, EventArgs e) {
 
-            if (this.account == "" || this.accountPw == ""){
+            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == ""){
                 MessageBox.Show("계좌 정보가 없습니다.");
             }else{
-                xing_t0424.call_request(this.account, this.accountPw);
+                xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             }
             
         }
@@ -189,7 +185,7 @@ namespace PackageSellSystemTrading{
         //주문
         private void btn_buyTest_Click(object sender, EventArgs e)
         {
-            if (this.account == "" || this.accountPw == ""){
+            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == ""){
                 MessageBox.Show("계좌 정보가 없습니다.");
             }else{
                 /// <summary>
@@ -199,7 +195,8 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>  
-                xing_CSPAT00600.call_request(this.account, this.accountPw, "000030", "200", "14000", "1");
+                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "000030", "10", "14000", "1");
+                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "048870", "235" , "4000", "1");//
             }
  
         }
@@ -224,21 +221,63 @@ namespace PackageSellSystemTrading{
             //설정 저장버튼 활성화 
             btn_config_save.Enabled = true;
 
+
+            // 계좌정보 조회.
+            xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             //1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
             //매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
             //소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원
-            decimal totalAmt =( int.Parse(input_sunamt1.Text.Replace(",","")) + int.Parse(input_mamt.Text.Replace(",", "")) )/10000000; 
-            //MessageBox.Show(totalAmt.ToString());
+           
+            //decimal totalAmt =( int.Parse(input_sunamt1.Text.Replace(",","")) + int.Parse(input_mamt.Text.Replace(",", "")) )/10000000; 
+           
             //소수점제거 후 배팅금액 구한다.
-            battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
-            //MessageBox.Show(battingAmt.ToString());
+            //battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
+      
 
             //
         }
 
+        //미체결내역
         private void btn_t0425_Click(object sender, EventArgs e)
         {
-            xing_t0425.call_request(this.account, this.accountPw);
+            xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+        }
+
+        private void btn_start_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled    = true;
+            btn_start.Enabled = false;
+            btn_stop.Enabled  = true;
+        }
+       
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
+            {
+                timer1.Enabled = false;
+                btn_stop.Enabled = false;
+                btn_start.Enabled = true;
+                MessageBox.Show("계좌 정보가 없습니다.");
+            }
+            else
+            {
+                //주식잔고2
+                xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+                //조건검색
+                xing_t1833.call_request("Condition.ADF");
+                //미체결내역
+                xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            }
+            
+        }
+
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled    = false;
+            btn_stop.Enabled  = false;
+            btn_start.Enabled = true;
         }
     }//end class
 }//end namespace

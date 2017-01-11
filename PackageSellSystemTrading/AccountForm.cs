@@ -12,23 +12,30 @@ namespace PackageSellSystemTrading
 {
     public partial class AccountForm : Form
     {
+        public Xing_CSPAQ12300 xing_CSPAQ12300;//계좌정보 --계좌 비밀번호설정용으로 사용
 
-        public MainForm mainForm;
+        public ExXASessionClass exXASessionClass;
 
-        public AccountForm(MainForm mainForm){
+        public AccountForm(ExXASessionClass exXASessionClass)
+        {
             InitializeComponent();
-            this.mainForm = mainForm;
+
+            this.exXASessionClass = exXASessionClass;
         }
 
         private void AccountForm_Load(object sender, EventArgs e){
             String account;
-            int accountListCount = mainForm.exXASessionClass.GetAccountListCount();
+            int accountListCount = this.exXASessionClass.GetAccountListCount();
             for (int i = 0; i < accountListCount; i++)
             {
-                account = mainForm.exXASessionClass.GetAccountList(i);
+                account = this.exXASessionClass.GetAccountList(i);
                 this.listBox_account.Items.Add(account);
             }
             this.listBox_account.SelectedIndex = 0;
+
+
+            this.xing_CSPAQ12300 = new Xing_CSPAQ12300();// 현물계좌 잔고내역 조회
+            this.xing_CSPAQ12300.accountForm = this;
 
             //주식잔고2
             //mainForm.xing_t0424.call_request();
@@ -57,7 +64,7 @@ namespace PackageSellSystemTrading
             if (listBox_account == "" || input_accountPw == ""){
                 MessageBox.Show("계좌번호 또는 비밀번호를 입력해주세요.");
             }else{
-                mainForm.xing_CSPAQ12300.call_request(this, listBox_account, input_accountPw);
+                this.xing_CSPAQ12300.call_request(this, listBox_account, input_accountPw);
             }
         }
     }
