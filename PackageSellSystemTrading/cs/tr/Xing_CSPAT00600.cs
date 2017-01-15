@@ -47,7 +47,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000"){
                 ;
             }else{
-                Log.WriteLine("CSPAT00600 :: " + nMessageCode + " :: " + szMessage);
+                Log.WriteLine("[" + mainForm.input_time.Text + "]CSPAT00600 :: " + nMessageCode + " :: " + szMessage);
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 // 01222 :: 모의투자 매도잔고가 부족합니다  
                 // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
@@ -55,7 +55,7 @@ namespace PackageSellSystemTrading{
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
             }
-            mainForm.tempLog.Text = "CSPAT00600 :: ["+ this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
+            mainForm.tempLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>

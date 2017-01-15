@@ -49,23 +49,28 @@ namespace PackageSellSystemTrading {
             mainForm.grd_t0425.Rows.Clear();
             string[] row = new string[10];
             int addIndex;
-
+            String  ordrem;
             for (int i = 0; i < iCount; i++) {
-                row[0]  = base.GetFieldData("t0425OutBlock1", "ordtime" , i); //주문시간
-                row[1]  = base.GetFieldData("t0425OutBlock1", "medosu"  , i); //구분
-                row[2]  = base.GetFieldData("t0425OutBlock1", "expcode" , i); //종목번호
-                row[3]  = ""; //종목명
-                row[4]  = base.GetFieldData("t0425OutBlock1", "qty"     , i); //주문수량
-                row[5]  = base.GetFieldData("t0425OutBlock1", "price"   , i); //주문가격
-                row[6]  = base.GetFieldData("t0425OutBlock1", "cheqty"  , i); //체결수량
-                row[7]  = base.GetFieldData("t0425OutBlock1", "cheprice", i); //체결가격
-                row[8]  = base.GetFieldData("t0425OutBlock1", "ordrem"  , i); //미체결잔량
-                row[9]  = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
 
-                //1.그리드 데이터 추가
-                addIndex = mainForm.grd_t0425.Rows.Add(row);
-               
+                ordrem  = base.GetFieldData("t0425OutBlock1", "ordrem", i);//미체결 잔량 - 매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
+                if (int.Parse(ordrem) > 0)
+                {
+                    row[0] = base.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
+                    row[1] = base.GetFieldData("t0425OutBlock1", "medosu", i); //구분
+                    row[2] = base.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
+                    row[3] = ""; //종목명
+                    row[4] = base.GetFieldData("t0425OutBlock1", "qty", i); //주문수량
+                    row[5] = base.GetFieldData("t0425OutBlock1", "price", i); //주문가격
+                    row[6] = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
+                    row[7] = base.GetFieldData("t0425OutBlock1", "cheprice", i); //체결가격
+                    row[8] = base.GetFieldData("t0425OutBlock1", "ordrem", i); //미체결잔량
+                    row[9] = base.GetFieldData("t0425OutBlock1", "status", i); //상태
+
+                    //1.그리드 데이터 추가
+                    addIndex = mainForm.grd_t0425.Rows.Add(row);
+                }
                 
+    
             }
 
             String cts_ordno = base.GetFieldData("t0425OutBlock", "cts_ordno", 0);//연속키
@@ -90,11 +95,10 @@ namespace PackageSellSystemTrading {
             if (nMessageCode == "00000") {
                 ;
             }else {
-                Log.WriteLine("t0425 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t0425_log.Text = "t0425 :: " + nMessageCode + " :: " + szMessage;
+                Log.WriteLine("[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.input_t0425_log.Text = "[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }
-            
 
         }
 
@@ -111,22 +115,21 @@ namespace PackageSellSystemTrading {
                 base.SetFieldData("t0425InBlock", "accno" ,    0, account);    // 계좌번호
                 base.SetFieldData("t0425InBlock", "passwd",    0, accountPw);  // 비밀번호
                 base.SetFieldData("t0425InBlock", "expcode",   0, "");         // 종목번호
-                base.SetFieldData("t0425InBlock", "chegb" ,    0, "2");        // 체결구분 - 0:전체|1:체결|2|미체결
+                base.SetFieldData("t0425InBlock", "chegb" ,    0, "0");        // 체결구분 - 0:전체|1:체결|2|미체결
                 base.SetFieldData("t0425InBlock", "medosu" ,   0, "0");        // 매매구분 - 0:전체|1:매수|2:매도  
                 base.SetFieldData("t0425InBlock", "sortgb",    0, "1");        // 정렬순서
                 base.SetFieldData("t0425InBlock", "cts_ordno", 0, "");         // 주문번호
 
                 // 계좌잔고 그리드 초기화
-            
 
                 //멤버변수 초기화
                 base.Request(false);  //연속조회일경우 true
                 completeAt = false;//중복호출 방지
                 //폼 메세지.
-                mainForm.input_t0425_log.Text = "체결/미체결 요청을 하였습니다.";
+                mainForm.input_t0425_log.Text = "[" + mainForm.input_time.Text + "]t0425::체결/미체결 요청";
 
             } else {
-                mainForm.input_t0425_log.Text = "[중복]요청을 하였습니다.";
+                mainForm.input_t0425_log.Text = "[중복]t0425::체결/미체결 요청";
             }
         }	// end function
     } //end class   

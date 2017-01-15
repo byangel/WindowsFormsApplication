@@ -89,7 +89,18 @@ namespace PackageSellSystemTrading {
                     msg = "계좌 및 계좌 비밀번호를 설정해주세요.";
                 }else{
                     //로그인후 프로그램 초기화.
-                    mainForm.projectInit();
+                    // 계좌정보 조회.
+                    //mainForm.xing_t0424.call_request(this.account, this.accountPw);
+                    //설정 저장버튼 활성화 
+                    mainForm.btn_config_save.Enabled = true;
+
+                    // 계좌정보 조회.
+                    //xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+                    mainForm.xing_t0424_config.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+
+
+                    //날자 및 시간 타이머 시작.
+                    mainForm.timer_dateTime.Enabled = true;
                 }
                 
             } else if (szCode == "5201") {

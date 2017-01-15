@@ -49,10 +49,7 @@ namespace PackageSellSystemTrading {
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode) {
-
-            testCount += 1;
-            Log.WriteLine("t0424 dataEventHandler call:: " + testCount);
-
+  
             String cts_expcode = base.GetFieldData("t0424OutBlock", "cts_expcode", 0);//CTS_종목번호-연속조회키
 
 
@@ -64,7 +61,7 @@ namespace PackageSellSystemTrading {
             DataRow tmpDataRow;
             for (int i = 0; i < iCount; i++) {
                 expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-
+                
                 //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
                 dataRowArray = mainForm.dataTable_t0424.Select("expcode = '"+ expcode +"'");
                 if (dataRowArray.Length > 0){
@@ -90,8 +87,11 @@ namespace PackageSellSystemTrading {
                 tmpDataRow["tax"]      = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
                 tmpDataRow["sininter"] = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
+                tmpDataRow["deleteAt"] = false; //삭제여부
+                
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                 if (dataRowArray.Length == 0){
+                    
                     mainForm.dataTable_t0424.Rows.Add(tmpDataRow);
                 }
                 //if ((i % 2) == 0)
@@ -132,12 +132,27 @@ namespace PackageSellSystemTrading {
                 mainForm.input_sunamt.Text  = Util.GetNumberFormat((int.Parse(sunamt1) + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
                 mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
 
+
+                //목록에 없는 종목 그리드에서 삭제.
+                for (int i = 0; i < mainForm.dataTable_t0424.Rows.Count; i++){
+                    tmpDataRow = mainForm.dataTable_t0424.Rows[i];
+
+                    if ((Boolean)tmpDataRow["deleteAt"] == true){
+                       
+                        mainForm.dataTable_t0424.Rows[i].Delete();
+                        i--;
+                    }
+                    tmpDataRow["deleteAt"] = true;
+                }
+
                 //로그 및 중복 요청 처리
+                mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: 잔고조회 완료";
                 //mainForm.input_t0424_log.Text = "잔고조회 요청을 완료 하였습니다.";
+
+                //응답처리 완료
                 completeAt = true;   
             }
 
-           
         }//end
 
         //이벤트 메세지.
@@ -146,14 +161,10 @@ namespace PackageSellSystemTrading {
             if (nMessageCode == "00000") {
                 ;
             }else {
-                Log.WriteLine("t0424 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
+                Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }
-
-            
-
-
         }
 
         /// <summary>
@@ -188,10 +199,10 @@ namespace PackageSellSystemTrading {
                 base.Request(false);  //연속조회일경우 true
                 
                 //폼 메세지.
-                mainForm.input_t0424_log.Text = "잔고조회를 요청을 하였습니다.";
+                mainForm.input_t0424_log.Text = "["+ mainForm.input_time.Text+ "]t0424::잔고조회";
 
             } else {
-                mainForm.input_t0424_log.Text = "[중복]요청을 하였습니다.";
+                mainForm.input_t0424_log.Text = "[" + mainForm.input_time.Text + "][중복]t0424::잔고조회";
             }
 
 

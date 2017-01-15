@@ -65,9 +65,11 @@
     <Compile Include="cs\session\ExXASessionClass.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00600.cs" />
     <Compile Include="cs\tr\Xing_CSPAQ12300.cs" />
+    <Compile Include="cs\tr\Xing_t0424_config.cs" />
     <Compile Include="cs\tr\Xing_t0425.cs" />
     <Compile Include="cs\tr\Xing_t0424.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00800.cs" />
+    <Compile Include="cs\tr\Xing_t0167.cs" />
     <Compile Include="cs\tr\Xing_t1833.cs" />
     <Compile Include="cs\util\DateTimeUtil.cs" />
     <Compile Include="cs\util\GridUtil.cs" />

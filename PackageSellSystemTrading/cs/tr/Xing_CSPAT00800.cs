@@ -36,7 +36,7 @@ namespace PackageSellSystemTrading{
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
             //로그 및 중복 요청 처리
-            Log.WriteLine("CSPAT00800 :: 데이터 응답 처리가 완료 되었습니다.");
+            Log.WriteLine("[" + mainForm.input_time.Text + "]CSPAT00800 :: 데이터 응답 처리가 완료 되었습니다.");
 
         }
 
@@ -45,7 +45,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000"){
                 ;
             }else{
-                Log.WriteLine("CSPAT00800 :: " + nMessageCode + " :: " + szMessage);
+                Log.WriteLine("[" + mainForm.input_time.Text + "]CSPAT00800 :: " + nMessageCode + " :: " + szMessage);
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage; 
             }
             

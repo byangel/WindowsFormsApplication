@@ -10,7 +10,7 @@ using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Data;
 using System.Drawing;
-
+using System.Threading;
 namespace PackageSellSystemTrading{
     public class Xing_t1833 : XAQueryClass{
 
@@ -88,7 +88,7 @@ namespace PackageSellSystemTrading{
             }
 
            
-           mainForm.input_t1833_log1.Text = "[]조건검색 응답 완료";
+           mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text+ "]조건검색 응답 완료";
             completeAt = true;//중복호출 여부
     
 
@@ -100,13 +100,13 @@ namespace PackageSellSystemTrading{
               
             } else { 
                 Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t1833_log1.Text = "t1833 :: " + nMessageCode + " :: " + szMessage;
+                mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text + "]t1833 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }
             
 
-        }
 
+        }
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
@@ -114,10 +114,12 @@ namespace PackageSellSystemTrading{
 
             
             if (completeAt) {
-               
+                //MessageBox.Show("1");
                 //폼 메세지.
                 completeAt = false;//중복호출 방지
-                mainForm.input_t1833_log1.Text = "조건검색 요청.";
+                mainForm.input_t1833_log1.Text = "[" + mainForm.input_time.Text + "]조건검색 요청.";
+                //Thread.Sleep(1000);
+
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
                 base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
 

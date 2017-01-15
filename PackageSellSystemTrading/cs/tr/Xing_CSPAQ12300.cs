@@ -17,8 +17,9 @@ namespace PackageSellSystemTrading{
         private Boolean completeAt = true;//완료여부.
         private String  account;
         private String  accountPw;
-
+        
         public AccountForm accountForm;
+        public MainForm    mainForm;
         // 생성자
         public Xing_CSPAQ12300()
         {
@@ -58,6 +59,7 @@ namespace PackageSellSystemTrading{
                     accountForm.exXASessionClass.accountPw = this.accountPw;
 
                     //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
+     
                     accountForm.Close();
                 }
                 else{
