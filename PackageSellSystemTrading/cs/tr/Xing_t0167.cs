@@ -42,16 +42,14 @@ namespace PackageSellSystemTrading{
             string szDate    = base.GetFieldData("t0167OutBlock", "dt", 0);
             string szTimeCur = base.GetFieldData("t0167OutBlock", "time", 0);
 
-            
-
             mainForm.input_date.Text = szDate;
-
-            string szHour = szTimeCur.Substring(0, 2);
-            string szMinute = szTimeCur.Substring(2, 2);
-            string szSecond = szTimeCur.Substring(4, 2);
-
-            mainForm.input_time.Text = szHour + ":" + szMinute + ":" + szSecond;
-
+            if (szTimeCur!= "")
+            {
+                string szHour = szTimeCur.Substring(0, 2);
+                string szMinute = szTimeCur.Substring(2, 2);
+                string szSecond = szTimeCur.Substring(4, 2);
+                mainForm.input_time.Text = szHour + ":" + szMinute + ":" + szSecond;
+            }
 
             completeAt = true;//중복호출 방지
 

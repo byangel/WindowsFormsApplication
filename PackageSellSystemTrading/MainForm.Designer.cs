@@ -51,6 +51,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -115,7 +120,7 @@
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tempLog = new System.Windows.Forms.TextBox();
-            this.grd_t0425 = new System.Windows.Forms.DataGridView();
+            this.grd_t0425_chegb2 = new System.Windows.Forms.DataGridView();
             this.ordtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.medosu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -143,9 +148,24 @@
             this.textBox_battingAtm = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.timer_accountSearch = new System.Windows.Forms.Timer(this.components);
+            this.input_t0425_log2 = new System.Windows.Forms.TextBox();
+            this.grd_t0425_chegb1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn26 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label21 = new System.Windows.Forms.Label();
+            this.grd_t0425_chegb1_cnt = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_t0425_chegb2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_t0425_chegb1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -731,10 +751,10 @@
             // 
             this.tempLog.Location = new System.Drawing.Point(333, 12);
             this.tempLog.Name = "tempLog";
-            this.tempLog.Size = new System.Drawing.Size(465, 21);
+            this.tempLog.Size = new System.Drawing.Size(291, 21);
             this.tempLog.TabIndex = 51;
             // 
-            // grd_t0425
+            // grd_t0425_chegb2
             // 
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
@@ -743,9 +763,9 @@
             dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grd_t0425.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
-            this.grd_t0425.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grd_t0425.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.grd_t0425_chegb2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            this.grd_t0425_chegb2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grd_t0425_chegb2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ordtime,
             this.medosu,
             this.expcode,
@@ -763,9 +783,9 @@
             dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grd_t0425.DefaultCellStyle = dataGridViewCellStyle21;
-            this.grd_t0425.Location = new System.Drawing.Point(639, 90);
-            this.grd_t0425.Name = "grd_t0425";
+            this.grd_t0425_chegb2.DefaultCellStyle = dataGridViewCellStyle21;
+            this.grd_t0425_chegb2.Location = new System.Drawing.Point(639, 50);
+            this.grd_t0425_chegb2.Name = "grd_t0425_chegb2";
             dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle22.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -773,10 +793,10 @@
             dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grd_t0425.RowHeadersDefaultCellStyle = dataGridViewCellStyle22;
-            this.grd_t0425.RowTemplate.Height = 23;
-            this.grd_t0425.Size = new System.Drawing.Size(379, 312);
-            this.grd_t0425.TabIndex = 52;
+            this.grd_t0425_chegb2.RowHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            this.grd_t0425_chegb2.RowTemplate.Height = 23;
+            this.grd_t0425_chegb2.Size = new System.Drawing.Size(379, 203);
+            this.grd_t0425_chegb2.TabIndex = 52;
             // 
             // ordtime
             // 
@@ -848,22 +868,22 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(637, 75);
+            this.label7.Location = new System.Drawing.Point(637, 35);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 12);
+            this.label7.Size = new System.Drawing.Size(99, 12);
             this.label7.TabIndex = 53;
-            this.label7.Text = "미체결";
+            this.label7.Text = "매도/매수 미체결";
             // 
             // input_t0425_log
             // 
-            this.input_t0425_log.Location = new System.Drawing.Point(639, 413);
+            this.input_t0425_log.Location = new System.Drawing.Point(639, 259);
             this.input_t0425_log.Name = "input_t0425_log";
             this.input_t0425_log.Size = new System.Drawing.Size(379, 21);
             this.input_t0425_log.TabIndex = 54;
             // 
             // btn_t0425
             // 
-            this.btn_t0425.Location = new System.Drawing.Point(639, 440);
+            this.btn_t0425.Location = new System.Drawing.Point(639, 282);
             this.btn_t0425.Name = "btn_t0425";
             this.btn_t0425.Size = new System.Drawing.Size(111, 33);
             this.btn_t0425.TabIndex = 55;
@@ -976,11 +996,151 @@
             this.timer_accountSearch.Interval = 1500;
             this.timer_accountSearch.Tick += new System.EventHandler(this.timer_accountSearch_Tick);
             // 
+            // input_t0425_log2
+            // 
+            this.input_t0425_log2.Location = new System.Drawing.Point(756, 286);
+            this.input_t0425_log2.Name = "input_t0425_log2";
+            this.input_t0425_log2.Size = new System.Drawing.Size(262, 21);
+            this.input_t0425_log2.TabIndex = 67;
+            // 
+            // grd_t0425_chegb1
+            // 
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_t0425_chegb1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            this.grd_t0425_chegb1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grd_t0425_chegb1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn17,
+            this.dataGridViewTextBoxColumn18,
+            this.dataGridViewTextBoxColumn19,
+            this.dataGridViewTextBoxColumn20,
+            this.dataGridViewTextBoxColumn21,
+            this.dataGridViewTextBoxColumn22,
+            this.dataGridViewTextBoxColumn23,
+            this.dataGridViewTextBoxColumn24,
+            this.dataGridViewTextBoxColumn25,
+            this.dataGridViewTextBoxColumn26});
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle26.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grd_t0425_chegb1.DefaultCellStyle = dataGridViewCellStyle26;
+            this.grd_t0425_chegb1.Location = new System.Drawing.Point(639, 370);
+            this.grd_t0425_chegb1.Name = "grd_t0425_chegb1";
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_t0425_chegb1.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            this.grd_t0425_chegb1.RowTemplate.Height = 23;
+            this.grd_t0425_chegb1.Size = new System.Drawing.Size(379, 203);
+            this.grd_t0425_chegb1.TabIndex = 68;
+            // 
+            // dataGridViewTextBoxColumn17
+            // 
+            this.dataGridViewTextBoxColumn17.DataPropertyName = "ordtime";
+            this.dataGridViewTextBoxColumn17.HeaderText = "주문시간";
+            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
+            // 
+            // dataGridViewTextBoxColumn18
+            // 
+            this.dataGridViewTextBoxColumn18.DataPropertyName = "medosu";
+            this.dataGridViewTextBoxColumn18.HeaderText = "구분";
+            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
+            this.dataGridViewTextBoxColumn18.Width = 60;
+            // 
+            // dataGridViewTextBoxColumn19
+            // 
+            this.dataGridViewTextBoxColumn19.DataPropertyName = "expcode";
+            this.dataGridViewTextBoxColumn19.HeaderText = "종목번호";
+            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
+            // 
+            // dataGridViewTextBoxColumn20
+            // 
+            this.dataGridViewTextBoxColumn20.DataPropertyName = "expnm";
+            this.dataGridViewTextBoxColumn20.HeaderText = "종목명";
+            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
+            // 
+            // dataGridViewTextBoxColumn21
+            // 
+            this.dataGridViewTextBoxColumn21.DataPropertyName = "qty";
+            this.dataGridViewTextBoxColumn21.HeaderText = "주문수량";
+            this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
+            this.dataGridViewTextBoxColumn21.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn22
+            // 
+            this.dataGridViewTextBoxColumn22.DataPropertyName = "price";
+            dataGridViewCellStyle24.Format = "###,##0";
+            this.dataGridViewTextBoxColumn22.DefaultCellStyle = dataGridViewCellStyle24;
+            this.dataGridViewTextBoxColumn22.HeaderText = "주문가격";
+            this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
+            // 
+            // dataGridViewTextBoxColumn23
+            // 
+            this.dataGridViewTextBoxColumn23.DataPropertyName = "cheqty";
+            this.dataGridViewTextBoxColumn23.HeaderText = "체결수량";
+            this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
+            // 
+            // dataGridViewTextBoxColumn24
+            // 
+            this.dataGridViewTextBoxColumn24.DataPropertyName = "cheprice";
+            dataGridViewCellStyle25.Format = "###,##0";
+            this.dataGridViewTextBoxColumn24.DefaultCellStyle = dataGridViewCellStyle25;
+            this.dataGridViewTextBoxColumn24.HeaderText = "제결가격";
+            this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
+            // 
+            // dataGridViewTextBoxColumn25
+            // 
+            this.dataGridViewTextBoxColumn25.DataPropertyName = "ordrem";
+            this.dataGridViewTextBoxColumn25.HeaderText = "미체결잔량";
+            this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
+            // 
+            // dataGridViewTextBoxColumn26
+            // 
+            this.dataGridViewTextBoxColumn26.DataPropertyName = "status";
+            this.dataGridViewTextBoxColumn26.HeaderText = "상태";
+            this.dataGridViewTextBoxColumn26.Name = "dataGridViewTextBoxColumn26";
+            this.dataGridViewTextBoxColumn26.Width = 70;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(637, 352);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(85, 12);
+            this.label21.TabIndex = 69;
+            this.label21.Text = "매수 체결 내역";
+            // 
+            // grd_t0425_chegb1_cnt
+            // 
+            this.grd_t0425_chegb1_cnt.AutoSize = true;
+            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(725, 352);
+            this.grd_t0425_chegb1_cnt.Name = "grd_t0425_chegb1_cnt";
+            this.grd_t0425_chegb1_cnt.Size = new System.Drawing.Size(11, 12);
+            this.grd_t0425_chegb1_cnt.TabIndex = 70;
+            this.grd_t0425_chegb1_cnt.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1233, 541);
+            this.ClientSize = new System.Drawing.Size(1233, 616);
+            this.Controls.Add(this.grd_t0425_chegb1_cnt);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.grd_t0425_chegb1);
+            this.Controls.Add(this.input_t0425_log2);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.textBox_battingAtm);
             this.Controls.Add(this.label19);
@@ -995,7 +1155,7 @@
             this.Controls.Add(this.btn_t0425);
             this.Controls.Add(this.input_t0425_log);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.grd_t0425);
+            this.Controls.Add(this.grd_t0425_chegb2);
             this.Controls.Add(this.tempLog);
             this.Controls.Add(this.grd_t0424);
             this.Controls.Add(this.input_PchsAmt);
@@ -1041,7 +1201,8 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_t0425_chegb2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_t0425_chegb1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1105,7 +1266,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
         public System.Windows.Forms.Button btn_config_save;
         public System.Windows.Forms.TextBox tempLog;
-        public System.Windows.Forms.DataGridView grd_t0425;
+        public System.Windows.Forms.DataGridView grd_t0425_chegb2;
         private System.Windows.Forms.Label label7;
         public System.Windows.Forms.TextBox input_t0425_log;
         private System.Windows.Forms.Button btn_t0425;
@@ -1140,6 +1301,20 @@
         private System.Windows.Forms.Label label20;
         public System.Windows.Forms.Timer timer_dateTime;
         private System.Windows.Forms.Timer timer_accountSearch;
+        public System.Windows.Forms.TextBox input_t0425_log2;
+        public System.Windows.Forms.DataGridView grd_t0425_chegb1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn21;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn22;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn23;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn26;
+        private System.Windows.Forms.Label label21;
+        public System.Windows.Forms.Label grd_t0425_chegb1_cnt;
     }
 }
 

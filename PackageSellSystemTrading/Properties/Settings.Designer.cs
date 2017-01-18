@@ -130,5 +130,17 @@ namespace PackageSellSystemTrading.Properties {
                 this["BUY_STOP_RATE"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-3")]
+        public float MULTI_BUY_POINT {
+            get {
+                return ((float)(this["MULTI_BUY_POINT"]));
+            }
+            set {
+                this["MULTI_BUY_POINT"] = value;
+            }
+        }
     }
 }

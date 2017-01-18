@@ -29,5 +29,8 @@
     <Setting Name="BUY_STOP_RATE" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">90</Value>
     </Setting>
+    <Setting Name="MULTI_BUY_POINT" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

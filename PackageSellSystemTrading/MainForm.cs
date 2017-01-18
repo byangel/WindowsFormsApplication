@@ -201,8 +201,8 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>  
-                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "000030", "10", "14000", "1");
-                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "048870", "235" , "4000", "1");//
+                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "003060", "238", "4000", "1");
+                //xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "048870", "235" , "4000", "1");//
             }
  
         }

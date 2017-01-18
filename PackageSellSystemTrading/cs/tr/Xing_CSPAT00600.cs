@@ -36,7 +36,7 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
             
            //로그 및 중복 요청 처리
-           Log.WriteLine("CSPAT00600 :: 데이터 응답 처리가 완료 되었습니다.");
+           //Log.WriteLine("CSPAT00600 :: 데이터 응답 처리가 완료 되었습니다.");
  
         }
 

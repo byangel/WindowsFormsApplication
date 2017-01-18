@@ -98,7 +98,6 @@ namespace PackageSellSystemTrading {
                     //xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
                     mainForm.xing_t0424_config.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
 
-
                     //날자 및 시간 타이머 시작.
                     mainForm.timer_dateTime.Enabled = true;
                 }
