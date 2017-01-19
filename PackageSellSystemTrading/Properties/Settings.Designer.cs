@@ -86,9 +86,9 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("500000000")]
-        public long PROGRM_AMT_LIMIT {
+        public double PROGRM_AMT_LIMIT {
             get {
-                return ((long)(this["PROGRM_AMT_LIMIT"]));
+                return ((double)(this["PROGRM_AMT_LIMIT"]));
             }
             set {
                 this["PROGRM_AMT_LIMIT"] = value;
@@ -122,24 +122,36 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("90")]
-        public int BUY_STOP_RATE {
+        public int NEW_BUY_STOP_RATE {
             get {
-                return ((int)(this["BUY_STOP_RATE"]));
+                return ((int)(this["NEW_BUY_STOP_RATE"]));
             }
             set {
-                this["BUY_STOP_RATE"] = value;
+                this["NEW_BUY_STOP_RATE"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-3")]
-        public float MULTI_BUY_POINT {
+        public float REPEAT_BUY_RATE {
             get {
-                return ((float)(this["MULTI_BUY_POINT"]));
+                return ((float)(this["REPEAT_BUY_RATE"]));
             }
             set {
-                this["MULTI_BUY_POINT"] = value;
+                this["REPEAT_BUY_RATE"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int REPEAT_BUY_TERM {
+            get {
+                return ((int)(this["REPEAT_BUY_TERM"]));
+            }
+            set {
+                this["REPEAT_BUY_TERM"] = value;
             }
         }
     }

@@ -18,11 +18,18 @@ namespace PackageSellSystemTrading {
         public Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
+        public int tmpMamt;      //매입금액
+        public int tmpTappamt;   //평가금액
+        public int tmpTdtsunik;  //평가손익
+
+        public int sunamt;    //추정자산
+        public int sunamt1;   //d1예수금
+        public int dtsunik;   //실현손익
+
         public int mamt;      //매입금액
         public int tappamt;   //평가금액
         public int tdtsunik;  //평가손익
-        public int sunamt;    //추정자산
-        public int sunamt1;   //d1예수금
+
         public int h_totalCount;
 
         public int testCount = 0;
@@ -57,11 +64,16 @@ namespace PackageSellSystemTrading {
             int iCount = base.GetBlockCount("t0424OutBlock1");
  
             DataRow[] dataRowArray;
-            String expcode;
+            String expcode;//종목코드
+            String hname;  //종목명
+            String mdposqt;//매도가능
+            float  sunikrt;//수익율
             DataRow tmpDataRow;
             for (int i = 0; i < iCount; i++) {
                 expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-                
+                hname   = base.GetFieldData("t0424OutBlock1", "hname"  , i); //종목명
+                mdposqt = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
+                sunikrt = float.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
                 //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
                 dataRowArray = mainForm.dataTable_t0424.Select("expcode = '"+ expcode +"'");
                 if (dataRowArray.Length > 0){
@@ -94,6 +106,19 @@ namespace PackageSellSystemTrading {
                     
                     mainForm.dataTable_t0424.Rows.Add(tmpDataRow);
                 }
+
+                //2% 이상 매도
+                if (sunikrt > 2){
+                    /// <param name="IsuNo">종목번호</param>
+                    /// <param name="Quantity">수량</param>
+                    /// <param name="Price">가격</param>
+                    /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                    mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, expcode, mdposqt, "", "1");
+                    Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 ::[" + tmpDataRow["hname"] + "]  수익율:" + sunikrt + "매도.");     
+                }
+
+
+
                 //if ((i % 2) == 0)
                 // {
                 //     tmpDataRow["hname"] = "xxx";
@@ -105,9 +130,9 @@ namespace PackageSellSystemTrading {
 
 
             // 계좌정보 써머리 계산 - 연속 조회이기때문에 합산후 마지막에 폼으로 출력.
-            this.mamt     += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
-            this.tappamt  += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
-            this.tdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
+            this.tmpMamt += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
+            this.tmpTappamt += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
+            this.tmpTdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
 
             this.h_totalCount += iCount;
 
@@ -120,17 +145,20 @@ namespace PackageSellSystemTrading {
                 base.Request(true); //연속조회일경우 true
                 //mainForm.input_t0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
             } else {//마지막 데이타일때 메인폼에 출력해준다.
+                this.sunamt1 = int.Parse(this.GetFieldData("t0424OutBlock", "sunamt1", 0));// D1예수금
+                this.dtsunik = int.Parse(this.GetFieldData("t0424OutBlock", "dtsunik", 0));// 실현손익
+
+                this.mamt     = this.tmpMamt;      //매입금액
+                this.tappamt  = this.tmpTappamt;   //평가금액
+                this.tdtsunik = this.tmpTdtsunik;  //평가손익
 
                 mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
                 mainForm.input_tappamt.Text  = Util.GetNumberFormat(this.tappamt); // 평가금액
                 mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.tdtsunik);// 평가손익
-
-                String sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// D1예수금
-                String dtsunik = this.GetFieldData("t0424OutBlock", "dtsunik", 0);// 실현손익
-                mainForm.input_sunamt1.Text = Util.GetNumberFormat(sunamt1);      // D1예수금
-                mainForm.input_dtsunik.Text = Util.GetNumberFormat(dtsunik);      // 실현손익
-                mainForm.input_sunamt.Text  = Util.GetNumberFormat((int.Parse(sunamt1) + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
-                mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
+                mainForm.input_sunamt1.Text  = Util.GetNumberFormat(this.sunamt1);      // D1예수금
+                mainForm.input_dtsunik.Text  = Util.GetNumberFormat(this.dtsunik);      // 실현손익
+                mainForm.input_sunamt.Text   = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
+                mainForm.h_totalCount.Text   = this.h_totalCount.ToString();       //종목수
 
 
                 //목록에 없는 종목 그리드에서 삭제.
@@ -191,9 +219,9 @@ namespace PackageSellSystemTrading {
                 //mainForm.dataTable_t0424.Clear();
 
                 //멤버변수 초기화
-                this.mamt = 0;        //매입금액
-                this.tappamt = 0;     //평가금액
-                this.tdtsunik = 0;    //평가손익
+                this.tmpMamt = 0;        //매입금액
+                this.tmpTappamt = 0;     //평가금액
+                this.tmpTdtsunik = 0;    //평가손익
                 this.h_totalCount = 0;//보유종목수
 
                 base.Request(false);  //연속조회일경우 true

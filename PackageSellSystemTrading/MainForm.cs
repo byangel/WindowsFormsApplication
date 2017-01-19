@@ -27,7 +27,8 @@ namespace PackageSellSystemTrading{
         public Xing_t0425 xing_t0425;//체결/미체결
         public Xing_t0167 xing_t0167;//
         public Xing_CSPAT00600 xing_CSPAT00600;//주식주문
-
+        public Xing_CSPAT00800 xing_CSPAT00800;//현물 취소주문
+        
         //table
         public DataTable dataTable_t0424;
 
@@ -55,6 +56,8 @@ namespace PackageSellSystemTrading{
             this.xing_t0167.mainForm = this;
             this.xing_CSPAT00600 = new Xing_CSPAT00600();// 정상주문
             this.xing_CSPAT00600.mainForm = this;
+            this.xing_CSPAT00800 = new Xing_CSPAT00800();// 현물취소주문
+            this.xing_CSPAT00800.mainForm = this;
 
             this.xing_t0424_config = new Xing_t0424_config();// 주식잔고2
             this.xing_t0424_config.mainForm = this;
@@ -66,7 +69,7 @@ namespace PackageSellSystemTrading{
 
         //프로그램시작시 폼 초기화
         private void initForm(){
-            //개발완료시 제거해주자.
+            
             input_loginId.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
             input_loginPw.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
             input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);

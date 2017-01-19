@@ -16,7 +16,10 @@ namespace PackageSellSystemTrading{
 
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
-       
+
+        public string date;
+        public string time;
+
         // 생성자
         public Xing_t0167(){
           
@@ -39,16 +42,16 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
 
             // 시간 값 세팅
-            string szDate    = base.GetFieldData("t0167OutBlock", "dt", 0);
-            string szTimeCur = base.GetFieldData("t0167OutBlock", "time", 0);
+            this.date    = base.GetFieldData("t0167OutBlock", "dt", 0);
+            this.time = base.GetFieldData("t0167OutBlock", "time", 0);
 
-            mainForm.input_date.Text = szDate;
-            if (szTimeCur!= "")
+            mainForm.input_date.Text = this.date;
+            if (this.time != "")
             {
-                string szHour = szTimeCur.Substring(0, 2);
-                string szMinute = szTimeCur.Substring(2, 2);
-                string szSecond = szTimeCur.Substring(4, 2);
-                mainForm.input_time.Text = szHour + ":" + szMinute + ":" + szSecond;
+                string hour = this.time.Substring(0, 2);
+                string minute = this.time.Substring(2, 2);
+                string second = this.time.Substring(4, 2);
+                mainForm.input_time.Text = hour + ":" + minute + ":" + second;
             }
 
             completeAt = true;//중복호출 방지

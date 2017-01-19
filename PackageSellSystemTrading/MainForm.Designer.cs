@@ -876,14 +876,14 @@
             // 
             // input_t0425_log
             // 
-            this.input_t0425_log.Location = new System.Drawing.Point(639, 259);
+            this.input_t0425_log.Location = new System.Drawing.Point(639, 499);
             this.input_t0425_log.Name = "input_t0425_log";
             this.input_t0425_log.Size = new System.Drawing.Size(379, 21);
             this.input_t0425_log.TabIndex = 54;
             // 
             // btn_t0425
             // 
-            this.btn_t0425.Location = new System.Drawing.Point(639, 282);
+            this.btn_t0425.Location = new System.Drawing.Point(639, 522);
             this.btn_t0425.Name = "btn_t0425";
             this.btn_t0425.Size = new System.Drawing.Size(111, 33);
             this.btn_t0425.TabIndex = 55;
@@ -998,7 +998,7 @@
             // 
             // input_t0425_log2
             // 
-            this.input_t0425_log2.Location = new System.Drawing.Point(756, 286);
+            this.input_t0425_log2.Location = new System.Drawing.Point(756, 526);
             this.input_t0425_log2.Name = "input_t0425_log2";
             this.input_t0425_log2.Size = new System.Drawing.Size(262, 21);
             this.input_t0425_log2.TabIndex = 67;
@@ -1033,7 +1033,7 @@
             dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grd_t0425_chegb1.DefaultCellStyle = dataGridViewCellStyle26;
-            this.grd_t0425_chegb1.Location = new System.Drawing.Point(639, 370);
+            this.grd_t0425_chegb1.Location = new System.Drawing.Point(639, 289);
             this.grd_t0425_chegb1.Name = "grd_t0425_chegb1";
             dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
@@ -1117,7 +1117,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(637, 352);
+            this.label21.Location = new System.Drawing.Point(637, 274);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(85, 12);
             this.label21.TabIndex = 69;
@@ -1126,7 +1126,7 @@
             // grd_t0425_chegb1_cnt
             // 
             this.grd_t0425_chegb1_cnt.AutoSize = true;
-            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(725, 352);
+            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(725, 274);
             this.grd_t0425_chegb1_cnt.Name = "grd_t0425_chegb1_cnt";
             this.grd_t0425_chegb1_cnt.Size = new System.Drawing.Size(11, 12);
             this.grd_t0425_chegb1_cnt.TabIndex = 70;

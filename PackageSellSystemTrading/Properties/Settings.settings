@@ -17,7 +17,7 @@
     <Setting Name="ACCOUNT_PW" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="PROGRM_AMT_LIMIT" Type="System.Int64" Scope="User">
+    <Setting Name="PROGRM_AMT_LIMIT" Type="System.Double" Scope="User">
       <Value Profile="(Default)">500000000</Value>
     </Setting>
     <Setting Name="SERVER_INDEX" Type="System.Int32" Scope="User">
@@ -26,11 +26,14 @@
     <Setting Name="ACCOUNT" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="BUY_STOP_RATE" Type="System.Int32" Scope="User">
+    <Setting Name="NEW_BUY_STOP_RATE" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">90</Value>
     </Setting>
-    <Setting Name="MULTI_BUY_POINT" Type="System.Single" Scope="User">
+    <Setting Name="REPEAT_BUY_RATE" Type="System.Single" Scope="User">
       <Value Profile="(Default)">-3</Value>
+    </Setting>
+    <Setting Name="REPEAT_BUY_TERM" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
     </Setting>
   </Settings>
 </SettingsFile>
