@@ -21,17 +21,17 @@ namespace PackageSellSystemTrading{
         public decimal battingAmt;
 
         public ExXASessionClass exXASessionClass;
-        public Xing_t1833 xing_t1833;//조건검색
-        public Xing_t0424 xing_t0424;//잔고2
-        public Xing_t0424_config xing_t0424_config;
-        public Xing_t0425 xing_t0425;//체결/미체결
-        public Xing_t0167 xing_t0167;//
-        public Xing_CSPAT00600 xing_CSPAT00600;//주식주문
-        public Xing_CSPAT00800 xing_CSPAT00800;//현물 취소주문
+        public Xing_t1833 xing_t1833;               //조건검색
+        public Xing_t0424 xing_t0424;               //잔고2
+        public Xing_t0424_config xing_t0424_config; //로그인시 계좌정보
+        public Xing_t0425 xing_t0425;              //체결/미체결
+        public Xing_t0167 xing_t0167;              //시간조회
+        public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
+        public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
         
         //table
         public DataTable dataTable_t0424;
-
+       
         public MainForm(){
             InitializeComponent();
         }
@@ -52,7 +52,7 @@ namespace PackageSellSystemTrading{
             this.xing_t0424.mainForm = this;
             this.xing_t0425 = new Xing_t0425();// 체결/미체결
             this.xing_t0425.mainForm = this;
-            this.xing_t0167 = new Xing_t0167();// 체결/미체결
+            this.xing_t0167 = new Xing_t0167();// 서버시간조회
             this.xing_t0167.mainForm = this;
             this.xing_CSPAT00600 = new Xing_CSPAT00600();// 정상주문
             this.xing_CSPAT00600.mainForm = this;
@@ -64,6 +64,8 @@ namespace PackageSellSystemTrading{
 
             //폼 초기화
             initForm();
+
+
  
         }
 
@@ -98,11 +100,18 @@ namespace PackageSellSystemTrading{
             dataTable_t0424.Columns.Add("sininter", typeof(String)); //신용이자
             dataTable_t0424.Columns.Add("deleteAt", typeof(Boolean)); //삭제여부
 
-        }
-       
+            //체결미체결 그리드 DataSource 설정
+            grd_t0425_chegb1.DataSource = new BindingList<T0425Vo>();//체결 그리드
+            grd_t0425_chegb2.DataSource = new BindingList<T0425Vo>();//미체결 그리드
 
-        //properties 저장
-        private void btn_config_save_Click(object sender, EventArgs e)  {
+            //진입검색 그리드.
+            grd_t1833.DataSource = new BindingList<T1833Vo>();
+
+        }
+
+
+    //properties 저장
+    private void btn_config_save_Click(object sender, EventArgs e)  {
 
 
             // UI 필드 값을 읽어서 변수에 담음 - 비번등은 암호화 시킴
@@ -187,7 +196,9 @@ namespace PackageSellSystemTrading{
             }else{
                 xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             }
-            
+
+            setRowNumber(grd_t0424);
+
         }
 
 
@@ -296,6 +307,51 @@ namespace PackageSellSystemTrading{
 
             }
         }
+
+
+
+        private void grd_t0424_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            //if (e.RowIndex >= 0)
+            //{
+            //    string NumberingText = (e.RowIndex + 1).ToString();
+
+            //    // 글자 사이즈 구하기.
+            //    SizeF stringSize = e.Graphics.MeasureString(NumberingText, Font);
+
+            //    // 글자에 맞춰 좌표계산. 
+            //    PointF StringPoint = new PointF
+            //    (
+            //        Convert.ToSingle(grd_t0424.RowHeadersWidth - 3 - stringSize.Width),
+            //        Convert.ToSingle(e.RowBounds.Y) + grd_t0424[0, e.RowIndex].ContentBounds.Height * 0.3f
+            //    );
+
+            //    // 문자열 그리기.
+            //    e.Graphics.DrawString
+            //    (
+            //        NumberingText
+
+            //        Font,
+            //        Brushes.Black,
+            //        StringPoint.X,
+            //        StringPoint.Y
+            //    );
+            //}
+
+
+        }
+
+        public void setRowNumber(DataGridView dgv){
+            //if (dgv.Rows.Count > 0) dgv.RowHeadersWidth = 50;
+            dgv.RowHeadersWidth = 53;
+            
+            foreach (DataGridViewRow row in dgv.Rows) {
+                row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
+                
+            }
+            //dgv.AutoResizeRowHeadersWidth(  DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+        }
+
     }//end class
 }//end namespace
 

@@ -67,6 +67,7 @@ namespace PackageSellSystemTrading {
             String expcode;//종목코드
             String hname;  //종목명
             String mdposqt;//매도가능
+            String price;//현재가
             float  sunikrt;//수익율
             DataRow tmpDataRow;
             for (int i = 0; i < iCount; i++) {
@@ -74,6 +75,7 @@ namespace PackageSellSystemTrading {
                 hname   = base.GetFieldData("t0424OutBlock1", "hname"  , i); //종목명
                 mdposqt = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
                 sunikrt = float.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
+                price   = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
                 //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
                 dataRowArray = mainForm.dataTable_t0424.Select("expcode = '"+ expcode +"'");
                 if (dataRowArray.Length > 0){
@@ -103,18 +105,17 @@ namespace PackageSellSystemTrading {
                 
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                 if (dataRowArray.Length == 0){
-                    
                     mainForm.dataTable_t0424.Rows.Add(tmpDataRow);
                 }
 
-                //2% 이상 매도
-                if (sunikrt > 2){
+                //수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
+                if (sunikrt > Properties.Settings.Default.SELL_RATE){
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, expcode, mdposqt, "", "1");
-                    Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 ::[" + tmpDataRow["hname"] + "]  수익율:" + sunikrt + "매도.");     
+                    mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, expcode, mdposqt, price, "1");
+                    //Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 ::[" + tmpDataRow["hname"] + "]  수익율:" + sunikrt + "-"+ mdposqt +"주매도.");     
                 }
 
 
@@ -130,8 +131,8 @@ namespace PackageSellSystemTrading {
 
 
             // 계좌정보 써머리 계산 - 연속 조회이기때문에 합산후 마지막에 폼으로 출력.
-            this.tmpMamt += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
-            this.tmpTappamt += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
+            this.tmpMamt     += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
+            this.tmpTappamt  += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
             this.tmpTdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
 
             this.h_totalCount += iCount;
@@ -166,7 +167,7 @@ namespace PackageSellSystemTrading {
                     tmpDataRow = mainForm.dataTable_t0424.Rows[i];
 
                     if ((Boolean)tmpDataRow["deleteAt"] == true){
-                       
+                        Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: 팔린종목 그리드에서 제거");
                         mainForm.dataTable_t0424.Rows[i].Delete();
                         i--;
                     }
@@ -187,9 +188,9 @@ namespace PackageSellSystemTrading {
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage) {
             
             if (nMessageCode == "00000") {
-                ;
+                mainForm.setRowNumber(mainForm.grd_t0424);
             }else {
-                Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage);
+                //Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage);
                 mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }

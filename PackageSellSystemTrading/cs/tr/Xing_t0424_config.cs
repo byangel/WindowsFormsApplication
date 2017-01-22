@@ -76,7 +76,7 @@ namespace PackageSellSystemTrading {
 
                 //this.sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// D1예수금
                 String sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// D1예수금
-
+                //MessageBox.Show(sunamt1);
                 //1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
                 //매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
                 //소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원

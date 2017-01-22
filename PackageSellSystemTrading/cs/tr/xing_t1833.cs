@@ -43,31 +43,36 @@ namespace PackageSellSystemTrading{
 
             //매수종목 검색 그리드 초기화
             mainForm.grd_t1833.Rows.Clear();
-            string[] row = new string[7];
-            int addIndex;
+            
 
-           
+            BindingList<T1833Vo> t1833VoList = (BindingList<T1833Vo>)mainForm.grd_t1833.DataSource;
+
+            
             String shcode;//종목코드
             String hname;//종목명
             String close; //현재가
             //String sunikrt;//수익률
             for (int i = 0; i < iCount; i++) {
+                T1833Vo tmpT1833Vo = new T1833Vo();
+
                 shcode = base.GetFieldData("t1833OutBlock1", "shcode", i);//종목코드
                 close  = base.GetFieldData("t1833OutBlock1", "close", i); //현재가
                 hname  = base.GetFieldData("t1833OutBlock1", "hname", i); //종목명
 
-                row[0] = shcode;//종목코드
-                row[1] = hname; //종목명
-                row[2] = Util.GetNumberFormat(close); //현재가
-                row[3] = base.GetFieldData("t1833OutBlock1", "sign"   , i); //전일대비구분 
-                row[4] = Util.GetNumberFormat(base.GetFieldData("t1833OutBlock1", "change" , i)); //전일대비
-                row[5] = base.GetFieldData("t1833OutBlock1", "diff"   , i); //등락율
-                row[6] = Util.GetNumberFormat(base.GetFieldData("t1833OutBlock1", "volume" , i)); //거래량
-                //row[0] = base.GetFieldData("t1833OutBlock1", "signcnt", i);//연속봉수
-                //1.그리드 데이터 추가
-                addIndex = mainForm.grd_t1833.Rows.Add(row);
 
-                this.buy(shcode, hname, close, addIndex);   
+                tmpT1833Vo.shcode = shcode;//종목코드
+                tmpT1833Vo.hname  = hname; //종목명
+                tmpT1833Vo.close  = Double.Parse(close); //현재가
+                tmpT1833Vo.sign   = base.GetFieldData("t1833OutBlock1", "sign", i); //전일대비구분 
+                tmpT1833Vo.change = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
+                tmpT1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff", i); //등락율
+                tmpT1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+
+                ////1.그리드 데이터 추가
+                //addIndex = mainForm.grd_t1833.Rows.Add(row);
+                t1833VoList.Add(tmpT1833Vo);
+                
+                this.buy(shcode, hname, close, t1833VoList.Count-1);   
             }
 
             mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text+ "]조건검색 응답 완료";
@@ -80,9 +85,9 @@ namespace PackageSellSystemTrading{
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
           
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
-              
+                ;
             } else { 
-                Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
+                //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
                 mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text + "]t1833 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }         
@@ -114,7 +119,7 @@ namespace PackageSellSystemTrading{
 
 
         //진입검색에서 검색된 종목을 매수한다.
-        private Boolean buy(String shcode,String hname, String close, int addIndex){
+        private Boolean buy(String shcode,String hname, String close,int addIndex){
             String time = mainForm.xing_t0167.time;
             //if (time == "" ) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
@@ -129,11 +134,24 @@ namespace PackageSellSystemTrading{
             String expcode; //종목번호
             String ordtime; //주문시간
             int tmpTime;
+
+            //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
+            //BindingList<T0425Vo> t0425VoList_Chegb1 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
+            //var resultList = from t0425VoChegb1 in t0425VoList_Chegb1 where t0425VoChegb1.expcode == shcode select t0425VoChegb1;
+            //if (resultList.Count() > 0)
+            //{
+            //    if (resultList.ElementAt(0).medosu=="매수" && resultList.ElementAt(0).ordrem == "0") 
+            //    {
+            //        Log.WriteLine("t1833 :: [" + hname + "] 금일 1회 매수 제한 초과.");
+            //        return false;
+            //    }
+            //}
+
             for (int i = 0; i < mainForm.xing_t0425.GetBlockCount("t0425OutBlock1"); i++)
             {
 
-                ordrem = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordrem", i);//미체결 잔량 - 매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
-                medosu = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
+                ordrem  = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordrem", i);//미체결 잔량 - 매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
+                medosu  = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
                 expcode = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
                 ordtime = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
                                                                                             //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i+"/"+ medosu);
@@ -145,7 +163,7 @@ namespace PackageSellSystemTrading{
                     //미체결목록 -- 미체결 잔량이 있다면...
                     if (int.Parse(ordrem) > 0)
                     {
-                        Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 :: ["+hname+"] 미체결 잔량 " + ordrem + "주 매수 제한");
+                        Log.WriteLine("t1833 :: ["+hname+"] 미체결 잔량 " + ordrem + "주 매수 제한");
                         return false;
                     }
                     //반복매수 제한-분으로 푼다음 시간을 계산한다.
@@ -153,7 +171,7 @@ namespace PackageSellSystemTrading{
                     tmpTime = (cTime - tmpTime);
                     if (tmpTime < Properties.Settings.Default.REPEAT_BUY_TERM)
                     {
-                        Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 :: [" + hname + "] 금일 반복매수 " + Properties.Settings.Default.REPEAT_BUY_TERM + "분 제한");
+                        Log.WriteLine("t1833 :: [" + hname + "] 금일 반복매수 " + Properties.Settings.Default.REPEAT_BUY_TERM + "분 제한");
                         return false;
                     }
                 }
@@ -166,10 +184,11 @@ namespace PackageSellSystemTrading{
 
             //진입 검색된 종목이 기존 그리드에 존재하면 반복매수 아니면 신규매수
             DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
-
             if (dataRowArray.Length > 0)
             {//보유종목이면..하이라키...
+              
                 mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
+                //Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 :: [" + hname + "] 하이라키 ");
                 //mainForm.grd_t1833.Rows[addIndex].DefaultCellStyle.BackColor = Color.Gray;
                 //Log.WriteLine("t1833 :: " + dataRowArray[0]["hname"]+"/"+ dataRowArray[0]["sunikrt"]);
 
@@ -211,13 +230,31 @@ namespace PackageSellSystemTrading{
             /// <param name="Price">가격</param>
             /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
             int battingAtm = int.Parse(mainForm.textBox_battingAtm.Text);
+            if (close == "0")//임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
+            {
+                Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  현제가 " + close );
+                return false;
+            }
             int Quantity = battingAtm / int.Parse(close);
-            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, shcode, Quantity.ToString(), "", "2");
+            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, shcode, Quantity.ToString(), close, "2");
             Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  "+ Quantity+ "주 매수실행");
-            //Log.WriteLine("t1833.ReceiveDataEventHandler :: ");
+           
             return true;
         }
 
-} //end class 
-   
+
+        
+
+    } //end class 
+
+    public class T1833Vo
+    {
+        public String shcode { set; get; } //종목코드
+        public String hname  { set; get; } //종목명
+        public Double close  { set; get; } //현재가
+        public String sign   { set; get; } //전일대비구분 
+        public String change { set; get; } //전일대비
+        public String diff   { set; get; } //등락율
+        public String volume { set; get; } //거래량
+    }
 }   // end namespace
