@@ -107,6 +107,7 @@ namespace PackageSellSystemTrading{
             //진입검색 그리드.
             grd_t1833.DataSource = new BindingList<T1833Vo>();
 
+
         }
 
 

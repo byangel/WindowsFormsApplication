@@ -61,7 +61,9 @@ namespace PackageSellSystemTrading {
             String ordno;  //주문번호
             BindingList<T0425Vo> t0425VoList_Chegb1 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
             BindingList<T0425Vo> t0425VoList_Chegb2 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
-            for (int i = 0; i < iCount; i++) {
+           
+            for (int i = 0; i < iCount; i++)
+            {
                 T0425Vo tmpT0425Vo = new T0425Vo();
 
                 tmpT0425Vo.ordtime  = base.GetFieldData("t0425OutBlock1", "ordtime" , i); //주문시간
@@ -75,10 +77,12 @@ namespace PackageSellSystemTrading {
                 tmpT0425Vo.ordrem   = base.GetFieldData("t0425OutBlock1", "ordrem"  , i); //미체결잔량
                 tmpT0425Vo.status   = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
                 tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
-                                                                                      
+
                 
-                //미체결목록 -- 미체결 잔량이 있다면...매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
-                if (int.Parse(tmpT0425Vo.ordrem) > 0) {
+                //1.미체결목록 -- 미체결 잔량이 있다면...매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
+                if (int.Parse(tmpT0425Vo.ordrem) > 0)
+                {
+                    
                     //1.그리드 데이터 추가
                     t0425VoList_Chegb2.Add(tmpT0425Vo);
                     //addIndex = mainForm.grd_t0425_chegb2.Rows.Add(row);
@@ -95,13 +99,14 @@ namespace PackageSellSystemTrading {
                         /// <param name="IsuNo">종목번호</param>
                         /// <param name="OrdQty">주문수량</param>
                         mainForm.xing_CSPAT00800.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, tmpT0425Vo.ordno, tmpT0425Vo.expcode, "");
-                        Log.WriteLine("t0425 ::[" + tmpT0425Vo.expcode + "]  " + tmpT0425Vo.hname +" 주문번호:"+ tmpT0425Vo.ordno + " 취소주문");
+                        Log.WriteLine("t0425 ::[" + tmpT0425Vo.expcode + "]  " + tmpT0425Vo.hname + " 주문번호:" + tmpT0425Vo.ordno + " 취소주문");
                     }
                 }
 
-                //매수/매도 체결 내역 그리드 추가 -체결수량이 있다면.
+                //2.매수/매도 체결 내역 그리드 추가 -체결수량이 있다면.
                 //if (medosu == "매수" && int.Parse(cheqty) > 0){
-                if (int.Parse(tmpT0425Vo.cheqty) > 0) {
+                if (int.Parse(tmpT0425Vo.cheqty) > 0)
+                {
                     var resultList = from t0425VoChegb1 in t0425VoList_Chegb1 where t0425VoChegb1.expcode == tmpT0425Vo.expcode select t0425VoChegb1;
 
                     //체결 그리드에 체결항목이있다면 기존 정보 업데이트 해당항목이 없다면 신규 매수 건이므로 그리드에 추가해준다.
@@ -112,17 +117,51 @@ namespace PackageSellSystemTrading {
                         resultList.ElementAt(0).ordrem = tmpT0425Vo.ordrem; //미체결잔량
                         resultList.ElementAt(0).status = tmpT0425Vo.status; //상태
                     }
-                    else{
+                    else
+                    {
                         //체결 그리드에 해당 정보가 없으므로 그리드에 추가해준다.
                         t0425VoList_Chegb1.Insert(0, tmpT0425Vo);
                     }
                     //Log.WriteLine("t1833 ::select kkkkk " + test.Count() + "/" + test.ElementAt(0).hname);
                     chegb1Cnt++;
-
-                    //금일 매수 건에 대하여 기존 종목이 존재하는경우
                 }
 
-            }
+                //3.금일 매수 건에 대하여 기존 종목이 존재하는경우 매도가능 체크후 매도처리한다.
+                // -잔고 그리드에서 금일매수 와 금일 매도 를 뺀후 금일 매수 수량 보다 크면 매도 처리한다.
+                if (tmpT0425Vo.medosu == "매수" && int.Parse(tmpT0425Vo.cheqty) > 0)
+                {
+                    //계좌잔고 그리드에서 해당종목 정보 참조.
+                    DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + tmpT0425Vo.expcode + "'");
+                    if (dataRowArray.Length > 0)
+                    {
+                        //당일매수수량 - 당일매도수량 = 금일매도가능수량
+                        int tmpAt    = (int)dataRowArray[0]["msat"] - (int)dataRowArray[0]["mdat"]; //당일매수금액(매수 수량)
+                        int mdposqt  = (int)dataRowArray[0]["mdposqt"];  //매도가능 수량
+                        String price = (String)dataRowArray[0]["price"]; //현재가
+                        String hname = (String)dataRowArray[0]["price"];//종목명
+
+                        //1.당일매수/매도 차감한 수량 그리고 매도 가능 수량보다 커야한다. -체결수량과 매도가능 수량과 같으면 여기서 매도를 해주지않아도 될듯.  
+                        if (int.Parse(tmpT0425Vo.cheqty) > tmpAt && int.Parse(tmpT0425Vo.cheqty) > mdposqt && int.Parse(tmpT0425Vo.cheqty) != mdposqt)
+                        {
+                            //1.현재가가 금일매도 값보다 2%이상 올랐으면 금일 매수 수량만큼 매도한다.
+                            Double late = ((Double.Parse(tmpT0425Vo.cheprice) / Double.Parse(price)  ) * 100)-100;
+                            if (late > Properties.Settings.Default.SELL_RATE)
+                            {
+                                /// <param name="IsuNo">종목번호</param>
+                                /// <param name="Quantity">수량</param>
+                                /// <param name="Price">가격</param>
+                                /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                                mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, tmpT0425Vo.expcode, tmpT0425Vo.cheprice, price, "1");
+                                Log.WriteLine("t0425 ::"+ hname + "금일매수 매도 [" + tmpT0425Vo.expcode + "]  수익율:" + late + "-" + tmpT0425Vo.cheprice + "주매도.");     
+                            }
+
+                        }
+                        
+
+                    }
+
+                }
+            }//for end
 
 
             String cts_ordno = base.GetFieldData("t0425OutBlock", "cts_ordno", 0);//연속키
@@ -178,12 +217,12 @@ namespace PackageSellSystemTrading {
                 //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
                 //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
-                base.SetFieldData("t0425InBlock", "accno", 0, account);    // 계좌번호
-                base.SetFieldData("t0425InBlock", "passwd", 0, accountPw);  // 비밀번호
-                base.SetFieldData("t0425InBlock", "expcode", 0, "");         // 종목번호
-                base.SetFieldData("t0425InBlock", "chegb", 0, "0");        // 체결구분 - 0:전체|1:체결|2|미체결
-                base.SetFieldData("t0425InBlock", "medosu", 0, "0");        // 매매구분 - 0:전체|1:매수|2:매도  
-                base.SetFieldData("t0425InBlock", "sortgb", 0, "1");        // 정렬순서
+                base.SetFieldData("t0425InBlock", "accno"    , 0, account);    // 계좌번호
+                base.SetFieldData("t0425InBlock", "passwd"   , 0, accountPw);  // 비밀번호
+                base.SetFieldData("t0425InBlock", "expcode"  , 0, "");         // 종목번호
+                base.SetFieldData("t0425InBlock", "chegb"    , 0, "0");        // 체결구분 - 0:전체|1:체결|2|미체결
+                base.SetFieldData("t0425InBlock", "medosu"   , 0, "0");        // 매매구분 - 0:전체|1:매수|2:매도  
+                base.SetFieldData("t0425InBlock", "sortgb"   , 0, "1");        // 정렬순서
                 base.SetFieldData("t0425InBlock", "cts_ordno", 0, "");         // 주문번호
 
                 // 계좌잔고 그리드 초기화
