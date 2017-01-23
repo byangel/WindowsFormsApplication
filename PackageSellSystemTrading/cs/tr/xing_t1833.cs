@@ -154,8 +154,7 @@ namespace PackageSellSystemTrading{
                 medosu  = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
                 expcode = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
                 ordtime = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
-                                                                                            //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i+"/"+ medosu);
-
+                                                                                            //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i+"/"+ medosu)
                 //검색된 종목이 금일 매수이력에 있다면.
                 if (medosu == "매수" && expcode == shcode)
                 {

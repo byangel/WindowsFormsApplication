@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -63,7 +64,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -73,6 +73,13 @@
             this.btn_login = new System.Windows.Forms.Button();
             this.btn_config_save = new System.Windows.Forms.Button();
             this.grd_t1833 = new System.Windows.Forms.DataGridView();
+            this.shcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.close = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sign = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.change = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.diff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_search = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.combox_targetServer = new System.Windows.Forms.ComboBox();
@@ -163,13 +170,6 @@
             this.dataGridViewTextBoxColumn26 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label21 = new System.Windows.Forms.Label();
             this.grd_t0425_chegb1_cnt = new System.Windows.Forms.Label();
-            this.shcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.close = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sign = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.change = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.diff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425_chegb2)).BeginInit();
@@ -287,6 +287,62 @@
             this.grd_t1833.RowTemplate.Height = 23;
             this.grd_t1833.Size = new System.Drawing.Size(280, 315);
             this.grd_t1833.TabIndex = 13;
+            // 
+            // shcode
+            // 
+            this.shcode.DataPropertyName = "shcode";
+            this.shcode.FillWeight = 24.82159F;
+            this.shcode.HeaderText = "코드";
+            this.shcode.Name = "shcode";
+            this.shcode.Width = 70;
+            // 
+            // hname
+            // 
+            this.hname.DataPropertyName = "hname";
+            this.hname.FillWeight = 34.36586F;
+            this.hname.HeaderText = "종목명";
+            this.hname.Name = "hname";
+            // 
+            // close
+            // 
+            this.close.DataPropertyName = "close";
+            dataGridViewCellStyle2.Format = "###,##0";
+            this.close.DefaultCellStyle = dataGridViewCellStyle2;
+            this.close.FillWeight = 49.17073F;
+            this.close.HeaderText = "현재가";
+            this.close.Name = "close";
+            this.close.Width = 70;
+            // 
+            // sign
+            // 
+            this.sign.DataPropertyName = "sign";
+            this.sign.FillWeight = 72.13579F;
+            this.sign.HeaderText = "구분";
+            this.sign.Name = "sign";
+            this.sign.Width = 60;
+            // 
+            // change
+            // 
+            this.change.DataPropertyName = "change";
+            this.change.FillWeight = 107.7587F;
+            this.change.HeaderText = "전일대비";
+            this.change.Name = "change";
+            // 
+            // diff
+            // 
+            this.diff.DataPropertyName = "diff";
+            this.diff.FillWeight = 163.0164F;
+            this.diff.HeaderText = "등락율";
+            this.diff.Name = "diff";
+            this.diff.Width = 70;
+            // 
+            // volume
+            // 
+            this.volume.DataPropertyName = "volume";
+            this.volume.FillWeight = 248.731F;
+            this.volume.HeaderText = "거래량";
+            this.volume.Name = "volume";
+            this.volume.Width = 70;
             // 
             // btn_search
             // 
@@ -1034,6 +1090,7 @@
             this.grd_t0425_chegb1.RowTemplate.Height = 23;
             this.grd_t0425_chegb1.Size = new System.Drawing.Size(379, 203);
             this.grd_t0425_chegb1.TabIndex = 68;
+            this.grd_t0425_chegb1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.grd_t0425_chegb1_RowsAdded);
             // 
             // dataGridViewTextBoxColumn17
             // 
@@ -1119,62 +1176,6 @@
             this.grd_t0425_chegb1_cnt.Size = new System.Drawing.Size(11, 12);
             this.grd_t0425_chegb1_cnt.TabIndex = 70;
             this.grd_t0425_chegb1_cnt.Text = "0";
-            // 
-            // shcode
-            // 
-            this.shcode.DataPropertyName = "shcode";
-            this.shcode.FillWeight = 24.82159F;
-            this.shcode.HeaderText = "코드";
-            this.shcode.Name = "shcode";
-            this.shcode.Width = 70;
-            // 
-            // hname
-            // 
-            this.hname.DataPropertyName = "hname";
-            this.hname.FillWeight = 34.36586F;
-            this.hname.HeaderText = "종목명";
-            this.hname.Name = "hname";
-            // 
-            // close
-            // 
-            this.close.DataPropertyName = "close";
-            dataGridViewCellStyle2.Format = "###,##0";
-            this.close.DefaultCellStyle = dataGridViewCellStyle2;
-            this.close.FillWeight = 49.17073F;
-            this.close.HeaderText = "현재가";
-            this.close.Name = "close";
-            this.close.Width = 70;
-            // 
-            // sign
-            // 
-            this.sign.DataPropertyName = "sign";
-            this.sign.FillWeight = 72.13579F;
-            this.sign.HeaderText = "구분";
-            this.sign.Name = "sign";
-            this.sign.Width = 60;
-            // 
-            // change
-            // 
-            this.change.DataPropertyName = "change";
-            this.change.FillWeight = 107.7587F;
-            this.change.HeaderText = "전일대비";
-            this.change.Name = "change";
-            // 
-            // diff
-            // 
-            this.diff.DataPropertyName = "diff";
-            this.diff.FillWeight = 163.0164F;
-            this.diff.HeaderText = "등락율";
-            this.diff.Name = "diff";
-            this.diff.Width = 70;
-            // 
-            // volume
-            // 
-            this.volume.DataPropertyName = "volume";
-            this.volume.FillWeight = 248.731F;
-            this.volume.HeaderText = "거래량";
-            this.volume.Name = "volume";
-            this.volume.Width = 70;
             // 
             // MainForm
             // 

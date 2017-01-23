@@ -353,6 +353,22 @@ namespace PackageSellSystemTrading{
             //dgv.AutoResizeRowHeadersWidth(  DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
+        private void grd_t0425_chegb1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            // grd_t0425_chegb1.Rows[e.RowIndex].Cells["shcode"].Style.BackColor = Color.Gray;
+
+            String tmpMedosu =   (String)grd_t0425_chegb1.Rows[e.RowIndex].Cells[2].Value;
+            if (tmpMedosu == "매수" )
+            {
+                grd_t0425_chegb1.Rows[e.RowIndex].Cells[2].Style.ForeColor = Color.Red;
+            }
+            else
+            {
+                grd_t0425_chegb1.Rows[e.RowIndex].Cells[2].Style.ForeColor = Color.Blue;
+            }
+           
+
+        }
     }//end class
 }//end namespace
 
