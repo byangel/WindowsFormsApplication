@@ -159,7 +159,12 @@ namespace PackageSellSystemTrading{
             xing_t1833.call_request("Condition.ADF");
         }
 
-
+        private void btn_logout_Click(object sender, EventArgs e)
+        {
+            this.exXASessionClass.DisconnectServer();
+            // 로그인 버튼 활성
+            this.btn_login.Enabled = true;
+        }
         //로그인 버튼 클릭 이벤트
         private void btn_login_click(object sender, EventArgs e)
         {
@@ -179,10 +184,18 @@ namespace PackageSellSystemTrading{
                 case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
             }
             //MessageBox.Show(mServerAddress);
+            //이미접속이되어있으면접속을끊는다
+            //if (exXASessionClass.IsConnected())
+            //{
+                this.exXASessionClass.DisconnectServer();//무조건 끊었다가 접속
+            //}
             //서버접속
-            if (exXASessionClass.IsConnected() == false){
-                this.exXASessionClass.ConnectServer(mServerAddress, 20001);
-            }
+            //if (exXASessionClass.IsConnected() == false){
+                if (!this.exXASessionClass.ConnectServer(mServerAddress, 20001))
+                {
+                    MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
+                }
+           // }
 
             // 로그인 호출
             bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
@@ -206,9 +219,7 @@ namespace PackageSellSystemTrading{
         //주문
         private void btn_buyTest_Click(object sender, EventArgs e)
         {
-            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == ""){
-                MessageBox.Show("계좌 정보가 없습니다.");
-            }else{
+            
                 /// <summary>
                 /// 현물정상주문
                 /// </summary>
@@ -216,9 +227,9 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>  
-                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "003060", "238", "4000", "1");
+                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw,"", "003060", "238", "4000", "1");
                 //xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "048870", "235" , "4000", "1");//
-            }
+         
  
         }
 
@@ -246,10 +257,49 @@ namespace PackageSellSystemTrading{
         //시작버튼 클릭 이벤트
         private void btn_start_Click(object sender, EventArgs e)
         {
-            timer_enterSearch.Enabled    = true;
-            timer_accountSearch.Enabled = true;
-            btn_start.Enabled = false;
-            btn_stop.Enabled  = true;
+            if (this.exXASessionClass.IsConnected())
+            {
+                if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
+                {
+                        //MessageBox.Show("계좌 정보가 없습니다.");
+                        AccountForm accountForm = new AccountForm(exXASessionClass);
+                        accountForm.ShowDialog();
+                        
+                        //세션클래스에 있는거 그대로 가져왔다.
+                        if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
+                        {
+                            MessageBox.Show("계좌 및 계좌 비밀번호를 설정해주세요.");
+                        }
+                        else
+                        {
+                            //로그인후 프로그램 초기화.
+                            // 계좌정보 조회.
+                            //mainForm.xing_t0424.call_request(this.account, this.accountPw);
+                            //설정 저장버튼 활성화 
+                            this.btn_config_save.Enabled = true;
+
+                            // 계좌정보 조회.
+                            //xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+                            this.xing_t0424_config.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+
+                            //날자 및 시간 타이머 시작.
+                            this.timer_dateTime.Enabled = true;
+                        }
+                }
+                else
+                {
+                
+                    timer_enterSearch.Enabled = true;//진입검색 타이머
+                    timer_accountSearch.Enabled = true;//계좌 및 미체결 검색 타이머
+                    btn_start.Enabled = false;
+                    btn_stop.Enabled = true;
+
+                }
+            }else
+            {
+                MessageBox.Show("서버접속정보가 없습니다.");
+            }
+
         }
        
 
@@ -267,18 +317,11 @@ namespace PackageSellSystemTrading{
 
         //타이머 진입검색
         private void timer_enterSearch_Tick(object sender, EventArgs e){
-            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
-            {
-                timer_enterSearch.Enabled = false;
-                btn_stop.Enabled = false;//종료버튼 활성
-                btn_start.Enabled = true;//시작버튼 비활성
-                MessageBox.Show("계좌 정보가 없습니다.");
-            }else{
-         
+           
                 //조건검색
-                xing_t1833.call_request("Condition.ADF");
-               
-            }
+                xing_t1833.call_request("condition.ADF");
+                //xing_t1833.call_request("conSeven.ADF");
+          
         }
 
         //서버 시간
@@ -289,24 +332,12 @@ namespace PackageSellSystemTrading{
 
         //타이머 계좌정보
         private void timer_accountSearch_Tick(object sender, EventArgs e)
-        {
-            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
-            {
-                timer_enterSearch.Enabled = false;
-                btn_stop.Enabled = false;//종료버튼 활성
-                btn_start.Enabled = true;//시작버튼 비활성
-                MessageBox.Show("계좌 정보가 없습니다.");
-            }
-            else
-            {
-
-                //주식잔고2
-                xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
-                //미체결내역
-                xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
-                //Log.WriteLine("xing_t1833:");
-
-            }
+        {   
+            //주식잔고2
+            xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            //미체결내역
+            xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            //Log.WriteLine("xing_t1833:");
         }
 
 
@@ -356,19 +387,19 @@ namespace PackageSellSystemTrading{
         private void grd_t0425_chegb1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             // grd_t0425_chegb1.Rows[e.RowIndex].Cells["shcode"].Style.BackColor = Color.Gray;
-
-            String tmpMedosu =   (String)grd_t0425_chegb1.Rows[e.RowIndex].Cells[2].Value;
-            if (tmpMedosu == "매수" )
-            {
-                grd_t0425_chegb1.Rows[e.RowIndex].Cells[2].Style.ForeColor = Color.Red;
-            }
-            else
-            {
-                grd_t0425_chegb1.Rows[e.RowIndex].Cells[2].Style.ForeColor = Color.Blue;
-            }
+            //MessageBox.Show(grd_t0425_chegb1.Rows.Count.ToString()+"/"+ e.RowIndex);
+            //Log.WriteLine("grd_t0425_chegb1_RowsAdded" + grd_t0425_chegb1.Rows.Count + "/" + e.RowIndex);
            
-
+            //폴로드시 데이타소스 개개체를 new 하고 삽입하면 이벤트가 3번일어나서 에러난다.첨엔 잘됐었는데 뭐가 문제인지 모르겠다.
+            //String tmpMedosu = (String)grd_t0425_chegb1.Rows[0].Cells[1].Value;//거래구분   
+            //if (tmpMedosu == "매수"){
+            //    grd_t0425_chegb1.Rows[0].Cells[1].Style.ForeColor = Color.Red;
+            //}else{
+            //    grd_t0425_chegb1.Rows[0].Cells[1].Style.ForeColor = Color.Blue;
+            //}
         }
+
+       
     }//end class
 }//end namespace
 

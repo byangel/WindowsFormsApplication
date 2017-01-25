@@ -65,7 +65,7 @@ namespace PackageSellSystemTrading{
         /// <param name="Quantity">수량</param>
         /// <param name="Price">가격</param>
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_request(String account, String accountPw, String IsuNo, String Quantity, String Price, String DivideBuySell)
+        public void call_request(String account, String accountPw,String msg, String IsuNo, String Quantity, String Price, String DivideBuySell)
         {
             this.IsuNo = IsuNo;
             //모의투자 여부 구분하여 모의투자이면 A+종목번호
@@ -92,7 +92,14 @@ namespace PackageSellSystemTrading{
                 if (accountPw == "" || account == ""){
                     MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
                 }else{
-                    base.Request(false);  //연속조회일경우 true
+                    //if (int.Parse(mainForm.xing_t0167.time.Substring(0, 2)) > 9 && int.Parse(mainForm.xing_t0167.time.Substring(0, 2)) < 14)
+                    //{
+                        base.Request(false);  //연속조회일경우 true
+                        Log.WriteLine(msg);
+                  //  }
+                  //  else {
+                   //     mainForm.tempLog.Text = "["+mainForm.input_time.Text+"]정규매매장이 종료 되었습니다.";
+                 //   }
             
                 }
 

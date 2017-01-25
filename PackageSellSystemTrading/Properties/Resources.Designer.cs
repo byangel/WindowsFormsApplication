@@ -59,35 +59,5 @@ namespace PackageSellSystemTrading.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] _6만급등족목_70_ {
-            get {
-                object obj = ResourceManager.GetObject("_6만급등족목_70_", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] _6만급등종목 {
-            get {
-                object obj = ResourceManager.GetObject("_6만급등종목", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Condition {
-            get {
-                object obj = ResourceManager.GetObject("Condition", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

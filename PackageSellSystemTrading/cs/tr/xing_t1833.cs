@@ -121,14 +121,16 @@ namespace PackageSellSystemTrading{
         //진입검색에서 검색된 종목을 매수한다.
         private Boolean buy(String shcode,String hname, String close,int addIndex){
             String time = mainForm.xing_t0167.time;
-            //if (time == "" ) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
-            int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
+            //if (time == "" ) { time = "153000"; }//에러 안나게 기본값을 셋팅해준다.
+            int cTime = (int.Parse(time.Substring(0, 2)) * 60 * 60) + (int.Parse(time.Substring(2, 2))*60) + (int.Parse(time.Substring(4, 2)));//현재 시간
 
             //1.미체결항목에 매수 항목이 있는지 확인하자.
             //2.반복매수 - 보유종목 매수 시기가 1시간이상 이전이고 수익률이 -3% 이하이면 반복매수한다.
             //3.실자본금 또는 보유금액 대비 95% 이상 매입이 이루어 졌을경우 신규 매수하지 않는다.
             //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
-            Boolean shcodeInT0425At = false;//미체결 항목 여부
+
+            String toDayBuyAt="";//금일 매수여부
+            String accountAt="";//잔고 존재여부
             String ordrem;  //미체결잔량
             String medosu;  //매매구분 - 0:전체|1:매수|2:매도
             String expcode; //종목번호
@@ -149,43 +151,44 @@ namespace PackageSellSystemTrading{
 
             for (int i = 0; i < mainForm.xing_t0425.GetBlockCount("t0425OutBlock1"); i++)
             {
-
+                toDayBuyAt="";//금일 매수여부
+               
                 ordrem  = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordrem", i);//미체결 잔량 - 매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
                 medosu  = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
                 expcode = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
                 ordtime = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
-                                                                                            //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i+"/"+ medosu)
-                //검색된 종목이 금일 매수이력에 있다면.
+                //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i+"/"+ medosu)
+                //미체결 이력에 있다면 return false;
+
+                //미체결 내역 있다면 매수제한.
+                if (medosu == "매수" && expcode == shcode && int.Parse(ordrem) > 0)
+                {
+                    Log.WriteLine("t1833 :: [" + hname + "] 미체결 잔량 " + ordrem + "주 매수 제한");
+                    return false;
+                }
+
+                //반복매수 시간 제한.
                 if (medosu == "매수" && expcode == shcode)
                 {
 
-                    //미체결목록 -- 미체결 잔량이 있다면...
-                    if (int.Parse(ordrem) > 0)
-                    {
-                        Log.WriteLine("t1833 :: ["+hname+"] 미체결 잔량 " + ordrem + "주 매수 제한");
-                        return false;
-                    }
                     //반복매수 제한-분으로 푼다음 시간을 계산한다.
-                    tmpTime = (int.Parse(ordtime.Substring(0, 2)) * 60) + int.Parse(ordtime.Substring(2, 2));
+                    tmpTime = (int.Parse(ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(ordtime.Substring(2, 2))*60) + (int.Parse(ordtime.Substring(4, 2)));
                     tmpTime = (cTime - tmpTime);
-                    if (tmpTime < Properties.Settings.Default.REPEAT_BUY_TERM)
+                    if (tmpTime < (Properties.Settings.Default.REPEAT_BUY_TERM * 60))
                     {
-                        Log.WriteLine("t1833 :: [" + hname + "] 금일 반복매수 " + Properties.Settings.Default.REPEAT_BUY_TERM + "분 제한");
+                        //Log.WriteLine("t1833 :: [" + hname + "] (" + time + ")" + cTime + "-" + "(" + ordtime + ")" + ordMTime + "=" + (cTime - ordMTime));
+                        Log.WriteLine("t1833 :: [" + hname + "] 금일 반복매수 " +tmpTime+"초 <" + (Properties.Settings.Default.REPEAT_BUY_TERM * 60) + "초 제한");
                         return false;
                     }
+                    toDayBuyAt = "금일매수함";
                 }
-
-                //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i + "/" + medosu + "/"+ ordtime);
-                shcodeInT0425At = true;
-                //Log.WriteLine("t1833 :: " + "/(" + time+")"+cTime + "-" + "("+ordtime+")"+ordMTime + "=" + (cTime- ordMTime));
-
             }
 
-            //진입 검색된 종목이 기존 그리드에 존재하면 반복매수 아니면 신규매수
+            //진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
             DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
             if (dataRowArray.Length > 0)
             {//보유종목이면..하이라키...
-              
+                accountAt = "반복매수";
                 mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
                 //Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 :: [" + hname + "] 하이라키 ");
                 //mainForm.grd_t1833.Rows[addIndex].DefaultCellStyle.BackColor = Color.Gray;
@@ -199,10 +202,11 @@ namespace PackageSellSystemTrading{
                     Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 :: [" + hname + "] 반복매수 " + sunikrt + ">" + Properties.Settings.Default.REPEAT_BUY_RATE + "% 제한");
                     return false;
                 }
+                   
 
             }
             else{//보유종목이 아니고 신규매수해야 한다면.
-
+                accountAt = "신규매수";
                 //자본금 = 매입금액 + 예수금 
                 Double tmpAmt = this.mainForm.xing_t0424.mamt + this.mainForm.xing_t0424.sunamt1;
                    
@@ -218,12 +222,13 @@ namespace PackageSellSystemTrading{
                     Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  자본금 대비 투자율 " + tmpAmt + ">" + Properties.Settings.Default.NEW_BUY_STOP_RATE + "% 제한");
                     return false;
                 }
+                
             }
 
 
-            
-            
             //3.매수
+            
+            
             /// <param name="IsuNo">종목번호</param>
             /// <param name="Quantity">수량</param>
             /// <param name="Price">가격</param>
@@ -234,10 +239,12 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  현제가 " + close );
                 return false;
             }
+          
             int Quantity = battingAtm / int.Parse(close);
-            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, shcode, Quantity.ToString(), close, "2");
-            Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  "+ Quantity+ "주 매수실행");
+            String buyMsg = "[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  " + accountAt + "/" + Quantity + "주 매수실행";
+            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
            
+      
             return true;
         }
 

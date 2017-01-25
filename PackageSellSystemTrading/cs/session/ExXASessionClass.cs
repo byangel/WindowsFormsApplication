@@ -44,7 +44,7 @@ namespace PackageSellSystemTrading {
                 //Log.WriteLine(szCode + " :: " + szMsg);
 
                 // 로그인 버튼 비활성
-                //mainForm.ButtonLogin.Enabled = false;
+                mainForm.btn_login.Enabled = false;
 
                 // 자동로그인 타이머 멈춤
                 //mainForm.TimerLogin.Stop();

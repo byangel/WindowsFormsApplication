@@ -109,16 +109,18 @@ namespace PackageSellSystemTrading {
                 }
 
                 //수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
-                if (sunikrt > Properties.Settings.Default.SELL_RATE){
+                if (int.Parse((String)tmpDataRow["mdposqt"]) > 0 && sunikrt > Properties.Settings.Default.SELL_RATE )
+                {
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, expcode, mdposqt, price, "1");
-                    //Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 ::[" + tmpDataRow["hname"] + "]  수익율:" + sunikrt + "-"+ mdposqt +"주매도.");     
+                    String buyMst = "[" + mainForm.input_time.Text + "]t0424 ::[" + tmpDataRow["hname"] + "]  수익율:" + sunikrt + "%   " + mdposqt + "주매도.";
+                    mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMst, expcode, mdposqt, price, "1");
+                    tmpDataRow["mdposqt"] = 0;
+
+
                 }
-
-
 
                 //if ((i % 2) == 0)
                 // {
