@@ -98,19 +98,13 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		public void call_request(string conditionFileName){
 
-            
             if (completeAt) {
-                //MessageBox.Show("1");
                 //폼 메세지.
                 completeAt = false;//중복호출 방지
                 mainForm.input_t1833_log1.Text = "[" + mainForm.input_time.Text + "]조건검색 요청.";
                 //Thread.Sleep(1000);
-
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
                 base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
-
-                //mainForm.input_t1833_log2.Text = "대기";
-
             } else {
                 mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
                 //mainForm.input_t1833_log2.Text = "대기";
@@ -130,11 +124,11 @@ namespace PackageSellSystemTrading{
             //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
 
             String toDayBuyAt="";//금일 매수여부
-            String accountAt="";//잔고 존재여부
-            String ordrem;  //미체결잔량
-            String medosu;  //매매구분 - 0:전체|1:매수|2:매도
-            String expcode; //종목번호
-            String ordtime; //주문시간
+            String accountAt ="";//잔고 존재여부
+            String ordrem;       //미체결잔량
+            String medosu;       //매매구분 - 0:전체|1:매수|2:매도
+            String expcode;      //종목번호
+            String ordtime;      //주문시간
             int tmpTime;
 
             //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
@@ -148,7 +142,9 @@ namespace PackageSellSystemTrading{
             //        return false;
             //    }
             //}
-
+            //계좌잔고목록
+            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+            T0424Vo tmpT0424Vo;
             for (int i = 0; i < mainForm.xing_t0425.GetBlockCount("t0425OutBlock1"); i++)
             {
                 toDayBuyAt="";//금일 매수여부
@@ -185,16 +181,17 @@ namespace PackageSellSystemTrading{
             }
 
             //진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
-            DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
-            if (dataRowArray.Length > 0)
-            {//보유종목이면..하이라키...
+            var result = from item in t0424VoList
+                         where item.expcode == shcode
+                         select item;
+           
+            //DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
+            if (result.Count() > 0){   
+                //보유종목이면..하이라키...
                 accountAt = "반복매수";
                 mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
-                //Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 :: [" + hname + "] 하이라키 ");
-                //mainForm.grd_t1833.Rows[addIndex].DefaultCellStyle.BackColor = Color.Gray;
-                //Log.WriteLine("t1833 :: " + dataRowArray[0]["hname"]+"/"+ dataRowArray[0]["sunikrt"]);
-
-                String sunikrt = (String)dataRowArray[0]["sunikrt"];//기존 종목 수익률
+        
+                String sunikrt = (String)result.ElementAt(0).sunikrt;//기존 종목 수익률
 
                 //수익율이 -3% 이하이면 반복매수 해주자.
                 if (float.Parse(sunikrt) > Properties.Settings.Default.REPEAT_BUY_RATE)

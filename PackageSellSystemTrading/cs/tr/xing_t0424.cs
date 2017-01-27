@@ -59,10 +59,14 @@ namespace PackageSellSystemTrading {
   
             String cts_expcode = base.GetFieldData("t0424OutBlock", "cts_expcode", 0);//CTS_종목번호-연속조회키
 
-
             //1.계좌 잔고 목록을 그리드에 추가
             int iCount = base.GetBlockCount("t0424OutBlock1");
- 
+
+            //계좌잔고목록
+            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+
+
+
             DataRow[] dataRowArray;
             String expcode;//종목코드
             String hname;  //종목명
@@ -70,54 +74,66 @@ namespace PackageSellSystemTrading {
             String price;//현재가
             float  sunikrt;//수익율
             DataRow tmpDataRow;
+            T0424Vo tmpT0424Vo;
             for (int i = 0; i < iCount; i++) {
                 expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
                 hname   = base.GetFieldData("t0424OutBlock1", "hname"  , i); //종목명
                 mdposqt = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
                 sunikrt = float.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
                 price   = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
-                //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
-                dataRowArray = mainForm.dataTable_t0424.Select("expcode = '"+ expcode +"'");
-                if (dataRowArray.Length > 0){
-                    tmpDataRow = dataRowArray[0];
-                }else{
-                    tmpDataRow = mainForm.dataTable_t0424.NewRow();
-                }
-          
-                tmpDataRow["expcode"]  = base.GetFieldData("t0424OutBlock1", "expcode" , i); //종목코드
-                tmpDataRow["hname"]    = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
-                tmpDataRow["mdposqt"]  = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
-                tmpDataRow["price"]    = base.GetFieldData("t0424OutBlock1", "price"   , i); //현재가
-                tmpDataRow["appamt"]   = base.GetFieldData("t0424OutBlock1", "appamt"  , i); //평가금액
-                tmpDataRow["dtsunik"]  = base.GetFieldData("t0424OutBlock1", "dtsunik" , i); //평가손익
-                tmpDataRow["sunikrt"]  = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
-                tmpDataRow["pamt"]     = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
-                tmpDataRow["mamt"]     = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
-                tmpDataRow["msat"]     = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
-                //newrow["mpms"]     = base.GetFieldData("t0424OutBlock1", "mpms"  , i); //당일매수단가
-                tmpDataRow["mdat"]     = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
-                //newrow["mpmd"]     = base.GetFieldData("t0424OutBlock1", "mpmd"  , i); //당일매도단가
-                tmpDataRow["fee"]      = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
-                tmpDataRow["tax"]      = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
-                tmpDataRow["sininter"] = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
-                tmpDataRow["deleteAt"] = false; //삭제여부
+                ////////////////////////////////
+                var result =  from item in t0424VoList
+                                 where item.expcode == expcode
+                                select item;
+                if (result.Count() > 0){
+                    tmpT0424Vo = result.ElementAt(0);
+                }else{
+                    tmpT0424Vo = new T0424Vo();
+                }
+                ///////////////////////////////
+                //종목이 기존 그리드에 존재여부에따라 row 추가 또는 수정 분기를 해준다.
+                //    dataRowArray = mainForm.dataTable_t0424.Select("expcode = '"+ expcode +"'");
+                //if (dataRowArray.Length > 0){
+                //    tmpDataRow = dataRowArray[0];
+                //}else{
+                //    tmpDataRow = mainForm.dataTable_t0424.NewRow();
+                //}
+
+                tmpT0424Vo.expcode = base.GetFieldData("t0424OutBlock1", "expcode" , i); //종목코드
+                tmpT0424Vo.hname   = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
+                tmpT0424Vo.mdposqt = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
+                tmpT0424Vo.price   = base.GetFieldData("t0424OutBlock1", "price"   , i); //현재가
+                tmpT0424Vo.appamt  = base.GetFieldData("t0424OutBlock1", "appamt"  , i); //평가금액
+                tmpT0424Vo.dtsunik = base.GetFieldData("t0424OutBlock1", "dtsunik" , i); //평가손익
+                tmpT0424Vo.sunikrt = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
+                tmpT0424Vo.pamt    = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
+                tmpT0424Vo.mamt    = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
+                tmpT0424Vo.msat    = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
+                tmpT0424Vo.mpms    = base.GetFieldData("t0424OutBlock1", "mpms"  , i); //당일매수단가
+                tmpT0424Vo.mdat    = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
+                tmpT0424Vo.mpmd    = base.GetFieldData("t0424OutBlock1", "mpmd"  , i); //당일매도단가
+                tmpT0424Vo.fee     = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
+                tmpT0424Vo.tax     = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
+                tmpT0424Vo.sininter= base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
+
+                tmpT0424Vo.deleteAt = false; //삭제여부
                 
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
-                if (dataRowArray.Length == 0){
-                    mainForm.dataTable_t0424.Rows.Add(tmpDataRow);
+                if (result.Count() == 0){
+                    t0424VoList.Add(tmpT0424Vo);
                 }
 
                 //수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
-                if (int.Parse((String)tmpDataRow["mdposqt"]) > 0 && sunikrt > Properties.Settings.Default.SELL_RATE )
+                if (int.Parse((String)tmpT0424Vo.mdposqt) > 0 && sunikrt > Properties.Settings.Default.SELL_RATE )
                 {
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    String buyMst = "[" + mainForm.input_time.Text + "]t0424 ::[" + tmpDataRow["hname"] + "]  수익율:" + sunikrt + "%   " + mdposqt + "주매도.";
+                    String buyMst = "[" + mainForm.input_time.Text + "]t0424 ::[" + tmpT0424Vo.hname + "]  수익율:" + sunikrt + "%   " + mdposqt + "주매도.";
                     mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMst, expcode, mdposqt, price, "1");
-                    tmpDataRow["mdposqt"] = 0;
+                    tmpT0424Vo.mdposqt = "0";
 
 
                 }
@@ -165,20 +181,19 @@ namespace PackageSellSystemTrading {
 
 
                 //목록에 없는 종목 그리드에서 삭제.
-                for (int i = 0; i < mainForm.dataTable_t0424.Rows.Count; i++){
-                    tmpDataRow = mainForm.dataTable_t0424.Rows[i];
+                for (int i = 0; i < t0424VoList.Count; i++){
+                    tmpT0424Vo = t0424VoList.ElementAt(i);
 
-                    if ((Boolean)tmpDataRow["deleteAt"] == true){
+                    if (tmpT0424Vo.deleteAt == true){
                         Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: 팔린종목 그리드에서 제거");
-                        mainForm.dataTable_t0424.Rows[i].Delete();
+                        t0424VoList.RemoveAt(i);
                         i--;
                     }
-                    tmpDataRow["deleteAt"] = true;
+                    tmpT0424Vo.deleteAt = true;
                 }
 
                 //로그 및 중복 요청 처리
                 mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: 잔고조회 완료";
-                //mainForm.input_t0424_log.Text = "잔고조회 요청을 완료 하였습니다.";
 
                 //응답처리 완료
                 completeAt = true;   
@@ -242,6 +257,26 @@ namespace PackageSellSystemTrading {
 
     } //end class 
 
+    public class T0424Vo
+    {
+        public String expcode   { set; get; } //종목코드
+        public String hname     { set; get; } //종목명
+        public String mdposqt   { set; get; } //매도가능
+        public String price     { set; get; } //현재가
+        public String appamt    { set; get; } //평가금액
+        public String dtsunik   { set; get; } //평가손익
+        public String sunikrt   { set; get; } //수익율
+        public String pamt      { set; get; } //평균단가
+        public String mamt      { set; get; } //매입금액
+        public String msat      { set; get; } //당일매수금액
+        public String mpms      { set; get; } //당일매수단가
+        public String mdat      { set; get; } //당일매도금액
+        public String mpmd      { set; get; } //당일매도단가
+        public String fee       { set; get; } //수수료
+        public String tax       { set; get; } //제세금
+        public String sininter  { set; get; } //신용이자
+        public Boolean deleteAt { set; get; } //삭제여부
 
-   
+    }
+
 }   // end namespace

@@ -29,8 +29,7 @@ namespace PackageSellSystemTrading{
         public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
         public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
         
-        //table
-        public DataTable dataTable_t0424;
+        
        
         public MainForm(){
             InitializeComponent();
@@ -80,25 +79,8 @@ namespace PackageSellSystemTrading{
             combox_targetServer.SelectedIndex = Properties.Settings.Default.SERVER_INDEX;
 
             //계좌잔고 그리드 초기화
-            dataTable_t0424 = new DataTable("dataTable_t0424");
-            grd_t0424.DataSource = dataTable_t0424;
-            dataTable_t0424.Columns.Add("expcode" , typeof(String)); //코드
-            dataTable_t0424.Columns.Add("hname"   , typeof(String)); //종목명
-            dataTable_t0424.Columns.Add("mdposqt" , typeof(String)); //매도가능
-            dataTable_t0424.Columns.Add("price"   , typeof(int));    //현재가
-            dataTable_t0424.Columns.Add("appamt"  , typeof(int));    //평가금액
-            dataTable_t0424.Columns.Add("dtsunik" , typeof(int));    //평가손익
-            dataTable_t0424.Columns.Add("sunikrt" , typeof(String)); //수익율
-            dataTable_t0424.Columns.Add("pamt"    , typeof(int));    //평균단가
-            dataTable_t0424.Columns.Add("mamt"    , typeof(int));    //매입금액
-            dataTable_t0424.Columns.Add("msat"    , typeof(int));    //당일매수금액
-            dataTable_t0424.Columns.Add("mpms"    , typeof(int));    //당일매수단가
-            dataTable_t0424.Columns.Add("mdat"    , typeof(int));    //당일매도금액
-            dataTable_t0424.Columns.Add("mpmd"    , typeof(int));    //당일매도단가
-            dataTable_t0424.Columns.Add("fee"     , typeof(int));    //수수료
-            dataTable_t0424.Columns.Add("tax"     , typeof(int));    //제세금
-            dataTable_t0424.Columns.Add("sininter", typeof(String)); //신용이자
-            dataTable_t0424.Columns.Add("deleteAt", typeof(Boolean)); //삭제여부
+            grd_t0424.DataSource = new BindingList<T0424Vo>();
+           
 
             //체결미체결 그리드 DataSource 설정
             grd_t0425_chegb1.DataSource = new BindingList<T0425Vo>();//체결 그리드
@@ -219,7 +201,6 @@ namespace PackageSellSystemTrading{
         //주문
         private void btn_buyTest_Click(object sender, EventArgs e)
         {
-            
                 /// <summary>
                 /// 현물정상주문
                 /// </summary>
@@ -229,8 +210,6 @@ namespace PackageSellSystemTrading{
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>  
                 xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw,"", "003060", "238", "4000", "1");
                 //xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "048870", "235" , "4000", "1");//
-         
- 
         }
 
 
@@ -317,11 +296,15 @@ namespace PackageSellSystemTrading{
 
         //타이머 진입검색
         private void timer_enterSearch_Tick(object sender, EventArgs e){
-           
-                //조건검색
-                xing_t1833.call_request("condition.ADF");
-                //xing_t1833.call_request("conSeven.ADF");
-          
+            
+            if (int.Parse(xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(xing_t0167.time.Substring(0, 4)) < 2202){
+                MessageBox.Show(xing_t0167.time.Substring(0, 4));
+
+            }    
+            //조건검색
+            //xing_t1833.call_request("condition.ADF");
+            //xing_t1833.call_request("conSeven.ADF");
+
         }
 
         //서버 시간
@@ -398,8 +381,6 @@ namespace PackageSellSystemTrading{
             //    grd_t0425_chegb1.Rows[0].Cells[1].Style.ForeColor = Color.Blue;
             //}
         }
-
-       
     }//end class
 }//end namespace
 

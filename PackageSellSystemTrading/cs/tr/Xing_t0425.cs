@@ -55,13 +55,18 @@ namespace PackageSellSystemTrading {
             if (time == "" ) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
-            BindingList<T0425Vo> t0425VoList_Chegb1 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
-            BindingList<T0425Vo> t0425VoList_Chegb2 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
+            //체결 목록
+            BindingList<T0425Vo> t0425VoList_Chegb1 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);
+            //미체결 목록
+            BindingList<T0425Vo> t0425VoList_Chegb2 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);
 
-            
+            //계좌잔고목록
+            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+
             int price;      //현재가
             String mdposqt; //매도가능 수량
             String hname;   //종목명
+            String toDaySellAmt;
             for (int i = 0; i < iCount; i++)
             {
                 T0425Vo tmpT0425Vo = new T0425Vo();
@@ -130,14 +135,17 @@ namespace PackageSellSystemTrading {
                 if (tmpT0425Vo.medosu == "매수" && int.Parse(tmpT0425Vo.ordrem) == 0)
                 {
                     //계좌잔고 그리드에서 해당종목 정보 참조.
-                    DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + tmpT0425Vo.expcode + "'");
-                    if (dataRowArray.Length > 0)
+                    var result = from item in t0424VoList
+                                 where item.expcode == tmpT0425Vo.expcode
+                                 select item;
+                   
+                    if (result.Count() > 0)
                     {
                         //당일매수수량 - 당일매도수량 = 금일매도가능수량
                         
-                         price    = (int)   dataRowArray[0]["price"]; //현재가
-                         mdposqt  = (String)dataRowArray[0]["mdposqt"] == "" ? "0": (String)dataRowArray[0]["mdposqt"];  //매도가능 수량
-                         hname    = (String)dataRowArray[0]["hname"];//종목명
+                         price    = int.Parse(result.ElementAt(0).price); //현재가
+                         mdposqt  = result.ElementAt(0).mdposqt == "" ? "0": result.ElementAt(0).mdposqt;  //매도가능 수량
+                         hname    = result.ElementAt(0).hname;//종목명
 
                         //1.매도가능수량 > 주문수량  ->체결수량과 매도가능수량이 같으면 신규매수겠지? 여기는 반복매수만 처리해준다. --체결수량으로 하고싶지만...
                         if (int.Parse(mdposqt) > int.Parse(tmpT0425Vo.qty) )
@@ -163,11 +171,12 @@ namespace PackageSellSystemTrading {
                                     /// <param name="Quantity">수량</param>
                                     /// <param name="Price">가격</param>
                                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                                    String msg = "t0425 ::[" + hname + "]금일매수매도 [" + tmpT0425Vo.expcode + "]  수익율/주문수량/매도가능수량" + late + "/" + tmpT0425Vo.qty + "/" + mdposqt;
+                                    toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + ((price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty))).ToString();
+                                    String msg = "t0425 ::[" + hname + "]금일매수매도 [" + tmpT0425Vo.expcode + "] "+ toDaySellAmt+"원 수익율 /주문수량/매도가능수량" + late + "/" + tmpT0425Vo.qty + "/" + mdposqt;
                                     mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, price.ToString(), "1");
                                     tmpT0425Vo.todaySellAt = true;
                                     //당일매도 차익 합산.
-                                    mainForm.input_toDayAtm.Text = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + (price - int.Parse(tmpT0425Vo.cheprice))).ToString();
+                                    mainForm.input_toDayAtm.Text = toDaySellAmt;
 
                                 }
 
