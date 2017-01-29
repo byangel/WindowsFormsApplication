@@ -28,8 +28,8 @@ namespace PackageSellSystemTrading{
         public Xing_t0167 xing_t0167;              //시간조회
         public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
         public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
-        
-        
+
+        public Boolean marketAt=true;
        
         public MainForm(){
             InitializeComponent();
@@ -63,9 +63,6 @@ namespace PackageSellSystemTrading{
 
             //폼 초기화
             initForm();
-
-
- 
         }
 
         //프로그램시작시 폼 초기화
@@ -80,21 +77,17 @@ namespace PackageSellSystemTrading{
 
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = new BindingList<T0424Vo>();
-           
-
+            //진입검색 그리드.
+            grd_t1833.DataSource = new BindingList<T1833Vo>();
             //체결미체결 그리드 DataSource 설정
             grd_t0425_chegb1.DataSource = new BindingList<T0425Vo>();//체결 그리드
             grd_t0425_chegb2.DataSource = new BindingList<T0425Vo>();//미체결 그리드
 
-            //진입검색 그리드.
-            grd_t1833.DataSource = new BindingList<T1833Vo>();
-
-
         }
 
 
-    //properties 저장
-    private void btn_config_save_Click(object sender, EventArgs e)  {
+        //properties 저장
+        private void btn_config_save_Click(object sender, EventArgs e)  {
 
 
             // UI 필드 값을 읽어서 변수에 담음 - 비번등은 암호화 시킴
@@ -297,13 +290,16 @@ namespace PackageSellSystemTrading{
         //타이머 진입검색
         private void timer_enterSearch_Tick(object sender, EventArgs e){
             
-            if (int.Parse(xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(xing_t0167.time.Substring(0, 4)) < 2202){
-                MessageBox.Show(xing_t0167.time.Substring(0, 4));
-
-            }    
-            //조건검색
-            //xing_t1833.call_request("condition.ADF");
-            //xing_t1833.call_request("conSeven.ADF");
+            //if (int.Parse(xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(xing_t0167.time.Substring(0, 4)) < 2202){
+                //MessageBox.Show(xing_t0167.time.Substring(0, 4));
+                //조건검색
+                //xing_t1833.call_request("condition.ADF");
+                xing_t1833.call_request("conSeven.ADF");
+            //}else
+            //{
+    
+            //    tempLog.Text = "[" + input_time.Text + "]t0425 ::정규장이 아님 ";
+            //}
 
         }
 

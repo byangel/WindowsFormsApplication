@@ -54,6 +54,12 @@ namespace PackageSellSystemTrading{
                 // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
+                
+                //정규매매장이 종료되었습니다.
+                if (nMessageCode=="03563")
+                {
+                    mainForm.marketAt = false;
+                }
             }
             mainForm.tempLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
         }
