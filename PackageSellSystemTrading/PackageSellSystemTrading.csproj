@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="cs\log\Log.cs" />
     <Compile Include="cs\session\ExXASessionClass.cs" />
+    <Compile Include="cs\tr\Xing_CSPAQ12200.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00600.cs" />
     <Compile Include="cs\tr\Xing_CSPAQ12300.cs" />
     <Compile Include="cs\tr\Xing_t0424_config.cs" />

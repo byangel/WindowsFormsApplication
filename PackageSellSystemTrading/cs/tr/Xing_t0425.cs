@@ -164,7 +164,6 @@ namespace PackageSellSystemTrading {
                                                     select t0425VoChegb1;
                                 //매도 이력이 없다면 또는 매도체크 여부가 Y가 아니라면 매도해주자.-
                                 //빠른게 2번 매도가 이루어지는문제가 있다 그래서 매도하면 매도했다고 체크를 하는데 문제는 프로그램 재시작시 체크 정보가 사라진다 그래서 매도이력이 있는지도 체크해준다.
-                                
                                 if (resultt0425Vo.Count() == 0 && tmpT0425Vo.todaySellAt == false)
                                 {
                                     /// <param name="IsuNo">종목번호</param>

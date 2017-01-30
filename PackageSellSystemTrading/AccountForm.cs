@@ -16,11 +16,14 @@ namespace PackageSellSystemTrading
 
         public ExXASessionClass exXASessionClass;
 
-        public AccountForm(ExXASessionClass exXASessionClass)
+        public MainForm mainForm;
+      
+
+        public AccountForm()
         {
             InitializeComponent();
 
-            this.exXASessionClass = exXASessionClass;
+            //this.exXASessionClass = exXASessionClass;
         }
 
         private void AccountForm_Load(object sender, EventArgs e){
@@ -36,6 +39,7 @@ namespace PackageSellSystemTrading
 
             this.xing_CSPAQ12300 = new Xing_CSPAQ12300();// 현물계좌 잔고내역 조회
             this.xing_CSPAQ12300.accountForm = this;
+            this.xing_CSPAQ12300.mainForm = this.mainForm;
 
             //주식잔고2
             //mainForm.xing_t0424.call_request();

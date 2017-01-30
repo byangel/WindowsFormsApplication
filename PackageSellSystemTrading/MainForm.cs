@@ -28,7 +28,7 @@ namespace PackageSellSystemTrading{
         public Xing_t0167 xing_t0167;              //시간조회
         public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
         public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
-
+        public Xing_CSPAQ12200 xing_CSPAQ12200;    //현물계좌예수금/주문가능금액/총평가 조회
         public Boolean marketAt=true;
        
         public MainForm(){
@@ -57,7 +57,8 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAT00600.mainForm = this;
             this.xing_CSPAT00800 = new Xing_CSPAT00800();// 현물취소주문
             this.xing_CSPAT00800.mainForm = this;
-
+            this.xing_CSPAQ12200 = new Xing_CSPAQ12200();    //현물계좌예수금/주문가능금액/총평가 조회
+            this.xing_CSPAQ12200.mainForm = this;
             this.xing_t0424_config = new Xing_t0424_config();// 주식잔고2
             this.xing_t0424_config.mainForm = this;
 
@@ -234,7 +235,7 @@ namespace PackageSellSystemTrading{
                 if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
                 {
                         //MessageBox.Show("계좌 정보가 없습니다.");
-                        AccountForm accountForm = new AccountForm(exXASessionClass);
+                        AccountForm accountForm = new AccountForm();
                         accountForm.ShowDialog();
                         
                         //세션클래스에 있는거 그대로 가져왔다.
@@ -244,19 +245,14 @@ namespace PackageSellSystemTrading{
                         }
                         else
                         {
-                            //로그인후 프로그램 초기화.
-                            // 계좌정보 조회.
-                            //mainForm.xing_t0424.call_request(this.account, this.accountPw);
-                            //설정 저장버튼 활성화 
-                            this.btn_config_save.Enabled = true;
+                        String DpsastTotamt = this.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
+                        decimal totalAmt = int.Parse(DpsastTotamt) / 10000000;
 
-                            // 계좌정보 조회.
-                            //xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
-                            this.xing_t0424_config.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+                        //소수점제거 후 배팅금액 구한다.
+                        decimal battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
 
-                            //날자 및 시간 타이머 시작.
-                            this.timer_dateTime.Enabled = true;
-                        }
+                        this.textBox_battingAtm.Text = battingAmt.ToString();
+                    }
                 }
                 else
                 {
@@ -311,12 +307,16 @@ namespace PackageSellSystemTrading{
 
         //타이머 계좌정보
         private void timer_accountSearch_Tick(object sender, EventArgs e)
-        {   
+        {
             //주식잔고2
-            xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            this.xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             //미체결내역
-            xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            this.xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             //Log.WriteLine("xing_t1833:");
+
+            //현물계좌예수금/주문가능금액/총평가 조회
+            this.xing_CSPAQ12200.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            
         }
 
 
@@ -376,6 +376,11 @@ namespace PackageSellSystemTrading{
             //}else{
             //    grd_t0425_chegb1.Rows[0].Cells[1].Style.ForeColor = Color.Blue;
             //}
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
         }
     }//end class
 }//end namespace

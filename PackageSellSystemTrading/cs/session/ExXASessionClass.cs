@@ -82,7 +82,10 @@ namespace PackageSellSystemTrading {
 
                 //로그인 성공시 계좌 목록을 콤보박스에 출력
                 //계좌정보 설정 폼 팝업 호출
-                AccountForm accountForm = new AccountForm(this);
+                AccountForm accountForm = new AccountForm();
+                accountForm.mainForm = this.mainForm;
+                accountForm.exXASessionClass = this;
+
                 accountForm.ShowDialog();
 
                 if (this.account == "" || this.accountPw == "") {
@@ -92,14 +95,32 @@ namespace PackageSellSystemTrading {
                     // 계좌정보 조회.
                     //mainForm.xing_t0424.call_request(this.account, this.accountPw);
                     //설정 저장버튼 활성화 
-                    mainForm.btn_config_save.Enabled = true;
+                    //mainForm.btn_config_save.Enabled = true;
 
                     // 계좌정보 조회.
                     //xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
-                    mainForm.xing_t0424_config.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-
+                    //mainForm.xing_t0424_config.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                    //mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
                     //날자 및 시간 타이머 시작.
-                    mainForm.timer_dateTime.Enabled = true;
+                    //mainForm.timer_dateTime.Enabled = true;
+
+                    //this.sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// D1예수금
+                    
+                    String sunamt1 = this.mainForm.xing_CSPAQ12200.D2Dps;// D1예수금
+                    String DpsastTotamt = this.mainForm.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
+
+                   
+
+                    //MessageBox.Show(sunamt1);
+                    //1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
+                    //매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
+                    //소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원
+                    //decimal totalAmt = int.Parse(DpsastTotamt) / 10000000;
+
+                    //소수점제거 후 배팅금액 구한다.
+                    //decimal battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
+
+                    //mainForm.textBox_battingAtm.Text = battingAmt.ToString();
                 }
                 
             } else if (szCode == "5201") {

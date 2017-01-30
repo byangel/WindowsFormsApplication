@@ -58,8 +58,16 @@ namespace PackageSellSystemTrading{
                     accountForm.exXASessionClass.account   = this.account;
                     accountForm.exXASessionClass.accountPw = this.accountPw;
 
+                    mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
                     //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
-     
+
+                    //설정저장 버튼 활성화.
+                    mainForm.btn_config_save.Enabled = true;
+                    
+                    //날자 및 시간 타이머 시작.
+                    mainForm.timer_dateTime.Enabled = true;
+
+
                     accountForm.Close();
                 }
                 else{
