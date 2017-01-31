@@ -23,7 +23,7 @@ namespace PackageSellSystemTrading{
         public ExXASessionClass exXASessionClass;
         public Xing_t1833 xing_t1833;               //조건검색
         public Xing_t0424 xing_t0424;               //잔고2
-        public Xing_t0424_config xing_t0424_config; //로그인시 계좌정보
+       
         public Xing_t0425 xing_t0425;              //체결/미체결
         public Xing_t0167 xing_t0167;              //시간조회
         public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
@@ -59,8 +59,7 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAT00800.mainForm = this;
             this.xing_CSPAQ12200 = new Xing_CSPAQ12200();    //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.mainForm = this;
-            this.xing_t0424_config = new Xing_t0424_config();// 주식잔고2
-            this.xing_t0424_config.mainForm = this;
+        
 
             //폼 초기화
             initForm();

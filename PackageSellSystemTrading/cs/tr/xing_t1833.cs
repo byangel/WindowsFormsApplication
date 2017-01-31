@@ -90,7 +90,7 @@ namespace PackageSellSystemTrading{
                 if (tmpT1833Vo.deleteAt == true)
                 {
                     //Log.WriteLine("[" + mainForm.input_time.Text + "]t0118 :: 팔린종목 그리드에서 제거");
-                    mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text + "]목록에서 제거";
+                    mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]t1833 진입검색 목록에서 제거";
                     t1833VoList.RemoveAt(i);
                     i--;
                 }
@@ -177,7 +177,7 @@ namespace PackageSellSystemTrading{
                 //미체결 내역 있다면 매수제한.
                 if (medosu == "매수" && expcode == shcode && int.Parse(ordrem) > 0)
                 {
-                    Log.WriteLine("t1833 :: [" + hname + "] 미체결 잔량 " + ordrem + "주 매수 제한");
+                    Log.WriteLine("t1833 :: [" + hname + "] 미체결 잔량 [" + ordrem + "주] 매수제한");
                     return false;
                 }
 
@@ -246,12 +246,12 @@ namespace PackageSellSystemTrading{
             int battingAtm = int.Parse(mainForm.textBox_battingAtm.Text);
             if (close == "0")//임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
             {
-                Log.WriteLine("[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  현제가 " + close );
+                Log.WriteLine("t1833 ::[" + hname + "]  현제가 " + close );
                 return false;
             }
           
             int Quantity = battingAtm / int.Parse(close);
-            String buyMsg = "[" + mainForm.input_time.Text + "]t1833 ::[" + hname + "]  " + accountAt + "/" + Quantity + "주 매수실행";
+            String buyMsg = "t1833 ::[" + hname + "]  " + accountAt + "/" + Quantity + "주 매수실행";
             mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
           
             return true;

@@ -104,7 +104,7 @@ namespace PackageSellSystemTrading {
                         /// <param name="IsuNo">종목번호</param>
                         /// <param name="OrdQty">주문수량</param>
                         mainForm.xing_CSPAT00800.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, tmpT0425Vo.ordno, tmpT0425Vo.expcode, "");
-                        Log.WriteLine("t0425 ::[" + tmpT0425Vo.expcode + "]  " + tmpT0425Vo.hname + " 주문번호:" + tmpT0425Vo.ordno + " 취소주문");
+                        Log.WriteLine("t0425 ::취소주문[" + tmpT0425Vo.expcode + "]  " + tmpT0425Vo.hname + " 주문번호:" + tmpT0425Vo.ordno );
                     }
                 }
 
@@ -170,8 +170,9 @@ namespace PackageSellSystemTrading {
                                     /// <param name="Quantity">수량</param>
                                     /// <param name="Price">가격</param>
                                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                                    toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + ((price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty))).ToString();
-                                    String msg = "t0425 ::[" + hname + "]금일매수매도 [" + tmpT0425Vo.expcode + "] "+ toDaySellAmt+"원 수익율 /주문수량/매도가능수량" + late + "/" + tmpT0425Vo.qty + "/" + mdposqt;
+                                    int tmpAmt = ((price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
+                                    toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text )+ tmpAmt).ToString();
+                                    String msg = "t0425 ::[" + hname + "]금일매수매도 [" + tmpT0425Vo.expcode + "] 매도차익:"+ tmpAmt + "원 수익율/주문수량/매도가능수량" + late + "/" + tmpT0425Vo.qty + "/" + mdposqt;
                                     mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, price.ToString(), "1");
                                     tmpT0425Vo.todaySellAt = true;
                                     //당일매도 차익 합산.

@@ -20,6 +20,15 @@ namespace PackageSellSystemTrading{
         
         public AccountForm accountForm;
         public MainForm    mainForm;
+
+        public String D2Dps;       //D2예수금
+        public String Dps;         //예수금
+        public String PnlRat;      //손익율 
+        public String BalEvalAmt;  //잔고평가금액
+        public String DpsastTotamt;//예탁자잔총액
+        //public String InvstOrgAmt; //투자원금
+        public String InvstPlAmt;  //투자손익금액
+        public String PchsAmt;//매입금액
         // 생성자
         public Xing_CSPAQ12300()
         {
@@ -44,8 +53,41 @@ namespace PackageSellSystemTrading{
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
 
-            //CSPAQ12300OutBlock2 실서버에서는 데이타가 없다.
+
+            //this.D2Dps = base.GetFieldData("CSPAQ12300OutBlock2", "D2Dps", 0); //D2예수금
+            //this.Dps = base.GetFieldData("CSPAQ12300OutBlock2", "Dps", 0); //예수금
+            //this.DpsastTotamt = base.GetFieldData("CSPAQ12300OutBlock2", "DpsastTotamt", 0); //예탁자잔총액
             
+            //this.BalEvalAmt = base.GetFieldData("CSPAQ12300OutBlock2", "BalEvalAmt", 0); //잔고평가금액
+            //this.InvstPlAmt = base.GetFieldData("CSPAQ12300OutBlock2", "InvstPlAmt", 0); //투자손익금액
+            //this.PnlRat = base.GetFieldData("CSPAQ12300OutBlock2", "PnlRat", 0); //손익률
+            //this.PchsAmt = base.GetFieldData("CSPAQ12300OutBlock2", "PchsAmt", 0);//매입금액
+
+            //mainForm.input_Dps.Text = Util.GetNumberFormat(this.Dps);          // 예수금
+            //mainForm.input_D2Dps.Text = Util.GetNumberFormat(this.D2Dps);        // D2예수금
+            //mainForm.input_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액
+            //mainForm.input_InvstOrgAmt.Text = Util.GetNumberFormat(this.PchsAmt); //투자원금 --미사용 --매입금액
+            //mainForm.input_BalEvalAmt.Text = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
+           
+            //mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
+
+            //mainForm.input_PnlRat.Text = Util.GetNumberFormat(this.PnlRat);   // 손익률
+
+            ///////////////////////////////////
+            //MessageBox.Show(base.GetFieldData("CSPAQ12300OutBlock2", "PchsAmt", 0));
+            ////1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
+            ////매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
+            ////소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원
+            ////MessageBox.Show(this.DpsastTotamt);
+            //decimal totalAmt = decimal.Parse(this.DpsastTotamt) / 10000000;
+            ////소수점제거 후 배팅금액 구한다.
+            //decimal battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
+            //mainForm.textBox_battingAtm.Text = battingAmt.ToString();
+
+
+
+            //CSPAQ12300OutBlock2 실서버에서는 데이타가 없다.
+
             completeAt = true;
 
         }
@@ -88,12 +130,12 @@ namespace PackageSellSystemTrading{
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
-		public void call_request(AccountForm accountForm, String account, String accountPw)
+		public void call_request( String account, String accountPw)
         {
 
             this.account   = account;
             this.accountPw = accountPw;
-            this.accountForm = accountForm;
+            
             if (completeAt) {
                 //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
                 //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조

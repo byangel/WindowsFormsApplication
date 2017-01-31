@@ -66,7 +66,6 @@
     <Compile Include="cs\tr\Xing_CSPAQ12200.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00600.cs" />
     <Compile Include="cs\tr\Xing_CSPAQ12300.cs" />
-    <Compile Include="cs\tr\Xing_t0424_config.cs" />
     <Compile Include="cs\tr\Xing_t0425.cs" />
     <Compile Include="cs\tr\Xing_t0424.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00800.cs" />

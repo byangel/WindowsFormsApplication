@@ -148,19 +148,19 @@ namespace PackageSellSystemTrading {
                 base.Request(true); //연속조회일경우 true
                 //mainForm.input_t0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
             } else {//마지막 데이타일때 메인폼에 출력해준다.
-                this.sunamt1 = int.Parse(this.GetFieldData("t0424OutBlock", "sunamt1", 0));// D1예수금
+                //this.sunamt1 = int.Parse(this.GetFieldData("t0424OutBlock", "sunamt1", 0));// D1예수금
                 this.dtsunik = int.Parse(this.GetFieldData("t0424OutBlock", "dtsunik", 0));// 실현손익
 
                 this.mamt     = this.tmpMamt;      //매입금액
                 this.tappamt  = this.tmpTappamt;   //평가금액
                 this.tdtsunik = this.tmpTdtsunik;  //평가손익
 
-                //mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
+                mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
                 //mainForm.input_BalEvalAmt.Text  = Util.GetNumberFormat(this.tappamt); // 평가금액
-                //mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.tdtsunik);// 평가손익
+                // mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.tdtsunik);// 평가손익
                 //mainForm.input_D2Dps.Text  = Util.GetNumberFormat(this.sunamt1);      // D1예수금
-                //mainForm.input_dtsunik.Text  = Util.GetNumberFormat(this.dtsunik);      // 실현손익
                 //mainForm.input_sunamt.Text   = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
+                mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);      // 실현손익
                 mainForm.h_totalCount.Text   = this.h_totalCount.ToString();       //종목수
 
 
@@ -169,7 +169,7 @@ namespace PackageSellSystemTrading {
                     tmpT0424Vo = t0424VoList.ElementAt(i);
 
                     if (tmpT0424Vo.deleteAt == true){
-                        Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: 팔린종목 그리드에서 제거");
+                        Log.WriteLine("t0424 :: 팔린종목 그리드에서 제거");
                         t0424VoList.RemoveAt(i);
                         i--;
                     }

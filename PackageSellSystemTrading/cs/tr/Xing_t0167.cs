@@ -17,8 +17,16 @@ namespace PackageSellSystemTrading{
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
-        public string date;
-        public string time;
+        public string date { get; set; }
+        public string time { get; set; }
+
+        public string year { get; set; }
+        public string moon { get; set; }
+        public string day { get; set; }
+
+        public string hour { get; set; }
+        public string minute { get; set; }
+        public string second { get; set; }
 
         // 생성자
         public Xing_t0167(){
@@ -42,16 +50,23 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
 
             // 시간 값 세팅
-            this.date    = base.GetFieldData("t0167OutBlock", "dt", 0);
+            this.date = base.GetFieldData("t0167OutBlock", "dt", 0);
             this.time = base.GetFieldData("t0167OutBlock", "time", 0);
-
-            mainForm.input_date.Text = this.date;
+            if (this.date != "")
+            {
+                this.year = this.date.Substring(0, 4);
+                this.moon = this.date.Substring(4, 2);
+                this.day = this.date.Substring(6, 2);
+                mainForm.input_date.Text = this.year + "-" + this.moon + "-" + this.day;
+               
+            }
+           
             if (this.time != "")
             {
-                string hour = this.time.Substring(0, 2);
-                string minute = this.time.Substring(2, 2);
-                string second = this.time.Substring(4, 2);
-                mainForm.input_time.Text = hour + ":" + minute + ":" + second;
+                this.hour = this.time.Substring(0, 2);
+                this.minute = this.time.Substring(2, 2);
+                this.second = this.time.Substring(4, 2);
+                mainForm.input_time.Text = this.hour + ":" + this.minute + ":" + this.second;
             }
 
             completeAt = true;//중복호출 방지

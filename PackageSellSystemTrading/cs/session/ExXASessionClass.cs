@@ -13,8 +13,8 @@ namespace PackageSellSystemTrading {
 
         public MainForm mainForm;
 
-        public String account = "";
-        public String accountPw = "";
+        public String account { get; set; }
+        public String accountPw { get; set; }
 
         // 생성자
         public ExXASessionClass() {
@@ -106,8 +106,8 @@ namespace PackageSellSystemTrading {
 
                     //this.sunamt1 = this.GetFieldData("t0424OutBlock", "sunamt1", 0);// D1예수금
                     
-                    String sunamt1 = this.mainForm.xing_CSPAQ12200.D2Dps;// D1예수금
-                    String DpsastTotamt = this.mainForm.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
+                    //String sunamt1 = this.mainForm.xing_CSPAQ12200.D2Dps;// D1예수금
+                    //String DpsastTotamt = this.mainForm.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
 
                    
 

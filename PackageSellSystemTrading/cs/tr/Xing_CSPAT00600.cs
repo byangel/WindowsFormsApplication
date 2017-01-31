@@ -47,7 +47,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000"){
                 ;
             }else{
-                Log.WriteLine("[" + mainForm.input_time.Text + "]CSPAT00600 :: " + nMessageCode + " :: " + szMessage);
+                Log.WriteLine("CSPAT00600 :: " + nMessageCode + " :: " + szMessage);
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 // 01222 :: 모의투자 매도잔고가 부족합니다  
                 // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
@@ -61,7 +61,7 @@ namespace PackageSellSystemTrading{
                     mainForm.marketAt = false;
                 }
             }
-            mainForm.tempLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
+            mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>
@@ -102,6 +102,11 @@ namespace PackageSellSystemTrading{
                     //{
                         base.Request(false);  //연속조회일경우 true
                         Log.WriteLine(msg);
+
+                        if (DivideBuySell == "1")
+                        {
+                            Log.WriteLine("매입금액+D2예수금=" + (mainForm.xing_t0424.mamt + int.Parse(mainForm.xing_CSPAQ12200.D2Dps)));
+                        }
                   //  }
                   //  else {
                    //     mainForm.tempLog.Text = "["+mainForm.input_time.Text+"]정규매매장이 종료 되었습니다.";
