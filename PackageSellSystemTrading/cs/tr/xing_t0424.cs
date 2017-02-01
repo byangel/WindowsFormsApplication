@@ -18,13 +18,13 @@ namespace PackageSellSystemTrading {
         public Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
+        public int sunamt;    //추정자산
+        //public int sunamt1;   //d1예수금
+        public int dtsunik;   //실현손익
+
         public int tmpMamt;      //매입금액
         public int tmpTappamt;   //평가금액
         public int tmpTdtsunik;  //평가손익
-
-        public int sunamt;    //추정자산
-        public int sunamt1;   //d1예수금
-        public int dtsunik;   //실현손익
 
         public int mamt;      //매입금액
         public int tappamt;   //평가금액

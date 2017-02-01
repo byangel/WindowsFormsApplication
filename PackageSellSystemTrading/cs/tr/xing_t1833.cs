@@ -220,19 +220,20 @@ namespace PackageSellSystemTrading{
 
             }else{//보유종목이 아니고 신규매수해야 한다면.
                 accountAt = "신규매수";
-                //자본금 = 매입금액 + 예수금 
-                Double tmpAmt = this.mainForm.xing_t0424.mamt + this.mainForm.xing_t0424.sunamt1;
+                //자본금 = 매입금액 + D2예수금 
+                Double baseAmt = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
                    
-                if (tmpAmt > Properties.Settings.Default.PROGRM_AMT_LIMIT){//이런날이 올까?
-                    tmpAmt = Properties.Settings.Default.PROGRM_AMT_LIMIT;
+                if (baseAmt > Properties.Settings.Default.PROGRM_AMT_LIMIT){//이런날이 올까?
+                    Log.WriteLine("ㅡㅡㅡㅡㅡ");
+                    baseAmt = Properties.Settings.Default.PROGRM_AMT_LIMIT;
                 }
 
                 //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
                 //매입금액 기초자산의 90% 이상 매입을 할수 없다.
                 //매입금액 / 자본금 * 100 =자본금 대비 투자율
-                tmpAmt = (this.mainForm.xing_t0424.mamt / tmpAmt) * 100;
-                if (tmpAmt > Properties.Settings.Default.NEW_BUY_STOP_RATE){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Log.WriteLine("t1833 ::[" + hname + "]  자본금 대비 투자율 " + tmpAmt + ">" + Properties.Settings.Default.NEW_BUY_STOP_RATE + "% 제한");
+                Double enterRate = (this.mainForm.xing_t0424.mamt / baseAmt) * 100;
+                if (enterRate > Properties.Settings.Default.NEW_BUY_STOP_RATE){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
+                    Log.WriteLine("t1833 ::[" + hname + "]  자본금 대비 투자율 "+ this.mainForm.xing_t0424.mamt+"/"+ baseAmt + "*100 = " + enterRate + ">" + Properties.Settings.Default.NEW_BUY_STOP_RATE + "% 제한");
                     return false;
                 }      
             }
