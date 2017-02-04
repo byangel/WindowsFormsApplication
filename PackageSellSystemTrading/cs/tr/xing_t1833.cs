@@ -224,7 +224,7 @@ namespace PackageSellSystemTrading{
                 Double baseAmt = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
                    
                 if (baseAmt > Properties.Settings.Default.PROGRM_AMT_LIMIT){//이런날이 올까?
-                    Log.WriteLine("ㅡㅡㅡㅡㅡ");
+                    //Log.WriteLine("ㅡㅡㅡㅡㅡ");
                     baseAmt = Properties.Settings.Default.PROGRM_AMT_LIMIT;
                 }
 
@@ -254,7 +254,7 @@ namespace PackageSellSystemTrading{
             //정규장에만 주문실행.
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
                 int Quantity = battingAtm / int.Parse(close);
-                String buyMsg = "t1833 ::[" + hname + "]  " + accountAt + "/" + Quantity + "주 매수실행";
+                String buyMsg = "t1833 ::[" + hname + "]  " + accountAt + "   " + close + "원*" + Quantity + "주 매수실행";
                 mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
             }else
             {

@@ -21,14 +21,14 @@ namespace PackageSellSystemTrading{
         public decimal battingAmt;
 
         public ExXASessionClass exXASessionClass;
-        public Xing_t1833 xing_t1833;               //조건검색
-        public Xing_t0424 xing_t0424;               //잔고2
+        public Xing_t1833 xing_t1833;              //조건검색
+        public Xing_t0424 xing_t0424;              //잔고2
        
-        public Xing_t0425 xing_t0425;              //체결/미체결
-        public Xing_t0167 xing_t0167;              //시간조회
+        public Xing_t0425 xing_t0425;             //체결/미체결
+        public Xing_t0167 xing_t0167;             //시간조회
         public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
         public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
-        public Xing_CSPAQ12200 xing_CSPAQ12200;    //현물계좌예수금/주문가능금액/총평가 조회
+        public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
         public Boolean marketAt=true;
        
         public MainForm(){

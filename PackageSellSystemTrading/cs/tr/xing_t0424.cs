@@ -32,7 +32,7 @@ namespace PackageSellSystemTrading {
 
         public int h_totalCount;
 
-        public int testCount = 0;
+        
         // 생성자
         public Xing_t0424()
         {

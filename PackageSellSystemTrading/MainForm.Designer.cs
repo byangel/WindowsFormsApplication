@@ -152,15 +152,6 @@
             this.timer_accountSearch = new System.Windows.Forms.Timer(this.components);
             this.input_t0425_log2 = new System.Windows.Forms.TextBox();
             this.grd_t0425_chegb1 = new System.Windows.Forms.DataGridView();
-            this.label21 = new System.Windows.Forms.Label();
-            this.grd_t0425_chegb1_cnt = new System.Windows.Forms.Label();
-            this.btn_logout = new System.Windows.Forms.Button();
-            this.input_DpsastTotamt = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.input_mamt = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.input_dtsunik = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -173,6 +164,15 @@
             this.dataGridViewTextBoxColumn26 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.orgordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label21 = new System.Windows.Forms.Label();
+            this.grd_t0425_chegb1_cnt = new System.Windows.Forms.Label();
+            this.btn_logout = new System.Windows.Forms.Button();
+            this.input_DpsastTotamt = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.input_mamt = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.input_dtsunik = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425_chegb2)).BeginInit();
@@ -1050,83 +1050,6 @@
             this.grd_t0425_chegb1.TabIndex = 68;
             this.grd_t0425_chegb1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.grd_t0425_chegb1_RowsAdded);
             // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(637, 274);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(57, 12);
-            this.label21.TabIndex = 69;
-            this.label21.Text = "체결 내역";
-            // 
-            // grd_t0425_chegb1_cnt
-            // 
-            this.grd_t0425_chegb1_cnt.AutoSize = true;
-            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(725, 274);
-            this.grd_t0425_chegb1_cnt.Name = "grd_t0425_chegb1_cnt";
-            this.grd_t0425_chegb1_cnt.Size = new System.Drawing.Size(11, 12);
-            this.grd_t0425_chegb1_cnt.TabIndex = 70;
-            this.grd_t0425_chegb1_cnt.Text = "0";
-            // 
-            // btn_logout
-            // 
-            this.btn_logout.Location = new System.Drawing.Point(1138, 124);
-            this.btn_logout.Name = "btn_logout";
-            this.btn_logout.Size = new System.Drawing.Size(83, 29);
-            this.btn_logout.TabIndex = 71;
-            this.btn_logout.Text = "로그아웃";
-            this.btn_logout.UseVisualStyleBackColor = true;
-            this.btn_logout.Click += new System.EventHandler(this.btn_logout_Click);
-            // 
-            // input_DpsastTotamt
-            // 
-            this.input_DpsastTotamt.Location = new System.Drawing.Point(1117, 232);
-            this.input_DpsastTotamt.Name = "input_DpsastTotamt";
-            this.input_DpsastTotamt.Size = new System.Drawing.Size(88, 21);
-            this.input_DpsastTotamt.TabIndex = 73;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(1034, 241);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(77, 12);
-            this.label17.TabIndex = 72;
-            this.label17.Text = "예탁자산총액";
-            // 
-            // input_mamt
-            // 
-            this.input_mamt.Location = new System.Drawing.Point(1117, 259);
-            this.input_mamt.Name = "input_mamt";
-            this.input_mamt.Size = new System.Drawing.Size(88, 21);
-            this.input_mamt.TabIndex = 75;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(1058, 262);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 74;
-            this.label10.Text = "매입금액";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
-            // 
-            // input_dtsunik
-            // 
-            this.input_dtsunik.Location = new System.Drawing.Point(1117, 368);
-            this.input_dtsunik.Name = "input_dtsunik";
-            this.input_dtsunik.Size = new System.Drawing.Size(88, 21);
-            this.input_dtsunik.TabIndex = 77;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(1058, 377);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 12);
-            this.label12.TabIndex = 76;
-            this.label12.Text = "실현손익";
-            // 
             // dataGridViewTextBoxColumn17
             // 
             this.dataGridViewTextBoxColumn17.DataPropertyName = "ordtime";
@@ -1205,6 +1128,83 @@
             this.orgordno.DataPropertyName = "orgordno";
             this.orgordno.HeaderText = "원주문번호";
             this.orgordno.Name = "orgordno";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(637, 274);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(57, 12);
+            this.label21.TabIndex = 69;
+            this.label21.Text = "체결 내역";
+            // 
+            // grd_t0425_chegb1_cnt
+            // 
+            this.grd_t0425_chegb1_cnt.AutoSize = true;
+            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(700, 274);
+            this.grd_t0425_chegb1_cnt.Name = "grd_t0425_chegb1_cnt";
+            this.grd_t0425_chegb1_cnt.Size = new System.Drawing.Size(11, 12);
+            this.grd_t0425_chegb1_cnt.TabIndex = 70;
+            this.grd_t0425_chegb1_cnt.Text = "0";
+            // 
+            // btn_logout
+            // 
+            this.btn_logout.Location = new System.Drawing.Point(1138, 124);
+            this.btn_logout.Name = "btn_logout";
+            this.btn_logout.Size = new System.Drawing.Size(83, 29);
+            this.btn_logout.TabIndex = 71;
+            this.btn_logout.Text = "로그아웃";
+            this.btn_logout.UseVisualStyleBackColor = true;
+            this.btn_logout.Click += new System.EventHandler(this.btn_logout_Click);
+            // 
+            // input_DpsastTotamt
+            // 
+            this.input_DpsastTotamt.Location = new System.Drawing.Point(1117, 232);
+            this.input_DpsastTotamt.Name = "input_DpsastTotamt";
+            this.input_DpsastTotamt.Size = new System.Drawing.Size(88, 21);
+            this.input_DpsastTotamt.TabIndex = 73;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(1034, 241);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(77, 12);
+            this.label17.TabIndex = 72;
+            this.label17.Text = "예탁자산총액";
+            // 
+            // input_mamt
+            // 
+            this.input_mamt.Location = new System.Drawing.Point(1117, 259);
+            this.input_mamt.Name = "input_mamt";
+            this.input_mamt.Size = new System.Drawing.Size(88, 21);
+            this.input_mamt.TabIndex = 75;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(1058, 262);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 74;
+            this.label10.Text = "매입금액";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
+            // 
+            // input_dtsunik
+            // 
+            this.input_dtsunik.Location = new System.Drawing.Point(1117, 368);
+            this.input_dtsunik.Name = "input_dtsunik";
+            this.input_dtsunik.Size = new System.Drawing.Size(88, 21);
+            this.input_dtsunik.TabIndex = 77;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(1058, 377);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 76;
+            this.label12.Text = "실현손익";
             // 
             // MainForm
             // 

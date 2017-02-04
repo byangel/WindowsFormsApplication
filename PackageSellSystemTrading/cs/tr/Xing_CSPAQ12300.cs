@@ -101,6 +101,8 @@ namespace PackageSellSystemTrading{
                     accountForm.exXASessionClass.accountPw = this.accountPw;
 
                     mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                    mainForm.xing_t0424.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                    mainForm.xing_t0425.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
                     //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
 
                     //설정저장 버튼 활성화.
