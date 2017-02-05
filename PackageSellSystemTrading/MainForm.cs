@@ -191,35 +191,7 @@ namespace PackageSellSystemTrading{
         }
 
 
-        //주문
-        private void btn_buyTest_Click(object sender, EventArgs e)
-        {
-                /// <summary>
-                /// 현물정상주문
-                /// </summary>
-                /// <param name="IsuNo">종목번호</param>
-                /// <param name="Quantity">수량</param>
-                /// <param name="Price">가격</param>
-                /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>  
-                xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw,"", "003060", "238", "4000", "1");
-                //xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, "048870", "235" , "4000", "1");//
-        }
-
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            //String 선물미체결수량 = (String)dataTable_t0424.Compute("Sum(mamt)", "expcode LIKE '0*'");
-            
-            //int 선물미체결수량 = Convert.ToInt32(dataTable_t0424.Compute("Sum(mamt)", "*"));
-
-            //MessageBox.Show(선물미체결수량);
-            //xing_CSPAQ12300.call_request();
-        }
-
         
-        
-
         //미체결내역
         private void btn_t0425_Click(object sender, EventArgs e)
         {
