@@ -280,13 +280,14 @@ namespace PackageSellSystemTrading{
                 return false;
             }
 
+            int Quantity = battingAtm / int.Parse(close);
             //정규장에만 주문실행.
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
-                int Quantity = battingAtm / int.Parse(close);
+               
                 String buyMsg = "t1833 ::[" + hname + "]  " + accountAt + "   " + close + "원*" + Quantity + "주 매수실행";
                 mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
             }else{
-                Log.WriteLine("t1833 ::매수 제어");
+                Log.WriteLine("t1833 ::["+ hname + "]" + accountAt + "   " + close + "원*" + Quantity + " 비정규장 제어");
             }
           
             return true;
