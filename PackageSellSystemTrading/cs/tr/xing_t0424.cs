@@ -32,12 +32,13 @@ namespace PackageSellSystemTrading {
 
         public int h_totalCount;
 
-        
+        public Boolean readyAt;
         // 생성자
         public Xing_t0424()
         {
             base.ResFileName = "₩res₩t0424.res";
 
+            readyAt = false;
             //base.Request(false); //연속조회가 아닐경우 false
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
@@ -110,27 +111,28 @@ namespace PackageSellSystemTrading {
                     t0424VoList.Add(tmpT0424Vo);
                 }
 
-                //수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
-                if (int.Parse((String)tmpT0424Vo.mdposqt) > 0 && float.Parse(tmpT0424Vo.sunikrt) > Properties.Settings.Default.SELL_RATE )
-                {
-                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
+                if (readyAt) {
+                    //수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
+                    if (int.Parse((String)tmpT0424Vo.mdposqt) > 0 && float.Parse(tmpT0424Vo.sunikrt) > Properties.Settings.Default.SELL_RATE )
                     {
-                        /// <param name="IsuNo">종목번호</param>
-                        /// <param name="Quantity">수량</param>
-                        /// <param name="Price">가격</param>
-                        /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                        String buyMst = "[" + mainForm.input_time.Text + "]t0424 ::[" + tmpT0424Vo.hname + "]  수익율:" + tmpT0424Vo.sunikrt + "%   " + tmpT0424Vo.mdposqt + "주매도.";
-                        mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMst, expcode, tmpT0424Vo.mdposqt, tmpT0424Vo.price, "1");
-                        tmpT0424Vo.mdposqt = "0";
-                    }
-                    else
-                    {
-                        Log.WriteLine("t0424 ::매도 제어");
-                    }
+                        if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
+                        {
+                            /// <param name="IsuNo">종목번호</param>
+                            /// <param name="Quantity">수량</param>
+                            /// <param name="Price">가격</param>
+                            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                            String msg = "[" + mainForm.input_time.Text + "]t0424 ::매도[" + tmpT0424Vo.hname + "]  수익율:" + tmpT0424Vo.sunikrt + "%   " + tmpT0424Vo.mdposqt + "주매도.매도가능:"+ tmpT0424Vo.mdposqt;
+                            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, expcode, tmpT0424Vo.mdposqt, tmpT0424Vo.price, "1");
+                            tmpT0424Vo.mdposqt = "0";
+                        }
+                        else
+                        {
+                            Log.WriteLine("t0424 ::매도 제어");
+                        }
 
                    
+                    }
                 }
-
                 //if ((i % 2) == 0)
                 // {
                 //     tmpDataRow["hname"] = "xxx";
@@ -189,7 +191,8 @@ namespace PackageSellSystemTrading {
                 mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: 잔고조회 완료";
 
                 //응답처리 완료
-                completeAt = true;   
+                completeAt = true;
+                readyAt = true;   
             }
 
         }//end
