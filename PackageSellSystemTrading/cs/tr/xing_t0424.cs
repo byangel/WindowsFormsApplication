@@ -29,6 +29,7 @@ namespace PackageSellSystemTrading {
         public int mamt;      //매입금액
         public int tappamt;   //평가금액
         public int tdtsunik;  //평가손익
+       
 
         public int h_totalCount;
 
@@ -77,11 +78,11 @@ namespace PackageSellSystemTrading {
                 //price   = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
 
 
-                var result =  from item in t0424VoList
+                var result_t0424 =  from item in t0424VoList
                               where item.expcode == expcode
                               select item;
-                if (result.Count() > 0){
-                    tmpT0424Vo = result.ElementAt(0);
+                if (result_t0424.Count() > 0){
+                    tmpT0424Vo = result_t0424.ElementAt(0);
                 }else{
                     tmpT0424Vo = new T0424Vo();
                 }
@@ -97,9 +98,9 @@ namespace PackageSellSystemTrading {
                 tmpT0424Vo.pamt    = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
                 tmpT0424Vo.mamt    = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
                 tmpT0424Vo.msat    = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
-                tmpT0424Vo.mpms    = base.GetFieldData("t0424OutBlock1", "mpms"  , i); //당일매수단가
+                tmpT0424Vo.mpms    = base.GetFieldData("t0424OutBlock1", "mpms"    , i); //당일매수단가
                 tmpT0424Vo.mdat    = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
-                tmpT0424Vo.mpmd    = base.GetFieldData("t0424OutBlock1", "mpmd"  , i); //당일매도단가
+                tmpT0424Vo.mpmd    = base.GetFieldData("t0424OutBlock1", "mpmd"    , i); //당일매도단가
                 tmpT0424Vo.fee     = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
                 tmpT0424Vo.tax     = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
                 tmpT0424Vo.sininter= base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
@@ -107,7 +108,7 @@ namespace PackageSellSystemTrading {
                 tmpT0424Vo.deleteAt = false; //삭제여부
                 
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
-                if (result.Count() == 0){
+                if (result_t0424.Count() == 0){
                     t0424VoList.Add(tmpT0424Vo);
                 }
 
@@ -127,7 +128,11 @@ namespace PackageSellSystemTrading {
                         }
                         else
                         {
-                            Log.WriteLine("t0424 ::매도 제어");
+                            
+                           //Log.WriteLine("t0424 ::매도 제어");
+                                
+                           
+                            
                         }
 
                    
@@ -147,6 +152,7 @@ namespace PackageSellSystemTrading {
             this.tmpMamt     += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
             this.tmpTappamt  += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
             this.tmpTdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
+            
 
             this.h_totalCount += iCount;
 
@@ -165,10 +171,10 @@ namespace PackageSellSystemTrading {
                 this.mamt     = this.tmpMamt;      //매입금액
                 this.tappamt  = this.tmpTappamt;   //평가금액
                 this.tdtsunik = this.tmpTdtsunik;  //평가손익
-
+           
                 mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
                 //mainForm.input_BalEvalAmt.Text  = Util.GetNumberFormat(this.tappamt); // 평가금액
-                // mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.tdtsunik);// 평가손익
+                //mainForm.input_totalPamt.Text = Util.GetNumberFormat(this.tdtsunik);//평가금액 합
                 //mainForm.input_D2Dps.Text  = Util.GetNumberFormat(this.sunamt1);      // D1예수금
                 //mainForm.input_sunamt.Text   = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
                 mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);      // 실현손익
@@ -237,7 +243,7 @@ namespace PackageSellSystemTrading {
                 this.tmpTappamt   = 0; //평가금액
                 this.tmpTdtsunik  = 0; //평가손익
                 this.h_totalCount = 0; //보유종목수
-
+           
                 base.Request(false);  //연속조회일경우 true
                 
                 //폼 메세지.

@@ -144,7 +144,7 @@ namespace PackageSellSystemTrading {
                                     if (late > 3.5)
                                     {
                                         //해당종목 매도 이력이 없으면 매수 한다.
-                                        var resultt0425Vo = from t0425VoChegb1 in t0425VoListChegb1
+                                        var result_t0425Vo = from t0425VoChegb1 in t0425VoListChegb1
                                                             where t0425VoChegb1.expcode == tmpT0425Vo.expcode
                                                                     && t0425VoChegb1.medosu == "매도"
                                                                     && t0425VoChegb1.qty == tmpT0425Vo.qty//주문수량   
@@ -152,7 +152,7 @@ namespace PackageSellSystemTrading {
                                         //매도 이력이 없다면 또는 매도체크 여부가 Y가 아니라면 매도해주자.-
                                         //빠른게 2번 매도가 이루어지는문제가 있다 그래서 매도하면 매도했다고 체크를 하는데 문제는 프로그램 재시작시 체크 정보가 사라진다 그래서 매도이력이 있는지도 체크해준다.
                                        
-                                        if (resultt0425Vo.Count() == 0 && tmpT0425Vo.todaySellAt == false)
+                                        if (result_t0425Vo.Count() == 0 && tmpT0425Vo.todaySellAt == false)
                                         {
                                             
                                             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
@@ -170,8 +170,7 @@ namespace PackageSellSystemTrading {
                                                 //당일매도 차익 합산.
                                                 mainForm.input_toDayAtm.Text = toDaySellAmt;
                                             }
-                                            else
-                                            {
+                                            else {
                                                 Log.WriteLine("t0425 ::매도 제어");
                                             }
 

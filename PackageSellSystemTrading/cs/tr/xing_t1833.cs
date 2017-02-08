@@ -158,27 +158,27 @@ namespace PackageSellSystemTrading{
             BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
             
             //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
-            var resulT0425 =  from t0425VoChegb1 in t0425VoList_Chegb1
+            var result_t0425 =  from t0425VoChegb1 in t0425VoList_Chegb1
                              where t0425VoChegb1.expcode == shcode && t0425VoChegb1.medosu == "매수"
                             select t0425VoChegb1;
 
-            for (int i=0; i < resulT0425.Count(); i++)
+            for (int i=0; i < result_t0425.Count(); i++)
             {
                 //금일 같은종목 진입 이력이 있다면 매수진입하지 않는다.
-                if (resulT0425.ElementAt(i).ordrem == "0")
+                if (result_t0425.ElementAt(i).ordrem == "0")
                 {
                     Log.WriteLine("t1833 ::금일 1회 매수 제한. [" + hname + "] ");
                     return false;
                 }
                 //미체결 내역 있다면 매수제한.
-                if (int.Parse(resulT0425.ElementAt(i).ordrem) > 0)
+                if (int.Parse(result_t0425.ElementAt(i).ordrem) > 0)
                 {
-                    Log.WriteLine("t1833 ::미체결잔량 매수제한 [" + hname + "] 미체결 잔량 " + resulT0425.ElementAt(0).ordrem + "주 매수제한");
+                    Log.WriteLine("t1833 ::미체결잔량 매수제한 [" + hname + "] 미체결 잔량 " + result_t0425.ElementAt(0).ordrem + "주 매수제한");
                     return false;
                 }
                 //반복매수 시간 제한. --금일 중복및 반복매수 제한 조건이 있다면 필요없는 조건임.
                 //반복매수 제한-분으로 푼다음 시간을 계산한다.
-                tmpTime = (int.Parse(resulT0425.ElementAt(i).ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(resulT0425.ElementAt(i).ordtime.Substring(2, 2)) * 60) + (int.Parse(resulT0425.ElementAt(i).ordtime.Substring(4, 2)));
+                tmpTime = (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(2, 2)) * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(4, 2)));
                 tmpTime = (cTime - tmpTime);
                 if (tmpTime < (Properties.Settings.Default.REPEAT_BUY_TERM * 60))
                 {
@@ -228,32 +228,33 @@ namespace PackageSellSystemTrading{
             //}
 
             //진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
-            var t0424Result = from item in t0424VoList
+            var esult_t0424 = from item in t0424VoList
                              where item.expcode == shcode
                             select item;
            
             //DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
-            if (t0424Result.Count() > 0){   
+            if (esult_t0424.Count() > 0){   
                 //보유종목이면..하이라키...
                
                 mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
         
-                String sunikrt = (String)t0424Result.ElementAt(0).sunikrt;//기존 종목 수익률
+                String sunikrt = (String)esult_t0424.ElementAt(0).sunikrt;//기존 종목 수익률
 
                 //수익율이 -3% 이하이면 반복매수 해주자.
                 if (float.Parse(sunikrt) > Properties.Settings.Default.REPEAT_BUY_RATE)
                 {
-                    Log.WriteLine("t1833 :: [" + hname + "] 반복매수 " + sunikrt + ">" + Properties.Settings.Default.REPEAT_BUY_RATE + "% 제한");
+                    Log.WriteLine("t1833 :: [" + hname + "] 반복매수 제한" + sunikrt + ">" + Properties.Settings.Default.REPEAT_BUY_RATE + "%");
                     return false;
                 }
-                accountAt = "반복매수 매수전 수익률/수량:"+ sunikrt+"/"+ (String)t0424Result.ElementAt(0).mdposqt+" ";
+                accountAt = "반복매수  실행 : 매수전 수익률/수량:"+ sunikrt+"/"+ (String)esult_t0424.ElementAt(0).mdposqt+" ";
 
             }
             else{//보유종목이 아니고 신규매수해야 한다면.
-                accountAt = "신규매수";
+                accountAt = "신규매수 실행 : ";
                 //자본금 = 매입금액 + D2예수금 
                 Double baseAmt = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
-                   
+                
+
                 if (baseAmt > Properties.Settings.Default.PROGRM_AMT_LIMIT){//이런날이 올까?
                     //Log.WriteLine("ㅡㅡㅡㅡㅡ");
                     baseAmt = Properties.Settings.Default.PROGRM_AMT_LIMIT;
@@ -264,7 +265,7 @@ namespace PackageSellSystemTrading{
                 //매입금액 / 자본금 * 100 =자본금 대비 투자율
                 Double enterRate = (this.mainForm.xing_t0424.mamt / baseAmt) * 100;
                 if (enterRate > Properties.Settings.Default.NEW_BUY_STOP_RATE){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Log.WriteLine("t1833 ::자본금 대비 투자율 제한 [" + hname + "]   "+ this.mainForm.xing_t0424.mamt+"/"+ baseAmt + "*100 = " + enterRate + ">" + Properties.Settings.Default.NEW_BUY_STOP_RATE + "% 제한");
+                    Log.WriteLine("t1833 ::자본금 대비 투자율 제한 [" + hname + "]   "+ this.mainForm.xing_t0424.mamt+"/"+ baseAmt + "*100 = " + enterRate + ">" + Properties.Settings.Default.NEW_BUY_STOP_RATE + "% ");
                     return false;
                 }      
             }
@@ -280,6 +281,7 @@ namespace PackageSellSystemTrading{
             }
 
             int Quantity = battingAtm / int.Parse(close);
+            //int Quantity = 20000;
             //정규장에만 주문실행.
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
 
@@ -287,7 +289,7 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                String buyMsg = "t1833 :: "+ accountAt + "[" + hname + "]    " + close + "원*" + Quantity + "주 매수실행";
+                String buyMsg = "t1833 :: "+ accountAt + "[" + hname + "]    " + close + "원*" + Quantity + "주 ";
                 mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
             }else{
                 Log.WriteLine("t1833 ::비정규장 제어["+ hname + "]" + accountAt + "   " + close + "원*" + Quantity);
