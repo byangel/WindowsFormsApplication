@@ -141,7 +141,7 @@ namespace PackageSellSystemTrading {
                                     Double late = ((t0424_price / Double.Parse(tmpT0425Vo.cheprice)) * 100) - 100;
                                     late = Math.Round(late, 2);
 
-                                    if (late > 3.5)
+                                    if (late > 3)
                                     {
                                         //해당종목 매도 이력이 없으면 매수 한다.
                                         var result_t0425Vo = from t0425VoChegb1 in t0425VoListChegb1
@@ -151,30 +151,24 @@ namespace PackageSellSystemTrading {
                                                             select t0425VoChegb1;
                                         //매도 이력이 없다면 또는 매도체크 여부가 Y가 아니라면 매도해주자.-
                                         //빠른게 2번 매도가 이루어지는문제가 있다 그래서 매도하면 매도했다고 체크를 하는데 문제는 프로그램 재시작시 체크 정보가 사라진다 그래서 매도이력이 있는지도 체크해준다.
-                                       
                                         if (result_t0425Vo.Count() == 0 && tmpT0425Vo.todaySellAt == false)
                                         {
                                             
-                                            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
-                                            {
-                                                /// <param name="IsuNo">종목번호</param>
-                                                /// <param name="Quantity">수량</param>
-                                                /// <param name="Price">가격</param>
-                                                /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                                                int tmpAmt = ((t0424_price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
-                                                toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + tmpAmt).ToString();
+                                            int tmpAmt = ((t0424_price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
+
+                                            //당일매도 차익 합산.
+                                            toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + tmpAmt).ToString();
                                                
-                                                String msg = "t0425 ::금일매수/매도[" + t0424_hname + "(" + tmpT0425Vo.expcode + ")] 원 금일수익율/주문수량/차익,매도가능수량/수익률" + late + "/" + tmpT0425Vo.qty + "/"+ tmpAmt+"," + t0424_mdposqt +"/"+ t0424_sunikrt;
-                                                mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
-                                                tmpT0425Vo.todaySellAt = true;
-                                                //당일매도 차익 합산.
-                                                mainForm.input_toDayAtm.Text = toDaySellAmt;
-                                            }
-                                            else {
-                                                Log.WriteLine("t0425 ::매도 제어");
-                                            }
+                                            String msg = "t0425 ::금일매수/매도[" + t0424_hname + "(" + tmpT0425Vo.expcode + ")] 주문가격("+t0424_price+ ")*주문수량("+ tmpT0425Vo.qty + ")/금일수익율(" + late + ")/차익(" + tmpAmt+ ")-매도가능수량("+ t0424_mdposqt + ")/매도전수익률("+t0424_sunikrt+")";
 
-
+                                            /// <param name="IsuNo">종목번호</param>
+                                            /// <param name="Quantity">수량</param>
+                                            /// <param name="Price">가격</param>
+                                            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                                            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
+                                            tmpT0425Vo.todaySellAt = true;
+                                            //당일매도 차익 합산.
+                                            mainForm.input_toDayAtm.Text = toDaySellAmt;
                                         }
 
                                     }

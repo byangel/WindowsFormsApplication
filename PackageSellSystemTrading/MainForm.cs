@@ -221,9 +221,10 @@ namespace PackageSellSystemTrading{
 
                         //소수점제거 후 배팅금액 구한다.
                         decimal battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
+                      
                         if (battingAmt < 10000)
                         {
-                            battingAmt = 20000;
+                            battingAmt = 50000;
                         }
                         this.textBox_battingAtm.Text = battingAmt.ToString();
                     }

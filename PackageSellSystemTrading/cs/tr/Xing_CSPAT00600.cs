@@ -95,29 +95,32 @@ namespace PackageSellSystemTrading{
                 base.SetFieldData("CSPAT00600Inblock1", "LoanDt"       ,0, "");            // 대출일 : 신용주문이 아닐 경우 SPACE
                 base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode",0, "0");           // 주문조건구분 : 0-없음
 
-                if (accountPw == "" || account == ""){
+            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
+            {
+                if (accountPw == "" || account == "")
+                {
                     MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
-                }else{
+                }
+                else
+                {
                     //if (int.Parse(mainForm.xing_t0167.time.Substring(0, 2)) > 9 && int.Parse(mainForm.xing_t0167.time.Substring(0, 2)) < 14)
                     //{
-                        base.Request(false);  //연속조회일경우 true
-                        Log.WriteLine(msg);
+                    base.Request(false);  //연속조회일경우 true
+                    Log.WriteLine(msg);
 
-                        if (DivideBuySell == "1")
-                        {
-                            Log.WriteLine("매입금액+D2예수금=" + (mainForm.xing_t0424.mamt + int.Parse(mainForm.xing_CSPAQ12200.D2Dps)));
-                        }
-                  //  }
-                  //  else {
-                   //     mainForm.tempLog.Text = "["+mainForm.input_time.Text+"]정규매매장이 종료 되었습니다.";
-                 //   }
-            
+                    if (DivideBuySell == "1")
+                    {
+                        Log.WriteLine("매입금액+D2예수금=" + (mainForm.xing_t0424.mamt + int.Parse(mainForm.xing_CSPAQ12200.D2Dps)));
+                    }
+                    //  }
+                    //  else {
+                    //     mainForm.tempLog.Text = "["+mainForm.input_time.Text+"]정규매매장이 종료 되었습니다.";
+                    //   }
+
                 }
+            }
 
-            //}else{
-            //    mainForm.input_CSPAT00600_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
-            //}
-
+           
 
         }	// end function
 

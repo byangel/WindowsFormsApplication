@@ -76,7 +76,11 @@ namespace PackageSellSystemTrading{
             //MessageBox.Show(this.DpsastTotamt);
             double totalAmt = double.Parse(this.DpsastTotamt) / 10000000;
             //소수점제거 후 배팅금액 구한다.
-            double battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
+            double battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;
+            if (battingAmt < 10000)
+            {
+                battingAmt = 100000;
+            }
             mainForm.textBox_battingAtm.Text = battingAmt.ToString();
 
             completeAt = true;
