@@ -21,14 +21,7 @@ namespace PackageSellSystemTrading{
         public AccountForm accountForm;
         public MainForm    mainForm;
 
-        public String D2Dps;       //D2예수금
-        public String Dps;         //예수금
-        public String PnlRat;      //손익율 
-        public String BalEvalAmt;  //잔고평가금액
-        public String DpsastTotamt;//예탁자잔총액
-        //public String InvstOrgAmt; //투자원금
-        public String InvstPlAmt;  //투자손익금액
-        public String PchsAmt;//매입금액
+        
         // 생성자
         public Xing_CSPAQ12300()
         {
