@@ -209,7 +209,6 @@ namespace PackageSellSystemTrading {
 		/// </summary>
 		public void call_request(String account, String accountPw )
         {
-
             if (completeAt) {
                 this.completeAt = false;//중복호출 방지
                 //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조

@@ -10,6 +10,7 @@ using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
 
+
 namespace PackageSellSystemTrading{
     //현물계좌 예수금/주문가능금액/총평가 조회(API)
     public class Xing_CSPAQ12200 : XAQueryClass{
@@ -58,30 +59,19 @@ namespace PackageSellSystemTrading{
             this.PnlRat       = base.GetFieldData("CSPAQ12200OutBlock2", "PnlRat"      , 0); //손익률
 
 
-            mainForm.input_Dps.Text          = Util.GetNumberFormat(this.Dps);          // 예수금
-            mainForm.input_D2Dps.Text        = Util.GetNumberFormat(this.D2Dps);        // D2예수금
-            mainForm.input_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액
-            //mainForm.input_mamt.Text  = Util.GetNumberFormat(this.InvstOrgAmt); //투자원금 --미사용
-            mainForm.input_BalEvalAmt.Text   = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
+            mainForm.input_Dps.Text            = Util.GetNumberFormat(this.Dps);          // 예수금
+            mainForm.input_D2Dps.Text          = Util.GetNumberFormat(this.D2Dps);        // D2예수금
+            mainForm.input_DpsastTotamt.Text   = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액
+            //mainForm.input_mamt.Text         = Util.GetNumberFormat(this.InvstOrgAmt); //투자원금 --미사용
+            mainForm.input_BalEvalAmt.Text     = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
             //mainForm.input_InvstPlAmtt.Text  = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
             mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
             
             mainForm.input_PnlRat.Text       = Util.GetNumberFormat(this.PnlRat);   // 손익률
 
-            /////////////////////////////////
-            //MessageBox.Show(base.GetFieldData("CSPAQ12200OutBlock2", "PchsAmt", 0));
-            //1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
-            //매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
-            //소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원
-            //MessageBox.Show(this.DpsastTotamt);
-            double totalAmt = double.Parse(this.DpsastTotamt) / 10000000;
-            //소수점제거 후 배팅금액 구한다.
-            double battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;
-            if (battingAmt < 10000)
-            {
-                battingAmt = 100000;
-            }
-            mainForm.textBox_battingAtm.Text = battingAmt.ToString();
+            
+            //배팅금액설정
+            mainForm.textBox_battingAtm.Text = Util.getBattingAmt(this.DpsastTotamt);
 
             completeAt = true;
 

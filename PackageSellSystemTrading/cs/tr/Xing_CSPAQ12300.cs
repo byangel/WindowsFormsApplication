@@ -87,14 +87,19 @@ namespace PackageSellSystemTrading{
 
         //이벤트 메세지.
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
-            try{
+
+            try {
+                //특정 오류없이 정상적으로 실행이 되었다면 화면 및 초기화를 해준다.
                 if (nMessageCode == "00136" || nMessageCode == "00133") {
                     //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
                     accountForm.exXASessionClass.account   = this.account;
                     accountForm.exXASessionClass.accountPw = this.accountPw;
 
+                    //잔고정보
                     mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                    //잔고정보
                     mainForm.xing_t0424.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                    //체결미체결
                     mainForm.xing_t0425.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
                     //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
 

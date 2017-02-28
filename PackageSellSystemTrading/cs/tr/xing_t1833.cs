@@ -284,7 +284,6 @@ namespace PackageSellSystemTrading{
             //int Quantity = 20000;
             //정규장에만 주문실행.
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
-
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>

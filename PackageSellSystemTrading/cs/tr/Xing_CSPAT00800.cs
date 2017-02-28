@@ -58,20 +58,24 @@ namespace PackageSellSystemTrading{
 		/// <param name="OrgOrdNo">원주문번호</param>
 		/// <param name="IsuNo">종목번호</param>
 		/// <param name="OrdQty">주문수량</param>
-		public void call_request(String account, String accountPw, string OrgOrdNo, string IsuNo, string OrdQty)
+		public void call_request(String account, String accountPw, string OrgOrdNo, string shcode, string OrdQty)
         {
-            //모의투자 여부 구분하여 모의투자이면 A+종목번호
+            //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {
-                IsuNo = "A" + IsuNo;
+                shcode = "A" + shcode;
             }
+
+            //2.실시간 체결 정보요청 취소.
+            mainForm.real_SC1.UnadviseRealDataWithKey(shcode);
+
             //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
             //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
             base.SetFieldData("CSPAT00800InBlock1", "AcntNo"  , 0, account);  // 계좌번호
             base.SetFieldData("CSPAT00800InBlock1", "InptPwd" , 0, accountPw);// 입력비밀번호
             base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo", 0, OrgOrdNo); // 원주문번호
-            base.SetFieldData("CSPAT00800InBlock1", "IsuNo"   , 0, IsuNo);    // 종목번호
+            base.SetFieldData("CSPAT00800InBlock1", "IsuNo"   , 0, shcode);    // 종목번호
             base.SetFieldData("CSPAT00800InBlock1", "OrdQty"  , 0, OrdQty);   // 주문수량
 
             base.Request(false);

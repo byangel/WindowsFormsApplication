@@ -21,10 +21,14 @@ namespace PackageSellSystemTrading
         {
             if (mStreamWriter == null)
             {
-                string szFile = Util.GetCurrentDirectoryWithPath() + "\\logs\\log.txt";
-
-                // 기존에 생성된 로그 파일이 있다면...
-                FileInfo file = new FileInfo(szFile);
+                String  filePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\log.txt";
+                String  dirPath = Util.GetCurrentDirectoryWithPath() + "\\logs";
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+                    // 기존에 생성된 로그 파일이 있다면...
+                    FileInfo file = new FileInfo(filePath);
                 if (file.Exists)
                 {
                     string szCreateDate = file.LastWriteTime.ToString();
@@ -33,18 +37,18 @@ namespace PackageSellSystemTrading
                     // 금일 로그파일이 이미 생성되어 있다면...로그 내용을 추가
                     if (szCreateDate.IndexOf(szNowDate) > -1)
                     {
-                        mStream = new FileStream(szFile, FileMode.Append);
+                        mStream = new FileStream(filePath, FileMode.Append);
                     }
                     // 금일 처음 로그파일이 생성되는거라면...신규로 파일 생성
                     else
                     {
-                        mStream = new FileStream(szFile, FileMode.Create);
+                        mStream = new FileStream(filePath, FileMode.Create);
                     }
                 }
                 // 신규로 파일 생성
                 else
                 {
-                    mStream = new FileStream(szFile, FileMode.Create);
+                    mStream = new FileStream(filePath, FileMode.Create);
                 }
 
                 mStreamWriter = new StreamWriter(mStream, Encoding.GetEncoding("euc-kr"));
@@ -61,7 +65,7 @@ namespace PackageSellSystemTrading
         /// <param name="szMsg"></param>
         public static void WriteLine(string szMsg)
         {
-            GetStreamWriter().WriteLine(DatetimeUtil.GetFormatNow("HH:mm:ss") + " :: " + szMsg);
+            GetStreamWriter().WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " :: " + szMsg);
         }   // end function
 
 

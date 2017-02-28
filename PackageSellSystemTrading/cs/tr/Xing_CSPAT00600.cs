@@ -13,7 +13,7 @@ namespace PackageSellSystemTrading{
     //현물 정상주문
     public class Xing_CSPAT00600 : XAQueryClass{
 
-        private String IsuNo;
+        private String shcode;
         public MainForm mainForm;
         // 생성자
         public Xing_CSPAT00600() {
@@ -61,7 +61,7 @@ namespace PackageSellSystemTrading{
                     mainForm.marketAt = false;
                 }
             }
-            mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.IsuNo + "]" + nMessageCode + " :: " + szMessage;
+            mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.shcode + "]" + nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>
@@ -71,22 +71,26 @@ namespace PackageSellSystemTrading{
         /// <param name="Quantity">수량</param>
         /// <param name="Price">가격</param>
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_request(String account, String accountPw,String msg, String IsuNo, String Quantity, String Price, String DivideBuySell)
+        public void call_request(String account, String accountPw,String msg, String shcode, String Quantity, String Price, String DivideBuySell)
         {
-            this.IsuNo = IsuNo;
-            //모의투자 여부 구분하여 모의투자이면 A+종목번호
+            
+            //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {
-                IsuNo = "A" + IsuNo;
+                shcode = "A" + shcode;
             }
+            this.shcode = shcode;
+
+            //2.실시간 체결 정보 등록
+            //mainForm.real_SC1.call_real(shcode);
 
             //if (completeAt){
-                //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
-                //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
+            //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
+            //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
-                base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, account);       // 계좌번호
+            base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, account);       // 계좌번호
                 base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, accountPw);     // 입력비밀번호
-                base.SetFieldData("CSPAT00600Inblock1", "IsuNo"        ,0, IsuNo);         // 종목번호
+                base.SetFieldData("CSPAT00600Inblock1", "IsuNo"        ,0, shcode);         // 종목번호
                 base.SetFieldData("CSPAT00600Inblock1", "OrdQty"       ,0, Quantity);      // 주문수량
                 base.SetFieldData("CSPAT00600Inblock1", "OrdPrc"       ,0, Price);         // 주문가
                 base.SetFieldData("CSPAT00600Inblock1", "BnsTpCode"    ,0, DivideBuySell); // 매매구분: 1-매도, 2-매수
