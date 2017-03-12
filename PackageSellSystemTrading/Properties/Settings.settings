@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PackageSellSystemTrading.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SELL_RATE" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
+    <Setting Name="STOP_PROFIT_TARGET" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LOGIN_ID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -17,23 +17,35 @@
     <Setting Name="ACCOUNT_PW" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="PROGRM_AMT_LIMIT" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">500000000</Value>
+    <Setting Name="MAX_AMT_LIMIT" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SERVER_INDEX" Type="System.Int32" Scope="User">
+    <Setting Name="SERVER_INDEX" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ACCOUNT" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NEW_BUY_STOP_RATE" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">90</Value>
+    <Setting Name="BUY_STOP_RATE" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="REPEAT_BUY_RATE" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">-3</Value>
+    <Setting Name="REPEAT_RATE" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="REPEAT_BUY_TERM" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
+    <Setting Name="REPEAT_TERM" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LIMITED_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TODAY_SELL_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="STOP_LOSS" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="STOP_LOSS_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

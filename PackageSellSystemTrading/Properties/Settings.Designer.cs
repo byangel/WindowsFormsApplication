@@ -25,13 +25,13 @@ namespace PackageSellSystemTrading.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int SELL_RATE {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string STOP_PROFIT_TARGET {
             get {
-                return ((int)(this["SELL_RATE"]));
+                return ((string)(this["STOP_PROFIT_TARGET"]));
             }
             set {
-                this["SELL_RATE"] = value;
+                this["STOP_PROFIT_TARGET"] = value;
             }
         }
         
@@ -85,22 +85,22 @@ namespace PackageSellSystemTrading.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500000000")]
-        public double PROGRM_AMT_LIMIT {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MAX_AMT_LIMIT {
             get {
-                return ((double)(this["PROGRM_AMT_LIMIT"]));
+                return ((string)(this["MAX_AMT_LIMIT"]));
             }
             set {
-                this["PROGRM_AMT_LIMIT"] = value;
+                this["MAX_AMT_LIMIT"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SERVER_INDEX {
+        public string SERVER_INDEX {
             get {
-                return ((int)(this["SERVER_INDEX"]));
+                return ((string)(this["SERVER_INDEX"]));
             }
             set {
                 this["SERVER_INDEX"] = value;
@@ -121,37 +121,85 @@ namespace PackageSellSystemTrading.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("90")]
-        public int NEW_BUY_STOP_RATE {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BUY_STOP_RATE {
             get {
-                return ((int)(this["NEW_BUY_STOP_RATE"]));
+                return ((string)(this["BUY_STOP_RATE"]));
             }
             set {
-                this["NEW_BUY_STOP_RATE"] = value;
+                this["BUY_STOP_RATE"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-3")]
-        public float REPEAT_BUY_RATE {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string REPEAT_RATE {
             get {
-                return ((float)(this["REPEAT_BUY_RATE"]));
+                return ((string)(this["REPEAT_RATE"]));
             }
             set {
-                this["REPEAT_BUY_RATE"] = value;
+                this["REPEAT_RATE"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int REPEAT_BUY_TERM {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string REPEAT_TERM {
             get {
-                return ((int)(this["REPEAT_BUY_TERM"]));
+                return ((string)(this["REPEAT_TERM"]));
             }
             set {
-                this["REPEAT_BUY_TERM"] = value;
+                this["REPEAT_TERM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LIMITED_AT {
+            get {
+                return ((bool)(this["LIMITED_AT"]));
+            }
+            set {
+                this["LIMITED_AT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TODAY_SELL_AT {
+            get {
+                return ((bool)(this["TODAY_SELL_AT"]));
+            }
+            set {
+                this["TODAY_SELL_AT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string STOP_LOSS {
+            get {
+                return ((string)(this["STOP_LOSS"]));
+            }
+            set {
+                this["STOP_LOSS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool STOP_LOSS_AT {
+            get {
+                return ((bool)(this["STOP_LOSS_AT"]));
+            }
+            set {
+                this["STOP_LOSS_AT"] = value;
             }
         }
     }

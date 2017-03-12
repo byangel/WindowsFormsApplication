@@ -272,29 +272,40 @@ namespace PackageSellSystemTrading
         //dpsastTotamt 예탁자잔총액
         public static String getBattingAmt(String dpsastTotamt)
         {
-            double paseVal = double.Parse(dpsastTotamt);
-            //소수점제거 후 배팅금액 구한다.
+            
             double resultBattingAmt = 0; //배팅금액
-            if (paseVal < 50000000)//5천마넌보다 작으면 무조건 5만원으로 셋팅.
+            if (dpsastTotamt!="")
             {
-                resultBattingAmt = 50000;
-            }else if(paseVal < 300000000)//3억이하면 /1000 - >5천부터 3억까지는 순차적으로배팅금액상승 (30만원까지)
-            {
-                double totalAmt = paseVal / 10000000;
-                //소수점제거 후 배팅금액 구한다.
-                resultBattingAmt = (Math.Floor(totalAmt) * 10000000) / 1000;
-            }else if (paseVal < 600000000)//6억이하면 30마넌 고정배팅 ->배팅횟수 늘어나는 효과 2000까지
-            {
-                resultBattingAmt = 300000;
-            }else if (paseVal < 2000000000) //20억이하 100마넌까지 배팅금액 상승
-            {
-                double totalAmt = paseVal / 10000000;
-                //소수점제거 후 배팅금액 구한다.
-                resultBattingAmt = (Math.Floor(totalAmt) * 10000000) / 2000;
-            }else if (paseVal > 2000000000) //20억이상 100만원으로 배팅금액 고정 ->평생 삼성주식은 못사겠군...ㅋㅋㅋ
-            {
-                resultBattingAmt = 1000000;
+          
+                double paseVal = double.Parse(dpsastTotamt);
+                if (paseVal < 50000000)//5천마넌보다 작으면 무조건 5만원으로 셋팅.
+                {
+                    resultBattingAmt = 50000;
+                }
+                else if (paseVal < 300000000)//3억이하면 /1000 - >5천부터 3억까지는 순차적으로배팅금액상승 (30만원까지)
+                {
+                    double totalAmt = paseVal / 10000000;
+                    //소수점제거 후 배팅금액 구한다.
+                    resultBattingAmt = (Math.Floor(totalAmt) * 10000000) / 1000;
+                }
+                else if (paseVal < 600000000)//6억이하면 30마넌 고정배팅 ->배팅횟수 늘어나는 효과 2000까지
+                {
+                    resultBattingAmt = 300000;
+                }
+                else if (paseVal < 2000000000) //20억이하 100마넌까지 배팅금액 상승
+                {
+                    double totalAmt = paseVal / 10000000;
+                    //소수점제거 후 배팅금액 구한다.
+                    resultBattingAmt = (Math.Floor(totalAmt) * 10000000) / 2000;
+                }
+                else if (paseVal > 2000000000) //20억이상 100만원으로 배팅금액 고정 ->평생 삼성주식은 못사겠군...ㅋㅋㅋ
+                {
+                    resultBattingAmt = 1000000;
+                }
             }
+            
+            //소수점제거 후 배팅금액 구한다.
+           
             return resultBattingAmt.ToString();
         }
     }	// end class

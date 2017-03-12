@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PackageSellSystemTrading</RootNamespace>
-    <AssemblyName>PackageSellSystemTrading</AssemblyName>
+    <AssemblyName>AngelTrade</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cs\log\Log.cs" />
+    <Compile Include="cs\log\DataLog.cs" />
     <Compile Include="cs\real\Real_SC1.cs" />
     <Compile Include="cs\session\ExXASessionClass.cs" />
     <Compile Include="cs\tr\Xing_CSPAQ12200.cs" />
@@ -83,6 +84,12 @@
     <Compile Include="AccountForm.Designer.cs">
       <DependentUpon>AccountForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,6 +153,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Form\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

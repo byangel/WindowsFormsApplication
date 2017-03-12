@@ -82,11 +82,11 @@ namespace PackageSellSystemTrading {
 
                 //로그인 성공시 계좌 목록을 콤보박스에 출력
                 //계좌정보 설정 폼 팝업 호출
-                AccountForm accountForm = new AccountForm();
-                accountForm.mainForm = this.mainForm;
-                accountForm.exXASessionClass = this;
+                //AccountForm accountForm = new AccountForm();
+                //accountForm.mainForm = this.mainForm;
+                //accountForm.exXASessionClass = this;
 
-                accountForm.ShowDialog();
+                mainForm.accountForm.ShowDialog();
 
                 if (this.account == "" || this.accountPw == "") {
                     msg = "계좌 및 계좌 비밀번호를 설정해주세요.";

@@ -114,7 +114,7 @@ namespace PackageSellSystemTrading {
 
                 if (readyAt) {
                     //수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
-                    if (int.Parse((String)tmpT0424Vo.mdposqt) > 0 && float.Parse(tmpT0424Vo.sunikrt) > Properties.Settings.Default.SELL_RATE )
+                    if (int.Parse((String)tmpT0424Vo.mdposqt) > 0 && float.Parse(tmpT0424Vo.sunikrt) > float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) )
                     {
                         
                             /// <param name="IsuNo">종목번호</param>

@@ -57,12 +57,21 @@ namespace PackageSellSystemTrading{
             //pchsant//매입금액
             //deposit//예수금
             //substamt//대용금액
+            String ordno      = base.GetFieldData("OutBlock", "ordno");      //주문번호
             String ordptncode = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매수|02:매도 
-            String ordqty  = base.GetFieldData("OutBlock", "ordqty"); //주문수량 
-            String execqty = base.GetFieldData("OutBlock", "execqty");  //체결수량 
-            String isunm   = base.GetFieldData("OutBlock", "isunm");  //종목명 
-            String isuno   = base.GetFieldData("OutBlock", "isuno");  //종목번호 
-            Log.WriteLine("real ::실시간 체결확인 종목명/주문수량/체결수량|거래구분["+ isunm + "|" + ordqty + "|" + execqty+"|"+ ordptncode + "]");
+            String isunm      = base.GetFieldData("OutBlock", "isunm");      //종목명 
+            String isuno      = base.GetFieldData("OutBlock", "isuno");      //종목번호 
+
+            String ordqty     = base.GetFieldData("OutBlock", "ordqty");     //ordqty//주문수량
+            String ordprc     = base.GetFieldData("OutBlock", "ordprc");     //ordprc//주문가격
+            String execqty    = base.GetFieldData("OutBlock", "execqty");    //execqty//체결수량
+            String execprc    = base.GetFieldData("OutBlock", "execprc");    //execprc//체결가격
+
+            String avrpchsprc = base.GetFieldData("OutBlock", "avrpchsprc");//평균매입가
+            String pchsant    = base.GetFieldData("OutBlock", "pchsant");   //매입금액
+           
+
+            Log.WriteLine("real ::실시간 체결확인: 주문번호|종목명|주문수량|체결수량|거래구분|평균매입가|체결가걱["+ordno + "|" + isunm + "|" + ordqty + "|" + execqty+"|"+ ordptncode + "|"+ avrpchsprc+"|"+ execprc+"]");
         
             //주문수량과 체결수량이 같으면 실시간 요청을 취소한다.
             //if (ordqty == execqty)

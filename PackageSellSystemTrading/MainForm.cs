@@ -19,20 +19,23 @@ namespace PackageSellSystemTrading{
 
         //배팅금액
         public decimal battingAmt;
+        public Boolean marketAt = true;
 
         public ExXASessionClass exXASessionClass;
-        public Xing_t1833 xing_t1833;              //조건검색
-        public Xing_t0424 xing_t0424;              //잔고2
+        public Xing_t1833       xing_t1833;        //조건검색
+        public Xing_t0424       xing_t0424;        //잔고2
        
-        public Xing_t0425 xing_t0425;             //체결/미체결
-        public Xing_t0167 xing_t0167;             //시간조회
-        public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
-        public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
-        public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
+        public Xing_t0425       xing_t0425;        //체결/미체결
+        public Xing_t0167       xing_t0167;        //시간조회
+        public Xing_CSPAT00600  xing_CSPAT00600;   //주식주문
+        public Xing_CSPAT00800  xing_CSPAT00800;   //현물 취소주문
+        public Xing_CSPAQ12200  xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
 
-        public Real_SC1 real_SC1; //실시간 체결
+        public AccountForm      accountForm;       //계좌 선택
+        public OptionForm       optionForm;        //프로그램 설정 폼
 
-        public Boolean marketAt=true;
+        public Real_SC1         real_SC1; //실시간 체결
+        
        
         public MainForm(){
             InitializeComponent();
@@ -63,11 +66,22 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.mainForm = this;
 
+            this.accountForm = new AccountForm();//계좌선택폼
+            this.accountForm.mainForm = this;
+            this.accountForm.exXASessionClass = exXASessionClass;
+            this.optionForm = new OptionForm();
+            this.optionForm.mainForm = this;
+
             this.real_SC1 = new Real_SC1();    //실시간 체결
             this.real_SC1.mainForm = this;
 
-            
 
+            //프로그램 설정 초기화
+            if (Properties.Settings.Default.STOP_PROFIT_TARGET.ToString() == "")
+            {
+                optionForm.rollBack();
+            }
+            
 
             //폼 초기화
             initForm();
@@ -81,7 +95,7 @@ namespace PackageSellSystemTrading{
             input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
 
             //서버 선택 콤보 초기화
-            combox_targetServer.SelectedIndex = Properties.Settings.Default.SERVER_INDEX;
+            combox_targetServer.SelectedIndex = int.Parse(Properties.Settings.Default.SERVER_INDEX);
 
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = new BindingList<T0424Vo>();
@@ -97,7 +111,6 @@ namespace PackageSellSystemTrading{
         //properties 저장
         private void btn_config_save_Click(object sender, EventArgs e)  {
 
-
             // UI 필드 값을 읽어서 변수에 담음 - 비번등은 암호화 시킴
             int    serverIndex   = combox_targetServer.SelectedIndex;
             string loginId       = Util.Encrypt(input_loginId.Text.Trim());
@@ -107,7 +120,7 @@ namespace PackageSellSystemTrading{
         
 
             // 설정 파일에 저장
-            Properties.Settings.Default.SERVER_INDEX = serverIndex;
+            Properties.Settings.Default.SERVER_INDEX = serverIndex.ToString();
             Properties.Settings.Default.LOGIN_ID     = loginId;
             Properties.Settings.Default.LOGIN_PW     = loginPw;
             Properties.Settings.Default.PUBLIC_PW    = publicPw;
@@ -220,17 +233,12 @@ namespace PackageSellSystemTrading{
                         {
                             MessageBox.Show("계좌 및 계좌 비밀번호를 설정해주세요.");
                         } else  {
-                            String DpsastTotamt = this.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
-                            decimal totalAmt = int.Parse(DpsastTotamt) / 10000000;
+                            /************************************************************************/
+                            String dpsastTotamt = this.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
 
-                            //소수점제거 후 배팅금액 구한다.
-                            decimal battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
-                      
-                            if (battingAmt < 10000){
-                                battingAmt = 50000;
-                            }
-                            this.textBox_battingAtm.Text = battingAmt.ToString();
-                        }
+                            //배팅금액설정
+                            this.textBox_battingAtm.Text = Util.getBattingAmt(dpsastTotamt);
+                    }
                 } else {
                 
                     timer_enterSearch.Enabled = true;//진입검색 타이머
@@ -294,7 +302,7 @@ namespace PackageSellSystemTrading{
             /// <returns>포멧 변환된 값</returns>
 
 
-            input_dateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //input_dateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
 
         }
@@ -375,6 +383,11 @@ namespace PackageSellSystemTrading{
         private void label10_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_program_config_Click(object sender, EventArgs e)
+        {
+            optionForm.ShowDialog();
         }
     }//end class
 }//end namespace

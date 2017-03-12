@@ -180,10 +180,10 @@ namespace PackageSellSystemTrading{
                 //반복매수 제한-분으로 푼다음 시간을 계산한다.
                 tmpTime = (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(2, 2)) * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(4, 2)));
                 tmpTime = (cTime - tmpTime);
-                if (tmpTime < (Properties.Settings.Default.REPEAT_BUY_TERM * 60))
+                if (tmpTime < (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60))
                 {
                     //Log.WriteLine("t1833 :: [" + hname + "] (" + time + ")" + cTime + "-" + "(" + ordtime + ")" + ordMTime + "=" + (cTime - ordMTime));
-                    Log.WriteLine("t1833 ::금일반복매수 텀 제한. [" + hname + "] " + tmpTime + "초 <" + (Properties.Settings.Default.REPEAT_BUY_TERM * 60) + "초 제한");
+                    Log.WriteLine("t1833 ::금일반복매수 텀 제한. [" + hname + "] " + tmpTime + "초 <" + (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60) + "초 제한");
                     return false;
                 }
            
@@ -241,9 +241,9 @@ namespace PackageSellSystemTrading{
                 String sunikrt = (String)esult_t0424.ElementAt(0).sunikrt;//기존 종목 수익률
 
                 //수익율이 -3% 이하이면 반복매수 해주자.
-                if (float.Parse(sunikrt) > Properties.Settings.Default.REPEAT_BUY_RATE)
+                if (float.Parse(sunikrt) > int.Parse(Properties.Settings.Default.REPEAT_RATE))
                 {
-                    Log.WriteLine("t1833 :: [" + hname + "] 반복매수 제한" + sunikrt + ">" + Properties.Settings.Default.REPEAT_BUY_RATE + "%");
+                    Log.WriteLine("t1833 :: [" + hname + "] 반복매수 제한" + sunikrt + ">" + Properties.Settings.Default.REPEAT_RATE + "%");
                     return false;
                 }
                 accountAt = "반복매수  실행 : 매수전 수익률/수량:"+ sunikrt+"/"+ (String)esult_t0424.ElementAt(0).mdposqt+" ";
@@ -252,20 +252,25 @@ namespace PackageSellSystemTrading{
             else{//보유종목이 아니고 신규매수해야 한다면.
                 accountAt = "신규매수 실행 : ";
                 //자본금 = 매입금액 + D2예수금 
-                Double baseAmt = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
-                
+                Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
 
-                if (baseAmt > Properties.Settings.Default.PROGRM_AMT_LIMIT){//이런날이 올까?
-                    //Log.WriteLine("ㅡㅡㅡㅡㅡ");
-                    baseAmt = Properties.Settings.Default.PROGRM_AMT_LIMIT;
+                //투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다. 참이아니면 
+                if (Properties.Settings.Default.LIMITED_AT)
+                {
+                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
+                    {//이런날이 올까?
+                     //Log.WriteLine("ㅡㅡㅡㅡㅡ");
+                        자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
+                    }
                 }
+                
 
                 //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
                 //매입금액 기초자산의 90% 이상 매입을 할수 없다.
                 //매입금액 / 자본금 * 100 =자본금 대비 투자율
-                Double enterRate = (this.mainForm.xing_t0424.mamt / baseAmt) * 100;
-                if (enterRate > Properties.Settings.Default.NEW_BUY_STOP_RATE){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Log.WriteLine("t1833 ::자본금 대비 투자율 제한 [" + hname + "]   "+ this.mainForm.xing_t0424.mamt+"/"+ baseAmt + "*100 = " + enterRate + ">" + Properties.Settings.Default.NEW_BUY_STOP_RATE + "% ");
+                Double enterRate = (this.mainForm.xing_t0424.mamt / 자본금) * 100;
+                if (enterRate > float.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
+                    Log.WriteLine("t1833 ::자본금 대비 투자율 제한 [" + hname + "]   "+ this.mainForm.xing_t0424.mamt+"/"+ 자본금 + "*100 = " + enterRate + ">" + Properties.Settings.Default.BUY_STOP_RATE + "% ");
                     return false;
                 }      
             }
