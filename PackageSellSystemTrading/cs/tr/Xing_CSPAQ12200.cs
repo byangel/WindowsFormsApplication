@@ -69,9 +69,16 @@ namespace PackageSellSystemTrading{
             
             mainForm.input_PnlRat.Text       = Util.GetNumberFormat(this.PnlRat);   // 손익률
 
-            
+
             //배팅금액설정
-            mainForm.textBox_battingAtm.Text = Util.getBattingAmt(this.DpsastTotamt);
+            if (Properties.Settings.Default.BATTING_ATM == "")
+            {
+                mainForm.textBox_battingAtm.Text = Util.getBattingAmt(this.DpsastTotamt);
+            }else
+            {
+                mainForm.textBox_battingAtm.Text = Properties.Settings.Default.BATTING_ATM;
+            }
+            
 
             completeAt = true;
 

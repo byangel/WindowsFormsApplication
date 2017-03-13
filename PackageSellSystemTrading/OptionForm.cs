@@ -24,7 +24,7 @@ namespace PackageSellSystemTrading
         String REPEAT_RATE        = "-3";        //반복매수 비율
         String BUY_STOP_RATE      = "90";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "100000000"; //최대 운영 금액 제한 - 기본 1억
-        
+        String BATTING_ATM        = "";
         public OptionForm()
         {
             InitializeComponent();
@@ -38,6 +38,7 @@ namespace PackageSellSystemTrading
             input_max_amt_limit.Text      = Properties.Settings.Default.MAX_AMT_LIMIT.ToString();  
             input_stop_loss.Text          = Properties.Settings.Default.STOP_LOSS.ToString(); //손절
             input_stop_profit_target.Text = Properties.Settings.Default.STOP_PROFIT_TARGET.ToString();//목표 이익율
+            input_battingAtm.Text         = Properties.Settings.Default.BATTING_ATM.ToString();//배팅금액 설정
         }
 
         //프로퍼티 초기화
@@ -52,6 +53,7 @@ namespace PackageSellSystemTrading
             input_max_amt_limit.Text      = this.MAX_AMT_LIMIT;  //최대 운영 금액 제한 - 기본 1억
             input_stop_loss.Text          = this.STOP_LOSS;      //선절
             input_stop_profit_target.Text = this.STOP_PROFIT_TARGET;//목표 이익율
+            input_battingAtm.Text         = this.BATTING_ATM;//배팅금액
             Properties.Settings.Default.Save();
         }
 
@@ -68,6 +70,7 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.MAX_AMT_LIMIT       = input_max_amt_limit.Text;
             Properties.Settings.Default.STOP_LOSS           = input_stop_loss.Text;
             Properties.Settings.Default.STOP_PROFIT_TARGET  = input_stop_profit_target.Text; //목표 이익율
+            Properties.Settings.Default.BATTING_ATM         = input_battingAtm.Text; //배팅금액 강제설정
 
             Properties.Settings.Default.Save();
             MessageBox.Show("설정을 저장하였습니다.");

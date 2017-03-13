@@ -202,5 +202,17 @@ namespace PackageSellSystemTrading.Properties {
                 this["STOP_LOSS_AT"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BATTING_ATM {
+            get {
+                return ((string)(this["BATTING_ATM"]));
+            }
+            set {
+                this["BATTING_ATM"] = value;
+            }
+        }
     }
 }

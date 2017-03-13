@@ -389,6 +389,55 @@ namespace PackageSellSystemTrading{
         {
             optionForm.ShowDialog();
         }
+        
+        //선택 매도
+        private void btn_checkSell_Click(object sender, EventArgs e)
+        {
+            String expcode; //종목코드
+            String hname;   //종목명
+            String mdposqt; //주문가능수량수량
+            String sunikrt; //수익율
+            String price;   //현재가
+           
+            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)this.grd_t0424.DataSource);
+            for (int i=0;i< grd_t0424.RowCount; i++)
+            {
+              
+                if (grd_t0424.Rows[i].Cells[0].FormattedValue.ToString() == "True")
+                {
+                    
+                    expcode = grd_t0424.Rows[i].Cells[1].FormattedValue.ToString(); //종목코드
+                    //주문 여부를 true로 업데이트
+                    var result_t0424 = from item in t0424VoList
+                                       where item.expcode == expcode.Replace("A", "")
+                                       select item;
+                    //MessageBox.Show(result_t0424.Count().ToString());
+                    
+                    if (result_t0424.Count() > 0)
+                    {
+                        expcode = result_t0424.ElementAt(0).expcode; //종목코드
+                        hname   = result_t0424.ElementAt(0).hname; //종목명
+                        sunikrt = result_t0424.ElementAt(0).sunikrt; //수익율
+                        mdposqt = result_t0424.ElementAt(0).mdposqt; //주문가능수량수량
+                        price   = result_t0424.ElementAt(0).price; //현재가
+
+                        /// <param name="IsuNo">종목번호</param>
+                        /// <param name="Quantity">수량</param>
+                        /// <param name="Price">가격</param>
+                        /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                        String msg = "[" + this.input_time.Text + "]t0424 ::선택매도[" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt;
+                        this.xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, msg, expcode, mdposqt, price, "1");
+                        //tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
+
+                        result_t0424.ElementAt(0).orderAt = true;//일괄 매도시 주문여부를 true로 설정
+                    }
+
+                }
+                
+          
+
+            }
+        }
     }//end class
 }//end namespace
 

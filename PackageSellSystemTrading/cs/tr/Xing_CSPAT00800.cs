@@ -14,6 +14,7 @@ namespace PackageSellSystemTrading{
     public class Xing_CSPAT00800 : XAQueryClass{
 
         public MainForm mainForm;
+        private String shcode; //종목코드
         // 생성자
         public Xing_CSPAT00800()
         {
@@ -43,8 +44,19 @@ namespace PackageSellSystemTrading{
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
 
             if (nMessageCode == "00000"){
-                ;
-            }else{
+                //취소주문이 완료되면 무문여부 상태를 변경해준다.
+                BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+              
+                var result_t0424 = from item in t0424VoList
+                                   where item.expcode == this.shcode.Replace("A", "")
+                                   select item;
+                //MessageBox.Show(result_t0424.Count().ToString());
+                if (result_t0424.Count() > 0)
+                {
+                    result_t0424.ElementAt(0).orderAt = false;
+                }
+            }
+            else{
                 Log.WriteLine("[" + mainForm.input_time.Text + "]CSPAT00800 :: " + nMessageCode + " :: " + szMessage);
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage; 
             }
@@ -60,6 +72,7 @@ namespace PackageSellSystemTrading{
 		/// <param name="OrdQty">주문수량</param>
 		public void call_request(String account, String accountPw, string OrgOrdNo, string shcode, string OrdQty)
         {
+            this.shcode = shcode;
             //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {

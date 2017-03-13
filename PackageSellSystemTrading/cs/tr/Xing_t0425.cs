@@ -71,15 +71,18 @@ namespace PackageSellSystemTrading {
             String t0424_hname;   //종목명
             String t0424_sunikrt;  //수익율
 
-            String  toDaySellAmt;
-            String  ordno;//주문번호
-            String  status;//상태 체결|미체결
+            String toDaySellAmt;
+            String ordno;//주문번호
+            String status;//상태 체결|미체결
+            String qty; //주문수량
+            String cheqty;//체결수량
             T0425Vo tmpT0425Vo;
             for (int i = 0; i < iCount; i++)
             {
                 ordno  = base.GetFieldData("t0425OutBlock1", "ordno", i); //주문번호
                 status = base.GetFieldData("t0425OutBlock1", "status", i); //상태
-                String cheqty = base.GetFieldData("t0425OutBlock1", "cheqty", i);//체결수량
+                qty    = base.GetFieldData("t0425OutBlock1", "qty", i); //주문수량
+                cheqty = base.GetFieldData("t0425OutBlock1", "cheqty", i);//체결수량
                 if (status == "체결")
                 {
                     var resultT0425 = from item in t0425VoListChegb1
@@ -143,7 +146,7 @@ namespace PackageSellSystemTrading {
                                         Double late = ((t0424_price / Double.Parse(tmpT0425Vo.cheprice)) * 100) - 100;
                                         late = Math.Round(late, 2);
 
-                                        if (late > 3)
+                                        if (late > float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                                         {
                                             //해당종목 매도 이력이 없으면 매수 한다.
                                             var result_t0425Vo = from t0425VoChegb1 in t0425VoListChegb1
@@ -186,7 +189,10 @@ namespace PackageSellSystemTrading {
                 }
 
                 //1.미체결목록 -- 미체결 잔량이 있다면...매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
+                //한주라도 체결되면 체결로 뜨기때문에 미체결에도 뿌려줘야할것같다
+
                 if (status == "미체결")
+                //if (int.Parse(cheqty) < int.Parse(qty))
                 {
 
                     tmpT0425Vo = new T0425Vo();
@@ -255,13 +261,13 @@ namespace PackageSellSystemTrading {
             if (nMessageCode == "00000") {
                 
             //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
-        } else {
-                //Thread.Sleep(3000);
-                completeAt = true;//중복호출 방지
-                Log.WriteLine("[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage;
+            } else {
+                    //Thread.Sleep(3000);
+                    completeAt = true;//중복호출 방지
+                    Log.WriteLine("[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage);
+                    mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage;
 
-            }
+                }
 
         }
 

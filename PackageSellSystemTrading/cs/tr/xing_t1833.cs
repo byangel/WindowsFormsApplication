@@ -246,7 +246,7 @@ namespace PackageSellSystemTrading{
                     Log.WriteLine("t1833 :: [" + hname + "] 반복매수 제한" + sunikrt + ">" + Properties.Settings.Default.REPEAT_RATE + "%");
                     return false;
                 }
-                accountAt = "반복매수  실행 : 매수전 수익률/수량:"+ sunikrt+"/"+ (String)esult_t0424.ElementAt(0).mdposqt+" ";
+                accountAt = "반복매수  실행 : 매수전 수익률|매도가능수량:"+ sunikrt+"|"+ (String)esult_t0424.ElementAt(0).mdposqt+" ";
 
             }
             else{//보유종목이 아니고 신규매수해야 한다면.

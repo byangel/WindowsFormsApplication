@@ -51,6 +51,9 @@
             this.input_stop_loss = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.checkBox_stop_loss = new System.Windows.Forms.CheckBox();
+            this.input_battingAtm = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_config_save
@@ -232,7 +235,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 172);
+            this.label2.Location = new System.Drawing.Point(13, 169);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 12);
             this.label2.TabIndex = 104;
@@ -241,7 +244,7 @@
             // input_stop_loss
             // 
             this.input_stop_loss.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_stop_loss.Location = new System.Drawing.Point(69, 168);
+            this.input_stop_loss.Location = new System.Drawing.Point(69, 165);
             this.input_stop_loss.Name = "input_stop_loss";
             this.input_stop_loss.Size = new System.Drawing.Size(23, 20);
             this.input_stop_loss.TabIndex = 105;
@@ -250,7 +253,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(92, 171);
+            this.label11.Location = new System.Drawing.Point(92, 168);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(115, 12);
             this.label11.TabIndex = 106;
@@ -266,11 +269,41 @@
             this.checkBox_stop_loss.Text = "손절";
             this.checkBox_stop_loss.UseVisualStyleBackColor = true;
             // 
+            // input_battingAtm
+            // 
+            this.input_battingAtm.Font = new System.Drawing.Font("Gulim", 8F);
+            this.input_battingAtm.Location = new System.Drawing.Point(174, 195);
+            this.input_battingAtm.Name = "input_battingAtm";
+            this.input_battingAtm.Size = new System.Drawing.Size(92, 20);
+            this.input_battingAtm.TabIndex = 108;
+            this.input_battingAtm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(13, 197);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(159, 12);
+            this.label12.TabIndex = 109;
+            this.label12.Text = "6. 배팅금액(default util use)";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(272, 197);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(17, 12);
+            this.label13.TabIndex = 110;
+            this.label13.Text = "원";
+            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(367, 261);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.input_battingAtm);
             this.Controls.Add(this.checkBox_stop_loss);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.input_stop_loss);
@@ -326,5 +359,8 @@
         public System.Windows.Forms.TextBox input_stop_loss;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox_stop_loss;
+        public System.Windows.Forms.TextBox input_battingAtm;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }
