@@ -35,7 +35,8 @@ namespace PackageSellSystemTrading{
         public OptionForm       optionForm;        //프로그램 설정 폼
 
         public Real_SC1         real_SC1; //실시간 체결
-        
+
+        public DataLog          dataLog; //데이타로그
        
         public MainForm(){
             InitializeComponent();
@@ -75,6 +76,8 @@ namespace PackageSellSystemTrading{
             this.real_SC1 = new Real_SC1();    //실시간 체결
             this.real_SC1.mainForm = this;
 
+            this.dataLog = new DataLog();
+            this.dataLog.mainForm = this;
 
             //프로그램 설정 초기화
             if (Properties.Settings.Default.STOP_PROFIT_TARGET.ToString() == "")

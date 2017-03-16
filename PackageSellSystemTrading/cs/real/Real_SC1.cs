@@ -77,11 +77,24 @@ namespace PackageSellSystemTrading{
             Log.WriteLine("real ::실시간 체결확인: 계좌번호:"+accno+ "|주문번호"+ordno+"|"+ Isunm + "("+  shtnIsuno+ ")|주문수량:" + ordqty+"|체결수량:" + execqty+"|거래구분:" + ordptncode+ "|평균매입가:" + avrpchsprc+"|체결가걱:"+execprc);
             //Isuno +","+ shtnIsuno
 
+
+
+            DataLogVo dataLogVo = new DataLogVo();
+            dataLogVo.accno = accno;       //계좌번호
+            dataLogVo.Isuno = ordptncode;  //종목코드
+            dataLogVo.Isunm = Isunm;      //종목명
+            dataLogVo.ordptncode = "02";  //주문구분 01:매도|02:매수
+            dataLogVo.ordno = "";                                //주문번호
+            dataLogVo.ordqty = ordqty;    //주문수량 - 매도가능수량
+            dataLogVo.ordprc = ordprc;    //주문가격 - 평균단가
+            dataLogVo.execqty = execqty;  //체결수량 - 매도가능수량
+            dataLogVo.execprc = execprc;  //체결가격 - 평균단가
+            mainForm.dataLog.WriteLine(dataLogVo);
+
+
+
             EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
-            //부문구분== 매도이면 -매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
-            
-                
-            //잔고그리드 종목찾아서 에러상태 로 만들어서 매도 주문이 안나가도록 조치 하자. 
+            //실시간 매도가능수량 업데이트 ->주문구분== 매도이면 -매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             var result_t0424 = from item in t0424VoList
                                 where item.expcode == shtnIsuno.Replace("A", "")
                                 select item;
