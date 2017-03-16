@@ -59,12 +59,12 @@ namespace PackageSellSystemTrading {
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
             //체결 목록
-            BindingList<T0425Vo> t0425VoListChegb1 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);
+            EBindingList<T0425Vo> t0425VoListChegb1 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);
             //미체결 목록
-            BindingList<T0425Vo> t0425VoList_Chegb2 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);
+            EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);
 
             //계좌잔고목록
-            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
 
             int    t0424_price;   //현재가
             String t0424_mdposqt; //매도가능 수량
@@ -247,7 +247,7 @@ namespace PackageSellSystemTrading {
                 //mainForm.grd_t0425_chegb1_cnt.Text = chegb1Cnt.ToString();
                 mainForm.grd_t0425_chegb1_cnt.Text = t0425VoListChegb1.Count().ToString();
                 //Thread.Sleep(5000);
-                mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
+                //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
                 mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: 채결/미채결 요청완료";
                 
             }

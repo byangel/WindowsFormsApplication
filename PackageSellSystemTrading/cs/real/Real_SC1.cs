@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
@@ -76,7 +77,7 @@ namespace PackageSellSystemTrading{
             Log.WriteLine("real ::실시간 체결확인: 계좌번호:"+accno+ "|주문번호"+ordno+"|"+ Isunm + "("+  shtnIsuno+ ")|주문수량:" + ordqty+"|체결수량:" + execqty+"|거래구분:" + ordptncode+ "|평균매입가:" + avrpchsprc+"|체결가걱:"+execprc);
             //Isuno +","+ shtnIsuno
 
-            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
             //부문구분== 매도이면 -매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             
                 
@@ -87,8 +88,13 @@ namespace PackageSellSystemTrading{
             //MessageBox.Show(result_t0424.Count().ToString());
             if (result_t0424.Count() > 0)
             {
-               // mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
-               
+                int i = t0424VoList.Find("expcode", shtnIsuno.Replace("A", ""));
+                if (i > 0)
+                {
+                    mainForm.grd_t0424.Rows[i].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
+                }
+
+
                 if (ordptncode == "01")//매도 - 매도가능수량-체결수량
                 {
                     result_t0424.ElementAt(0).mdposqt = (int.Parse(result_t0424.ElementAt(0).mdposqt) - int.Parse(execqty)).ToString();
@@ -97,6 +103,8 @@ namespace PackageSellSystemTrading{
                 {
                     result_t0424.ElementAt(0).mdposqt = (int.Parse(result_t0424.ElementAt(0).mdposqt) + int.Parse(execqty)).ToString();
                 }
+
+                //mainForm.grd_t1833.Rows[i].Cells["shcode"].Style.BackColor = Color.White;
             }
 
             //주문구분==매도 && 평규매입가==0  이뎜 매도체결 완료된 종목 잔고그리드에서 제거해주자.

@@ -98,12 +98,12 @@ namespace PackageSellSystemTrading{
             combox_targetServer.SelectedIndex = int.Parse(Properties.Settings.Default.SERVER_INDEX);
 
             //계좌잔고 그리드 초기화
-            grd_t0424.DataSource = new BindingList<T0424Vo>();
+            grd_t0424.DataSource = new EBindingList<T0424Vo>();
             //진입검색 그리드.
-            grd_t1833.DataSource = new BindingList<T1833Vo>();
+            grd_t1833.DataSource = new EBindingList<T1833Vo>();
             //체결미체결 그리드 DataSource 설정
-            grd_t0425_chegb1.DataSource = new BindingList<T0425Vo>();//체결 그리드
-            grd_t0425_chegb2.DataSource = new BindingList<T0425Vo>();//미체결 그리드
+            grd_t0425_chegb1.DataSource = new EBindingList<T0425Vo>();//체결 그리드
+            grd_t0425_chegb2.DataSource = new EBindingList<T0425Vo>();//미체결 그리드
 
         }
 
@@ -208,7 +208,7 @@ namespace PackageSellSystemTrading{
                 xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             }
 
-            setRowNumber(grd_t0424);
+            //setRowNumber(grd_t0424);
 
         }
 
@@ -283,10 +283,9 @@ namespace PackageSellSystemTrading{
                 xing_t1833.call_request("conSeven.ADF");
             //}else
             //{
-    
+
             //    tempLog.Text = "[" + input_time.Text + "]t0425 ::정규장이 아님 ";
             //}
-
         }
 
         //서버 시간
@@ -322,40 +321,35 @@ namespace PackageSellSystemTrading{
             
         }
 
+        //체결 그리드 row 번호 출력
+        private void grd_t0425_chegb1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            Rectangle rect = new Rectangle(e.RowBounds.Location.X, e.RowBounds.Location.Y, grd_t0425_chegb1.RowHeadersWidth - 4, e.RowBounds.Height);
 
-
+            TextRenderer.DrawText(e.Graphics
+                                , (e.RowIndex + 1).ToString()
+                                , grd_t0425_chegb1.RowHeadersDefaultCellStyle.Font
+                                , rect
+                                , grd_t0425_chegb1.RowHeadersDefaultCellStyle.ForeColor
+                                , TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+        }
+        //잔고 그리드 row 번호 출력
         private void grd_t0424_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            //if (e.RowIndex >= 0)
-            //{
-            //    string NumberingText = (e.RowIndex + 1).ToString();
-
-            //    // 글자 사이즈 구하기.
-            //    SizeF stringSize = e.Graphics.MeasureString(NumberingText, Font);
-
-            //    // 글자에 맞춰 좌표계산. 
-            //    PointF StringPoint = new PointF
-            //    (
-            //        Convert.ToSingle(grd_t0424.RowHeadersWidth - 3 - stringSize.Width),
-            //        Convert.ToSingle(e.RowBounds.Y) + grd_t0424[0, e.RowIndex].ContentBounds.Height * 0.3f
-            //    );
-
-            //    // 문자열 그리기.
-            //    e.Graphics.DrawString
-            //    (
-            //        NumberingText
-
-            //        Font,
-            //        Brushes.Black,
-            //        StringPoint.X,
-            //        StringPoint.Y
-            //    );
-            //}
-
+            
+            Rectangle rect = new Rectangle(e.RowBounds.Location.X, e.RowBounds.Location.Y, grd_t0424.RowHeadersWidth - 4, e.RowBounds.Height);
+         
+            TextRenderer.DrawText(e.Graphics
+                                ,(e.RowIndex+1).ToString()
+                                , grd_t0424.RowHeadersDefaultCellStyle.Font
+                                ,rect
+                                , grd_t0424.RowHeadersDefaultCellStyle.ForeColor
+                                ,TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
 
         }
 
-        public void setRowNumber(DataGridView dgv){
+
+        public void setRowNumber_(DataGridView dgv){
             //if (dgv.Rows.Count > 0) dgv.RowHeadersWidth = 50;
             dgv.RowHeadersWidth = 53;
             
@@ -366,26 +360,8 @@ namespace PackageSellSystemTrading{
             //dgv.AutoResizeRowHeadersWidth(  DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
-        private void grd_t0425_chegb1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            // grd_t0425_chegb1.Rows[e.RowIndex].Cells["shcode"].Style.BackColor = Color.Gray;
-            //MessageBox.Show(grd_t0425_chegb1.Rows.Count.ToString()+"/"+ e.RowIndex);
-            //Log.WriteLine("grd_t0425_chegb1_RowsAdded" + grd_t0425_chegb1.Rows.Count + "/" + e.RowIndex);
-           
-            //폴로드시 데이타소스 개개체를 new 하고 삽입하면 이벤트가 3번일어나서 에러난다.첨엔 잘됐었는데 뭐가 문제인지 모르겠다.
-            //String tmpMedosu = (String)grd_t0425_chegb1.Rows[0].Cells[1].Value;//거래구분   
-            //if (tmpMedosu == "매수"){
-            //    grd_t0425_chegb1.Rows[0].Cells[1].Style.ForeColor = Color.Red;
-            //}else{
-            //    grd_t0425_chegb1.Rows[0].Cells[1].Style.ForeColor = Color.Blue;
-            //}
-        }
 
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //프로그램 설정 팝업 호출
         private void btn_program_config_Click(object sender, EventArgs e)
         {
             optionForm.ShowDialog();
@@ -399,8 +375,8 @@ namespace PackageSellSystemTrading{
             String mdposqt; //주문가능수량수량
             String sunikrt; //수익율
             String price;   //현재가
-           
-            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)this.grd_t0424.DataSource);
+
+            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
             for (int i=0;i< grd_t0424.RowCount; i++)
             {
               
@@ -448,7 +424,7 @@ namespace PackageSellSystemTrading{
             String sunikrt; //수익율
             String price;   //현재가
 
-           
+
             expcode = "048830"; //종목코드
             hname = "test"; //종목명
             sunikrt = "3"; //수익율
@@ -459,24 +435,58 @@ namespace PackageSellSystemTrading{
             /// <param name="Quantity">수량</param>
             /// <param name="Price">가격</param>
             /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-           
+
             this.xing_CSPAT00600.call_request("20116440201", "1177", "dd", expcode, mdposqt, price, "1");
             //tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
-                    
-             
-            }
+
+        }
+
+
 
        
-
-        private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //폰트색 지정
+        private void grd_t0424_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            ///grd_t1833.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.PaleGreen;
-            //grd_t1833.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.White;
+            if ( e.ColumnIndex == 6 || e.ColumnIndex ==7)
+            {
+                if (e.Value !=null)
+                {
+                    
+                    if (e.Value.ToString().IndexOf("-") >= 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Blue;
+                        e.CellStyle.SelectionForeColor = Color.Blue;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;
+                       
+                    }
+                }
+            }
+        }
+        //폰트색 지정
+        private void grd_t0425_chegb1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 1 )
+            {
+                if (e.Value != null)
+                {
 
-            //Log.WriteLine(e.RowIndex.ToString()+"|"+ e.ColumnIndex);
-            //mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
-            //mainForm.grd_t1833.g
-            //MessageBox.Show(e.ToString());
+                    if (e.Value.ToString().IndexOf("매도") >= 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Blue;
+                        e.CellStyle.SelectionForeColor = Color.Blue;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;
+
+                    }
+                }
+            }
         }
     }//end class
 }//end namespace

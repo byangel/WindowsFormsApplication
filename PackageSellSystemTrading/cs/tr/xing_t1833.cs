@@ -43,8 +43,8 @@ namespace PackageSellSystemTrading{
 
             //매수종목 검색 그리드 초기화
             //mainForm.grd_t1833.Rows.Clear();
-     
-            BindingList<T1833Vo> t1833VoList = (BindingList<T1833Vo>)mainForm.grd_t1833.DataSource;
+
+            EBindingList<T1833Vo> t1833VoList = (EBindingList<T1833Vo>)mainForm.grd_t1833.DataSource;
 
             String shcode;//종목코드
             T1833Vo tmpT1833Vo;
@@ -153,11 +153,11 @@ namespace PackageSellSystemTrading{
             int tmpTime;
 
             //미체결목록그리드
-            BindingList<T0425Vo> t0425VoList_Chegb2 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
+            EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
             //체결목록 그리드
-            BindingList<T0425Vo> t0425VoList_Chegb1 = ((BindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
+            EBindingList<T0425Vo> t0425VoList_Chegb1 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
             //계좌잔고목록
-            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
             
             //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
             var result_t0425 =  from t0425VoChegb1 in t0425VoList_Chegb1

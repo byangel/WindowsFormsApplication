@@ -194,7 +194,7 @@ namespace PackageSellSystemTrading {
                         t0424VoList.RemoveAt(i);
                         i--;
                     }
-                    tmpT0424Vo.deleteAt = true;
+                    tmpT0424Vo.deleteAt = true;           
                 }
 
                 //로그 및 중복 요청 처리
@@ -211,7 +211,7 @@ namespace PackageSellSystemTrading {
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage) {
             
             if (nMessageCode == "00000") {
-                mainForm.setRowNumber(mainForm.grd_t0424);
+                ;
             }else {
                 //Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage);
                 mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage;
