@@ -1,0 +1,106 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
+using System.Windows.Forms;
+using XA_SESSIONLib;
+using XA_DATASETLib;
+using System.Data;
+using System.Drawing;
+using System.Threading;
+namespace PackageSellSystemTrading{
+    public class Xing_t1833_Exclude : XAQueryClass{
+
+        private Boolean completeAt = true;//완료여부.
+        public MainForm mainForm;
+
+        public List<T1833Vo> t1833VoList;
+
+        // 생성자
+        public Xing_t1833_Exclude(){
+            this.t1833VoList = new List<T1833Vo>();
+
+            base.ResFileName = "₩res₩t1833.res";
+
+            base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
+            base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
+        }   // end function
+
+        // 소멸자
+        ~Xing_t1833_Exclude(){
+          
+        }
+
+
+        /// <summary>
+		/// 데이터 응답 처리
+		/// </summary>
+		/// <param name="szTrCode">조회코드</param>
+		void receiveDataEventHandler(string szTrCode){
+
+            int blockCount = base.GetBlockCount("t1833OutBlock1");
+
+            //매수종목 검색 그리드 초기화
+            //mainForm.grd_t1833.Rows.Clear();
+
+            this.t1833VoList.Clear();
+
+           
+            //String sunikrt;//수익률
+            for (int i = 0; i < blockCount; i++) {
+                T1833Vo t1833Vo = new T1833Vo();
+                t1833Vo.shcode = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
+                t1833Vo.hname  = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
+                t1833Vo.close  = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
+                t1833Vo.sign   = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
+                t1833Vo.change = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
+                t1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
+                t1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+
+                this.t1833VoList.Add(t1833Vo);
+            }
+
+            completeAt = true;//중복호출 여부
+        }
+
+        void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
+          
+            if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
+                ;
+            } else { 
+                //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text + "]t1833_Exclude :: " + nMessageCode + " :: " + szMessage;
+                completeAt = true;//중복호출 방지
+            }         
+
+        }
+        /// <summary>
+		/// 종목검색 호출
+		/// </summary>
+		public void call_request(string conditionFileName){
+
+            if (completeAt) {
+                //폼 메세지.
+                completeAt = false;//중복호출 방지
+
+                String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
+                base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
+            } else {
+                mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
+                //mainForm.input_t1833_log2.Text = "대기";
+            }
+        }
+
+
+       
+
+
+        
+
+    } //end class 
+
+   
+}   // end namespace

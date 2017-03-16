@@ -58,7 +58,7 @@
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(230, 223);
+            this.btn_config_save.Location = new System.Drawing.Point(301, 223);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(63, 26);
             this.btn_config_save.TabIndex = 13;
@@ -68,7 +68,7 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(165, 223);
+            this.btn_rollback.Location = new System.Drawing.Point(236, 223);
             this.btn_rollback.Name = "btn_rollback";
             this.btn_rollback.Size = new System.Drawing.Size(59, 26);
             this.btn_rollback.TabIndex = 14;
@@ -126,9 +126,9 @@
             this.checkBox_limited.AutoSize = true;
             this.checkBox_limited.Location = new System.Drawing.Point(35, 10);
             this.checkBox_limited.Name = "checkBox_limited";
-            this.checkBox_limited.Size = new System.Drawing.Size(65, 16);
+            this.checkBox_limited.Size = new System.Drawing.Size(124, 16);
             this.checkBox_limited.TabIndex = 92;
-            this.checkBox_limited.Text = "Limited";
+            this.checkBox_limited.Text = "최대운영자금 제한";
             this.checkBox_limited.UseVisualStyleBackColor = true;
             // 
             // input_repeat_term
@@ -163,14 +163,14 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(139, 112);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(127, 12);
+            this.label8.Size = new System.Drawing.Size(241, 12);
             this.label8.TabIndex = 96;
-            this.label8.Text = "% 이상 신규매수 금지.";
+            this.label8.Text = "% 이상 신규매수 금지.(매입금액+D2예수금)";
             // 
             // input_max_amt_limit
             // 
             this.input_max_amt_limit.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_max_amt_limit.Location = new System.Drawing.Point(110, 81);
+            this.input_max_amt_limit.Location = new System.Drawing.Point(103, 79);
             this.input_max_amt_limit.Name = "input_max_amt_limit";
             this.input_max_amt_limit.Size = new System.Drawing.Size(80, 20);
             this.input_max_amt_limit.TabIndex = 97;
@@ -179,11 +179,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(193, 83);
+            this.label9.Location = new System.Drawing.Point(187, 83);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 12);
+            this.label9.Size = new System.Drawing.Size(183, 12);
             this.label9.TabIndex = 98;
-            this.label9.Text = "원 이하.";
+            this.label9.Text = "원 이하.(예탁자산총액과 비교함)";
             // 
             // input_stop_profit_target
             // 
@@ -205,7 +205,7 @@
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(299, 223);
+            this.close.Location = new System.Drawing.Point(370, 223);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(51, 26);
             this.close.TabIndex = 101;
@@ -225,7 +225,7 @@
             // checkBox_today_sell
             // 
             this.checkBox_today_sell.AutoSize = true;
-            this.checkBox_today_sell.Location = new System.Drawing.Point(110, 10);
+            this.checkBox_today_sell.Location = new System.Drawing.Point(164, 10);
             this.checkBox_today_sell.Name = "checkBox_today_sell";
             this.checkBox_today_sell.Size = new System.Drawing.Size(102, 16);
             this.checkBox_today_sell.TabIndex = 103;
@@ -262,11 +262,11 @@
             // checkBox_stop_loss
             // 
             this.checkBox_stop_loss.AutoSize = true;
-            this.checkBox_stop_loss.Location = new System.Drawing.Point(218, 10);
+            this.checkBox_stop_loss.Location = new System.Drawing.Point(272, 10);
             this.checkBox_stop_loss.Name = "checkBox_stop_loss";
-            this.checkBox_stop_loss.Size = new System.Drawing.Size(48, 16);
+            this.checkBox_stop_loss.Size = new System.Drawing.Size(96, 16);
             this.checkBox_stop_loss.TabIndex = 107;
-            this.checkBox_stop_loss.Text = "손절";
+            this.checkBox_stop_loss.Text = "손절기능사용";
             this.checkBox_stop_loss.UseVisualStyleBackColor = true;
             // 
             // input_battingAtm
@@ -300,7 +300,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 261);
+            this.ClientSize = new System.Drawing.Size(433, 261);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.input_battingAtm);

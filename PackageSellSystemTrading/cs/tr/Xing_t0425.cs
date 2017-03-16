@@ -72,10 +72,10 @@ namespace PackageSellSystemTrading {
             String t0424_sunikrt;  //수익율
 
             String toDaySellAmt;
-            String ordno;//주문번호
-            String status;//상태 체결|미체결
-            String qty; //주문수량
-            String cheqty;//체결수량
+            String ordno;  //주문번호
+            String status; //상태 체결|미체결
+            String qty;    //주문수량
+            String cheqty; //체결수량
             T0425Vo tmpT0425Vo;
             for (int i = 0; i < iCount; i++)
             {

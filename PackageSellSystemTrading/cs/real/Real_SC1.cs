@@ -59,21 +59,22 @@ namespace PackageSellSystemTrading{
             //substamt//대용금액
             String ordno      = base.GetFieldData("OutBlock", "ordno");      //주문번호
             String ordptncode = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매도|02:매수 
-            String isunm      = base.GetFieldData("OutBlock", "isunm");      //종목명 
-            String isuno      = base.GetFieldData("OutBlock", "isuno");      //종목번호 
-            String shcode     = base.GetFieldData("OutBlock", "shcode");      //종목번호 
-            
+            String Isunm      = base.GetFieldData("OutBlock", "Isunm");      //종목명 
+            //String Isuno      = base.GetFieldData("OutBlock", "Isuno");      //종목번호 
+            //String isuno = base.GetFieldData("OutBlock", "isuno");      //종목번호 
+            String shtnIsuno  = base.GetFieldData("OutBlock", "shtnIsuno");
+
             String ordqty     = base.GetFieldData("OutBlock", "ordqty");     //ordqty//주문수량
             String ordprc     = base.GetFieldData("OutBlock", "ordprc");     //ordprc//주문가격
             String execqty    = base.GetFieldData("OutBlock", "execqty");    //execqty//체결수량
             String execprc    = base.GetFieldData("OutBlock", "execprc");    //execprc//체결가격
 
-            String avrpchsprc = base.GetFieldData("OutBlock", "avrpchsprc");//평균매입가
-            String pchsant    = base.GetFieldData("OutBlock", "pchsant");   //매입금액
-           
+            String avrpchsprc = base.GetFieldData("OutBlock", "avrpchsprc");//평균매입가 -실서버에서 제공하지 않는필드
+            String pchsant    = base.GetFieldData("OutBlock", "pchsant");   //매입금액  -실서버에서 제공하지 않는필드
+            String accno      = base.GetFieldData("OutBlock", "accno");   //계좌번호
 
-            Log.WriteLine("real ::실시간 체결확인: 주문번호|종목명|주문수량|체결수량|거래구분|평균매입가|체결가걱["+ordno + "|" + isunm +"|"+ isuno+ "|" + ordqty + "|" + execqty+"|"+ ordptncode + "|"+ avrpchsprc+"|"+ execprc+"]");
-
+            Log.WriteLine("real ::실시간 체결확인: 계좌번호:"+accno+ "|주문번호"+ordno+"|"+ Isunm + "("+  shtnIsuno+ ")|주문수량:" + ordqty+"|체결수량:" + execqty+"|거래구분:" + ordptncode+ "|평균매입가:" + avrpchsprc+"|체결가걱:"+execprc);
+            //Isuno +","+ shtnIsuno
 
             BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
             //부문구분== 매도이면 -매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
@@ -81,12 +82,13 @@ namespace PackageSellSystemTrading{
                 
             //잔고그리드 종목찾아서 에러상태 로 만들어서 매도 주문이 안나가도록 조치 하자. 
             var result_t0424 = from item in t0424VoList
-                                where item.expcode == shcode.Replace("A", "")
+                                where item.expcode == shtnIsuno.Replace("A", "")
                                 select item;
             //MessageBox.Show(result_t0424.Count().ToString());
             if (result_t0424.Count() > 0)
             {
-
+               // mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
+               
                 if (ordptncode == "01")//매도 - 매도가능수량-체결수량
                 {
                     result_t0424.ElementAt(0).mdposqt = (int.Parse(result_t0424.ElementAt(0).mdposqt) - int.Parse(execqty)).ToString();
@@ -98,19 +100,19 @@ namespace PackageSellSystemTrading{
             }
 
             //주문구분==매도 && 평규매입가==0  이뎜 매도체결 완료된 종목 잔고그리드에서 제거해주자.
-            if (ordptncode=="01" && avrpchsprc == "0")
-            {
-                
-                for (int i = 0; i < t0424VoList.Count; i++)
-                {
-                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + t0424VoList.ElementAt(i).expcode + "----"+ shcode.Replace("A", ""));
-                    if (t0424VoList.ElementAt(i).expcode == shcode.Replace("A",""))
-                    {
-                        t0424VoList.RemoveAt(i);
-                        Log.WriteLine("real :: 팔린종목 그리드에서 제거["+ shcode + "]");
-                    }
-                }
-            }
+            //if (ordptncode == "01" && avrpchsprc == "0")
+            //{
+
+            //    for (int i = 0; i < t0424VoList.Count; i++)
+            //    {
+            //        //Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + t0424VoList.ElementAt(i).expcode + "----" + lsuno.Replace("A", ""));
+            //        if (t0424VoList.ElementAt(i).expcode == shtnIsuno.Replace("A", ""))
+            //        {
+            //            t0424VoList.RemoveAt(i);
+            //            Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno + "]");
+            //        }
+            //    }
+            //}
 
         }
 
@@ -130,7 +132,7 @@ namespace PackageSellSystemTrading{
 
             //base.SetFieldData("InBlock", "shcode", shcode);         // 종목번호
 
-            base.AdviseRealData();
+            //base.AdviseRealData();
 
         }	// end function
 //1.주문체결유형코드,ordxctptncode

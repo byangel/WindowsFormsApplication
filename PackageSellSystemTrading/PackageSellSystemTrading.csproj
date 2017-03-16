@@ -74,6 +74,7 @@
     <Compile Include="cs\tr\Xing_t0424.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00800.cs" />
     <Compile Include="cs\tr\Xing_t0167.cs" />
+    <Compile Include="cs\tr\Xing_t1833_Exclude.cs" />
     <Compile Include="cs\tr\Xing_t1833.cs" />
     <Compile Include="cs\util\GridUtil.cs" />
     <Compile Include="cs\util\SystemTimeUtil.cs" />

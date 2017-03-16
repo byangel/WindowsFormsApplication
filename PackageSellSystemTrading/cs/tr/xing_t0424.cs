@@ -105,8 +105,9 @@ namespace PackageSellSystemTrading {
                 tmpT0424Vo.tax     = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
                 tmpT0424Vo.sininter= base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
-               
-                
+                tmpT0424Vo.deleteAt = false;
+
+
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                 if (result_t0424.Count() == 0){
                     t0424VoList.Add(tmpT0424Vo);
@@ -183,16 +184,18 @@ namespace PackageSellSystemTrading {
 
 
                 //목록에 없는 종목 그리드에서 삭제.
-                //for (int i = 0; i < t0424VoList.Count; i++){
-                //    tmpT0424Vo = t0424VoList.ElementAt(i);
+                for (int i = 0; i < t0424VoList.Count; i++)
+                {
+                    tmpT0424Vo = t0424VoList.ElementAt(i);
 
-                //    if (tmpT0424Vo.deleteAt == true){
-                //        Log.WriteLine("t0424 :: 팔린종목 그리드에서 제거");
-                //        t0424VoList.RemoveAt(i);
-                //        i--;
-                //    }
-                //    tmpT0424Vo.deleteAt = true;
-                //}
+                    if (tmpT0424Vo.deleteAt == true)
+                    {
+                        Log.WriteLine("t0424 :: 팔린종목 그리드에서 제거");
+                        t0424VoList.RemoveAt(i);
+                        i--;
+                    }
+                    tmpT0424Vo.deleteAt = true;
+                }
 
                 //로그 및 중복 요청 처리
                 mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: 잔고조회 완료";
@@ -279,6 +282,8 @@ namespace PackageSellSystemTrading {
         public String sininter  { set; get; } //신용이자
         public Boolean orderAt { set; get; }  //주문여부
         public String errorcd   { set; get; } //에러코드
+
+        public Boolean deleteAt { set; get; } //에러코드
 
     }
 

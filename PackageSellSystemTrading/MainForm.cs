@@ -178,6 +178,7 @@ namespace PackageSellSystemTrading{
             switch (combox_targetServer.SelectedIndex){
                 case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
                 case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
+                case 2: mServerAddress = "127.0.0.1"; break;
             }
             //MessageBox.Show(mServerAddress);
             //이미접속이되어있으면접속을끊는다
@@ -437,6 +438,45 @@ namespace PackageSellSystemTrading{
           
 
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            String expcode; //종목코드
+            String hname;   //종목명
+            String mdposqt; //주문가능수량수량
+            String sunikrt; //수익율
+            String price;   //현재가
+
+           
+            expcode = "048830"; //종목코드
+            hname = "test"; //종목명
+            sunikrt = "3"; //수익율
+            mdposqt = "10"; //주문가능수량수량
+            price = "3490"; //현재가
+
+            /// <param name="IsuNo">종목번호</param>
+            /// <param name="Quantity">수량</param>
+            /// <param name="Price">가격</param>
+            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+           
+            this.xing_CSPAT00600.call_request("20116440201", "1177", "dd", expcode, mdposqt, price, "1");
+            //tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
+                    
+             
+            }
+
+       
+
+        private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            ///grd_t1833.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.PaleGreen;
+            //grd_t1833.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.White;
+
+            //Log.WriteLine(e.RowIndex.ToString()+"|"+ e.ColumnIndex);
+            //mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
+            //mainForm.grd_t1833.g
+            //MessageBox.Show(e.ToString());
         }
     }//end class
 }//end namespace

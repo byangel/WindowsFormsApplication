@@ -101,6 +101,8 @@ namespace PackageSellSystemTrading{
             completeAt = true;//중복호출 여부
         }
 
+
+        //메세지 이벤트 핸들러
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
           
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
@@ -254,7 +256,7 @@ namespace PackageSellSystemTrading{
                 //자본금 = 매입금액 + D2예수금 
                 Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
 
-                //투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다. 참이아니면 
+                //투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
                 if (Properties.Settings.Default.LIMITED_AT)
                 {
                     if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
