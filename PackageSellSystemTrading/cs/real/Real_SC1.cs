@@ -62,7 +62,6 @@ namespace PackageSellSystemTrading{
             String ordptncode = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매도|02:매수 
             String Isunm      = base.GetFieldData("OutBlock", "Isunm");      //종목명 
             //String Isuno      = base.GetFieldData("OutBlock", "Isuno");      //종목번호 
-            //String isuno = base.GetFieldData("OutBlock", "isuno");      //종목번호 
             String shtnIsuno  = base.GetFieldData("OutBlock", "shtnIsuno");
 
             String ordqty     = base.GetFieldData("OutBlock", "ordqty");     //ordqty//주문수량
@@ -78,23 +77,22 @@ namespace PackageSellSystemTrading{
             //Isuno +","+ shtnIsuno
 
 
-
+            //매매 체결이력 저장
             DataLogVo dataLogVo = new DataLogVo();
             dataLogVo.accno = accno;       //계좌번호
-            dataLogVo.Isuno = ordptncode;  //종목코드
-            dataLogVo.Isunm = Isunm;      //종목명
-            dataLogVo.ordptncode = "02";  //주문구분 01:매도|02:매수
-            dataLogVo.ordno = "";                                //주문번호
-            dataLogVo.ordqty = ordqty;    //주문수량 - 매도가능수량
-            dataLogVo.ordprc = ordprc;    //주문가격 - 평균단가
-            dataLogVo.execqty = execqty;  //체결수량 - 매도가능수량
-            dataLogVo.execprc = execprc;  //체결가격 - 평균단가
+            dataLogVo.ordptncode = ordptncode;  //주문구분 01:매도|02:매수
+            dataLogVo.Isuno = shtnIsuno;    //종목코드
+            dataLogVo.ordno = ordno;        //주문번호
+            dataLogVo.ordqty = ordqty;      //주문수량 - 매도가능수량
+            dataLogVo.execqty = execqty;    //체결수량 - 매도가능수량
+            dataLogVo.ordprc = ordprc;      //주문가격 - 평균단가
+            dataLogVo.execprc = execprc;    //체결가격 - 평균단가
+            dataLogVo.Isunm = Isunm;        //종목명
             mainForm.dataLog.WriteLine(dataLogVo);
 
 
-
-            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
             //실시간 매도가능수량 업데이트 ->주문구분== 매도이면 -매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
+            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
             var result_t0424 = from item in t0424VoList
                                 where item.expcode == shtnIsuno.Replace("A", "")
                                 select item;

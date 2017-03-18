@@ -12,16 +12,16 @@ using System.Data;
 using System.Drawing;
 using System.Threading;
 namespace PackageSellSystemTrading{
-    public class Xing_t1833_Exclude : XAQueryClass{
+    public class Xing_t1833Exclude : XAQueryClass{
 
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
-        public List<T1833Vo> t1833VoList;
+        public EBindingList<T1833Vo> t1833ExcludeVoList;
 
         // 생성자
-        public Xing_t1833_Exclude(){
-            this.t1833VoList = new List<T1833Vo>();
+        public Xing_t1833Exclude(){
+            this.t1833ExcludeVoList = new EBindingList<T1833Vo>();
 
             base.ResFileName = "₩res₩t1833.res";
 
@@ -30,7 +30,7 @@ namespace PackageSellSystemTrading{
         }   // end function
 
         // 소멸자
-        ~Xing_t1833_Exclude(){
+        ~Xing_t1833Exclude(){
           
         }
 
@@ -46,7 +46,7 @@ namespace PackageSellSystemTrading{
             //매수종목 검색 그리드 초기화
             //mainForm.grd_t1833.Rows.Clear();
 
-            this.t1833VoList.Clear();
+            this.t1833ExcludeVoList.Clear();
 
            
             //String sunikrt;//수익률
@@ -60,9 +60,10 @@ namespace PackageSellSystemTrading{
                 t1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
                 t1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
 
-                this.t1833VoList.Add(t1833Vo);
+                this.t1833ExcludeVoList.Add(t1833Vo);
             }
-
+     
+            Log.WriteLine("t1833 ::매수금지종목 조회 완료");
             completeAt = true;//중복호출 여부
         }
 
@@ -77,30 +78,26 @@ namespace PackageSellSystemTrading{
             }         
 
         }
+
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
-		public void call_request(string conditionFileName){
+		public void call_request(){
 
             if (completeAt) {
                 //폼 메세지.
                 completeAt = false;//중복호출 방지
 
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
+                base.RequestService("t1833", startupPath + "\\Resources\\ConditionExclude.ADF");//_6만급등족목_70_
             } else {
                 mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
                 //mainForm.input_t1833_log2.Text = "대기";
             }
         }
 
-
-       
-
-
-        
-
+      
     } //end class 
 
-   
+
 }   // end namespace

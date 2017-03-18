@@ -109,6 +109,8 @@ namespace PackageSellSystemTrading{
                     //날자 및 시간 타이머 시작.
                     mainForm.timer_dateTime.Enabled = true;
 
+                    //매수금지종목 조회
+                    mainForm.xing_t1833Exclude.call_request();
 
                     accountForm.Close();
                 }

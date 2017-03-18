@@ -71,7 +71,7 @@ namespace PackageSellSystemTrading{
                 tmpT1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
                 tmpT1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
 
-                tmpT1833Vo.deleteAt = false; //삭제여부
+                tmpT1833Vo.deleteAt = false; //삭제여부 -나중에 true 인거는 다 삭제해준다.
 
                 if (result.Count() == 0)
                 {
@@ -158,24 +158,37 @@ namespace PackageSellSystemTrading{
             EBindingList<T0425Vo> t0425VoList_Chegb1 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
             //계좌잔고목록
             EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
-            
-            //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
+            //매수금지목록
+            EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.t1833ExcludeVoList;
+
+
+            //1.매수금지종목이면 매수제한.
+            int tmpFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
+            if (tmpFindIndex >=0)
+            {
+                Log.WriteLine("t1833::"+hname+"(" + shcode + ") 매수금지 종목 ");
+                mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Red;
+                return false;
+            }
+
+
+            //2.금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수제한.
             var result_t0425 =  from t0425VoChegb1 in t0425VoList_Chegb1
                              where t0425VoChegb1.expcode == shcode && t0425VoChegb1.medosu == "매수"
                             select t0425VoChegb1;
 
             for (int i=0; i < result_t0425.Count(); i++)
             {
-                //금일 같은종목 진입 이력이 있다면 매수진입하지 않는다.
+                //금일 같은종목 진입 이력이 있다면 매수 하지 않는다
                 if (result_t0425.ElementAt(i).ordrem == "0")
                 {
-                    Log.WriteLine("t1833 ::금일 1회 매수 제한. [" + hname + "] ");
+                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일 1회 매수 제한.");
                     return false;
                 }
                 //미체결 내역 있다면 매수제한.
                 if (int.Parse(result_t0425.ElementAt(i).ordrem) > 0)
                 {
-                    Log.WriteLine("t1833 ::미체결잔량 매수제한 [" + hname + "] 미체결 잔량 " + result_t0425.ElementAt(0).ordrem + "주 매수제한");
+                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 미체결잔량 매수제한 [미체결 잔량: " + result_t0425.ElementAt(0).ordrem+"]" );
                     return false;
                 }
                 //반복매수 시간 제한. --금일 중복및 반복매수 제한 조건이 있다면 필요없는 조건임.
@@ -185,7 +198,7 @@ namespace PackageSellSystemTrading{
                 if (tmpTime < (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60))
                 {
                     //Log.WriteLine("t1833 :: [" + hname + "] (" + time + ")" + cTime + "-" + "(" + ordtime + ")" + ordMTime + "=" + (cTime - ordMTime));
-                    Log.WriteLine("t1833 ::금일반복매수 텀 제한. [" + hname + "] " + tmpTime + "초 <" + (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60) + "초 제한");
+                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일반복매수 텀 제한.  [매수후지난시간" + tmpTime + "| 설정시간:" + (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60) + "]");
                     return false;
                 }
            
@@ -193,43 +206,7 @@ namespace PackageSellSystemTrading{
             }
 
 
-            //for (int i = 0; i < mainForm.xing_t0425.GetBlockCount("t0425OutBlock1"); i++)
-            //{
-
-            //    toDayBuyAt="";//금일 매수여부
-
-            //    t0425_ordrem = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordrem", i);//미체결 잔량 - 매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
-            //    t0425_medosu = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
-            //    t0425_expcode = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
-            //    t0425_ordtime = mainForm.xing_t0425.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
-            //    //Log.WriteLine("t1833 :: " + "/" + shcode + "/" + i+"/"+ medosu)
-            //    //미체결 이력에 있다면 return false;
-
-            //    //미체결 내역 있다면 매수제한.
-            //    //if (t0425_medosu == "매수" && t0425_expcode == shcode && int.Parse(t0425_ordrem) > 0)
-            //    //{
-            //    //    Log.WriteLine("t1833 :: [" + hname + "] 미체결 잔량 [" + t0425_ordrem + "주] 매수제한");
-            //    //    return false;
-            //    //}
-
-            //    //반복매수 시간 제한.
-            //    //if (t0425_medosu == "매수" && t0425_expcode == shcode)
-            //    //{
-
-            //    //    //반복매수 제한-분으로 푼다음 시간을 계산한다.
-            //    //    tmpTime = (int.Parse(t0425_ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(t0425_ordtime.Substring(2, 2))*60) + (int.Parse(t0425_ordtime.Substring(4, 2)));
-            //    //    tmpTime = (cTime - tmpTime);
-            //    //    if (tmpTime < (Properties.Settings.Default.REPEAT_BUY_TERM * 60))
-            //    //    {
-            //    //        //Log.WriteLine("t1833 :: [" + hname + "] (" + time + ")" + cTime + "-" + "(" + ordtime + ")" + ordMTime + "=" + (cTime - ordMTime));
-            //    //        Log.WriteLine("t1833 :: [" + hname + "] 금일 반복매수 " +tmpTime+"초 <" + (Properties.Settings.Default.REPEAT_BUY_TERM * 60) + "초 제한");
-            //    //        return false;
-            //    //    }
-            //    //    toDayBuyAt = "금일매수함";
-            //    //}
-            //}
-
-            //진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
+            //3.진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
             var esult_t0424 = from item in t0424VoList
                              where item.expcode == shcode
                             select item;
@@ -242,21 +219,21 @@ namespace PackageSellSystemTrading{
         
                 String sunikrt = (String)esult_t0424.ElementAt(0).sunikrt;//기존 종목 수익률
 
-                //수익율이 -3% 이하이면 반복매수 해주자.
+                //-수익율이 -3% 이하이면 반복매수 해주자.
                 if (float.Parse(sunikrt) > int.Parse(Properties.Settings.Default.REPEAT_RATE))
                 {
-                    Log.WriteLine("t1833 :: [" + hname + "] 반복매수 제한" + sunikrt + ">" + Properties.Settings.Default.REPEAT_RATE + "%");
+                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 반복매수 제한 [수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
                     return false;
                 }
-                accountAt = "반복매수  실행 : 매수전 수익률|매도가능수량:"+ sunikrt+"|"+ (String)esult_t0424.ElementAt(0).mdposqt+" ";
+                //accountAt = "t1833::" + hname + "(" + shcode + ") 반복매수  실행 [매수전수익률:" + sunikrt + "%|매도가능수량:"+ (String)esult_t0424.ElementAt(0).mdposqt+"] ";
 
             }
-            else{//보유종목이 아니고 신규매수해야 한다면.
-                accountAt = "신규매수 실행 : ";
-                //자본금 = 매입금액 + D2예수금 
+            else{//-보유종목이 아니고 신규매수해야 한다면.
+                //-accountAt = "신규매수 실행 : ";
+                //-자본금 = 매입금액 + D2예수금 
                 Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
 
-                //투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
+                //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
                 if (Properties.Settings.Default.LIMITED_AT)
                 {
                     if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
@@ -265,40 +242,39 @@ namespace PackageSellSystemTrading{
                         자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
                     }
                 }
-                
 
-                //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
-                //매입금액 기초자산의 90% 이상 매입을 할수 없다.
-                //매입금액 / 자본금 * 100 =자본금 대비 투자율
+                //-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
+                //-매입금액 기초자산의 90% 이상 매입을 할수 없다.
+                //-매입금액 / 자본금 * 100 =자본금 대비 투자율
                 Double enterRate = (this.mainForm.xing_t0424.mamt / 자본금) * 100;
                 if (enterRate > float.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Log.WriteLine("t1833 ::자본금 대비 투자율 제한 [" + hname + "]   "+ this.mainForm.xing_t0424.mamt+"/"+ 자본금 + "*100 = " + enterRate + ">" + Properties.Settings.Default.BUY_STOP_RATE + "% ");
+                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 자본금 대비 투자율 제한   [자본금대비투자율:"+ enterRate+"%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%]");
                     return false;
                 }      
             }
 
 
-            //3.매수
-           
+            //4.매수
             int battingAtm = int.Parse(mainForm.textBox_battingAtm.Text);
             //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
             if (close == "0"){
-                Log.WriteLine("t1833 ::[" + hname + "]  현제가 " + close );
+                Log.WriteLine("t1833::" + hname + "(" + shcode + ") [현제가:" + close+";" );
                 return false;
             }
 
+            //-매수수량 계산.
             int Quantity = battingAtm / int.Parse(close);
             //int Quantity = 20000;
-            //정규장에만 주문실행.
+            //-정규장에만 주문실행.
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                String buyMsg = "t1833 :: "+ accountAt + "[" + hname + "]    " + close + "원*" + Quantity + "주 ";
+                String buyMsg = "t1833::" + hname + "(" + shcode + ")  [주문가격:"+ close + "|주문수량:" + Quantity + "] ";
                 mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
             }else{
-                Log.WriteLine("t1833 ::비정규장 제어["+ hname + "]" + accountAt + "   " + close + "원*" + Quantity);
+                Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");
             }
           
             return true;
