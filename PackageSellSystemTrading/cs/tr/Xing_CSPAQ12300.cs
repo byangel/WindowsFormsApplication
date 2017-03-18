@@ -14,7 +14,7 @@ namespace PackageSellSystemTrading{
     //현물계좌 잔고내역 조회(API) - 계좌 비밀번호 체크에 사용한다.
     public class Xing_CSPAQ12300 : XAQueryClass{
 
-        private Boolean completeAt = true;//완료여부.
+        public Boolean completeAt = true;//완료여부.
         private String  account;
         private String  accountPw;
         
@@ -91,28 +91,38 @@ namespace PackageSellSystemTrading{
             try {
                 //특정 오류없이 정상적으로 실행이 되었다면 화면 및 초기화를 해준다.
                 if (nMessageCode == "00136" || nMessageCode == "00133") {
-                    //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
-                    accountForm.exXASessionClass.account   = this.account;
-                    accountForm.exXASessionClass.accountPw = this.accountPw;
+                    try
+                    {
+                        //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
+                        accountForm.exXASessionClass.account = this.account;
+                        accountForm.exXASessionClass.accountPw = this.accountPw;
 
-                    //잔고정보
-                    mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                    //잔고정보
-                    mainForm.xing_t0424.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                    //체결미체결
-                    mainForm.xing_t0425.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                    //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
+                        //잔고정보
+                        mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                        //잔고정보
+                        mainForm.xing_t0424.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                        //체결미체결
+                        mainForm.xing_t0425.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
+                        //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
 
-                    //설정저장 버튼 활성화.
-                    mainForm.btn_config_save.Enabled = true;
-                    
-                    //날자 및 시간 타이머 시작.
-                    mainForm.timer_dateTime.Enabled = true;
+                        //설정저장 버튼 활성화.
+                        mainForm.btn_config_save.Enabled = true;
 
-                    //매수금지종목 조회
-                    mainForm.xing_t1833Exclude.call_request();
+                        //날자 및 시간 타이머 시작.
+                        mainForm.timer_dateTime.Enabled = true;
 
-                    accountForm.Close();
+                        //매수금지종목 조회
+                        mainForm.xing_t1833Exclude.call_request();
+
+
+                        accountForm.Close();
+
+                    }
+                    catch (Exception e)
+                    {
+                        //MessageBox.Show("예외발생 로그 확인 요망.");
+                        MessageBox.Show("예외 발생:{0}", e.Message);
+                    }
                 }
                 else{
                     MessageBox.Show("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
@@ -122,8 +132,9 @@ namespace PackageSellSystemTrading{
             }
             catch (Exception ex){
                 Log.WriteLine(ex.Message);
-                Log.WriteLine(ex.StackTrace);
+               
             }
+            completeAt = true;
 
         }
 
@@ -139,6 +150,7 @@ namespace PackageSellSystemTrading{
             this.accountPw = accountPw;
             
             if (completeAt) {
+                completeAt = false;//중복호출 방지
                 //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
                 //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
@@ -151,7 +163,7 @@ namespace PackageSellSystemTrading{
                 base.SetFieldData("CSPAQ12300InBlock1", "UprcTpCode"     , 0, "1");      //단가구분          - 0:평균단가 | 1:BEP단가
 
                 base.Request(false);  //연속조회일경우 true
-                completeAt = false;//중복호출 방지
+                
 
             } else {
                 //mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";

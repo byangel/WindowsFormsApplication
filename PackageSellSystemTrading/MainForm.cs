@@ -229,36 +229,55 @@ namespace PackageSellSystemTrading{
         //시작버튼 클릭 이벤트
         private void btn_start_Click(object sender, EventArgs e)
         {
-            if (this.exXASessionClass.IsConnected()){
-                if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == ""){
+
+            try
+            {
+                //거래이력 싱크 
+                this.dataLog.init();
+
+                if (this.exXASessionClass.IsConnected())
+                {
+                    if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
+                    {
                         //MessageBox.Show("계좌 정보가 없습니다.");
                         AccountForm accountForm = new AccountForm();
                         accountForm.ShowDialog();
-                        
+
                         //세션클래스에 있는거 그대로 가져왔다.
                         if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
                         {
                             MessageBox.Show("계좌 및 계좌 비밀번호를 설정해주세요.");
-                        } else  {
+                        }
+                        else
+                        {
                             /************************************************************************/
                             String dpsastTotamt = this.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
 
                             //배팅금액설정
                             this.textBox_battingAtm.Text = Util.getBattingAmt(dpsastTotamt);
+                        }
                     }
-                } else {
-                
-                    timer_enterSearch.Enabled = true;//진입검색 타이머
-                    timer_accountSearch.Enabled = true;//계좌 및 미체결 검색 타이머
-                    btn_start.Enabled = false;
-                    btn_stop.Enabled = true;
+                    else
+                    {
 
-                    //실시간 체결정보
-                    real_SC1.AdviseRealData();
+                        timer_enterSearch.Enabled = true;//진입검색 타이머
+                        timer_accountSearch.Enabled = true;//계좌 및 미체결 검색 타이머
+                        btn_start.Enabled = false;
+                        btn_stop.Enabled = true;
 
+                        //실시간 체결정보
+                        real_SC1.AdviseRealData();
+
+                    }
                 }
-            }else {
-                MessageBox.Show("서버접속정보가 없습니다.");
+                else
+                {
+                    MessageBox.Show("서버접속정보가 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("예외 발생:{0}", ex.Message);
             }
 
         }
@@ -424,26 +443,31 @@ namespace PackageSellSystemTrading{
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String expcode; //종목코드
-            String hname;   //종목명
-            String mdposqt; //주문가능수량수량
-            String sunikrt; //수익율
-            String price;   //현재가
+
+            //거래이력 싱크
+            this.dataLog.init();
 
 
-            expcode = "048830"; //종목코드
-            hname = "test"; //종목명
-            sunikrt = "3"; //수익율
-            mdposqt = "10"; //주문가능수량수량
-            price = "3490"; //현재가
+            //String expcode; //종목코드
+            //String hname;   //종목명
+            //String mdposqt; //주문가능수량수량
+            //String sunikrt; //수익율
+            //String price;   //현재가
 
-            /// <param name="IsuNo">종목번호</param>
-            /// <param name="Quantity">수량</param>
-            /// <param name="Price">가격</param>
-            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
 
-            this.xing_CSPAT00600.call_request("20116440201", "1177", "dd", expcode, mdposqt, price, "1");
-            //tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
+            //expcode = "048830"; //종목코드
+            //hname = "test"; //종목명
+            //sunikrt = "3"; //수익율
+            //mdposqt = "10"; //주문가능수량수량
+            //price = "3490"; //현재가
+
+            ///// <param name="IsuNo">종목번호</param>
+            ///// <param name="Quantity">수량</param>
+            ///// <param name="Price">가격</param>
+            ///// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+
+            //this.xing_CSPAT00600.call_request("20116440201", "1177", "dd", expcode, mdposqt, price, "1");
+            ////tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
 
         }
 

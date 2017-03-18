@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace PackageSellSystemTrading
 {
@@ -69,7 +70,6 @@ namespace PackageSellSystemTrading
                 MessageBox.Show("계좌번호 또는 비밀번호를 입력해주세요.");
             }else{
                 this.xing_CSPAQ12300.call_request(listBox_account, input_accountPw);
-               // this.mainForm.xing_t0424.call_request(listBox_account, input_accountPw);
             }
         }
     }

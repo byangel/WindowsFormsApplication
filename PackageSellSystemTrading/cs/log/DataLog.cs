@@ -20,7 +20,6 @@ namespace PackageSellSystemTrading
     {
         private  FileStream   fileStream;
         private  StreamReader streamReader;             // 파일 읽기 위한 스트림
-        private  StreamWriter streamWriter;             // 파일 쓰기 위한 스트림
 
         public  EBindingList<DataLogVo> dataLogVoList;
 
@@ -37,51 +36,35 @@ namespace PackageSellSystemTrading
         public DataLog()
         {
             dataLogVoList = new EBindingList<DataLogVo>();
-
-
-            //디렉토리 체크
-            String dirPath = Util.GetCurrentDirectoryWithPath() + "\\logs";
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
-
+ 
         }  
         // 소멸자
         ~DataLog()
         {         
             /// Log 파일 쓰기 스트림 종료
-            if (streamWriter != null)
+            if (streamReader != null)
             {
-                streamWriter.Close();
+                streamReader.Close();
                 fileStream.Close();
             }
         }
 
-        //로그파일도 생성하고 잔고그리드에서 데이타를 초기데이타로 사용한다.
-        private  StreamWriter GetStreamWriter()
-        {
-            //dataLog 파일을 읽어서 dataLogVoList저장 
-            //dataLog 파일이 없다면 계좌잔고를 가져와서 설정
-            if (streamWriter == null)
+       
+
+        public void init() { 
+        
+            //디렉토리 체크
+            String filePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\data.ini";
+            String dirPath  = Util.GetCurrentDirectoryWithPath() + "\\logs";
+            if (!Directory.Exists(dirPath))
             {
-
-                
-               
+                Directory.CreateDirectory(dirPath);
             }
-
-            return this.streamWriter;
-        }   // end function
-
-        public void init()
-        {
-            String  filePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\data.txt";
-               
 
             // 기존에 생성된 data 로그 파일이 있다면...
             FileInfo file = new FileInfo(filePath);
             if (file.Exists) {
-                fileStream = new FileStream(filePath, FileMode.Append);
+                fileStream = new FileStream(filePath, FileMode.Open);//Append 에러남
                     //파일이있다면 파일을 읽어 voList와 싱크를 맞춘다.
                 this.streamReader = new StreamReader(fileStream, Encoding.GetEncoding("euc-kr"));
                 String lineString;
@@ -89,31 +72,39 @@ namespace PackageSellSystemTrading
                 {
                     // 한줄을 읽습니다
                     lineString = streamReader.ReadLine();
+                    //Log.WriteLine(lineString);
+                    //vo에 저장
 
                 }
-            
-            }else{// 신규로 파일 생성
-                    fileStream = new FileStream(filePath, FileMode.Create);
+                //여기서 닫아줘야 WriteLine 쓸수있다.
+                streamReader.Close();
+                fileStream.Close();
+                Log.WriteLine("거래이력 데이타 파일 과 싱크 완료");
+            }
+            else{// 신규로 파일 생성
+               
+                fileStream = new FileStream(filePath, FileMode.Create);
+                //여기서 닫아줘야 WriteLine 쓸수있다.
+                fileStream.Close();
+
                 //데이타파일이없다면 잔고목록으로 초기 데이타로 사용한다.
                 EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
                 for (int i = 0; i < t0424VoList.Count(); i++)
-                {
-                    DataLogVo dataLogVo = new DataLogVo();
-                    dataLogVo.ordno = i.ToString();                       //주문번호
-                    dataLogVo.accno = t0424VoList.ElementAt(0).expcode;   //계좌번호
-
+                {   
+                    DataLogVo dataLogVo  = new DataLogVo();
+                    dataLogVo.ordno      = "000000"+i.ToString();                       //주문번호
+                    dataLogVo.accno      = t0424VoList.ElementAt(i).expcode;   //계좌번호
                     dataLogVo.ordptncode = "02";                          //주문구분 01:매도|02:매수
-                    dataLogVo.Isuno = t0424VoList.ElementAt(0).expcode;   //종목코드
-                    dataLogVo.ordqty = t0424VoList.ElementAt(0).mdposqt;  //주문수량 - 매도가능수량
-                    dataLogVo.execqty = t0424VoList.ElementAt(0).mdposqt; //체결수량 - 매도가능수량
-                    dataLogVo.ordprc = t0424VoList.ElementAt(0).pamt;     //주문가격 - 평균단가
-                    dataLogVo.execprc = t0424VoList.ElementAt(0).pamt;    //체결가격 - 평균단가
-                    dataLogVo.Isunm = t0424VoList.ElementAt(0).hname;     //종목명
+                    dataLogVo.Isuno      = t0424VoList.ElementAt(i).expcode;   //종목코드
+                    dataLogVo.ordqty     = t0424VoList.ElementAt(i).mdposqt;  //주문수량 - 매도가능수량
+                    dataLogVo.execqty    = t0424VoList.ElementAt(i).mdposqt; //체결수량 - 매도가능수량
+                    dataLogVo.ordprc     = t0424VoList.ElementAt(i).pamt;     //주문가격 - 평균단가
+                    dataLogVo.execprc    = t0424VoList.ElementAt(i).pamt;    //체결가격 - 평균단가
+                    dataLogVo.Isunm      = t0424VoList.ElementAt(i).hname;     //종목명
 
                     this.WriteLine(dataLogVo);
-
                 }
-
+                Log.WriteLine("거래이력 데이타 파일 생성 완료");
             }
 
                 
@@ -130,7 +121,7 @@ namespace PackageSellSystemTrading
         /// <param name="szMsg"></param>
         public  void WriteLine(DataLogVo dataLogVo)
         {
-
+            
             //체결된 주분정보가 같은 주문번호여부를 따진다.
             int i = dataLogVoList.Find("ordno", dataLogVo.ordno);
             
@@ -147,7 +138,6 @@ namespace PackageSellSystemTrading
             } else {//같은주문번호가 없다면 목록에 추가해준다.
                 dataLogVoList.Add(dataLogVo);
             }
-
             
             String ordno = dataLogVo.ordno; //주문번호 
             StringBuilder sb = new StringBuilder();
@@ -167,7 +157,7 @@ namespace PackageSellSystemTrading
             //ini 읽기
             //StringBuilder retOrd = new StringBuilder();
             //GetPrivateProfileString("LOGIN", ordno, "", retOrd, 100, filePath);
-
+            Log.WriteLine("거래이력 기록 완료.");
 
         }   // end function
 
