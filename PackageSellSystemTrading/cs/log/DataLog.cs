@@ -31,6 +31,8 @@ namespace PackageSellSystemTrading
 
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+       
+
 
         // 생성자
         public DataLog()
@@ -63,23 +65,39 @@ namespace PackageSellSystemTrading
 
             // 기존에 생성된 data 로그 파일이 있다면...
             FileInfo file = new FileInfo(filePath);
+           
             if (file.Exists) {
                 fileStream = new FileStream(filePath, FileMode.Open);//Append 에러남
                     //파일이있다면 파일을 읽어 voList와 싱크를 맞춘다.
                 this.streamReader = new StreamReader(fileStream, Encoding.GetEncoding("euc-kr"));
                 String lineString;
-                while (!streamReader.EndOfStream)
-                {
+                String[] splitResult;
+                while (!streamReader.EndOfStream){
                     // 한줄을 읽습니다
                     lineString = streamReader.ReadLine();
-                    //Log.WriteLine(lineString);
-                    //vo에 저장
+                    splitResult = lineString.Split(new char[] { '=','|' } );
+                    if (splitResult.Length> 1){
+                        DataLogVo dataLogVo  = new DataLogVo();
+                        dataLogVo.ordno      = splitResult[0]; //주문번호 
+                        dataLogVo.date       = splitResult[1];
+                        dataLogVo.time       = splitResult[2];
+                        dataLogVo.accno      = splitResult[3]; //계좌번호
+                        dataLogVo.ordptncode = splitResult[4]; //주문구분 01:매도|02:매수   
+                        dataLogVo.Isuno      = splitResult[5]; //종목코드
+                        dataLogVo.ordqty     = splitResult[6]; //주문수량
+                        dataLogVo.execqty    = splitResult[7]; //체결수량
+                        dataLogVo.ordprc     = splitResult[8]; //주문가격
+                        dataLogVo.execprc    = splitResult[9]; //체결가격
+                        dataLogVo.Isunm      = splitResult[10];//종목명
 
+                        dataLogVoList.Add(dataLogVo);
+                        //vo에 저장
+                    }
                 }
                 //여기서 닫아줘야 WriteLine 쓸수있다.
                 streamReader.Close();
                 fileStream.Close();
-                Log.WriteLine("거래이력 데이타 파일 과 싱크 완료");
+                Log.WriteLine("거래이력 데이타 파일 과 싱크 완료"+ dataLogVoList.Count());
             }
             else{// 신규로 파일 생성
                
@@ -105,16 +123,10 @@ namespace PackageSellSystemTrading
                     this.WriteLine(dataLogVo);
                 }
                 Log.WriteLine("거래이력 데이타 파일 생성 완료");
-            }
-
-                
+            }           
         }
 
-        public void ReadLine()
-        {
-            
 
-        }
         /// <summary>
         /// Log 파일에 메세지 기록
         /// </summary>
@@ -154,10 +166,11 @@ namespace PackageSellSystemTrading
             //ini 쓰기 주문번호로 같은주문번호가 있으면 업데이트 없으면 추가.--폴더는 추가되지 않는다.
             String filePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\data.ini";
             WritePrivateProfileString("DATA", ordno, sb.ToString(), filePath);
+          
             //ini 읽기
             //StringBuilder retOrd = new StringBuilder();
             //GetPrivateProfileString("LOGIN", ordno, "", retOrd, 100, filePath);
-            Log.WriteLine("거래이력 기록 완료.");
+            Log.WriteLine("DataLog::" + dataLogVo.Isunm + "(" + dataLogVo.Isuno + ") 거래이력 기록 완료. [주문수량: " + dataLogVo.ordqty + "|체결수량:"+ dataLogVo.execqty + "]");
 
         }   // end function
 
