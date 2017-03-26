@@ -29,9 +29,9 @@ namespace PackageSellSystemTrading
         {
             InitializeComponent();
 
-            checkBox_limited.Checked      = Properties.Settings.Default.LIMITED_AT;
-            checkBox_today_sell.Checked   = Properties.Settings.Default.TODAY_SELL_AT;
-            checkBox_stop_loss.Checked    = Properties.Settings.Default.STOP_LOSS_AT;
+            checkBox_limited.Checked      = Properties.Settings.Default.LIMITED_AT;//운영자금 제한 매입금액+D2예수금
+            checkBox_today_sell.Checked   = Properties.Settings.Default.TODAY_SELL_AT;//금일매도/매수
+            checkBox_stop_loss.Checked    = Properties.Settings.Default.STOP_LOSS_AT;//손절사용여부
             input_repeat_term.Text        = Properties.Settings.Default.REPEAT_TERM.ToString();
             input_repeat_rate.Text        = Properties.Settings.Default.REPEAT_RATE.ToString();
             input_buy_stop_rate.Text      = Properties.Settings.Default.BUY_STOP_RATE.ToString();
@@ -44,14 +44,14 @@ namespace PackageSellSystemTrading
         //프로퍼티 초기화
         public void rollBack()
         {
-            checkBox_limited.Checked      = this.LIMITED_AT;        //운영자금 제한 매입금액+D2예수금
-            checkBox_today_sell.Checked   = this.TODAY_SELL_AT;     //금일매도/매수
-            checkBox_stop_loss.Checked    = this.STOP_LOSS_AT; //손절사용여부
+            checkBox_limited.Checked      = this.LIMITED_AT;     //운영자금 제한 매입금액+D2예수금
+            checkBox_today_sell.Checked   = this.TODAY_SELL_AT;  //금일매도/매수
+            checkBox_stop_loss.Checked    = this.STOP_LOSS_AT;   //손절사용여부
             input_repeat_term.Text        = this.REPEAT_TERM;    //반복매수 기간(분)
             input_repeat_rate.Text        = this.REPEAT_RATE;    //반복매수 비율
             input_buy_stop_rate.Text      = this.BUY_STOP_RATE;  //자본금 대비 매입금액 제한 비율
             input_max_amt_limit.Text      = this.MAX_AMT_LIMIT;  //최대 운영 금액 제한 - 기본 1억
-            input_stop_loss.Text          = this.STOP_LOSS;      //선절
+            input_stop_loss.Text          = this.STOP_LOSS;      //손절
             input_stop_profit_target.Text = this.STOP_PROFIT_TARGET;//목표 이익율
             input_battingAtm.Text         = this.BATTING_ATM;//배팅금액
             Properties.Settings.Default.Save();

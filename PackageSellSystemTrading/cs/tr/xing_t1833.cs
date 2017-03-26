@@ -90,7 +90,7 @@ namespace PackageSellSystemTrading{
                 if (tmpT1833Vo.deleteAt == true)
                 {
                     //Log.WriteLine("[" + mainForm.input_time.Text + "]t0118 :: 팔린종목 그리드에서 제거");
-                    mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]t1833 진입검색 목록에서 제거";
+                    //mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]t1833 진입검색 목록에서 제거";
                     t1833VoList.RemoveAt(i);
                     i--;
                 }
@@ -145,7 +145,7 @@ namespace PackageSellSystemTrading{
             //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
 
             //String toDayBuyAt="";//금일 매수여부
-            String accountAt ="";//잔고 존재여부
+            //String accountAt ="";//잔고 존재여부
             //String t0425_ordrem;       //미체결잔량
             //String t0425_medosu;       //매매구분 - 0:전체|1:매수|2:매도
             //String t0425_expcode;      //종목번호
@@ -153,11 +153,11 @@ namespace PackageSellSystemTrading{
             int tmpTime;
 
             //미체결목록그리드
-            EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
+            //EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
             //체결목록 그리드
-            EBindingList<T0425Vo> t0425VoList_Chegb1 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
+            EBindingList<T0425Vo> t0425VoList = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);//체결
             //계좌잔고목록
-            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+            EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
             //매수금지목록
             EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.t1833ExcludeVoList;
 
@@ -173,9 +173,9 @@ namespace PackageSellSystemTrading{
 
 
             //2.금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수제한.
-            var result_t0425 =  from t0425VoChegb1 in t0425VoList_Chegb1
-                             where t0425VoChegb1.expcode == shcode && t0425VoChegb1.medosu == "매수"
-                            select t0425VoChegb1;
+            var result_t0425 =  from t0425VoChegb1 in t0425VoList
+                                where t0425VoChegb1.expcode == shcode && t0425VoChegb1.medosu == "매수"
+                                select t0425VoChegb1;
 
             for (int i=0; i < result_t0425.Count(); i++)
             {

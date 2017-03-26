@@ -58,7 +58,7 @@ namespace PackageSellSystemTrading{
             this.InvstPlAmt   = base.GetFieldData("CSPAQ12200OutBlock2", "InvstPlAmt"  , 0); //투자손익금액
             this.PnlRat       = base.GetFieldData("CSPAQ12200OutBlock2", "PnlRat"      , 0); //손익률
 
-
+            mainForm.label_Dps.Text            = Util.GetNumberFormat(this.Dps);          // 예수금
             mainForm.input_Dps.Text            = Util.GetNumberFormat(this.Dps);          // 예수금
             mainForm.input_D2Dps.Text          = Util.GetNumberFormat(this.D2Dps);        // D2예수금
             mainForm.input_DpsastTotamt.Text   = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액
@@ -68,6 +68,16 @@ namespace PackageSellSystemTrading{
             mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
             
             mainForm.input_PnlRat.Text       = Util.GetNumberFormat(this.PnlRat);   // 손익률
+
+            //label 출력
+            mainForm.label_Dps.Text          = Util.GetNumberFormat(this.Dps);          // 예수금
+            mainForm.label_D2Dps.Text        = Util.GetNumberFormat(this.D2Dps);        // D2예수금
+            mainForm.label_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액           
+            mainForm.label_BalEvalAmt.Text   = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
+            mainForm.label_tdtsunik.Text     = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
+
+            mainForm.label_PnlRat.Text = Util.GetNumberFormat(this.PnlRat);   // 손익률
+
 
 
             //배팅금액설정

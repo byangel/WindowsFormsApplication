@@ -45,8 +45,8 @@ namespace PackageSellSystemTrading{
 
             if (nMessageCode == "00000"){
                 //취소주문이 완료되면 무문여부 상태를 변경해준다.
-                EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
-              
+                EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
+
                 var result_t0424 = from item in t0424VoList
                                    where item.expcode == this.shcode.Replace("A", "")
                                    select item;

@@ -39,6 +39,7 @@ namespace PackageSellSystemTrading{
 
         public DataLog           dataLog; //데이타로그
        
+        //생성자
         public MainForm(){
             InitializeComponent();
         }
@@ -82,12 +83,13 @@ namespace PackageSellSystemTrading{
             this.dataLog                    = new DataLog();
             this.dataLog.mainForm           = this;
 
-            //프로그램 설정 초기화
+            //프로그램 설정 초기화 --프로그램 최초 생성시 문제발생을 방지한다.
             if (Properties.Settings.Default.STOP_PROFIT_TARGET.ToString() == "")
             {
                 optionForm.rollBack();
             }
-            
+            //계좌잔고 그리드 초기화
+            grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
 
             //폼 초기화
             initForm();
@@ -103,13 +105,12 @@ namespace PackageSellSystemTrading{
             //서버 선택 콤보 초기화
             combox_targetServer.SelectedIndex = int.Parse(Properties.Settings.Default.SERVER_INDEX);
 
-            //계좌잔고 그리드 초기화
-            grd_t0424.DataSource = new EBindingList<T0424Vo>();
+            
             //진입검색 그리드.
             grd_t1833.DataSource = new EBindingList<T1833Vo>();
             //체결미체결 그리드 DataSource 설정
-            grd_t0425_chegb1.DataSource = new EBindingList<T0425Vo>();//체결 그리드
-            grd_t0425_chegb2.DataSource = new EBindingList<T0425Vo>();//미체결 그리드
+            grd_t0425_chegb1.DataSource = new EBindingList<T0425Vo>();//체결/미체결 그리드
+           
 
         }
 
@@ -219,7 +220,7 @@ namespace PackageSellSystemTrading{
         }
 
 
-        
+
         //미체결내역
         private void btn_t0425_Click(object sender, EventArgs e)
         {
@@ -233,7 +234,7 @@ namespace PackageSellSystemTrading{
             try
             {
                 //거래이력 싱크 
-                this.dataLog.init();
+                //this.dataLog.init();
 
                 if (this.exXASessionClass.IsConnected())
                 {
@@ -387,7 +388,7 @@ namespace PackageSellSystemTrading{
 
 
         //프로그램 설정 팝업 호출
-        private void btn_program_config_Click(object sender, EventArgs e)
+        private void btn_option_config_Click(object sender, EventArgs e)
         {
             optionForm.ShowDialog();
         }
@@ -400,8 +401,8 @@ namespace PackageSellSystemTrading{
             String mdposqt; //주문가능수량수량
             String sunikrt; //수익율
             String price;   //현재가
-
-            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
+            
+            //EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
             for (int i=0;i< grd_t0424.RowCount; i++)
             {
               
@@ -410,7 +411,7 @@ namespace PackageSellSystemTrading{
                     
                     expcode = grd_t0424.Rows[i].Cells[1].FormattedValue.ToString(); //종목코드
                     //주문 여부를 true로 업데이트
-                    var result_t0424 = from item in t0424VoList
+                    var result_t0424 = from item in this.xing_t0424.getT0424VoList()
                                        where item.expcode == expcode.Replace("A", "")
                                        select item;
                     //MessageBox.Show(result_t0424.Count().ToString());
@@ -443,9 +444,10 @@ namespace PackageSellSystemTrading{
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
 
             //거래이력 싱크
-            this.dataLog.init();
+            //this.dataLog.init();
 
 
             //String expcode; //종목코드

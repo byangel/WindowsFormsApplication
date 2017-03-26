@@ -99,7 +99,7 @@ namespace PackageSellSystemTrading{
 
                         //잔고정보
                         mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                        //잔고정보
+                        //잔고목록
                         mainForm.xing_t0424.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
                         //체결미체결
                         mainForm.xing_t0425.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
@@ -113,19 +113,6 @@ namespace PackageSellSystemTrading{
 
                         //매수금지종목 조회
                         mainForm.xing_t1833Exclude.call_request();
-                        //거래이력 싱크
-                       // while (!mainForm.xing_t0424.completeAt)
-                       // {
-                       //     Log.WriteLine("로그인테스트" + mainForm.xing_t0424.completeAt.ToString());
-                       //     if (mainForm.xing_t0424.completeAt)
-                       //     {
-                       //         break;
-                       //     }
-
-                       //     Thread.Sleep(2000);
-                            
-                       // }
-                       //mainForm.dataLog.init();
 
                         accountForm.Close();
 

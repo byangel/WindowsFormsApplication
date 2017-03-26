@@ -74,7 +74,7 @@ namespace PackageSellSystemTrading{
                 if (nMessageCode == "01069")
                 {
                     //잔고그리드 종목찾아서 에러상태 로 만들어서 매도 주문이 안나가도록 조치 하자. 
-                    BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
+                    EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
                     var result_t0424 = from item in t0424VoList
                                        where item.expcode == this.shcode.Replace("A","")
                                        select item;
@@ -87,7 +87,7 @@ namespace PackageSellSystemTrading{
 
 
             }
-            mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.shcode + "]" + nMessageCode + " :: " + szMessage;
+            //mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.shcode + "]" + nMessageCode + " :: " + szMessage;
         }
 
         /// <summary>

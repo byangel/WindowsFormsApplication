@@ -78,45 +78,38 @@ namespace PackageSellSystemTrading{
 
 
             //매매 체결이력 저장
-            DataLogVo dataLogVo = new DataLogVo();
-            dataLogVo.accno = accno;       //계좌번호
+            DataLogVo dataLogVo  = new DataLogVo();
+            dataLogVo.accno      = accno;       //계좌번호
             dataLogVo.ordptncode = ordptncode;  //주문구분 01:매도|02:매수
-            dataLogVo.Isuno = shtnIsuno;    //종목코드
-            dataLogVo.ordno = ordno;        //주문번호
-            dataLogVo.ordqty = ordqty;      //주문수량 - 매도가능수량
-            dataLogVo.execqty = execqty;    //체결수량 - 매도가능수량
-            dataLogVo.ordprc = ordprc;      //주문가격 - 평균단가
-            dataLogVo.execprc = execprc;    //체결가격 - 평균단가
-            dataLogVo.Isunm = Isunm;        //종목명
-            mainForm.dataLog.WriteLine(dataLogVo);
+            dataLogVo.Isuno      = shtnIsuno;   //종목코드
+            dataLogVo.ordno      = ordno;       //주문번호
+            dataLogVo.ordqty     = ordqty;      //주문수량 - 매도가능수량
+            dataLogVo.execqty    = execqty;     //체결수량 - 매도가능수량
+            dataLogVo.ordprc     = ordprc;      //주문가격 - 평균단가
+            dataLogVo.execprc    = execprc;     //체결가격 - 평균단가
+            dataLogVo.Isunm      = Isunm;       //종목명
+            mainForm.dataLog.writeLine(dataLogVo);
 
 
-            //실시간 매도가능수량 업데이트 ->주문구분== 매도이면 -매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
-            EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
-            var result_t0424 = from item in t0424VoList
-                                where item.expcode == shtnIsuno.Replace("A", "")
-                                select item;
-            //MessageBox.Show(result_t0424.Count().ToString());
-            if (result_t0424.Count() > 0)
+            //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
+            EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
+           
+            
+            int findIndex = t0424VoList.Find("expcode", shtnIsuno.Replace("A", ""));
+            if (findIndex >= 0)
             {
-                int i = t0424VoList.Find("expcode", shtnIsuno.Replace("A", ""));
-                if (i > 0)
-                {
-                    mainForm.grd_t0424.Rows[i].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
-                }
-
+                mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
 
                 if (ordptncode == "01")//매도 - 매도가능수량-체결수량
                 {
-                    result_t0424.ElementAt(0).mdposqt = (int.Parse(result_t0424.ElementAt(0).mdposqt) - int.Parse(execqty)).ToString();
+                    t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(execqty)).ToString();
                 }
                 else if (ordptncode == "02")//매수 - 매도가능수량+체결수량
                 {
-                    result_t0424.ElementAt(0).mdposqt = (int.Parse(result_t0424.ElementAt(0).mdposqt) + int.Parse(execqty)).ToString();
+                    t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(execqty)).ToString();
                 }
-
-                //mainForm.grd_t1833.Rows[i].Cells["shcode"].Style.BackColor = Color.White;
             }
+
 
             //주문구분==매도 && 평규매입가==0  이뎜 매도체결 완료된 종목 잔고그리드에서 제거해주자.
             //if (ordptncode == "01" && avrpchsprc == "0")

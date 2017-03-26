@@ -15,11 +15,13 @@ namespace PackageSellSystemTrading {
     //주식 잔고2
     public class Xing_t0424 : XAQueryClass {
 
+        private EBindingList<T0424Vo> t0424VoList;
+
         public Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
         public int sunamt;    //추정자산
-        //public int sunamt1;   //d1예수금
+        //public int sunamt1; //d1예수금
         public int dtsunik;   //실현손익
 
         public int tmpMamt;      //매입금액
@@ -45,6 +47,8 @@ namespace PackageSellSystemTrading {
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
 
+            t0424VoList = new EBindingList<T0424Vo>();
+
         }   // end function
 
         // 소멸자
@@ -53,6 +57,10 @@ namespace PackageSellSystemTrading {
 
         }
 
+        public EBindingList<T0424Vo> getT0424VoList()
+        {
+            return this.t0424VoList;
+        }
         /// <summary>
 		/// 주식잔고2(T0424) 데이터 응답 처리
 		/// </summary>
@@ -62,15 +70,13 @@ namespace PackageSellSystemTrading {
             String cts_expcode = base.GetFieldData("t0424OutBlock", "cts_expcode", 0);//CTS_종목번호-연속조회키
 
             //1.계좌 잔고 목록을 그리드에 추가
-            int iCount = base.GetBlockCount("t0424OutBlock1");
+            int blockCount = base.GetBlockCount("t0424OutBlock1");
 
-            //계좌잔고목록
-            BindingList<T0424Vo> t0424VoList = ((BindingList<T0424Vo>)mainForm.grd_t0424.DataSource);
-
+            
             String expcode;//종목코드
 
             T0424Vo tmpT0424Vo;
-            for (int i = 0; i < iCount; i++) {
+            for (int i = 0; i < blockCount; i++) {
                 expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
                 //hname   = base.GetFieldData("t0424OutBlock1", "hname"  , i); //종목명
                 //mdposqt = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
@@ -78,7 +84,7 @@ namespace PackageSellSystemTrading {
                 //price   = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
 
 
-                var result_t0424 =  from item in t0424VoList
+                var result_t0424 =  from item in this.t0424VoList
                               where item.expcode == expcode
                               select item;
                 if (result_t0424.Count() > 0){
@@ -110,7 +116,7 @@ namespace PackageSellSystemTrading {
 
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                 if (result_t0424.Count() == 0){
-                    t0424VoList.Add(tmpT0424Vo);
+                    this.t0424VoList.Add(tmpT0424Vo);
                 }
 
                 //거래가능여부 && 주문중상태가 아이고 && 종목거래 에러 여부
@@ -156,7 +162,7 @@ namespace PackageSellSystemTrading {
             this.tmpTdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
             
 
-            this.h_totalCount += iCount;
+            this.h_totalCount += blockCount;
 
             //2.연속 데이타 정보가 남아있는지 구분
             if (base.IsNext) 
@@ -182,6 +188,10 @@ namespace PackageSellSystemTrading {
                 mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);      // 실현손익
                 mainForm.h_totalCount.Text   = this.h_totalCount.ToString();       //종목수
 
+                //label 출력
+                mainForm.label_mamt.Text = Util.GetNumberFormat(this.mamt);    // 매입금액
+               
+
 
                 //목록에 없는 종목 그리드에서 삭제.
                 for (int i = 0; i < t0424VoList.Count; i++)
@@ -192,6 +202,8 @@ namespace PackageSellSystemTrading {
                     {
                         Log.WriteLine("t0424 :: 팔린종목 그리드에서 제거");
                         t0424VoList.RemoveAt(i);
+                        //DATA log 도 같이 삭제한다.
+                        mainForm.dataLog.deleteLine(tmpT0424Vo.expcode);
                         i--;
                     }
                     tmpT0424Vo.deleteAt = true;           
@@ -202,7 +214,16 @@ namespace PackageSellSystemTrading {
 
                 //응답처리 완료
                 completeAt = true;
-                readyAt = true;   
+               
+                if (readyAt == false)//최초실행시이면 매매이력 싱크작업을 해준다.
+                {
+                    readyAt = true;
+                    //1.잔고목록 조회가 완료된 시점에서
+                    //1.프로그램 시작시 호출 - data 로그파일이 있다면 voList 만들고 로그파일없으면 잔고목록을 기준으로 로그파일신규생성하고 voList만든다.
+                    //2.종목별 재계산된 평균단가를 출력해줘야한다.
+                    mainForm.dataLog.init();
+                    
+                }
             }
 
         }//end
@@ -283,7 +304,12 @@ namespace PackageSellSystemTrading {
         public Boolean orderAt { set; get; }  //주문여부
         public String errorcd   { set; get; } //에러코드
 
-        public Boolean deleteAt { set; get; } //에러코드
+        public Boolean deleteAt { set; get; } //삭제 여부
+
+        public String buyCnt { set; get; } //매수 횟수
+        public String sellCnt { set; get; } //매도 횟수
+        public String pamt2 { set; get; } //평균단가2
+
 
     }
 
