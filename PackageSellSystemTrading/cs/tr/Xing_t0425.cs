@@ -169,7 +169,7 @@ namespace PackageSellSystemTrading {
 
                                     if (late > float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                                     {
-                                        //해당종목 매도 이력이 없으면 매수 한다.
+                                       
                                         var result_t0425Vo = from t0425VoChegb1 in t0425VoListChegb1
                                                                 where t0425VoChegb1.expcode == tmpT0425Vo.expcode
                                                                         && t0425VoChegb1.medosu == "매도"

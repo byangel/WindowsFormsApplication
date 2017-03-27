@@ -110,6 +110,7 @@ namespace PackageSellSystemTrading {
                 tmpT0424Vo.tax     = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
                 tmpT0424Vo.sininter= base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
+
                 tmpT0424Vo.deleteAt = false;
 
                 if (tmpT0424Vo.pamt2 != "" && tmpT0424Vo.pamt2 != null)
@@ -125,9 +126,15 @@ namespace PackageSellSystemTrading {
                 
                 //거래가능여부 && 주문중상태가 아이고 && 종목거래 에러 여부
                 if (readyAt && tmpT0424Vo.orderAt == false && (tmpT0424Vo.errorcd == "" || tmpT0424Vo.errorcd==null)) {
-                    
-                    //매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
-                    if (float.Parse(tmpT0424Vo.sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) )
+
+                    //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
+                    //2.수익율2 로 변경함.
+                    String sunikrt = tmpT0424Vo.sunikrt2 == null ? tmpT0424Vo.sunikrt : tmpT0424Vo.sunikrt2;
+                    //if(tmpT0424Vo.sunikrt2 == null)
+                    //{
+                    //    MessageBox.Show(tmpT0424Vo.hname);
+                    //}
+                    if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) )
                     {
                         /// <param name="IsuNo">종목번호</param>
                         /// <param name="Quantity">수량</param>
@@ -138,7 +145,7 @@ namespace PackageSellSystemTrading {
                         tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정    
                     }
 
-           
+                    //손절
                     if (Properties.Settings.Default.STOP_LOSS_AT  &&  float.Parse(tmpT0424Vo.sunikrt)  <= float.Parse(Properties.Settings.Default.STOP_LOSS))
                     {
                         /// <param name="IsuNo">종목번호</param>
