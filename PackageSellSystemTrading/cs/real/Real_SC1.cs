@@ -89,12 +89,10 @@ namespace PackageSellSystemTrading{
             dataLogVo.execprc    = execprc;     //체결가격 - 평균단가
             dataLogVo.Isunm      = Isunm;       //종목명
             mainForm.dataLog.writeLine(dataLogVo);
-
+            
 
             //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-           
-            
             int findIndex = t0424VoList.Find("expcode", shtnIsuno.Replace("A", ""));
             if (findIndex >= 0)
             {
@@ -102,29 +100,31 @@ namespace PackageSellSystemTrading{
 
                 if (ordptncode == "01")//매도 - 매도가능수량-체결수량
                 {
+                    //1.t0424 에 매도가능수량 실시간 출력
                     t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(execqty)).ToString();
+
+                    mainForm.input_toDayAtm.Text = mainForm.dataLog.getToDaySellAmt();
                 }
                 else if (ordptncode == "02")//매수 - 매도가능수량+체결수량
                 {
                     t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(execqty)).ToString();
                 }
+
+                //수정된 평균단가를 실시간 적용해준다.
+                HistoryVo historyvo = mainForm.dataLog.getHistoryVo(dataLogVo.Isuno.Replace("A", ""));
+                t0424VoList.ElementAt(findIndex).pamt2 = historyvo.pamt;//평균단가2
+                t0424VoList.ElementAt(findIndex).sellCnt = historyvo.sellCnt;//매도 횟수.
+                t0424VoList.ElementAt(findIndex).buyCnt = historyvo.buyCnt;//매수 횟수
+                t0424VoList.ElementAt(findIndex).sellSunik = historyvo.sellSunik;//중간매도손익
+                //매도가능수량이 0이면 잔고그리드에서 제거해주자.
+                if (t0424VoList.ElementAt(findIndex).mdposqt == "0")
+                {
+                    t0424VoList.RemoveAt(findIndex);
+                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno + "]");
+                }
             }
 
-
-            //주문구분==매도 && 평규매입가==0  이뎜 매도체결 완료된 종목 잔고그리드에서 제거해주자.
-            //if (ordptncode == "01" && avrpchsprc == "0")
-            //{
-
-            //    for (int i = 0; i < t0424VoList.Count; i++)
-            //    {
-            //        //Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + t0424VoList.ElementAt(i).expcode + "----" + lsuno.Replace("A", ""));
-            //        if (t0424VoList.ElementAt(i).expcode == shtnIsuno.Replace("A", ""))
-            //        {
-            //            t0424VoList.RemoveAt(i);
-            //            Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno + "]");
-            //        }
-            //    }
-            //}
+            
 
         }
 

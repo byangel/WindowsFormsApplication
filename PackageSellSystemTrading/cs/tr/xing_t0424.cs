@@ -74,7 +74,6 @@ namespace PackageSellSystemTrading {
 
             
             String expcode;//종목코드
-
             T0424Vo tmpT0424Vo;
             for (int i = 0; i < blockCount; i++) {
                 expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
@@ -113,12 +112,17 @@ namespace PackageSellSystemTrading {
 
                 tmpT0424Vo.deleteAt = false;
 
-
+                if (tmpT0424Vo.pamt2 != "" && tmpT0424Vo.pamt2 != null)
+                {
+                    //한가한날 손좀 보자....
+                    Util.setSunikrt2(tmpT0424Vo);
+                }
+               
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                 if (result_t0424.Count() == 0){
                     this.t0424VoList.Add(tmpT0424Vo);
                 }
-
+                
                 //거래가능여부 && 주문중상태가 아이고 && 종목거래 에러 여부
                 if (readyAt && tmpT0424Vo.orderAt == false && (tmpT0424Vo.errorcd == "" || tmpT0424Vo.errorcd==null)) {
                     
@@ -285,32 +289,32 @@ namespace PackageSellSystemTrading {
 
     public class T0424Vo
     {
-        public String expcode   { set; get; } //종목코드
-        public String hname     { set; get; } //종목명
-        public String mdposqt   { set; get; } //매도가능
-        public String price     { set; get; } //현재가
-        public String appamt    { set; get; } //평가금액
-        public String dtsunik   { set; get; } //평가손익
-        public String sunikrt   { set; get; } //수익율
-        public String pamt      { set; get; } //평균단가
-        public String mamt      { set; get; } //매입금액
-        public String msat      { set; get; } //당일매수금액
-        public String mpms      { set; get; } //당일매수단가
-        public String mdat      { set; get; } //당일매도금액
-        public String mpmd      { set; get; } //당일매도단가
-        public String fee       { set; get; } //수수료
-        public String tax       { set; get; } //제세금
-        public String sininter  { set; get; } //신용이자
-        public Boolean orderAt { set; get; }  //주문여부
-        public String errorcd   { set; get; } //에러코드
+        public String  expcode   { set; get; } //종목코드
+        public String  hname     { set; get; } //종목명
+        public String  mdposqt   { set; get; } //매도가능
+        public String  price     { set; get; } //현재가
+        public String  appamt    { set; get; } //평가금액
+        public String  dtsunik   { set; get; } //평가손익
+        public String  sunikrt   { set; get; } //수익율
+        public String  pamt      { set; get; } //평균단가
+        public String  mamt      { set; get; } //매입금액
+        public String  msat      { set; get; } //당일매수금액
+        public String  mpms      { set; get; } //당일매수단가
+        public String  mdat      { set; get; } //당일매도금액
+        public String  mpmd      { set; get; } //당일매도단가
+        public String  fee       { set; get; } //수수료
+        public String  tax       { set; get; } //제세금
+        public String  sininter  { set; get; } //신용이자
+        public Boolean orderAt   { set; get; }  //주문여부
+        public String  errorcd   { set; get; } //에러코드
 
-        public Boolean deleteAt { set; get; } //삭제 여부
+        public Boolean deleteAt  { set; get; } //삭제 여부
 
-        public String buyCnt { set; get; } //매수 횟수
-        public String sellCnt { set; get; } //매도 횟수
-        public String pamt2 { set; get; } //평균단가2
-
-
+        public String buyCnt     { set; get; } //매수 횟수
+        public String sellCnt    { set; get; } //매도 횟수
+        public String pamt2      { set; get; } //평균단가2
+        public String sellSunik  { set; get; } //중간매도손익
+        public String sunikrt2   { set; get; } //손익율
     }
 
 }   // end namespace
