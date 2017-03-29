@@ -112,15 +112,21 @@ namespace PackageSellSystemTrading{
 
                 //수정된 평균단가를 실시간 적용해준다.
                 HistoryVo historyvo = mainForm.dataLog.getHistoryVo(dataLogVo.Isuno.Replace("A", ""));
-                t0424VoList.ElementAt(findIndex).pamt2 = historyvo.pamt;//평균단가2
-                t0424VoList.ElementAt(findIndex).sellCnt = historyvo.sellCnt;//매도 횟수.
-                t0424VoList.ElementAt(findIndex).buyCnt = historyvo.buyCnt;//매수 횟수
-                t0424VoList.ElementAt(findIndex).sellSunik = historyvo.sellSunik;//중간매도손익
-                //매도가능수량이 0이면 잔고그리드에서 제거해주자.
+                if (historyvo != null)
+                {
+                    t0424VoList.ElementAt(findIndex).pamt2 = historyvo.pamt;//평균단가2
+                    t0424VoList.ElementAt(findIndex).sellCnt = historyvo.sellCnt;//매도 횟수.
+                    t0424VoList.ElementAt(findIndex).buyCnt = historyvo.buyCnt;//매수 횟수
+                    t0424VoList.ElementAt(findIndex).sellSunik = historyvo.sellSunik;//중간매도손익
+                }
+               
+                //매도가능수량이 0이면 잔고그리드와 dataLog에서 제거해주자.
                 if (t0424VoList.ElementAt(findIndex).mdposqt == "0")
                 {
                     t0424VoList.RemoveAt(findIndex);
-                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno + "]");
+                    mainForm.dataLog.deleteLine(shtnIsuno);
+                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno.Replace("A", "") + "]");
+                    //dataLog 도 제거해준다.
                 }
             }
 

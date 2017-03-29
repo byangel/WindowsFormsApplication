@@ -520,6 +520,43 @@ namespace PackageSellSystemTrading{
                 }
             }
         }
+
+        //잔고목록 검색
+        private void input_searchText_TextChanged(object sender, EventArgs e)
+        {
+            int tmpIndexOf;
+            TextBox tb = sender as TextBox;
+            //MessageBox.Show(tb.Text.Count().ToString());
+            //if (tb.Text.Count() > 2)
+            //{
+                for (int i = 0; i < grd_t0424.RowCount; i++)
+                {
+                    //if (this.grd_t0424.Rows[i].Cells["c_hname"].Value.ToString() == "") { }
+                    if (tb.Text == "" || this.grd_t0424.Rows[i].Cells["c_hname"].Value == null)
+                    {
+
+                        this.grd_t0424.Rows[i].Cells["c_hname"].Style.BackColor = Color.White;
+                        //Log.WriteLine("dddddddddddddddddddddddddd");
+                    }
+                    else
+                    {    
+                        //MessageBox.Show(input_searchText.Text.ToString()+"/"+ grd_t0424.Rows[i].Cells["c_hname"].Value.ToString());
+                        tmpIndexOf = grd_t0424.Rows[i].Cells["c_hname"].Value.ToString().IndexOf(input_searchText.Text.ToString());
+                        Log.WriteLine(tmpIndexOf.ToString());
+                        if (tmpIndexOf >= 0)
+                        {
+                            this.grd_t0424.Rows[i].Cells["c_hname"].Style.BackColor = Color.Gray;
+                        }
+                        else
+                        {
+                            this.grd_t0424.Rows[i].Cells["c_hname"].Style.BackColor = Color.White;
+                        }
+                    }
+
+                }
+            //}
+
+        }
     }//end class
 }//end namespace
 

@@ -71,7 +71,6 @@ namespace PackageSellSystemTrading {
             String t0424_hname;   //종목명
             String t0424_sunikrt;  //수익율
 
-            String toDaySellAmt;
             String ordno;  //주문번호
             String status; //상태 체결|미체결
             String qty;    //주문수량
@@ -85,8 +84,8 @@ namespace PackageSellSystemTrading {
                 cheqty = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
                
                 var resultT0425 = from item in t0425VoListChegb1
-                                    where item.ordno == ordno
-                                    select item;
+                                  where item.ordno == ordno
+                                  select item;
                 if (resultT0425.Count() > 0)
                 {
                     tmpT0425Vo = resultT0425.ElementAt(0);
@@ -94,7 +93,6 @@ namespace PackageSellSystemTrading {
                 else
                 {
                     tmpT0425Vo = new T0425Vo();
-
                 }
 
                 tmpT0425Vo.ordtime  = base.GetFieldData("t0425OutBlock1", "ordtime" , i); //주문시간
@@ -183,7 +181,7 @@ namespace PackageSellSystemTrading {
                                             int tmpAmt = ((t0424_price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
 
                                             //당일매도 차익 합산.
-                                            toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + tmpAmt).ToString();
+                                            //toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + tmpAmt).ToString();
 
                                             String msg = "t0425::" + tmpT0425Vo.hname + "(" + tmpT0425Vo.expcode + ")::금일매수/매도 [주문가격:" + t0424_price + "|주문수량:" + tmpT0425Vo.qty + "|금일수익율:" + late + "|차익:" + tmpAmt + "|매도가능수량:" + t0424_mdposqt + "|매도전수익률:" + t0424_sunikrt + "]";
 
@@ -194,7 +192,7 @@ namespace PackageSellSystemTrading {
                                             mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
                                             tmpT0425Vo.todaySellAt = true;
                                             //당일매도 차익 합산.
-                                            mainForm.input_toDayAtm.Text = toDaySellAmt;
+                                            //mainForm.input_toDayAtm.Text = toDaySellAmt;
                                         }
 
                                     }
@@ -227,7 +225,6 @@ namespace PackageSellSystemTrading {
                 completeAt = true;
                 readyAt = true;
                 //매수체결 목록
-                //mainForm.grd_t0425_chegb1_cnt.Text = chegb1Cnt.ToString();
                 mainForm.grd_t0425_chegb1_cnt.Text = t0425VoListChegb1.Count().ToString();
                 //Thread.Sleep(5000);
                 //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);

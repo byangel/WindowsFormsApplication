@@ -61,8 +61,6 @@ namespace PackageSellSystemTrading
         public HistoryVo getHistoryVo(String Isuno)
         {
             HistoryVo historyVo = null;
-            //1.해당 종목 매매 이력 리스트를 구한다.
-            
            
             //종목 매매 목록을 구한다.
             var resultDataLogVoList =  from item in this.dataLogVoList
@@ -80,46 +78,44 @@ namespace PackageSellSystemTrading
                                       };
             //groupping 매도:false | 매수:true
 
-            //여기에 매수 정보가 없다는것은 잔고목록과 매핑이 잘되지 않았다는거다...else구문을 구현해주낟.
-            if (resultDataLogVoList.Count() > 0)
-            {
+            //dataLogVoList에 매수 정보가 없다는것은 잔고목록과 매핑이 잘되지 않았다는거다...else구문을 구현해주낟.
+            if (resultDataLogVoList.Count() > 0){
                 historyVo = new HistoryVo();
                 //로그출력
-                double 매수총금액 = 0;
+                double 총매수금액 = 0;
                 double 매도가능수량 = 0;
                 double 중간매도손익 = 0;
-                foreach (var group in groupDataLogVoList)
-                {
-
+                foreach (var group in groupDataLogVoList) {
 
                     if (group.goupKey)//매수그룹
                     {
-                        매수총금액 = 매수총금액 + group.거래금액합;
+                        총매수금액 = 총매수금액 + group.거래금액합;
                         매도가능수량 = 매도가능수량 + group.체결수량합;
                         historyVo.buyCnt = group.매매횟수.ToString();
                     }
                     else//매도그룹
                     {
                         중간매도손익 = (group.거래금액합 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100));
-                        매수총금액 = 매수총금액 - (group.거래금액합 - (group.거래금액합 * (int.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100)));
+                        //매도 거래금액합 - (2%수익금) 해주어야 
+                        총매수금액 = 총매수금액 - (group.거래금액합 - (group.거래금액합 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100)));
                         매도가능수량 = 매도가능수량 - group.체결수량합;
                         historyVo.sellCnt = group.매매횟수.ToString();
                         historyVo.sellSunik = Util.GetNumberFormat(중간매도손익.ToString());
                     }
-                    Log.WriteLine("key:" + group.goupKey + "거래금액합:" + group.거래금액합 + "체결수량합:" + group.체결수량합 + "|매매횟수:" + group.매매횟수 + "중간매도손익:" + 중간매도손익);
+                    Log.WriteLine("DataLog::[key:" + group.goupKey + "거래금액합:" + group.거래금액합 + "체결수량합:" + group.체결수량합 + "|매매횟수:" + group.매매횟수 + "|중간매도손익:" + 중간매도손익);
                     foreach (var item in group.groupVoList)
                     {
-                        Log.WriteLine("주문구분:" + item.ordptncode + "|주문수량:" + item.ordqty + "|체결수량:" + item.execqty + "|주문가격:" + item.ordprc + "|체결가격:" + item.execprc + "|" + item.Isunm);
+                        Log.WriteLine("DataLog::" + item.Isunm + "(" + item.Isuno + ")[거래일자:"+ item.date+ "|주문구분:" + item.ordptncode + "|주문수량:" + item.ordqty + "|체결수량:" + item.execqty + "|주문가격:" + item.ordprc + "|체결가격:" + item.execprc);
 
                         //Log.WriteLine("===========================================");
                     }
                 }
-
+                Log.WriteLine("DataLog:: [매도가능수량:" + 매도가능수량+ "|매수총금액:"+ 총매수금액 + "]");
                 if (매도가능수량 != 0)
                 {
-                    double 평균단가 = (매수총금액 / 매도가능수량);
+                    double 평균단가 = (총매수금액 / 매도가능수량);
                     historyVo.pamt = Util.GetNumberFormat(평균단가.ToString());
-                    Log.WriteLine("평균단가:" + 평균단가.ToString() + "매도가능수량:" + 매도가능수량);
+                    //Log.WriteLine("DataLog::[평균단가:" + 평균단가.ToString() + "매도가능수량:" + 매도가능수량);
                 } else
                 {
                     return null;
@@ -131,16 +127,16 @@ namespace PackageSellSystemTrading
                 EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
                 int i = t0424VoList.Find("expcode", Isuno.Replace("A", ""));
                 if (i >= 0) { 
-                    DataLogVo dataLogVo = new DataLogVo();
-                    dataLogVo.ordno = "000" + i.ToString();               //주문번호
-                    dataLogVo.accno = mainForm.exXASessionClass.account;   //계좌번호
+                    DataLogVo dataLogVo  = new DataLogVo();
+                    dataLogVo.ordno      = "000" + i.ToString();                //주문번호
+                    dataLogVo.accno      = mainForm.exXASessionClass.account;   //계좌번호
                     dataLogVo.ordptncode = "02";                                //주문구분 01:매도|02:매수
-                    dataLogVo.Isuno = t0424VoList.ElementAt(i).expcode.Replace("A", "");   //종목코드
-                    dataLogVo.ordqty = t0424VoList.ElementAt(i).mdposqt;   //주문수량 - 매도가능수량
-                    dataLogVo.execqty = t0424VoList.ElementAt(i).mdposqt;   //체결수량 - 매도가능수량
-                    dataLogVo.ordprc = t0424VoList.ElementAt(i).pamt;      //주문가격 - 평균단가
-                    dataLogVo.execprc = t0424VoList.ElementAt(i).pamt;      //체결가격 - 평균단가
-                    dataLogVo.Isunm = t0424VoList.ElementAt(i).hname;     //종목명
+                    dataLogVo.Isuno      = t0424VoList.ElementAt(i).expcode.Replace("A", "");   //종목코드
+                    dataLogVo.ordqty     = t0424VoList.ElementAt(i).mdposqt;   //주문수량 - 매도가능수량
+                    dataLogVo.execqty    = t0424VoList.ElementAt(i).mdposqt;   //체결수량 - 매도가능수량
+                    dataLogVo.ordprc     = t0424VoList.ElementAt(i).pamt;      //주문가격 - 평균단가
+                    dataLogVo.execprc    = t0424VoList.ElementAt(i).pamt;      //체결가격 - 평균단가
+                    dataLogVo.Isunm      = t0424VoList.ElementAt(i).hname;     //종목명
                     this.writeLine(dataLogVo);
 
                     //종목히스토리 수동 설정
@@ -149,6 +145,10 @@ namespace PackageSellSystemTrading
                     historyVo.sellCnt = "";
                     historyVo.sellSunik ="";
                     historyVo.pamt = t0424VoList.ElementAt(i).pamt;
+                }else
+                {
+                    Log.WriteLine("DataLog::뭐여? 왜 잔고그리드에 종목정보가 없어?" );
+                    return null;
                 }
             }
             return historyVo;

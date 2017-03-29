@@ -130,10 +130,7 @@ namespace PackageSellSystemTrading {
                     //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
                     //2.수익율2 로 변경함.
                     String sunikrt = tmpT0424Vo.sunikrt2 == null ? tmpT0424Vo.sunikrt : tmpT0424Vo.sunikrt2;
-                    //if(tmpT0424Vo.sunikrt2 == null)
-                    //{
-                    //    MessageBox.Show(tmpT0424Vo.hname);
-                    //}
+                    
                     if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) )
                     {
                         /// <param name="IsuNo">종목번호</param>
