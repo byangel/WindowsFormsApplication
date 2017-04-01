@@ -29,6 +29,8 @@ namespace PackageSellSystemTrading
 
         private void AccountForm_Load(object sender, EventArgs e){
             String account;
+            this.listBox_account.Items.Clear();
+            this.input_accountPw.Text = "";
             int accountListCount = this.exXASessionClass.GetAccountListCount();
             for (int i = 0; i < accountListCount; i++)
             {

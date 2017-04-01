@@ -19,7 +19,8 @@ namespace PackageSellSystemTrading{
 
         //배팅금액
         public decimal battingAmt;
-        public Boolean marketAt = true;
+        public Boolean marketAt = true; //상태
+        public String  stateCd = "";     //상태코드
 
         public ExXASessionClass  exXASessionClass;
         public Xing_t1833        xing_t1833;        //조건검색
@@ -164,9 +165,13 @@ namespace PackageSellSystemTrading{
 
         private void btn_logout_Click(object sender, EventArgs e)
         {
+            this.tradingStop();
             this.exXASessionClass.DisconnectServer();
+            this.exXASessionClass.account = null;
+            this.exXASessionClass.accountPw = null;
             // 로그인 버튼 활성
             this.btn_login.Enabled = true;
+            MessageBox.Show("성공적으로 로그아웃 하였습니다.");
         }
         //로그인 버튼 클릭 이벤트
         private void btn_login_click(object sender, EventArgs e)
@@ -230,49 +235,19 @@ namespace PackageSellSystemTrading{
         //시작버튼 클릭 이벤트
         private void btn_start_Click(object sender, EventArgs e)
         {
-
             try
             {
-                //거래이력 싱크 
-                //this.dataLog.init();
-
                 if (this.exXASessionClass.IsConnected())
                 {
-                    if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
+                    //계좌번호까지있어야 로그인으로 간주하자.
+                    if (this.exXASessionClass.account == null || this.exXASessionClass.accountPw == null)
                     {
-                        //MessageBox.Show("계좌 정보가 없습니다.");
-                        AccountForm accountForm = new AccountForm();
-                        accountForm.ShowDialog();
+                        MessageBox.Show("로그인 후 서비스 이용가능합니다."); 
+                    } else {
 
-                        //세션클래스에 있는거 그대로 가져왔다.
-                        if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == "")
-                        {
-                            MessageBox.Show("계좌 및 계좌 비밀번호를 설정해주세요.");
-                        }
-                        else
-                        {
-                            /************************************************************************/
-                            String dpsastTotamt = this.xing_CSPAQ12200.DpsastTotamt;//예탁자산 총액
-
-                            //배팅금액설정
-                            this.textBox_battingAtm.Text = Util.getBattingAmt(dpsastTotamt);
-                        }
+                        this.tradingRun();
                     }
-                    else
-                    {
-
-                        timer_enterSearch.Enabled = true;//진입검색 타이머
-                        timer_accountSearch.Enabled = true;//계좌 및 미체결 검색 타이머
-                        btn_start.Enabled = false;
-                        btn_stop.Enabled = true;
-
-                        //실시간 체결정보
-                        real_SC1.AdviseRealData();
-
-                    }
-                }
-                else
-                {
+                } else {
                     MessageBox.Show("서버접속정보가 없습니다.");
                 }
             }
@@ -280,20 +255,33 @@ namespace PackageSellSystemTrading{
             {
                 MessageBox.Show("예외 발생:{0}", ex.Message);
             }
-
         }
        
+        public void tradingRun()
+        {
+            timer_enterSearch.Start();//진입검색 타이머
+            timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
+            btn_start.Enabled = false;
+            btn_stop.Enabled = true;
+
+            //실시간 체결정보
+            real_SC1.AdviseRealData();
+        }
+        public void tradingStop()
+        {
+            timer_enterSearch.Stop();//진입검색 타이머
+            timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
+            btn_start.Enabled = true;
+            btn_stop.Enabled = false;
+
+            //실시간 체결정보
+            real_SC1.UnadviseRealData();
+        }
 
         //정지버튼 클릭 이벤트
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            timer_enterSearch.Enabled    = false;
-            timer_accountSearch.Enabled = false;
-            btn_stop.Enabled  = false;
-            btn_start.Enabled = true;
-
-            //실시간 체결 정보 종료
-            real_SC1.UnadviseRealData();
+            this.tradingStop();
         }
 
        
@@ -306,7 +294,7 @@ namespace PackageSellSystemTrading{
                 //MessageBox.Show(xing_t0167.time.Substring(0, 4));
                 //조건검색
                 //xing_t1833.call_request("condition.ADF");
-                xing_t1833.call_request("conSeven.ADF");
+                xing_t1833.call_request("ConditionOri.ADF");
             //}else
             //{
 
@@ -314,24 +302,12 @@ namespace PackageSellSystemTrading{
             //}
         }
 
-        //서버 시간
-        private void timer_dateTime_Tick(object sender, EventArgs e)
+        private void Timer0167_Tick(object sender, EventArgs e)
         {
             xing_t0167.call_request();
-
-            /// <summary>
-            /// 현재 시간을 포멧 입힌 형태로 리턴
-            /// </summary>
-            /// <param name="format">
-            /// yyyy-MM-dd HH:mm:ss -> 2013-10.30 14:30:21
-            /// </param>
-            /// <returns>포멧 변환된 값</returns>
-
-
             //input_dateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-
         }
+       
 
         //타이머 계좌정보
         private void timer_accountSearch_Tick(object sender, EventArgs e)
@@ -344,7 +320,51 @@ namespace PackageSellSystemTrading{
 
             //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+
+            if (marketAt == false)
+            {
+                if (reLogin()){
+                    marketAt = true;
+                    Log.WriteLine("mainForm :: 재로그인 성공");
+                }
+                else
+                {
+                    Log.WriteLine("mainForm :: 재로그인 실패");
+                }
+            }
             
+        }
+
+        public Boolean reLogin()
+        {
+            this.exXASessionClass.DisconnectServer();//무조건 끊었다가 접속
+
+            String mServerAddress = "";
+
+            String loginId = input_loginId.Text;
+            String loginPass = input_loginPw.Text;
+            String publicPass = input_publicPw.Text;
+            //String accountPass = input_accountPass.Text;
+            if (loginId == "" && loginPass == "")
+            {
+                return false;
+            }
+
+            switch (combox_targetServer.SelectedIndex)
+            {
+                case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
+                case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
+                case 2: mServerAddress = "127.0.0.1"; break;
+            }
+
+            if (this.exXASessionClass.ConnectServer(mServerAddress, 20001) == false)
+            {
+                //MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
+                //Log.WriteLine("mainForm :: 재로그인 실패" );
+                return false;
+            }
+           
+            return exXASessionClass.Login(loginId, loginPass, publicPass, 0, false); 
         }
 
         //체결 그리드 row 번호 출력
@@ -557,6 +577,8 @@ namespace PackageSellSystemTrading{
             //}
 
         }
+
+        
     }//end class
 }//end namespace
 

@@ -242,12 +242,15 @@ namespace PackageSellSystemTrading {
                 
             //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
             } else {
-                    //Thread.Sleep(3000);
-                    completeAt = true;//중복호출 방지
-                    Log.WriteLine("[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage);
-                    mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage;
+                //Thread.Sleep(3000);
+                completeAt = true;//중복호출 방지
+                Log.WriteLine("[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage);
+                mainForm.marketAt = false;
+                mainForm.stateCd = "서버접속실패";
+                //mainForm.read
+                //mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage;
 
-                }
+            }
 
         }
 

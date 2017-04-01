@@ -54,11 +54,13 @@
             this.input_battingAtm = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.combox_condition = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(301, 223);
+            this.btn_config_save.Location = new System.Drawing.Point(301, 265);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(63, 26);
             this.btn_config_save.TabIndex = 13;
@@ -68,7 +70,7 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(236, 223);
+            this.btn_rollback.Location = new System.Drawing.Point(236, 265);
             this.btn_rollback.Name = "btn_rollback";
             this.btn_rollback.Size = new System.Drawing.Size(59, 26);
             this.btn_rollback.TabIndex = 14;
@@ -205,7 +207,7 @@
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(370, 223);
+            this.close.Location = new System.Drawing.Point(370, 265);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(51, 26);
             this.close.TabIndex = 101;
@@ -296,11 +298,34 @@
             this.label13.TabIndex = 110;
             this.label13.Text = "원";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(13, 218);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(103, 12);
+            this.label14.TabIndex = 111;
+            this.label14.Text = "6. 검색조건식선택";
+            // 
+            // combox_condition
+            // 
+            this.combox_condition.Font = new System.Drawing.Font("Gulim", 8F);
+            this.combox_condition.FormattingEnabled = true;
+            this.combox_condition.Items.AddRange(new object[] {
+            "ConditionOri.ADF",
+            "ConditionExtend.ADF"});
+            this.combox_condition.Location = new System.Drawing.Point(124, 216);
+            this.combox_condition.Name = "combox_condition";
+            this.combox_condition.Size = new System.Drawing.Size(137, 19);
+            this.combox_condition.TabIndex = 112;
+            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 261);
+            this.ClientSize = new System.Drawing.Size(433, 303);
+            this.Controls.Add(this.combox_condition);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.input_battingAtm);
@@ -362,5 +387,7 @@
         public System.Windows.Forms.TextBox input_battingAtm;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        public System.Windows.Forms.ComboBox combox_condition;
     }
 }

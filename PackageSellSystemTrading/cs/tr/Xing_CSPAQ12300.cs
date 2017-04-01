@@ -108,8 +108,8 @@ namespace PackageSellSystemTrading{
                         //설정저장 버튼 활성화.
                         mainForm.btn_config_save.Enabled = true;
 
-                        //날자 및 시간 타이머 시작.
-                        mainForm.timer_dateTime.Enabled = true;
+                        // 로그인 버튼 비활성
+                        mainForm.btn_login.Enabled = false;
 
                         //매수금지종목 조회
                         mainForm.xing_t1833Exclude.call_request();

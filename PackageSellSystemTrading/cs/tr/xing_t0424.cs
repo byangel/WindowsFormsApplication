@@ -188,12 +188,12 @@ namespace PackageSellSystemTrading {
                 this.tappamt  = this.tmpTappamt;   //평가금액
                 this.tdtsunik = this.tmpTdtsunik;  //평가손익
            
-                mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
+                //mainForm.input_mamt.Text     = Util.GetNumberFormat(this.mamt);    // 매입금액
                 //mainForm.input_BalEvalAmt.Text  = Util.GetNumberFormat(this.tappamt); // 평가금액
                 //mainForm.input_totalPamt.Text = Util.GetNumberFormat(this.tdtsunik);//평가금액 합
                 //mainForm.input_D2Dps.Text  = Util.GetNumberFormat(this.sunamt1);      // D1예수금
                 //mainForm.input_sunamt.Text   = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
-                mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);      // 실현손익
+                mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);  // 실현손익
                 mainForm.h_totalCount.Text   = this.h_totalCount.ToString();       //종목수
 
                 //label 출력
@@ -318,7 +318,7 @@ namespace PackageSellSystemTrading {
         public String sellCnt    { set; get; } //매도 횟수
         public String pamt2      { set; get; } //평균단가2
         public String sellSunik  { set; get; } //중간매도손익
-        public String sunikrt2   { set; get; } //손익율
+        public String sunikrt2   { set; get; } //손익율2
     }
 
 }   // end namespace

@@ -271,6 +271,7 @@ namespace PackageSellSystemTrading
         {
             String section =  mainForm.exXASessionClass.account +"_"+ Isuno.Replace("A", "");
             WritePrivateProfileString(section, null, null, this.filePath);
+            Log.WriteLine("real :: 팔린종목 제거 후 DataLog Line 제거.[세션" + section + "]");
         }   // end function
 
         //읽기

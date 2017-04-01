@@ -25,6 +25,7 @@ namespace PackageSellSystemTrading
         String BUY_STOP_RATE      = "90";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "100000000"; //최대 운영 금액 제한 - 기본 1억
         String BATTING_ATM        = "";
+        String CONDITION_ADF = "ConditionExtend.ADF";
         public OptionForm()
         {
             InitializeComponent();

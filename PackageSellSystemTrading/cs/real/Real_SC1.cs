@@ -125,7 +125,7 @@ namespace PackageSellSystemTrading{
                 {
                     t0424VoList.RemoveAt(findIndex);
                     mainForm.dataLog.deleteLine(shtnIsuno);
-                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno.Replace("A", "") + "]");
+                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno + "]");
                     //dataLog 도 제거해준다.
                 }
             }

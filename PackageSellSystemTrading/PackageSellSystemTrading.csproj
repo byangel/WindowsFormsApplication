@@ -119,11 +119,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Resources\condition.ADF" />
     <None Include="Resources\ConditionExclude.ADF" />
-    <None Include="Resources\ConditionExtend.ADF" />
-    <None Include="Resources\ConditionOri.ADF" />
-    <None Include="Resources\conSeven.ADF" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

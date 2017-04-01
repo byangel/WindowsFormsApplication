@@ -68,6 +68,7 @@ namespace PackageSellSystemTrading{
                 if (nMessageCode=="03563")
                 {
                     mainForm.marketAt = false;
+                    mainForm.stateCd = "마켓종료";
                 }
                
                 //거래정지 종목으로 주문이 불가능합니다.
