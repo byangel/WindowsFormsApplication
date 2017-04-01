@@ -119,6 +119,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Resources\Condition.ADF" />
+    <None Include="Resources\Condition2.ADF" />
     <None Include="Resources\ConditionExclude.ADF" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

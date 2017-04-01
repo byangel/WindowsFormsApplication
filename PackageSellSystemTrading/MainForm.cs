@@ -94,6 +94,15 @@ namespace PackageSellSystemTrading{
 
             //폼 초기화
             initForm();
+
+
+            //프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
+            if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
+            {
+                optionForm.rollBack();
+                optionForm.btn_config_save_Click(new object(), new EventArgs());
+            }
+            
         }
 
         //프로그램시작시 폼 초기화
@@ -104,15 +113,20 @@ namespace PackageSellSystemTrading{
             input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
 
             //서버 선택 콤보 초기화
-            combox_targetServer.SelectedIndex = int.Parse(Properties.Settings.Default.SERVER_INDEX);
+            //combox_condition.SelectedIndex = 0;
+            for (int i = 0; i < combox_targetServer.Items.Count; i++)
+            {
+                if (combox_targetServer.Items[i].ToString() == Properties.Settings.Default.SERVER_ADDRESS)
+                {
+                    combox_targetServer.SelectedIndex = i;
+                }
+            }
 
-            
             //진입검색 그리드.
             grd_t1833.DataSource = new EBindingList<T1833Vo>();
             //체결미체결 그리드 DataSource 설정
             grd_t0425_chegb1.DataSource = new EBindingList<T0425Vo>();//체결/미체결 그리드
-           
-
+          
         }
 
 
@@ -120,20 +134,18 @@ namespace PackageSellSystemTrading{
         private void btn_config_save_Click(object sender, EventArgs e)  {
 
             // UI 필드 값을 읽어서 변수에 담음 - 비번등은 암호화 시킴
-            int    serverIndex   = combox_targetServer.SelectedIndex;
-            string loginId       = Util.Encrypt(input_loginId.Text.Trim());
-            string loginPw       = Util.Encrypt(input_loginPw.Text.Trim());
-            string publicPw      = Util.Encrypt(input_publicPw.Text.Trim());
- 
-        
+            String serverAddress = combox_targetServer.Text;
+            String loginId       = Util.Encrypt(input_loginId.Text.Trim());
+            String loginPw       = Util.Encrypt(input_loginPw.Text.Trim());
+            String publicPw      = Util.Encrypt(input_publicPw.Text.Trim());
 
             // 설정 파일에 저장
-            Properties.Settings.Default.SERVER_INDEX = serverIndex.ToString();
-            Properties.Settings.Default.LOGIN_ID     = loginId;
-            Properties.Settings.Default.LOGIN_PW     = loginPw;
-            Properties.Settings.Default.PUBLIC_PW    = publicPw;
-            Properties.Settings.Default.ACCOUNT      = this.exXASessionClass.account;
-            Properties.Settings.Default.ACCOUNT_PW   = this.exXASessionClass.accountPw;
+            Properties.Settings.Default.SERVER_ADDRESS = serverAddress.ToString();
+            Properties.Settings.Default.LOGIN_ID       = loginId;
+            Properties.Settings.Default.LOGIN_PW       = loginPw;
+            Properties.Settings.Default.PUBLIC_PW      = publicPw;
+            //Properties.Settings.Default.ACCOUNT        = this.exXASessionClass.account;
+            //Properties.Settings.Default.ACCOUNT_PW     = this.exXASessionClass.accountPw;
             //Properties.Settings.Default.AUTO_LOGIN = CheckAutoLogin.Checked;
             //Properties.Settings.Default.TRAY_YN = CheckTrayYN.Checked;
 
@@ -142,27 +154,13 @@ namespace PackageSellSystemTrading{
 
         }
 
-        //로그아웃 버튼 클릭 이벤트
-        //private void btn_loginOut_Click(object sender, EventArgs e)
-        //{
-        //    //로그인이면
-        //    if (this.exXASessionClass.IsConnected())
-        //    {
-        //        this.exXASessionClass.Logout();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("접속되어있지 않습니다.");
-        //    }
-        //}
-
-
-        //매수 할 종목 검색
+        //종목검색 버튼
         private void btn_search_Click(object sender, EventArgs e)
         {
-            xing_t1833.call_request("Condition.ADF");
+            xing_t1833.call_request(Properties.Settings.Default.CONDITION_ADF);
         }
 
+        //로그아웃 버튼
         private void btn_logout_Click(object sender, EventArgs e)
         {
             this.tradingStop();
@@ -177,7 +175,7 @@ namespace PackageSellSystemTrading{
         private void btn_login_click(object sender, EventArgs e)
         {
            
-            String mServerAddress = "";
+           
 
             String loginId    = input_loginId.Text;
             String loginPass  = input_loginPw.Text;
@@ -187,11 +185,7 @@ namespace PackageSellSystemTrading{
 
             }
 
-            switch (combox_targetServer.SelectedIndex){
-                case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
-                case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
-                case 2: mServerAddress = "127.0.0.1"; break;
-            }
+           
             //MessageBox.Show(mServerAddress);
             //이미접속이되어있으면접속을끊는다
             //if (exXASessionClass.IsConnected())
@@ -200,7 +194,7 @@ namespace PackageSellSystemTrading{
             //}
             //서버접속
             //if (exXASessionClass.IsConnected() == false){
-                if (!this.exXASessionClass.ConnectServer(mServerAddress, 20001))
+                if (!this.exXASessionClass.ConnectServer(combox_targetServer.Text, 20001))
                 {
                     MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
                 }
@@ -289,12 +283,13 @@ namespace PackageSellSystemTrading{
 
         //타이머 진입검색
         private void timer_enterSearch_Tick(object sender, EventArgs e){
-            
+
             //if (int.Parse(xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(xing_t0167.time.Substring(0, 4)) < 2202){
-                //MessageBox.Show(xing_t0167.time.Substring(0, 4));
-                //조건검색
-                //xing_t1833.call_request("condition.ADF");
-                xing_t1833.call_request("ConditionOri.ADF");
+            //MessageBox.Show(xing_t0167.time.Substring(0, 4));
+            //조건검색
+ 
+            //condition2.ADF 기본 급등주 검색에서 거래량을 추가한 버전 오리지날 버전보다 보통 검색되는 종목수가 적다.
+            xing_t1833.call_request(Properties.Settings.Default.CONDITION_ADF);
             //}else
             //{
 
@@ -577,8 +572,6 @@ namespace PackageSellSystemTrading{
             //}
 
         }
-
-        
     }//end class
 }//end namespace
 

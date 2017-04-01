@@ -18,14 +18,14 @@ namespace PackageSellSystemTrading
         Boolean TODAY_SELL_AT        = true;     //중복매수된 종목 금일 매수/매도 기능 활성화 여부 디폴트 true
         Boolean STOP_LOSS_AT      = false;       //손절사용여부
 
-        String STOP_PROFIT_TARGET = "2";         //목표 이익율
+        String STOP_PROFIT_TARGET = "2.5";         //목표 이익율
         String STOP_LOSS          = "";          //손절
         String REPEAT_TERM        = "9600";      //반복매수 시간
         String REPEAT_RATE        = "-3";        //반복매수 비율
         String BUY_STOP_RATE      = "90";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "100000000"; //최대 운영 금액 제한 - 기본 1억
         String BATTING_ATM        = "";
-        String CONDITION_ADF = "ConditionExtend.ADF";
+        String CONDITION_ADF      = "Condition2.ADF";
         public OptionForm()
         {
             InitializeComponent();
@@ -40,6 +40,15 @@ namespace PackageSellSystemTrading
             input_stop_loss.Text          = Properties.Settings.Default.STOP_LOSS.ToString(); //손절
             input_stop_profit_target.Text = Properties.Settings.Default.STOP_PROFIT_TARGET.ToString();//목표 이익율
             input_battingAtm.Text         = Properties.Settings.Default.BATTING_ATM.ToString();//배팅금액 설정
+
+            //combox_condition.SelectedIndex = 0;
+            for(int i=0;i< combox_condition.Items.Count; i++)
+            {
+                if(combox_condition.Items[i].ToString() == Properties.Settings.Default.CONDITION_ADF)
+                {
+                    combox_condition.SelectedIndex = i;
+                }
+            }
         }
 
         //프로퍼티 초기화
@@ -54,24 +63,26 @@ namespace PackageSellSystemTrading
             input_max_amt_limit.Text      = this.MAX_AMT_LIMIT;  //최대 운영 금액 제한 - 기본 1억
             input_stop_loss.Text          = this.STOP_LOSS;      //손절
             input_stop_profit_target.Text = this.STOP_PROFIT_TARGET;//목표 이익율
-            input_battingAtm.Text         = this.BATTING_ATM;//배팅금액
-            Properties.Settings.Default.Save();
+            input_battingAtm.Text         = this.BATTING_ATM;       //배팅금액
+            combox_condition.Text         = this.CONDITION_ADF;     //검색식
+            //Properties.Settings.Default.Save();
         }
 
         //폼내용을 프로퍼티에 저장
-        private void btn_config_save_Click(object sender, EventArgs e)
+        public void btn_config_save_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.LIMITED_AT          = checkBox_limited.Checked;      //운영자금 제한 사용여부
             Properties.Settings.Default.TODAY_SELL_AT       = checkBox_today_sell.Checked;   //금일매수매도 사용여부
             Properties.Settings.Default.STOP_LOSS_AT        = checkBox_stop_loss.Checked; //손절 사용여부
-
             Properties.Settings.Default.REPEAT_TERM         = input_repeat_term.Text;
             Properties.Settings.Default.REPEAT_RATE         = input_repeat_rate.Text;
             Properties.Settings.Default.BUY_STOP_RATE       = input_buy_stop_rate.Text;
             Properties.Settings.Default.MAX_AMT_LIMIT       = input_max_amt_limit.Text;
             Properties.Settings.Default.STOP_LOSS           = input_stop_loss.Text;
             Properties.Settings.Default.STOP_PROFIT_TARGET  = input_stop_profit_target.Text; //목표 이익율
-            Properties.Settings.Default.BATTING_ATM         = input_battingAtm.Text; //배팅금액 강제설정
+            Properties.Settings.Default.BATTING_ATM         = input_battingAtm.Text;         //배팅금액 강제설정
+            Properties.Settings.Default.CONDITION_ADF       = combox_condition.Text;               //검색식
+          
 
             Properties.Settings.Default.Save();
             MessageBox.Show("설정을 저장하였습니다.");

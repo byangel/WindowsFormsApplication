@@ -20,8 +20,8 @@
     <Setting Name="MAX_AMT_LIMIT" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SERVER_INDEX" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="SERVER_ADDRESS" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ACCOUNT" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -48,6 +48,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="BATTING_ATM" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CONDITION_ADF" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

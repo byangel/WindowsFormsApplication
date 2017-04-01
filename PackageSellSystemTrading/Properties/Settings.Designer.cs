@@ -97,13 +97,13 @@ namespace PackageSellSystemTrading.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string SERVER_INDEX {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SERVER_ADDRESS {
             get {
-                return ((string)(this["SERVER_INDEX"]));
+                return ((string)(this["SERVER_ADDRESS"]));
             }
             set {
-                this["SERVER_INDEX"] = value;
+                this["SERVER_ADDRESS"] = value;
             }
         }
         
@@ -212,6 +212,18 @@ namespace PackageSellSystemTrading.Properties {
             }
             set {
                 this["BATTING_ATM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CONDITION_ADF {
+            get {
+                return ((string)(this["CONDITION_ADF"]));
+            }
+            set {
+                this["CONDITION_ADF"] = value;
             }
         }
     }

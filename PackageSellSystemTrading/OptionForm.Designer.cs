@@ -301,7 +301,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(13, 218);
+            this.label14.Location = new System.Drawing.Point(13, 222);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(103, 12);
             this.label14.TabIndex = 111;
@@ -312,9 +312,9 @@
             this.combox_condition.Font = new System.Drawing.Font("Gulim", 8F);
             this.combox_condition.FormattingEnabled = true;
             this.combox_condition.Items.AddRange(new object[] {
-            "ConditionOri.ADF",
-            "ConditionExtend.ADF"});
-            this.combox_condition.Location = new System.Drawing.Point(124, 216);
+            "Condition.ADF",
+            "Condition2.ADF"});
+            this.combox_condition.Location = new System.Drawing.Point(124, 220);
             this.combox_condition.Name = "combox_condition";
             this.combox_condition.Size = new System.Drawing.Size(137, 19);
             this.combox_condition.TabIndex = 112;
