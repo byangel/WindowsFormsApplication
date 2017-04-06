@@ -15,7 +15,7 @@ namespace PackageSellSystemTrading {
 
         public String account { get; set; }
         public String accountPw { get; set; }
-
+        public Boolean loginAt; //로그인 여부
         // 생성자
         public ExXASessionClass() {
             //이벤트등록 문법이 어떤 구조인지 잘모르겠다.
@@ -65,7 +65,11 @@ namespace PackageSellSystemTrading {
                 // 서버의 시간 검색 타이머 스타트 - 여기서 PC의 시간을 서버 시간과 동기화 시킴
                 //mainForm.Timer0167.Start();
                 mainForm.Timer0167.Start();
-               
+
+                //실시간 체결정보
+               // mainForm.real_SC1.AdviseRealData();
+                //mainForm.real_S3.AdviseRealData();
+
                 // 디비에 백그라운드 데이터 저장 타이머 스타트
                 //mainForm.TimerDB.Start();
 
@@ -80,16 +84,16 @@ namespace PackageSellSystemTrading {
                 //mainForm.ButtonAutoBuyStop.Enabled = true;
                 // }
 
-                //로그인 성공시 계좌 목록을 콤보박스에 출력
-                //계좌정보 설정 폼 팝업 호출
-                //AccountForm accountForm = new AccountForm();
-                //accountForm.mainForm = this.mainForm;
-                //accountForm.exXASessionClass = this;
+                //아침에 서버 접속이 끊겼을경우 재로그인 하는데 다이얼로그가 뜨지않아도 되기 때문에 이구문을 추가함
+                if (this.account == "" || this.account == null ){
+                    mainForm.accountForm.ShowDialog();
+                }
 
-                mainForm.accountForm.ShowDialog();
-
-                if (this.account == "" || this.accountPw == ""| this.account == null || this.accountPw == null) {
+                //계좌 선택및 비밀번호 선택 다이얼로그 이후 계좌번호와 비밀번호가 잘 설정 되어 있는지 체크한다.
+                if (this.account == "" || this.accountPw == "" || this.account == null || this.accountPw == null) {
                     msg = "계좌 및 계좌 비밀번호를 설정해주세요.";
+                }else {
+                    loginAt = true;
                 }
                 
             } else if (szCode == "5201") {

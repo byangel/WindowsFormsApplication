@@ -42,8 +42,59 @@ namespace PackageSellSystemTrading
         // 생성자
         public DataLog()
         {
-            dataLogVoList = new EBindingList<DataLogVo>();
-            this.filePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\data.ini"; 
+            this.dataLogVoList = new EBindingList<DataLogVo>();
+            this.filePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\data.ini";
+
+            ////////////////////////////////////////////////////////////////////
+            //디렉토리 체크
+            String dirPath = Util.GetCurrentDirectoryWithPath() + "\\logs";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            // 기존에 생성된 data 로그 파일이 있다면...
+            FileInfo file = new FileInfo(this.filePath);
+            if (file.Exists)
+            {
+                fileStream = new FileStream(filePath, FileMode.Open);//Append 에러남
+                //파일이있다면 파일을 읽어 voList와 싱크를 맞춘다.
+                this.streamReader = new StreamReader(fileStream, Encoding.GetEncoding("euc-kr"));
+                String lineString;
+                String[] splitResult;
+                while (!streamReader.EndOfStream)
+                {
+                    // 한줄을 읽습니다
+                    lineString = streamReader.ReadLine();
+                    splitResult = lineString.Split(new char[] { '=', '|' });
+                    if (splitResult.Length > 1)
+                    {
+                        DataLogVo dataLogVo = new DataLogVo();
+                        dataLogVo.ordno = splitResult[0]; //주문번호 
+                        dataLogVo.date = splitResult[1];
+                        dataLogVo.time = splitResult[2];
+                        dataLogVo.accno = splitResult[3]; //계좌번호
+                        dataLogVo.ordptncode = splitResult[4]; //주문구분 01:매도|02:매수   
+                        dataLogVo.Isuno = splitResult[5].Replace("A", ""); //종목코드
+                        dataLogVo.ordqty = splitResult[6]; //주문수량
+                        dataLogVo.execqty = splitResult[7]; //체결수량
+                        dataLogVo.ordprc = splitResult[8]; //주문가격
+                        dataLogVo.execprc = splitResult[9]; //체결가격
+                        dataLogVo.Isunm = splitResult[10];//종목명
+
+                        this.dataLogVoList.Add(dataLogVo);
+                        //vo에 저장
+                    }
+                }
+                //여기서 닫아줘야 WriteLine 쓸수있다.
+                streamReader.Close();
+                fileStream.Close();
+                Log.WriteLine("DataLog 생성자 :: dataLog 파일 로드 완료 [로드 종목수:" + dataLogVoList.Count() + "]");
+            }else{
+                fileStream = new FileStream(filePath, FileMode.Create);
+                //여기서 닫아줘야 WriteLine 쓸수있다.
+                fileStream.Close();
+            }
+
         }  
         // 소멸자
         ~DataLog()
@@ -58,8 +109,11 @@ namespace PackageSellSystemTrading
        
 
         //종목 코드 --평균단가를 리턴한다.
-        public HistoryVo getHistoryVo(String Isuno)
-        {
+        public HistoryVo getHistoryVo(String Isuno){
+            
+
+          
+
             HistoryVo historyVo = null;
            
             //종목 매매 목록을 구한다.
@@ -114,39 +168,27 @@ namespace PackageSellSystemTrading
                 if (매도가능수량 != 0)
                 {
                     double 평균단가 = (총매수금액 / 매도가능수량);
-                    historyVo.pamt = Util.GetNumberFormat(평균단가.ToString());
+                    historyVo.pamt2 = Util.GetNumberFormat(평균단가.ToString());
                     //Log.WriteLine("DataLog::[평균단가:" + 평균단가.ToString() + "매도가능수량:" + 매도가능수량);
                 } else
                 {
                     return null;
                 }
                 Log.WriteLine("===========================================");   
-            }
-            else //종목번호로 데이타로그가 없을때. 데이타 로그에 등록해주고  historyVo를 설정해준다.
-            {
+            } else {//종목번호로 데이타로그가 없을때. 데이타 로그에 등록해주고  historyVo를 설정해준다.
                 EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
                 int i = t0424VoList.Find("expcode", Isuno.Replace("A", ""));
                 if (i >= 0) { 
-                    DataLogVo dataLogVo  = new DataLogVo();
-                    dataLogVo.ordno      = "000" + i.ToString();                //주문번호
-                    dataLogVo.accno      = mainForm.exXASessionClass.account;   //계좌번호
-                    dataLogVo.ordptncode = "02";                                //주문구분 01:매도|02:매수
-                    dataLogVo.Isuno      = t0424VoList.ElementAt(i).expcode.Replace("A", "");   //종목코드
-                    dataLogVo.ordqty     = t0424VoList.ElementAt(i).mdposqt;   //주문수량 - 매도가능수량
-                    dataLogVo.execqty    = t0424VoList.ElementAt(i).mdposqt;   //체결수량 - 매도가능수량
-                    dataLogVo.ordprc     = t0424VoList.ElementAt(i).pamt;      //주문가격 - 평균단가
-                    dataLogVo.execprc    = t0424VoList.ElementAt(i).pamt;      //체결가격 - 평균단가
-                    dataLogVo.Isunm      = t0424VoList.ElementAt(i).hname;     //종목명
-                    this.writeLine(dataLogVo);
+                   
+                    this.insertData(t0424VoList.ElementAt(i),"000"+i);
 
                     //종목히스토리 수동 설정
                     historyVo = new HistoryVo();
                     historyVo.buyCnt = "1";
                     historyVo.sellCnt = "";
                     historyVo.sellSunik ="";
-                    historyVo.pamt = t0424VoList.ElementAt(i).pamt;
-                }else
-                {
+                    historyVo.pamt2 = t0424VoList.ElementAt(i).pamt;
+                }else {
                     Log.WriteLine("DataLog::뭐여? 왜 잔고그리드에 종목정보가 없어?" );
                     return null;
                 }
@@ -165,101 +207,100 @@ namespace PackageSellSystemTrading
 
 
         //프로그램 시작시 호출 - data 로그파일이 있다면 voList 만들고 로그파일없으면 잔고목록을 기준으로 로그파일신규생성하고 voList만든다.
-        public void init() {
-            //계좌잔고 목록
-            EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-            //디렉토리 체크
-            String dirPath  = Util.GetCurrentDirectoryWithPath() + "\\logs";
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
+        //public void init() {
+        //    //계좌잔고 목록
+        //    EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
+        //    //디렉토리 체크
+        //    String dirPath  = Util.GetCurrentDirectoryWithPath() + "\\logs";
+        //    if (!Directory.Exists(dirPath))
+        //    {
+        //        Directory.CreateDirectory(dirPath);
+        //    }
 
-            // 기존에 생성된 data 로그 파일이 있다면...
-            FileInfo file = new FileInfo(this.filePath);
-            if (file.Exists) {
-                fileStream = new FileStream(filePath, FileMode.Open);//Append 에러남
-                    //파일이있다면 파일을 읽어 voList와 싱크를 맞춘다.
-                this.streamReader = new StreamReader(fileStream, Encoding.GetEncoding("euc-kr"));
-                String lineString;
-                String[] splitResult;
-                while (!streamReader.EndOfStream){
-                    // 한줄을 읽습니다
-                    lineString = streamReader.ReadLine();
-                    splitResult = lineString.Split(new char[] { '=','|' } );
-                    if (splitResult.Length> 1){
-                        DataLogVo dataLogVo  = new DataLogVo();
-                        dataLogVo.ordno      = splitResult[0]; //주문번호 
-                        dataLogVo.date       = splitResult[1];
-                        dataLogVo.time       = splitResult[2];
-                        dataLogVo.accno      = splitResult[3]; //계좌번호
-                        dataLogVo.ordptncode = splitResult[4]; //주문구분 01:매도|02:매수   
-                        dataLogVo.Isuno      = splitResult[5].Replace("A", ""); //종목코드
-                        dataLogVo.ordqty     = splitResult[6]; //주문수량
-                        dataLogVo.execqty    = splitResult[7]; //체결수량
-                        dataLogVo.ordprc     = splitResult[8]; //주문가격
-                        dataLogVo.execprc    = splitResult[9]; //체결가격
-                        dataLogVo.Isunm      = splitResult[10];//종목명
+        //    // 기존에 생성된 data 로그 파일이 있다면...
+        //    FileInfo file = new FileInfo(this.filePath);
+        //    if (file.Exists) {
+        //        fileStream = new FileStream(filePath, FileMode.Open);//Append 에러남
+        //            //파일이있다면 파일을 읽어 voList와 싱크를 맞춘다.
+        //        this.streamReader = new StreamReader(fileStream, Encoding.GetEncoding("euc-kr"));
+        //        String lineString;
+        //        String[] splitResult;
+        //        while (!streamReader.EndOfStream){
+        //            // 한줄을 읽습니다
+        //            lineString = streamReader.ReadLine();
+        //            splitResult = lineString.Split(new char[] { '=','|' } );
+        //            if (splitResult.Length> 1){
+        //                DataLogVo dataLogVo  = new DataLogVo();
+        //                dataLogVo.ordno      = splitResult[0]; //주문번호 
+        //                dataLogVo.date       = splitResult[1];
+        //                dataLogVo.time       = splitResult[2];
+        //                dataLogVo.accno      = splitResult[3]; //계좌번호
+        //                dataLogVo.ordptncode = splitResult[4]; //주문구분 01:매도|02:매수   
+        //                dataLogVo.Isuno      = splitResult[5].Replace("A", ""); //종목코드
+        //                dataLogVo.ordqty     = splitResult[6]; //주문수량
+        //                dataLogVo.execqty    = splitResult[7]; //체결수량
+        //                dataLogVo.ordprc     = splitResult[8]; //주문가격
+        //                dataLogVo.execprc    = splitResult[9]; //체결가격
+        //                dataLogVo.Isunm      = splitResult[10];//종목명
 
-                        dataLogVoList.Add(dataLogVo);
-                        //vo에 저장
-                    }
-                }
-                //여기서 닫아줘야 WriteLine 쓸수있다.
-                streamReader.Close();
-                fileStream.Close();
-                Log.WriteLine("DataLog.init 거래이력 데이타 파일 과 싱크 완료"+ dataLogVoList.Count());
-            }
-            else{// 신규로 파일 생성
+        //                dataLogVoList.Add(dataLogVo);
+        //                //vo에 저장
+        //            }
+        //        }
+        //        //여기서 닫아줘야 WriteLine 쓸수있다.
+        //        streamReader.Close();
+        //        fileStream.Close();
+        //        Log.WriteLine("DataLog.init :: dataLog 파일 로드 완료 [로드 종목수:"+ dataLogVoList.Count()+"]");
+        //    }else{// 신규로 파일 생성
                
-                fileStream = new FileStream(filePath, FileMode.Create);
-                //여기서 닫아줘야 WriteLine 쓸수있다.
-                fileStream.Close();
+        //        fileStream = new FileStream(filePath, FileMode.Create);
+        //        //여기서 닫아줘야 WriteLine 쓸수있다.
+        //        fileStream.Close();
 
-                //데이타파일이없다면 잔고목록으로 초기 데이타로 사용한다.
-                for (int i = 0; i < t0424VoList.Count(); i++)
-                {   
-                    DataLogVo dataLogVo  = new DataLogVo();
-                    dataLogVo.ordno      = "000"+i.ToString();               //주문번호
-                    dataLogVo.accno      = mainForm.exXASessionClass.account;   //계좌번호
-                    dataLogVo.ordptncode = "02";                                //주문구분 01:매도|02:매수
-                    dataLogVo.Isuno      = t0424VoList.ElementAt(i).expcode.Replace("A", "");   //종목코드
-                    dataLogVo.ordqty     = t0424VoList.ElementAt(i).mdposqt;   //주문수량 - 매도가능수량
-                    dataLogVo.execqty    = t0424VoList.ElementAt(i).mdposqt;   //체결수량 - 매도가능수량
-                    dataLogVo.ordprc     = t0424VoList.ElementAt(i).pamt;      //주문가격 - 평균단가
-                    dataLogVo.execprc    = t0424VoList.ElementAt(i).pamt;      //체결가격 - 평균단가
-                    dataLogVo.Isunm      = t0424VoList.ElementAt(i).hname;     //종목명
+        //        //데이타파일이없다면 잔고목록으로 초기 데이타로 사용한다.
+        //        for (int i = 0; i < t0424VoList.Count(); i++)
+        //        {   
+        //            DataLogVo dataLogVo  = new DataLogVo();
+        //            dataLogVo.ordno      = "000"+i.ToString();                  //주문번호
+        //            dataLogVo.accno      = mainForm.exXASessionClass.account;   //계좌번호
+        //            dataLogVo.ordptncode = "02";                                //주문구분 01:매도|02:매수
+        //            dataLogVo.Isuno      = t0424VoList.ElementAt(i).expcode.Replace("A", "");   //종목코드
+        //            dataLogVo.ordqty     = t0424VoList.ElementAt(i).mdposqt;   //주문수량 - 매도가능수량
+        //            dataLogVo.execqty    = t0424VoList.ElementAt(i).mdposqt;   //체결수량 - 매도가능수량
+        //            dataLogVo.ordprc     = t0424VoList.ElementAt(i).pamt;      //주문가격 - 평균단가
+        //            dataLogVo.execprc    = t0424VoList.ElementAt(i).pamt;      //체결가격 - 평균단가
+        //            dataLogVo.Isunm      = t0424VoList.ElementAt(i).hname;     //종목명
 
-                    this.writeLine(dataLogVo);
-                }
-                Log.WriteLine("거래이력 데이타 파일 생성 완료");
-            }
+        //            this.insertData(dataLogVo);
+        //        }
+        //        Log.WriteLine("DataLog.init :: 거래이력 데이타 파일 생성 완료");
+        //    }
 
-            //계좌매매이력을 이용하여 평균단가를 다시 계산해준다.
-            HistoryVo tmpHistoryVo = new HistoryVo();
-            for (int i = 0; i < t0424VoList.Count(); i++)
-            {
+        //    //계좌매매이력을 이용하여 평균단가를 다시 계산해준다.
+        //    HistoryVo tmpHistoryVo = new HistoryVo();
+        //    for (int i = 0; i < t0424VoList.Count(); i++)
+        //    {
                
-                tmpHistoryVo = getHistoryVo(t0424VoList.ElementAt(i).expcode);
-                if (tmpHistoryVo != null)
-                {
-                    if (tmpHistoryVo.pamt == null)
-                    {
-                        MessageBox.Show(tmpHistoryVo.buyCnt);
-                    }
+        //        tmpHistoryVo = getHistoryVo(t0424VoList.ElementAt(i).expcode);
+        //        if (tmpHistoryVo != null)
+        //        {
+        //            if (tmpHistoryVo.pamt == null)
+        //            {
+        //                MessageBox.Show(tmpHistoryVo.buyCnt);
+        //            }
                     
-                    t0424VoList.ElementAt(i).sellCnt   = tmpHistoryVo.sellCnt;
-                    t0424VoList.ElementAt(i).buyCnt    = tmpHistoryVo.buyCnt;
-                    t0424VoList.ElementAt(i).pamt2     = tmpHistoryVo.pamt;
-                    t0424VoList.ElementAt(i).sellSunik = tmpHistoryVo.sellSunik;
+        //            t0424VoList.ElementAt(i).sellCnt   = tmpHistoryVo.sellCnt;
+        //            t0424VoList.ElementAt(i).buyCnt    = tmpHistoryVo.buyCnt;
+        //            t0424VoList.ElementAt(i).pamt2     = tmpHistoryVo.pamt; //평균단가2
+        //            t0424VoList.ElementAt(i).sellSunik = tmpHistoryVo.sellSunik;
                     
-                    Util.setSunikrt2(t0424VoList.ElementAt(i));
-                }
-            }
+        //            Util.setSunikrt2(t0424VoList.ElementAt(i));
+        //        }
+        //    }
 
-            //금일매도 차익을 출력
-            mainForm.input_toDayAtm.Text = this.getToDaySellAmt();
-        }
+        //    //금일매도 차익을 출력
+        //    mainForm.input_toDayAtm.Text = this.getToDaySellAmt();
+        //}
 
         
 
@@ -267,15 +308,14 @@ namespace PackageSellSystemTrading
         /// Log 파일에 해당종목의 모든 기록을 삭제
         /// </summary>
         /// <param name="Isuno"></param>
-        public void deleteLine(String Isuno)
+        public void deleteData(String Isuno)
         {
             String section =  mainForm.exXASessionClass.account +"_"+ Isuno.Replace("A", "");
             WritePrivateProfileString(section, null, null, this.filePath);
-            Log.WriteLine("real :: 팔린종목 제거 후 DataLog Line 제거.[세션" + section + "]");
         }   // end function
 
-        //읽기
-        public DataLogVo readLine(String Isuno, String ordno)
+        //파일을 읽어서 vo를 만들어준다.
+        public DataLogVo readData(String Isuno, String ordno)
         {
             StringBuilder retOrd = new StringBuilder();
             String section = mainForm.exXASessionClass.account + "_" + Isuno.Replace("A", "");
@@ -309,11 +349,30 @@ namespace PackageSellSystemTrading
 
         }
 
+
+        //메모리및 ini 파일에 체결 정보를 동시에 기록
+        public void insertData(T0424Vo t0424Vo, String ordno) {
+
+            DataLogVo dataLogVo  = new DataLogVo();
+            dataLogVo.ordno      = ordno;                    //주문번호
+            dataLogVo.accno      = mainForm.exXASessionClass.account; //계좌번호
+            dataLogVo.ordptncode = "02";                              //주문구분 01:매도|02:매수
+            dataLogVo.Isuno      = t0424Vo.expcode.Replace("A", "");  //종목코드
+            dataLogVo.ordqty     = t0424Vo.mdposqt;                   //주문수량 - 매도가능수량
+            dataLogVo.execqty    = t0424Vo.mdposqt;                   //체결수량 - 매도가능수량
+            dataLogVo.ordprc     = t0424Vo.pamt;                      //주문가격 - 평균단가
+            dataLogVo.execprc    = t0424Vo.pamt;                      //체결가격 - 평균단가
+            dataLogVo.Isunm      = t0424Vo.hname;                     //종목명
+            this.insertData(dataLogVo);
+        }
+
+            
+
         /// <summary>
         /// 메모리및 ini 파일에 체결 정보를 동시에 기록
         /// </summary>
         /// <param name="szMsg"></param>
-        public void writeLine(DataLogVo dataLogVo)
+        public void insertData(DataLogVo dataLogVo)
         {
             
             //체결된 주분정보가 같은 주문번호여부를 따진다.
@@ -337,7 +396,7 @@ namespace PackageSellSystemTrading
             //vo정보를 string 으로 나열한다.
             String ordno = dataLogVo.ordno; //주문번호 
             StringBuilder sb = new StringBuilder();
-            sb.Append("" + DateTime.Now.ToString("yyyyMMdd"));
+            sb.Append(""  + DateTime.Now.ToString("yyyyMMdd"));
             sb.Append("|" + DateTime.Now.ToString("HHmmss"));
             sb.Append("|" + dataLogVo.accno);     //계좌번호
             sb.Append("|" + dataLogVo.ordptncode);//주문구분 01:매도|02:매수   
@@ -352,7 +411,7 @@ namespace PackageSellSystemTrading
             String section = dataLogVo.accno + "_" + dataLogVo.Isuno.Replace("A", "");
             WritePrivateProfileString(section, ordno, sb.ToString(), this.filePath);
 
-            Log.WriteLine("DataLog::" + dataLogVo.Isunm + "(" + dataLogVo.Isuno.Replace("A", "") + ") 거래이력 기록 완료. [주문구분:"+ dataLogVo.ordptncode + "|주문수량: " + dataLogVo.ordqty + "|체결수량:"+ dataLogVo.execqty + "]");
+            Log.WriteLine("DataLog insertData::" + dataLogVo.Isunm + "(" + dataLogVo.Isuno.Replace("A", "") + ") [주문구분:"+ dataLogVo.ordptncode + "|주문수량: " + dataLogVo.ordqty + "|체결수량:"+ dataLogVo.execqty + "]");
 
         }   // end function
 
@@ -413,10 +472,10 @@ namespace PackageSellSystemTrading
     //종목별 매매이력 정보를 리턴한다.
     public class HistoryVo
     {
-        public String pamt         { set; get; } //평균단가
-        public String buyCnt       { set; get; } //매수횟수
-        public String sellCnt      { set; get; } //매도횟수
-        public String sellSunik { set; get; }   //중간매도손익
+        public String pamt2     { set; get; } //평균단가
+        public String buyCnt    { set; get; } //매수횟수
+        public String sellCnt   { set; get; } //매도횟수
+        public String sellSunik { set; get; } //중간매도손익
     }
 
 }   // end namespace

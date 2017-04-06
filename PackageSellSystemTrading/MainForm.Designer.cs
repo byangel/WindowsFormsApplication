@@ -29,34 +29,34 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle79 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle80 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle81 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle82 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle83 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle84 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle85 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle103 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle104 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle86 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle87 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle88 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle89 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle90 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle91 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle92 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle93 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle94 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle95 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle96 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle97 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle98 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle99 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle100 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle101 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle102 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle105 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle106 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle107 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle108 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle109 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle110 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle111 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle112 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -193,7 +193,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 95);
+            this.label3.Location = new System.Drawing.Point(10, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 11);
             this.label3.TabIndex = 5;
@@ -202,32 +202,32 @@
             // input_loginId
             // 
             this.input_loginId.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_loginId.Location = new System.Drawing.Point(67, 51);
+            this.input_loginId.Location = new System.Drawing.Point(65, 51);
             this.input_loginId.Name = "input_loginId";
-            this.input_loginId.Size = new System.Drawing.Size(100, 20);
+            this.input_loginId.Size = new System.Drawing.Size(120, 20);
             this.input_loginId.TabIndex = 7;
             // 
             // input_loginPw
             // 
             this.input_loginPw.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_loginPw.Location = new System.Drawing.Point(67, 72);
+            this.input_loginPw.Location = new System.Drawing.Point(65, 72);
             this.input_loginPw.Name = "input_loginPw";
             this.input_loginPw.PasswordChar = '*';
-            this.input_loginPw.Size = new System.Drawing.Size(100, 20);
+            this.input_loginPw.Size = new System.Drawing.Size(120, 20);
             this.input_loginPw.TabIndex = 8;
             // 
             // input_publicPw
             // 
             this.input_publicPw.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_publicPw.Location = new System.Drawing.Point(67, 93);
+            this.input_publicPw.Location = new System.Drawing.Point(65, 93);
             this.input_publicPw.Name = "input_publicPw";
             this.input_publicPw.PasswordChar = '*';
-            this.input_publicPw.Size = new System.Drawing.Size(100, 20);
+            this.input_publicPw.Size = new System.Drawing.Size(120, 20);
             this.input_publicPw.TabIndex = 9;
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(51, 138);
+            this.btn_login.Location = new System.Drawing.Point(69, 139);
             this.btn_login.Name = "btn_login";
             this.btn_login.Size = new System.Drawing.Size(49, 20);
             this.btn_login.TabIndex = 11;
@@ -238,7 +238,7 @@
             // btn_config_save
             // 
             this.btn_config_save.Enabled = false;
-            this.btn_config_save.Location = new System.Drawing.Point(10, 164);
+            this.btn_config_save.Location = new System.Drawing.Point(28, 165);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(57, 20);
             this.btn_config_save.TabIndex = 12;
@@ -263,15 +263,15 @@
             "demo.ebestsec.co.kr",
             "hts.ebestsec.co.kr",
             "127.0.0.1"});
-            this.combox_targetServer.Location = new System.Drawing.Point(67, 114);
+            this.combox_targetServer.Location = new System.Drawing.Point(65, 114);
             this.combox_targetServer.Name = "combox_targetServer";
-            this.combox_targetServer.Size = new System.Drawing.Size(100, 19);
+            this.combox_targetServer.Size = new System.Drawing.Size(120, 19);
             this.combox_targetServer.TabIndex = 17;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 115);
+            this.label6.Location = new System.Drawing.Point(10, 117);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 11);
             this.label6.TabIndex = 18;
@@ -371,14 +371,14 @@
             this.grd_t0424.AllowUserToOrderColumns = true;
             this.grd_t0424.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.grd_t0424.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle57.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle57.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle57.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle57.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle57.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle57.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grd_t0424.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle57;
+            dataGridViewCellStyle85.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle85.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle85.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle85.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle85.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle85.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle85.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_t0424.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle85;
             this.grd_t0424.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd_t0424.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewCheckBoxColumn1,
@@ -406,26 +406,26 @@
             this.dataGridViewTextBoxColumn13,
             this.Column6,
             this.Column7});
-            dataGridViewCellStyle75.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle75.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle75.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle75.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle75.Format = "###,##0";
-            dataGridViewCellStyle75.NullValue = null;
-            dataGridViewCellStyle75.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle75.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle75.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grd_t0424.DefaultCellStyle = dataGridViewCellStyle75;
+            dataGridViewCellStyle103.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle103.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle103.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle103.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle103.Format = "###,##0";
+            dataGridViewCellStyle103.NullValue = null;
+            dataGridViewCellStyle103.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle103.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle103.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grd_t0424.DefaultCellStyle = dataGridViewCellStyle103;
             this.grd_t0424.Location = new System.Drawing.Point(191, 52);
             this.grd_t0424.Name = "grd_t0424";
-            dataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle76.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle76.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle76.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle76.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle76.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle76.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grd_t0424.RowHeadersDefaultCellStyle = dataGridViewCellStyle76;
+            dataGridViewCellStyle104.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle104.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle104.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle104.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle104.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle104.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle104.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_t0424.RowHeadersDefaultCellStyle = dataGridViewCellStyle104;
             this.grd_t0424.RowTemplate.Height = 23;
             this.grd_t0424.Size = new System.Drawing.Size(938, 321);
             this.grd_t0424.TabIndex = 49;
@@ -434,10 +434,10 @@
             // 
             // dataGridViewCheckBoxColumn1
             // 
-            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle58.Font = new System.Drawing.Font("Gulim", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle58.NullValue = false;
-            this.dataGridViewCheckBoxColumn1.DefaultCellStyle = dataGridViewCellStyle58;
+            dataGridViewCellStyle86.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle86.Font = new System.Drawing.Font("Gulim", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle86.NullValue = false;
+            this.dataGridViewCheckBoxColumn1.DefaultCellStyle = dataGridViewCellStyle86;
             this.dataGridViewCheckBoxColumn1.HeaderText = "선택";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             this.dataGridViewCheckBoxColumn1.Width = 33;
@@ -445,8 +445,8 @@
             // c_expcode
             // 
             this.c_expcode.DataPropertyName = "expcode";
-            dataGridViewCellStyle59.Font = new System.Drawing.Font("Gulim", 8F);
-            this.c_expcode.DefaultCellStyle = dataGridViewCellStyle59;
+            dataGridViewCellStyle87.Font = new System.Drawing.Font("Gulim", 8F);
+            this.c_expcode.DefaultCellStyle = dataGridViewCellStyle87;
             this.c_expcode.HeaderText = "코드";
             this.c_expcode.Name = "c_expcode";
             this.c_expcode.Width = 52;
@@ -454,8 +454,8 @@
             // c_hname
             // 
             this.c_hname.DataPropertyName = "hname";
-            dataGridViewCellStyle60.Font = new System.Drawing.Font("Gulim", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.c_hname.DefaultCellStyle = dataGridViewCellStyle60;
+            dataGridViewCellStyle88.Font = new System.Drawing.Font("Gulim", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.c_hname.DefaultCellStyle = dataGridViewCellStyle88;
             this.c_hname.HeaderText = "종목명";
             this.c_hname.Name = "c_hname";
             this.c_hname.Width = 63;
@@ -463,8 +463,8 @@
             // c_sunikrt
             // 
             this.c_sunikrt.DataPropertyName = "sunikrt";
-            dataGridViewCellStyle61.Font = new System.Drawing.Font("Gulim", 8F);
-            this.c_sunikrt.DefaultCellStyle = dataGridViewCellStyle61;
+            dataGridViewCellStyle89.Font = new System.Drawing.Font("Gulim", 8F);
+            this.c_sunikrt.DefaultCellStyle = dataGridViewCellStyle89;
             this.c_sunikrt.HeaderText = "수익율";
             this.c_sunikrt.Name = "c_sunikrt";
             this.c_sunikrt.Width = 63;
@@ -479,10 +479,10 @@
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.DataPropertyName = "dtsunik";
-            dataGridViewCellStyle62.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle62.Format = "###,##0";
-            dataGridViewCellStyle62.NullValue = null;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle62;
+            dataGridViewCellStyle90.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle90.Format = "###,##0";
+            dataGridViewCellStyle90.NullValue = null;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle90;
             this.dataGridViewTextBoxColumn6.HeaderText = "평가손익";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.Width = 74;
@@ -490,9 +490,9 @@
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.DataPropertyName = "price";
-            dataGridViewCellStyle63.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle63.Format = "###,##0";
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle63;
+            dataGridViewCellStyle91.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle91.Format = "###,##0";
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle91;
             this.dataGridViewTextBoxColumn4.HeaderText = "현재가";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 63;
@@ -500,8 +500,8 @@
             // c_mdposqt
             // 
             this.c_mdposqt.DataPropertyName = "mdposqt";
-            dataGridViewCellStyle64.Font = new System.Drawing.Font("Gulim", 8F);
-            this.c_mdposqt.DefaultCellStyle = dataGridViewCellStyle64;
+            dataGridViewCellStyle92.Font = new System.Drawing.Font("Gulim", 8F);
+            this.c_mdposqt.DefaultCellStyle = dataGridViewCellStyle92;
             this.c_mdposqt.HeaderText = "매도가능";
             this.c_mdposqt.Name = "c_mdposqt";
             this.c_mdposqt.Width = 74;
@@ -509,8 +509,8 @@
             // dataGridViewTextBoxColumn14
             // 
             this.dataGridViewTextBoxColumn14.DataPropertyName = "fee";
-            dataGridViewCellStyle65.Font = new System.Drawing.Font("Gulim", 8F);
-            this.dataGridViewTextBoxColumn14.DefaultCellStyle = dataGridViewCellStyle65;
+            dataGridViewCellStyle93.Font = new System.Drawing.Font("Gulim", 8F);
+            this.dataGridViewTextBoxColumn14.DefaultCellStyle = dataGridViewCellStyle93;
             this.dataGridViewTextBoxColumn14.HeaderText = "수수료";
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             this.dataGridViewTextBoxColumn14.Width = 63;
@@ -518,9 +518,9 @@
             // dataGridViewTextBoxColumn15
             // 
             this.dataGridViewTextBoxColumn15.DataPropertyName = "tax";
-            dataGridViewCellStyle66.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle66.Format = "###,##0";
-            this.dataGridViewTextBoxColumn15.DefaultCellStyle = dataGridViewCellStyle66;
+            dataGridViewCellStyle94.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle94.Format = "###,##0";
+            this.dataGridViewTextBoxColumn15.DefaultCellStyle = dataGridViewCellStyle94;
             this.dataGridViewTextBoxColumn15.HeaderText = "제세금";
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
             this.dataGridViewTextBoxColumn15.Width = 63;
@@ -549,9 +549,9 @@
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.DataPropertyName = "pamt";
-            dataGridViewCellStyle67.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle67.Format = "###,##0";
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle67;
+            dataGridViewCellStyle95.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle95.Format = "###,##0";
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle95;
             this.dataGridViewTextBoxColumn8.HeaderText = "평균단가";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.Width = 74;
@@ -573,8 +573,8 @@
             // dataGridViewTextBoxColumn16
             // 
             this.dataGridViewTextBoxColumn16.DataPropertyName = "sininter";
-            dataGridViewCellStyle68.Font = new System.Drawing.Font("Gulim", 8F);
-            this.dataGridViewTextBoxColumn16.DefaultCellStyle = dataGridViewCellStyle68;
+            dataGridViewCellStyle96.Font = new System.Drawing.Font("Gulim", 8F);
+            this.dataGridViewTextBoxColumn16.DefaultCellStyle = dataGridViewCellStyle96;
             this.dataGridViewTextBoxColumn16.HeaderText = "신용이자";
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.Visible = false;
@@ -583,9 +583,9 @@
             // dataGridViewTextBoxColumn9
             // 
             this.dataGridViewTextBoxColumn9.DataPropertyName = "mamt";
-            dataGridViewCellStyle69.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle69.Format = "###,##0";
-            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle69;
+            dataGridViewCellStyle97.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle97.Format = "###,##0";
+            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle97;
             this.dataGridViewTextBoxColumn9.HeaderText = "매입금액";
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             this.dataGridViewTextBoxColumn9.Width = 74;
@@ -593,9 +593,9 @@
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.DataPropertyName = "appamt";
-            dataGridViewCellStyle70.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle70.Format = "###,##0";
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle70;
+            dataGridViewCellStyle98.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle98.Format = "###,##0";
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle98;
             this.dataGridViewTextBoxColumn5.HeaderText = "평가금액";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.Width = 74;
@@ -603,9 +603,9 @@
             // dataGridViewTextBoxColumn10
             // 
             this.dataGridViewTextBoxColumn10.DataPropertyName = "msat";
-            dataGridViewCellStyle71.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle71.Format = "###,##0";
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle71;
+            dataGridViewCellStyle99.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle99.Format = "###,##0";
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle99;
             this.dataGridViewTextBoxColumn10.HeaderText = "당일매수금액";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.Visible = false;
@@ -614,9 +614,9 @@
             // dataGridViewTextBoxColumn11
             // 
             this.dataGridViewTextBoxColumn11.DataPropertyName = "mpms";
-            dataGridViewCellStyle72.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle72.Format = "###,##0";
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle72;
+            dataGridViewCellStyle100.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle100.Format = "###,##0";
+            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle100;
             this.dataGridViewTextBoxColumn11.HeaderText = "당일매수단가";
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.Visible = false;
@@ -625,9 +625,9 @@
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.DataPropertyName = "mdat";
-            dataGridViewCellStyle73.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle73.Format = "###,##0";
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle73;
+            dataGridViewCellStyle101.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle101.Format = "###,##0";
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle101;
             this.dataGridViewTextBoxColumn12.HeaderText = "당일매도금액";
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.Visible = false;
@@ -636,9 +636,9 @@
             // dataGridViewTextBoxColumn13
             // 
             this.dataGridViewTextBoxColumn13.DataPropertyName = "mpmd";
-            dataGridViewCellStyle74.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle74.Format = "###,##0";
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle74;
+            dataGridViewCellStyle102.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle102.Format = "###,##0";
+            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle102;
             this.dataGridViewTextBoxColumn13.HeaderText = "당일매도단가";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.Visible = false;
@@ -673,7 +673,7 @@
             // 
             // btn_start
             // 
-            this.btn_start.Location = new System.Drawing.Point(71, 164);
+            this.btn_start.Location = new System.Drawing.Point(89, 165);
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(46, 20);
             this.btn_start.TabIndex = 56;
@@ -683,7 +683,7 @@
             // 
             // btn_stop
             // 
-            this.btn_stop.Location = new System.Drawing.Point(121, 164);
+            this.btn_stop.Location = new System.Drawing.Point(139, 165);
             this.btn_stop.Name = "btn_stop";
             this.btn_stop.Size = new System.Drawing.Size(46, 20);
             this.btn_stop.TabIndex = 57;
@@ -733,7 +733,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 8);
+            this.label18.Location = new System.Drawing.Point(12, 10);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(27, 11);
             this.label18.TabIndex = 63;
@@ -742,7 +742,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(131, 10);
+            this.label19.Location = new System.Drawing.Point(133, 10);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(27, 11);
             this.label19.TabIndex = 64;
@@ -782,14 +782,14 @@
             // 
             this.grd_t0425_chegb1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.grd_t0425_chegb1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle77.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle77.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle77.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle77.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle77.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle77.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grd_t0425_chegb1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle77;
+            dataGridViewCellStyle105.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle105.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle105.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle105.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle105.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle105.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle105.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_t0425_chegb1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle105;
             this.grd_t0425_chegb1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn17,
             this.dataGridViewTextBoxColumn18,
@@ -814,8 +814,8 @@
             // dataGridViewTextBoxColumn17
             // 
             this.dataGridViewTextBoxColumn17.DataPropertyName = "ordtime";
-            dataGridViewCellStyle78.Format = "##:##:##";
-            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle78;
+            dataGridViewCellStyle106.Format = "##:##:##";
+            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle106;
             this.dataGridViewTextBoxColumn17.HeaderText = "주문시간";
             this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
             this.dataGridViewTextBoxColumn17.Width = 74;
@@ -858,8 +858,8 @@
             // dataGridViewTextBoxColumn22
             // 
             this.dataGridViewTextBoxColumn22.DataPropertyName = "price";
-            dataGridViewCellStyle79.Format = "###,##0";
-            this.dataGridViewTextBoxColumn22.DefaultCellStyle = dataGridViewCellStyle79;
+            dataGridViewCellStyle107.Format = "###,##0";
+            this.dataGridViewTextBoxColumn22.DefaultCellStyle = dataGridViewCellStyle107;
             this.dataGridViewTextBoxColumn22.HeaderText = "주문가격";
             this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
             this.dataGridViewTextBoxColumn22.Width = 74;
@@ -874,8 +874,8 @@
             // dataGridViewTextBoxColumn24
             // 
             this.dataGridViewTextBoxColumn24.DataPropertyName = "cheprice";
-            dataGridViewCellStyle80.Format = "###,##0";
-            this.dataGridViewTextBoxColumn24.DefaultCellStyle = dataGridViewCellStyle80;
+            dataGridViewCellStyle108.Format = "###,##0";
+            this.dataGridViewTextBoxColumn24.DefaultCellStyle = dataGridViewCellStyle108;
             this.dataGridViewTextBoxColumn24.HeaderText = "제결가격";
             this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
             this.dataGridViewTextBoxColumn24.Width = 74;
@@ -912,9 +912,9 @@
             // 
             // btn_logout
             // 
-            this.btn_logout.Location = new System.Drawing.Point(106, 139);
+            this.btn_logout.Location = new System.Drawing.Point(124, 139);
             this.btn_logout.Name = "btn_logout";
-            this.btn_logout.Size = new System.Drawing.Size(61, 19);
+            this.btn_logout.Size = new System.Drawing.Size(61, 20);
             this.btn_logout.TabIndex = 71;
             this.btn_logout.Text = "로그아웃";
             this.btn_logout.UseVisualStyleBackColor = true;
@@ -1000,14 +1000,14 @@
             // grd_t1833
             // 
             this.grd_t1833.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            dataGridViewCellStyle81.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle81.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle81.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle81.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle81.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle81.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle81.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grd_t1833.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle81;
+            dataGridViewCellStyle109.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle109.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle109.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle109.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle109.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle109.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle109.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grd_t1833.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle109;
             this.grd_t1833.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd_t1833.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.shcode,
@@ -1026,8 +1026,8 @@
             // shcode
             // 
             this.shcode.DataPropertyName = "shcode";
-            dataGridViewCellStyle82.Font = new System.Drawing.Font("Gulim", 8F);
-            this.shcode.DefaultCellStyle = dataGridViewCellStyle82;
+            dataGridViewCellStyle110.Font = new System.Drawing.Font("Gulim", 8F);
+            this.shcode.DefaultCellStyle = dataGridViewCellStyle110;
             this.shcode.FillWeight = 24.82159F;
             this.shcode.HeaderText = "코드";
             this.shcode.Name = "shcode";
@@ -1036,8 +1036,8 @@
             // hname
             // 
             this.hname.DataPropertyName = "hname";
-            dataGridViewCellStyle83.Font = new System.Drawing.Font("Gulim", 8F);
-            this.hname.DefaultCellStyle = dataGridViewCellStyle83;
+            dataGridViewCellStyle111.Font = new System.Drawing.Font("Gulim", 8F);
+            this.hname.DefaultCellStyle = dataGridViewCellStyle111;
             this.hname.FillWeight = 34.36586F;
             this.hname.HeaderText = "종목명";
             this.hname.Name = "hname";
@@ -1046,9 +1046,9 @@
             // close
             // 
             this.close.DataPropertyName = "close";
-            dataGridViewCellStyle84.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle84.Format = "###,##0";
-            this.close.DefaultCellStyle = dataGridViewCellStyle84;
+            dataGridViewCellStyle112.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle112.Format = "###,##0";
+            this.close.DefaultCellStyle = dataGridViewCellStyle112;
             this.close.FillWeight = 49.17073F;
             this.close.HeaderText = "현재가";
             this.close.Name = "close";
@@ -1098,7 +1098,7 @@
             // 
             // btn_option_config
             // 
-            this.btn_option_config.Location = new System.Drawing.Point(82, 615);
+            this.btn_option_config.Location = new System.Drawing.Point(12, 620);
             this.btn_option_config.Name = "btn_option_config";
             this.btn_option_config.Size = new System.Drawing.Size(86, 20);
             this.btn_option_config.TabIndex = 87;
@@ -1132,7 +1132,7 @@
             this.listBox1.ItemHeight = 11;
             this.listBox1.Location = new System.Drawing.Point(13, 346);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(155, 268);
+            this.listBox1.Size = new System.Drawing.Size(170, 268);
             this.listBox1.TabIndex = 90;
             // 
             // tableLayoutPanel1
@@ -1165,13 +1165,13 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(156, 146);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(173, 146);
             this.tableLayoutPanel1.TabIndex = 91;
             // 
             // label_DpsastTotamt
             // 
             this.label_DpsastTotamt.AutoSize = true;
-            this.label_DpsastTotamt.Location = new System.Drawing.Point(77, 40);
+            this.label_DpsastTotamt.Location = new System.Drawing.Point(86, 40);
             this.label_DpsastTotamt.Name = "label_DpsastTotamt";
             this.label_DpsastTotamt.Size = new System.Drawing.Size(11, 12);
             this.label_DpsastTotamt.TabIndex = 93;
@@ -1180,7 +1180,7 @@
             // label_mamt
             // 
             this.label_mamt.AutoSize = true;
-            this.label_mamt.Location = new System.Drawing.Point(77, 62);
+            this.label_mamt.Location = new System.Drawing.Point(86, 62);
             this.label_mamt.Name = "label_mamt";
             this.label_mamt.Size = new System.Drawing.Size(11, 12);
             this.label_mamt.TabIndex = 94;
@@ -1189,7 +1189,7 @@
             // label_BalEvalAmt
             // 
             this.label_BalEvalAmt.AutoSize = true;
-            this.label_BalEvalAmt.Location = new System.Drawing.Point(77, 82);
+            this.label_BalEvalAmt.Location = new System.Drawing.Point(86, 82);
             this.label_BalEvalAmt.Name = "label_BalEvalAmt";
             this.label_BalEvalAmt.Size = new System.Drawing.Size(11, 12);
             this.label_BalEvalAmt.TabIndex = 96;
@@ -1198,7 +1198,7 @@
             // label_PnlRat
             // 
             this.label_PnlRat.AutoSize = true;
-            this.label_PnlRat.Location = new System.Drawing.Point(77, 102);
+            this.label_PnlRat.Location = new System.Drawing.Point(86, 102);
             this.label_PnlRat.Name = "label_PnlRat";
             this.label_PnlRat.Size = new System.Drawing.Size(11, 12);
             this.label_PnlRat.TabIndex = 97;
@@ -1207,7 +1207,7 @@
             // label_tdtsunik
             // 
             this.label_tdtsunik.AutoSize = true;
-            this.label_tdtsunik.Location = new System.Drawing.Point(77, 122);
+            this.label_tdtsunik.Location = new System.Drawing.Point(86, 122);
             this.label_tdtsunik.Name = "label_tdtsunik";
             this.label_tdtsunik.Size = new System.Drawing.Size(11, 12);
             this.label_tdtsunik.TabIndex = 95;
@@ -1216,7 +1216,7 @@
             // label_Dps
             // 
             this.label_Dps.AutoSize = true;
-            this.label_Dps.Location = new System.Drawing.Point(77, 0);
+            this.label_Dps.Location = new System.Drawing.Point(86, 0);
             this.label_Dps.Name = "label_Dps";
             this.label_Dps.Size = new System.Drawing.Size(11, 12);
             this.label_Dps.TabIndex = 75;
@@ -1226,7 +1226,7 @@
             // label_D2Dps
             // 
             this.label_D2Dps.AutoSize = true;
-            this.label_D2Dps.Location = new System.Drawing.Point(77, 20);
+            this.label_D2Dps.Location = new System.Drawing.Point(86, 20);
             this.label_D2Dps.Name = "label_D2Dps";
             this.label_D2Dps.Size = new System.Drawing.Size(11, 12);
             this.label_D2Dps.TabIndex = 92;

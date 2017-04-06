@@ -65,6 +65,8 @@
   <ItemGroup>
     <Compile Include="cs\log\Log.cs" />
     <Compile Include="cs\log\DataLog.cs" />
+    <Compile Include="cs\real\Real_S3.cs" />
+    <Compile Include="cs\real\Real_K3.cs" />
     <Compile Include="cs\real\Real_SC1.cs" />
     <Compile Include="cs\session\ExXASessionClass.cs" />
     <Compile Include="cs\tr\Xing_CSPAQ12200.cs" />

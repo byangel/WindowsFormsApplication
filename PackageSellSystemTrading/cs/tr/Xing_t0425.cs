@@ -15,6 +15,12 @@ namespace PackageSellSystemTrading {
     //주식 체결/미체결
     public class Xing_t0425 : XAQueryClass {
 
+        private EBindingList<T0425Vo> t0425VoList;
+        public EBindingList<T0425Vo> getT0425VoList()
+        {
+            return this.t0425VoList;
+        }
+
         public Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
@@ -35,6 +41,8 @@ namespace PackageSellSystemTrading {
             base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
 
+            this.t0425VoList = new EBindingList<T0425Vo>();
+
         }   // end function
 
         // 소멸자
@@ -42,6 +50,9 @@ namespace PackageSellSystemTrading {
         {
 
         }
+
+        
+
 
         /// <summary>
 		/// 주식 체결/미체결(T0425) 데이터 응답 처리
@@ -58,10 +69,7 @@ namespace PackageSellSystemTrading {
             if (time == "" || time == null) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
-            //체결 목록
-            EBindingList<T0425Vo> t0425VoListChegb1 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb1.DataSource);
-            //미체결 목록
-            //EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);
+           
 
             //계좌잔고목록
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
@@ -83,7 +91,7 @@ namespace PackageSellSystemTrading {
                 qty    = base.GetFieldData("t0425OutBlock1", "qty"   , i); //주문수량
                 cheqty = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
                
-                var resultT0425 = from item in t0425VoListChegb1
+                var resultT0425 = from item in this.t0425VoList
                                   where item.ordno == ordno
                                   select item;
                 if (resultT0425.Count() > 0)
@@ -110,7 +118,7 @@ namespace PackageSellSystemTrading {
 
                 if (resultT0425.Count() == 0)
                 {
-                    t0425VoListChegb1.Insert(0, tmpT0425Vo);
+                    this.t0425VoList.Insert(0, tmpT0425Vo);
                     chegb1Cnt++;
                 }
 
@@ -168,7 +176,7 @@ namespace PackageSellSystemTrading {
                                     if (late > float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                                     {
                                        
-                                        var result_t0425Vo = from t0425VoChegb1 in t0425VoListChegb1
+                                        var result_t0425Vo = from t0425VoChegb1 in this.t0425VoList
                                                                 where t0425VoChegb1.expcode == tmpT0425Vo.expcode
                                                                         && t0425VoChegb1.medosu == "매도"
                                                                         && t0425VoChegb1.qty == tmpT0425Vo.qty//주문수량   
@@ -225,7 +233,7 @@ namespace PackageSellSystemTrading {
                 completeAt = true;
                 readyAt = true;
                 //매수체결 목록
-                mainForm.grd_t0425_chegb1_cnt.Text = t0425VoListChegb1.Count().ToString();
+                mainForm.grd_t0425_chegb1_cnt.Text = this.t0425VoList.Count().ToString();
                 //Thread.Sleep(5000);
                 //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
                 mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: 채결/미채결 요청완료";
@@ -244,12 +252,17 @@ namespace PackageSellSystemTrading {
             } else {
                 //Thread.Sleep(3000);
                 completeAt = true;//중복호출 방지
-                Log.WriteLine("[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.marketAt = false;
-                mainForm.stateCd = "서버접속실패";
-                //mainForm.read
-                //mainForm.input_t0425_log2.Text = "[" + mainForm.input_time.Text + "]t0425 :: " + nMessageCode + " :: " + szMessage;
+                Log.WriteLine("t0425 :: [" + mainForm.input_time.Text + "]" + nMessageCode + " :: " + szMessage);
 
+                //-2 :: 서버접속에 실패하였습니다.
+                if (nMessageCode == "-2")
+                {
+                    mainForm.login();
+                }
+                //서버접속 실패로인하여 로그인 여부를 false 로 설정한다.후에 접속실패 코드확보후 조건문 추가해주자.
+                //mainForm.exXASessionClass.loginAt = false;
+                //00007 :: 시스템 사정으로 자료 서비스를 받을 수 없습니다.
+                //00008 :: 시스템 문제로 서비스가 불가능 합니다.
             }
 
         }
@@ -305,5 +318,8 @@ namespace PackageSellSystemTrading {
         public String ordno    { set; get; } //주문번호
         public String orgordno { set; get; } //원주문번호
         public Boolean todaySellAt { set; get; } //금일매도여부
+
+
+        public String medosu2 { set; get; } //매매구분 - 0:전체|1:매수|2:매도
     }
 }   // end namespace

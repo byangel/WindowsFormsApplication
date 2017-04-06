@@ -14,6 +14,15 @@ using System.Threading;
 namespace PackageSellSystemTrading{
     public class Xing_t1833 : XAQueryClass{
 
+
+
+        private EBindingList<T1833Vo> t1833VoList;
+        public EBindingList<T1833Vo> getT1833VoList()
+        {
+            return this.t1833VoList;
+        }
+
+
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
        
@@ -25,6 +34,9 @@ namespace PackageSellSystemTrading{
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
+
+
+            this.t1833VoList = new EBindingList<T1833Vo>();
         }   // end function
 
         // 소멸자
@@ -162,14 +174,7 @@ namespace PackageSellSystemTrading{
             EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.t1833ExcludeVoList;
 
 
-            //1.매수금지종목이면 매수제한.
-            int tmpFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
-            if (tmpFindIndex >=0)
-            {
-                Log.WriteLine("t1833::"+hname+"(" + shcode + ") 매수금지 종목 ");
-                mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Red;
-                return false;
-            }
+            
 
 
             //2.금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수제한.
@@ -207,17 +212,26 @@ namespace PackageSellSystemTrading{
 
 
             //3.진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
-            var esult_t0424 = from item in t0424VoList
-                             where item.expcode == shcode
-                            select item;
-           
+            //var esult_t0424 = from item in t0424VoList
+            //                 where item.expcode == shcode
+            //                select item;
+            int t0424VoListFindIndex = t0424VoList.Find("expcode", shcode);
+            //1.매수금지종목이면 매수제한. 보유종목이 아니면 즉 신규매수인데 매수금지종목이면 사지않는다. 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.
+            int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
+            if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
+            {
+                Log.WriteLine("t1833::" + hname + "(" + shcode + ") 매수금지 종목 ");
+                mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Red;
+                return false;
+            }
+
             //DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
-            if (esult_t0424.Count() > 0){   
+            if (t0424VoListFindIndex >= 0){   
                 //보유종목이면..하이라키...
                
                 mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
         
-                String sunikrt = (String)esult_t0424.ElementAt(0).sunikrt;//기존 종목 수익률
+                String sunikrt = (String)t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;//기존 종목 수익률
 
                 //-수익율이 -3% 이하이면 반복매수 해주자.
                 if (float.Parse(sunikrt) > int.Parse(Properties.Settings.Default.REPEAT_RATE))
@@ -227,8 +241,7 @@ namespace PackageSellSystemTrading{
                 }
                 //accountAt = "t1833::" + hname + "(" + shcode + ") 반복매수  실행 [매수전수익률:" + sunikrt + "%|매도가능수량:"+ (String)esult_t0424.ElementAt(0).mdposqt+"] ";
 
-            }
-            else{//-보유종목이 아니고 신규매수해야 한다면.
+            }else{//-보유종목이 아니고 신규매수해야 한다면.
                 //-accountAt = "신규매수 실행 : ";
                 //-자본금 = 매입금액 + D2예수금 
                 Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);

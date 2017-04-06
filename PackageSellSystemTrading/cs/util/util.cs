@@ -310,15 +310,15 @@ namespace PackageSellSystemTrading
         }
 
 
-        //수익률2를 vo에 설정한다.
-        public static void setSunikrt2(T0424Vo t0424Vo)
+        //손익률2를 vo에 설정한다.
+        public static String getSunikrt2(T0424Vo t0424Vo)
         {
             //수익률 계산
             //수익율2 -> ((현재가*매도가능수량) / ((평균단가2*매도가능수량)+수수료+세금) *100)-100
             Double sunikrt2 = (((double.Parse(t0424Vo.price) * double.Parse(t0424Vo.mdposqt)) / ((double.Parse(t0424Vo.pamt2) * double.Parse(t0424Vo.mdposqt)) + double.Parse(t0424Vo.fee) + double.Parse(t0424Vo.tax))) * 100) - 100;
-           
+       
             //t0424Vo.sunikrt2 = String.Format("{0:#0.#0}", sunikrt2);
-            t0424Vo.sunikrt2 = Math.Round(sunikrt2, 2).ToString();
+            return Math.Round(sunikrt2, 2).ToString();
 
         }
     }	// end class

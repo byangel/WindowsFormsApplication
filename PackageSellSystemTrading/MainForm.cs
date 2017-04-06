@@ -19,8 +19,6 @@ namespace PackageSellSystemTrading{
 
         //배팅금액
         public decimal battingAmt;
-        public Boolean marketAt = true; //상태
-        public String  stateCd = "";     //상태코드
 
         public ExXASessionClass  exXASessionClass;
         public Xing_t1833        xing_t1833;        //조건검색
@@ -37,6 +35,7 @@ namespace PackageSellSystemTrading{
         public OptionForm        optionForm;        //프로그램 설정 폼
 
         public Real_SC1          real_SC1; //실시간 체결
+        public Real_S3           real_S3;  //코스피 체결체결
 
         public DataLog           dataLog; //데이타로그
        
@@ -81,6 +80,9 @@ namespace PackageSellSystemTrading{
             this.real_SC1                   = new Real_SC1();    //실시간 체결
             this.real_SC1.mainForm          = this;
 
+            this.real_S3 = new Real_S3();    //실시간 체결
+            this.real_S3.mainForm = this;
+
             this.dataLog                    = new DataLog();
             this.dataLog.mainForm           = this;
 
@@ -91,6 +93,10 @@ namespace PackageSellSystemTrading{
             }
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
+            //진입검색 그리드.
+            grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); ;
+            //체결미체결 그리드 DataSource 설정
+            grd_t0425_chegb1.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
 
             //폼 초기화
             initForm();
@@ -122,10 +128,7 @@ namespace PackageSellSystemTrading{
                 }
             }
 
-            //진입검색 그리드.
-            grd_t1833.DataSource = new EBindingList<T1833Vo>();
-            //체결미체결 그리드 DataSource 설정
-            grd_t0425_chegb1.DataSource = new EBindingList<T0425Vo>();//체결/미체결 그리드
+            
           
         }
 
@@ -171,38 +174,46 @@ namespace PackageSellSystemTrading{
             this.btn_login.Enabled = true;
             MessageBox.Show("성공적으로 로그아웃 하였습니다.");
         }
-        //로그인 버튼 클릭 이벤트
-        private void btn_login_click(object sender, EventArgs e)
-        {
-           
-           
 
-            String loginId    = input_loginId.Text;
-            String loginPass  = input_loginPw.Text;
-            String publicPass = input_publicPw.Text;
-            //String accountPass = input_accountPass.Text;
-            if (loginId == "" && loginPass == ""){
+        //서버 연결
+        public Boolean login(){
 
-            }
-
-           
             //MessageBox.Show(mServerAddress);
             //이미접속이되어있으면접속을끊는다
             //if (exXASessionClass.IsConnected())
             //{
-                this.exXASessionClass.DisconnectServer();//무조건 끊었다가 접속
+            this.exXASessionClass.DisconnectServer();//무조건 끊었다가 접속
             //}
             //서버접속
             //if (exXASessionClass.IsConnected() == false){
-                if (!this.exXASessionClass.ConnectServer(combox_targetServer.Text, 20001))
-                {
-                    MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
-                }
-           // }
+            if (this.exXASessionClass.ConnectServer(combox_targetServer.Text, 20001)==false)
+            {
+                MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
+                return false;
+            }
+            // }
 
-            // 로그인 호출
-            bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
-           
+         
+            String loginId = input_loginId.Text;
+            String loginPass = input_loginPw.Text;
+            String publicPass = input_publicPw.Text;
+            //String accountPass = input_accountPass.Text;
+            if (loginId == "" && loginPass == "") {
+                MessageBox.Show("ID 또는 Pass 값을 참조할 수 없습니다.");
+                return false;
+            }else {
+                // 로그인 호출
+                bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
+            }
+
+            return true;
+        }
+
+
+        //로그인 버튼 클릭 이벤트
+        private void btn_login_click(object sender, EventArgs e)
+        {
+            login();
         }
 
         //주식 잔고2
@@ -260,6 +271,8 @@ namespace PackageSellSystemTrading{
 
             //실시간 체결정보
             real_SC1.AdviseRealData();
+           
+            Log.WriteLine("Trading Start..!!");
         }
         public void tradingStop()
         {
@@ -270,6 +283,8 @@ namespace PackageSellSystemTrading{
 
             //실시간 체결정보
             real_SC1.UnadviseRealData();
+           
+            Log.WriteLine("Trading Stop..!!");
         }
 
         //정지버튼 클릭 이벤트
@@ -284,10 +299,15 @@ namespace PackageSellSystemTrading{
         //타이머 진입검색
         private void timer_enterSearch_Tick(object sender, EventArgs e){
 
+            if (this.exXASessionClass.loginAt == false)
+            {
+                //login();
+                //Log.WriteLine("timer_enterSearch_Tick:: 로그인 호출");
+            }
             //if (int.Parse(xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(xing_t0167.time.Substring(0, 4)) < 2202){
             //MessageBox.Show(xing_t0167.time.Substring(0, 4));
             //조건검색
- 
+
             //condition2.ADF 기본 급등주 검색에서 거래량을 추가한 버전 오리지날 버전보다 보통 검색되는 종목수가 적다.
             xing_t1833.call_request(Properties.Settings.Default.CONDITION_ADF);
             //}else
@@ -307,6 +327,12 @@ namespace PackageSellSystemTrading{
         //타이머 계좌정보
         private void timer_accountSearch_Tick(object sender, EventArgs e)
         {
+            if (this.exXASessionClass.loginAt == false)
+            {
+                login();
+                Log.WriteLine("timer_accountSearch_Tick:: 로그인 호출");
+            }
+
             //주식잔고2
             this.xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
             //미체결내역
@@ -315,52 +341,9 @@ namespace PackageSellSystemTrading{
 
             //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
-
-            if (marketAt == false)
-            {
-                if (reLogin()){
-                    marketAt = true;
-                    Log.WriteLine("mainForm :: 재로그인 성공");
-                }
-                else
-                {
-                    Log.WriteLine("mainForm :: 재로그인 실패");
-                }
-            }
-            
         }
 
-        public Boolean reLogin()
-        {
-            this.exXASessionClass.DisconnectServer();//무조건 끊었다가 접속
-
-            String mServerAddress = "";
-
-            String loginId = input_loginId.Text;
-            String loginPass = input_loginPw.Text;
-            String publicPass = input_publicPw.Text;
-            //String accountPass = input_accountPass.Text;
-            if (loginId == "" && loginPass == "")
-            {
-                return false;
-            }
-
-            switch (combox_targetServer.SelectedIndex)
-            {
-                case 0: mServerAddress = "demo.ebestsec.co.kr"; break;
-                case 1: mServerAddress = "hts.ebestsec.co.kr"; break;
-                case 2: mServerAddress = "127.0.0.1"; break;
-            }
-
-            if (this.exXASessionClass.ConnectServer(mServerAddress, 20001) == false)
-            {
-                //MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
-                //Log.WriteLine("mainForm :: 재로그인 실패" );
-                return false;
-            }
-           
-            return exXASessionClass.Login(loginId, loginPass, publicPass, 0, false); 
-        }
+        
 
         //체결 그리드 row 번호 출력
         private void grd_t0425_chegb1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -459,8 +442,9 @@ namespace PackageSellSystemTrading{
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-
+             real_S3.call_real("031310");
+            //xing_t0424.getT0424VoList().ElementAt(0).price = "test";
+            //xing_t0424.getT0424VoList().ResetItem(0);
             //거래이력 싱크
             //this.dataLog.init();
 
@@ -546,29 +530,38 @@ namespace PackageSellSystemTrading{
             //{
                 for (int i = 0; i < grd_t0424.RowCount; i++)
                 {
-                    //if (this.grd_t0424.Rows[i].Cells["c_hname"].Value.ToString() == "") { }
-                    if (tb.Text == "" || this.grd_t0424.Rows[i].Cells["c_hname"].Value == null)
-                    {
+                   
+                    if (tb.Text == "" || this.grd_t0424.Rows[i].Cells["c_hname"].Value == null) {
 
                         this.grd_t0424.Rows[i].Cells["c_hname"].Style.BackColor = Color.White;
-                        //Log.WriteLine("dddddddddddddddddddddddddd");
-                    }
-                    else
-                    {    
-                        //MessageBox.Show(input_searchText.Text.ToString()+"/"+ grd_t0424.Rows[i].Cells["c_hname"].Value.ToString());
+                     }else{    
+                       
                         tmpIndexOf = grd_t0424.Rows[i].Cells["c_hname"].Value.ToString().IndexOf(input_searchText.Text.ToString());
-                        Log.WriteLine(tmpIndexOf.ToString());
-                        if (tmpIndexOf >= 0)
-                        {
+                       
+                        if (tmpIndexOf >= 0){
                             this.grd_t0424.Rows[i].Cells["c_hname"].Style.BackColor = Color.Gray;
-                        }
-                        else
-                        {
+                        }else{
                             this.grd_t0424.Rows[i].Cells["c_hname"].Style.BackColor = Color.White;
                         }
                     }
 
+                    if (tb.Text == "" || this.grd_t0424.Rows[i].Cells["c_expcode"].Value == null){
+                        this.grd_t0424.Rows[i].Cells["c_expcode"].Style.BackColor = Color.White;
+                    }else{
+
+                        tmpIndexOf = grd_t0424.Rows[i].Cells["c_expcode"].Value.ToString().IndexOf(input_searchText.Text.ToString());
+
+                        if (tmpIndexOf >= 0)
+                        {
+                            this.grd_t0424.Rows[i].Cells["c_expcode"].Style.BackColor = Color.Gray;
+                        }
+                        else
+                        {
+                            this.grd_t0424.Rows[i].Cells["c_expcode"].Style.BackColor = Color.White;
+                        }
                 }
+
+            }
             //}
 
         }
