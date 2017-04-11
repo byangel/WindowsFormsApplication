@@ -36,6 +36,8 @@ namespace PackageSellSystemTrading{
 
         public Real_SC1          real_SC1; //실시간 체결
         public Real_S3           real_S3;  //코스피 체결체결
+        public Real_K3           real_K3;  //코스닥 체결체결
+        public Real_jif          real_jif; //장 정보
 
         public DataLog           dataLog; //데이타로그
        
@@ -79,18 +81,17 @@ namespace PackageSellSystemTrading{
 
             this.real_SC1                   = new Real_SC1();    //실시간 체결
             this.real_SC1.mainForm          = this;
-
-            this.real_S3 = new Real_S3();    //실시간 체결
+            this.real_S3 = new Real_S3();    //코스피 실시간 체결
             this.real_S3.mainForm = this;
-
+            this.real_K3 = new Real_K3();    //코스닥 실시간 체결
+            this.real_K3.mainForm = this;
+            this.real_jif = new Real_jif();    //장정보
+            this.real_jif.mainForm = this;
+            
             this.dataLog                    = new DataLog();
             this.dataLog.mainForm           = this;
 
-            //프로그램 설정 초기화 --프로그램 최초 생성시 문제발생을 방지한다.
-            if (Properties.Settings.Default.STOP_PROFIT_TARGET.ToString() == "")
-            {
-                optionForm.rollBack();
-            }
+            
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
             //진입검색 그리드.
@@ -168,8 +169,8 @@ namespace PackageSellSystemTrading{
         {
             this.tradingStop();
             this.exXASessionClass.DisconnectServer();
-            this.exXASessionClass.account = null;
-            this.exXASessionClass.accountPw = null;
+            this.accountForm.account = null;
+            this.accountForm.accountPw = null;
             // 로그인 버튼 활성
             this.btn_login.Enabled = true;
             MessageBox.Show("성공적으로 로그아웃 하였습니다.");
@@ -205,7 +206,7 @@ namespace PackageSellSystemTrading{
                 // 로그인 호출
                 bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
             }
-
+            
             return true;
         }
 
@@ -219,10 +220,10 @@ namespace PackageSellSystemTrading{
         //주식 잔고2
         private void btn_accountSearch_Click(object sender, EventArgs e) {
 
-            if (this.exXASessionClass.account == "" || this.exXASessionClass.accountPw == ""){
+            if (this.accountForm.account == "" || this.accountForm.accountPw == ""){
                 MessageBox.Show("계좌 정보가 없습니다.");
             }else{
-                xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+                xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
             }
 
             //setRowNumber(grd_t0424);
@@ -234,7 +235,7 @@ namespace PackageSellSystemTrading{
         //미체결내역
         private void btn_t0425_Click(object sender, EventArgs e)
         {
-            xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
         }
 
         //시작버튼 클릭 이벤트
@@ -245,7 +246,7 @@ namespace PackageSellSystemTrading{
                 if (this.exXASessionClass.IsConnected())
                 {
                     //계좌번호까지있어야 로그인으로 간주하자.
-                    if (this.exXASessionClass.account == null || this.exXASessionClass.accountPw == null)
+                    if (this.accountForm.account == null || this.accountForm.accountPw == null)
                     {
                         MessageBox.Show("로그인 후 서비스 이용가능합니다."); 
                     } else {
@@ -269,7 +270,7 @@ namespace PackageSellSystemTrading{
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
 
-            //실시간 체결정보
+            //실시간 체결정보 -트레이딩 시작시 - 트레이딩 로그인시점?
             real_SC1.AdviseRealData();
            
             Log.WriteLine("Trading Start..!!");
@@ -334,13 +335,13 @@ namespace PackageSellSystemTrading{
             }
 
             //주식잔고2
-            this.xing_t0424.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
             //미체결내역
-            this.xing_t0425.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
             //Log.WriteLine("xing_t1833:");
 
             //현물계좌예수금/주문가능금액/총평가 조회
-            this.xing_CSPAQ12200.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw);
+            this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
         }
 
         
@@ -426,8 +427,8 @@ namespace PackageSellSystemTrading{
                         /// <param name="Quantity">수량</param>
                         /// <param name="Price">가격</param>
                         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                        String msg = "[" + this.input_time.Text + "]t0424 ::선택매도[" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt;
-                        this.xing_CSPAT00600.call_request(this.exXASessionClass.account, this.exXASessionClass.accountPw, msg, expcode, mdposqt, price, "1");
+                        String msg = "t0424 ::선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt;
+                        this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, msg, expcode, mdposqt, price, "1");
                         //tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
 
                         result_t0424.ElementAt(0).orderAt = true;//일괄 매도시 주문여부를 true로 설정
@@ -440,9 +441,43 @@ namespace PackageSellSystemTrading{
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+     
+        private void test_Click(object sender, EventArgs e)
         {
-             real_S3.call_real("031310");
+
+            listBox1.Text.Insert(0,"dddd");
+            //EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
+            //int findIndex = t0424VoList.Find("expcode", "000890");
+            //if (findIndex >= 0)
+            //{
+            //    grd_t0424.Rows.Remove(grd_t0424.Rows[findIndex]);
+            //    MessageBox.Show("로우삭제");
+            //    //t0424VoList.ElementAt(findIndex).price = price;
+            //    //t0424VoList.ResetItem(findIndex);
+            //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
+            //}
+            //MessageBox.Show(t0424VoList.Find("expcode", "000890").ToString());
+
+
+            //for (int i=0;i<100;i++)
+            //{
+            //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.Gray;
+            //    //grd_t0424.Rows[0].Cells["price"].Value = i;
+            //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.White;
+            //}
+            //int findIndex = xing_t0424.getT0424VoList().Find("expcode", "002680");
+            //if (findIndex >= 0)
+            //{
+
+            //    MessageBox.Show(this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value.ToString());
+            //    this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value = "test";
+            //    MessageBox.Show(xing_t0424.getT0424VoList().ElementAt(findIndex).hname);
+            //    //t0424VoList.ElementAt(findIndex).price = price;
+            //    //t0424VoList.ResetItem(findIndex);
+            //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
+            //}
+
+            //real_S3.call_real("031310");
             //xing_t0424.getT0424VoList().ElementAt(0).price = "test";
             //xing_t0424.getT0424VoList().ResetItem(0);
             //거래이력 싱크
@@ -562,8 +597,59 @@ namespace PackageSellSystemTrading{
                 }
 
             }
-            //}
+        }
 
+        //로그인 후 작업
+        public void loginAfter()
+        {
+
+        }
+
+        //계좌 선택후 작업
+        public void accountAfter()
+        {
+            //접속이 귾겼다가 접속했을때...문제가 있어서 추가해준다. 잔고목록을 클리어 해준다.
+            xing_t0424.getT0424VoList().Clear();
+            
+            //잔고정보
+            xing_CSPAQ12200.call_request(accountForm.account, accountForm.accountPw);
+            //잔고목록
+            xing_t0424.call_request(accountForm.account, accountForm.accountPw);
+            //체결미체결
+            xing_t0425.call_request(accountForm.account, accountForm.accountPw);
+            //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
+
+            //설정저장 버튼 활성화.
+            btn_config_save.Enabled = true;
+
+            // 로그인 버튼 비활성
+            btn_login.Enabled = false;
+
+            //매수금지종목 조회
+            xing_t1833Exclude.call_request();
+        }
+
+        //실시간 현재가 정보 이벤트시 호출된다.
+        public void realS3CallBack(String shcode, String price)
+        {
+
+            String tmpSunikrt;
+            EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
+            int findIndex = t0424VoList.Find("expcode", shcode.Replace("A", ""));
+            if (findIndex >= 0)
+            {
+                grd_t0424.Rows[findIndex].Cells["price"].Value = price;
+
+                tmpSunikrt = Util.getSunikrt2(t0424VoList.ElementAt(findIndex));
+                grd_t0424.Rows[findIndex].Cells["sunikrt2"].Value = tmpSunikrt;
+
+                tmpSunikrt = Util.getSunikrt(t0424VoList.ElementAt(findIndex));
+                grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = tmpSunikrt;
+                //현재가 기준으로 수익률 과 수익률2를 수정해주다.
+                //t0424VoList.ElementAt(findIndex).price = price;
+                //t0424VoList.ResetItem(findIndex);
+                //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
+            }
         }
     }//end class
 }//end namespace

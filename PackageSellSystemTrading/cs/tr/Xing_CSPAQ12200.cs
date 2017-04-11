@@ -128,7 +128,7 @@ namespace PackageSellSystemTrading{
 
             } else {
                 //mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
-                MessageBox.Show("CSPAQ12200 :: 중복 조회 잠시후 시도해주세요.");
+                Log.WriteLine("CSPAQ12200 :: 중복 조회 잠시후 시도해주세요.");
             }
             
 

@@ -114,19 +114,25 @@ namespace PackageSellSystemTrading{
                 HistoryVo historyvo = mainForm.dataLog.getHistoryVo(dataLogVo.Isuno.Replace("A", ""));
                 if (historyvo != null)
                 {
-                    t0424VoList.ElementAt(findIndex).pamt2 = historyvo.pamt2;//평균단가2
-                    t0424VoList.ElementAt(findIndex).sellCnt = historyvo.sellCnt;//매도 횟수.
-                    t0424VoList.ElementAt(findIndex).buyCnt = historyvo.buyCnt;//매수 횟수
-                    t0424VoList.ElementAt(findIndex).sellSunik = historyvo.sellSunik;//중간매도손익
-                    t0424VoList.ResetItem(findIndex);
+                    mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value     = historyvo.pamt2;
+                    mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"].Value   = historyvo.sellCnt;
+                    mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value    = historyvo.buyCnt;
+                    mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = historyvo.sellSunik;
+                    //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
+                    //t0424VoList.ElementAt(findIndex).pamt2     = historyvo.pamt2;//평균단가2
+                    //t0424VoList.ElementAt(findIndex).sellCnt   = historyvo.sellCnt;//매도 횟수.
+                    //t0424VoList.ElementAt(findIndex).buyCnt    = historyvo.buyCnt;//매수 횟수
+                    //t0424VoList.ElementAt(findIndex).sellSunik = historyvo.sellSunik;//중간매도손익
+                    //평균단가 구한후 평규단가를 기준으로 수익율을 구한다.
+                    //t0424VoList.ResetItem(findIndex);
                 }
                
                 //매도가능수량이 0이면 잔고그리드와 dataLog에서 제거해주자.
                 if (t0424VoList.ElementAt(findIndex).mdposqt == "0")
                 {
-                    t0424VoList.RemoveAt(findIndex);
-                    t0424VoList.ResetBindings();
-                    Log.WriteLine("real :: 팔린종목 그리드에서 제거[" + shtnIsuno + "]");
+                    //t0424VoList.RemoveAt(findIndex);
+                    mainForm.grd_t0424.Rows.Remove(mainForm.grd_t0424.Rows[findIndex]);
+
                     //dataLog 도 제거해준다.
                     mainForm.dataLog.deleteData(shtnIsuno);
                     Log.WriteLine("real :: 팔린종목 제거 후 DataLog Line 제거.[종목코드:" + shtnIsuno + "]");

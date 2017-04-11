@@ -42,22 +42,11 @@ namespace PackageSellSystemTrading{
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode)
         {
-
             String shcode = base.GetFieldData("OutBlock", "shcode");    //단축종목코드
             String price = base.GetFieldData("OutBlock", "price");      //현재가
-            
-            EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-            int findIndex = t0424VoList.Find("expcode", shcode.Replace("A", ""));
-            if (findIndex >= 0)
-            {
-                t0424VoList.ElementAt(findIndex).price = price;
-                //t0424VoList.ResetItem(findIndex);
-                //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
-            }
+            mainForm.realS3CallBack(shcode, price);
         }
-
-
-
+    
         /// <summary>
         /// 종목 실시간 체결 등록
         /// </summary>

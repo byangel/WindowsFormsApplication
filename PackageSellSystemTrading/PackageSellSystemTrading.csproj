@@ -68,6 +68,8 @@
     <Compile Include="cs\real\Real_S3.cs" />
     <Compile Include="cs\real\Real_K3.cs" />
     <Compile Include="cs\real\Real_SC1.cs" />
+    <Compile Include="cs\real\Real_jif.cs" />
+    <Compile Include="cs\session\Class1.cs" />
     <Compile Include="cs\session\ExXASessionClass.cs" />
     <Compile Include="cs\tr\Xing_CSPAQ12200.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00600.cs" />

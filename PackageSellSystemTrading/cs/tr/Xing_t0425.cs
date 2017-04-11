@@ -91,12 +91,10 @@ namespace PackageSellSystemTrading {
                 qty    = base.GetFieldData("t0425OutBlock1", "qty"   , i); //주문수량
                 cheqty = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
                
-                var resultT0425 = from item in this.t0425VoList
-                                  where item.ordno == ordno
-                                  select item;
-                if (resultT0425.Count() > 0)
+                int findIndex = t0425VoList.Find("ordno", ordno);
+                if (findIndex >= 0)
                 {
-                    tmpT0425Vo = resultT0425.ElementAt(0);
+                    tmpT0425Vo = this.t0425VoList.ElementAt(findIndex);
                 }
                 else
                 {
@@ -116,15 +114,59 @@ namespace PackageSellSystemTrading {
                 tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
                 tmpT0425Vo.orgordno = base.GetFieldData("t0425OutBlock1", "orgordno", i); //원주문번호
 
-                if (resultT0425.Count() == 0)
+                //목록추가
+                if (findIndex < 0)
                 {
                     this.t0425VoList.Insert(0, tmpT0425Vo);
                     chegb1Cnt++;
+
+
+                    
+                    
                 }
+
+                //시스템매매구분
+                if (tmpT0425Vo.medosu2 == null || tmpT0425Vo.medosu2 == "")
+                {
+                    int t0424findIndex = t0424VoList.Find("expcode", tmpT0425Vo.expcode);
+                   
+                    if (t0424findIndex >= 0)
+                    {
+                        
+                        if (tmpT0425Vo.medosu == "매수")
+                        {
+                           
+                            if (t0424VoList.ElementAt(t0424findIndex).buyCnt == "1")
+                            {
+                                tmpT0425Vo.medosu2 = "신규매수";
+                            }
+                            else
+                            {
+                                tmpT0425Vo.medosu2 = "반목매수";
+                            }
+                        }
+                        else if (tmpT0425Vo.medosu == "매도")
+                        {
+                            tmpT0425Vo.medosu2 = "금일매도";
+                        }
+                    }
+                    else
+                    {
+                        if (tmpT0425Vo.medosu == "매도")
+                        {
+                            tmpT0425Vo.medosu2 = "청산";
+                        }
+                    }
+                }
+
+                
+                
+                
+
 
                 //1.미체결목록 -- 미체결 잔량이 있다면...매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
                 //한주라도 체결되면 체결로 뜨기때문에 미체결에도 뿌려줘야할것같다
-               
+                ////////////////////////////////////////매매//////////////////////////////////////////
                 if (status == "미체결")
                 //if (int.Parse(cheqty) < int.Parse(qty))
                 {
@@ -139,7 +181,7 @@ namespace PackageSellSystemTrading {
                         /// <param name="OrgOrdNo">원주문번호</param>
                         /// <param name="IsuNo">종목번호</param>
                         /// <param name="OrdQty">주문수량</param>
-                        mainForm.xing_CSPAT00800.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, tmpT0425Vo.ordno, tmpT0425Vo.expcode, "");
+                        mainForm.xing_CSPAT00800.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, tmpT0425Vo.ordno, tmpT0425Vo.expcode, "");
                         Log.WriteLine("t0425::" + tmpT0425Vo.hname + "(" + tmpT0425Vo.expcode + ")::취소주문 [주문번호:" + tmpT0425Vo.ordno+"]");
                     }
                 }
@@ -197,7 +239,7 @@ namespace PackageSellSystemTrading {
                                             /// <param name="Quantity">수량</param>
                                             /// <param name="Price">가격</param>
                                             /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                                            mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
+                                            mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
                                             tmpT0425Vo.todaySellAt = true;
                                             //당일매도 차익 합산.
                                             //mainForm.input_toDayAtm.Text = toDaySellAmt;
@@ -252,12 +294,12 @@ namespace PackageSellSystemTrading {
             } else {
                 //Thread.Sleep(3000);
                 completeAt = true;//중복호출 방지
-                Log.WriteLine("t0425 :: [" + mainForm.input_time.Text + "]" + nMessageCode + " :: " + szMessage);
-
+               
                 //-2 :: 서버접속에 실패하였습니다.
-                if (nMessageCode == "-2")
+                if (nMessageCode == "   -2")
                 {
                     mainForm.login();
+                    Log.WriteLine("t0425 :: 로그인 호출");
                 }
                 //서버접속 실패로인하여 로그인 여부를 false 로 설정한다.후에 접속실패 코드확보후 조건문 추가해주자.
                 //mainForm.exXASessionClass.loginAt = false;
@@ -307,6 +349,7 @@ namespace PackageSellSystemTrading {
     public class T0425Vo {
         public String ordtime  { set; get; } //주문시간
         public String medosu   { set; get; } //매매구분 - 0:전체|1:매수|2:매도
+        public String medosu2  { set; get; } //시스템 매매구분 - 신규매수|반복매수|매도|금일매도
         public String expcode  { set; get; } //종목번호
         public String hname    { set; get; } //종목명
         public String qty      { set; get; } //주문수량
@@ -319,7 +362,5 @@ namespace PackageSellSystemTrading {
         public String orgordno { set; get; } //원주문번호
         public Boolean todaySellAt { set; get; } //금일매도여부
 
-
-        public String medosu2 { set; get; } //매매구분 - 0:전체|1:매수|2:매도
     }
 }   // end namespace

@@ -118,7 +118,7 @@ namespace PackageSellSystemTrading
            
             //종목 매매 목록을 구한다.
             var resultDataLogVoList =  from item in this.dataLogVoList
-                                      where item.Isuno == Isuno && item.accno == mainForm.exXASessionClass.account
+                                      where item.Isuno == Isuno && item.accno == mainForm.accountForm.account
                                       select item;
            
             //매도 거래 정보
@@ -310,7 +310,7 @@ namespace PackageSellSystemTrading
         /// <param name="Isuno"></param>
         public void deleteData(String Isuno)
         {
-            String section =  mainForm.exXASessionClass.account +"_"+ Isuno.Replace("A", "");
+            String section =  mainForm.accountForm.account +"_"+ Isuno.Replace("A", "");
             WritePrivateProfileString(section, null, null, this.filePath);
         }   // end function
 
@@ -318,7 +318,7 @@ namespace PackageSellSystemTrading
         public DataLogVo readData(String Isuno, String ordno)
         {
             StringBuilder retOrd = new StringBuilder();
-            String section = mainForm.exXASessionClass.account + "_" + Isuno.Replace("A", "");
+            String section = mainForm.accountForm.account + "_" + Isuno.Replace("A", "");
             GetPrivateProfileString(section, ordno, "", retOrd, 100, this.filePath);
 
             String[] splitResult = retOrd.ToString().Split(new char[] { '=', '|' });
@@ -355,7 +355,7 @@ namespace PackageSellSystemTrading
 
             DataLogVo dataLogVo  = new DataLogVo();
             dataLogVo.ordno      = ordno;                    //주문번호
-            dataLogVo.accno      = mainForm.exXASessionClass.account; //계좌번호
+            dataLogVo.accno      = mainForm.accountForm.account; //계좌번호
             dataLogVo.ordptncode = "02";                              //주문구분 01:매도|02:매수
             dataLogVo.Isuno      = t0424Vo.expcode.Replace("A", "");  //종목코드
             dataLogVo.ordqty     = t0424Vo.mdposqt;                   //주문수량 - 매도가능수량
@@ -424,7 +424,7 @@ namespace PackageSellSystemTrading
             //계좌별 금일 거래 목록을 구한다.
             double 금일매도차익 = 0;
             var resultDataLogVoList = from item in this.dataLogVoList
-                                      where item.accno == mainForm.exXASessionClass.account
+                                      where item.accno == mainForm.accountForm.account
                                          && item.date == DateTime.Now.ToString("yyyyMMdd")
                                          && item.ordptncode == "01"
                                       select item;

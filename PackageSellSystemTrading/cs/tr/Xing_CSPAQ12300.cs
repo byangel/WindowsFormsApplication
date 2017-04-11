@@ -45,44 +45,7 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-
-
-            //this.D2Dps = base.GetFieldData("CSPAQ12300OutBlock2", "D2Dps", 0); //D2예수금
-            //this.Dps = base.GetFieldData("CSPAQ12300OutBlock2", "Dps", 0); //예수금
-            //this.DpsastTotamt = base.GetFieldData("CSPAQ12300OutBlock2", "DpsastTotamt", 0); //예탁자잔총액
-            
-            //this.BalEvalAmt = base.GetFieldData("CSPAQ12300OutBlock2", "BalEvalAmt", 0); //잔고평가금액
-            //this.InvstPlAmt = base.GetFieldData("CSPAQ12300OutBlock2", "InvstPlAmt", 0); //투자손익금액
-            //this.PnlRat = base.GetFieldData("CSPAQ12300OutBlock2", "PnlRat", 0); //손익률
-            //this.PchsAmt = base.GetFieldData("CSPAQ12300OutBlock2", "PchsAmt", 0);//매입금액
-
-            //mainForm.input_Dps.Text = Util.GetNumberFormat(this.Dps);          // 예수금
-            //mainForm.input_D2Dps.Text = Util.GetNumberFormat(this.D2Dps);        // D2예수금
-            //mainForm.input_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액
-            //mainForm.input_InvstOrgAmt.Text = Util.GetNumberFormat(this.PchsAmt); //투자원금 --미사용 --매입금액
-            //mainForm.input_BalEvalAmt.Text = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
-           
-            //mainForm.input_tdtsunik.Text = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
-
-            //mainForm.input_PnlRat.Text = Util.GetNumberFormat(this.PnlRat);   // 손익률
-
-            ///////////////////////////////////
-            //MessageBox.Show(base.GetFieldData("CSPAQ12300OutBlock2", "PchsAmt", 0));
-            ////1.종목을 매수할때 매수할 금액을 정의 하는데 자본금이 늘어남에따라  효율적 투자를 목적으로 
-            ////매입금액과 예수금을 이용하여 프로그램 시작시 한번 동적으로 그값을 구한다.
-            ////소수점제거(예수금+매입금액)/500 = 배팅금액 --최소투자금액 1천만원
-            ////MessageBox.Show(this.DpsastTotamt);
-            //decimal totalAmt = decimal.Parse(this.DpsastTotamt) / 10000000;
-            ////소수점제거 후 배팅금액 구한다.
-            //decimal battingAmt = (Math.Floor(totalAmt) * 10000000) / 500;//
-            //mainForm.textBox_battingAtm.Text = battingAmt.ToString();
-
-
-
-            //CSPAQ12300OutBlock2 실서버에서는 데이타가 없다.
-
             completeAt = true;
-
         }
 
         //이벤트 메세지.
@@ -94,26 +57,12 @@ namespace PackageSellSystemTrading{
                     try
                     {
                         //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
-                        accountForm.exXASessionClass.account = this.account;
-                        accountForm.exXASessionClass.accountPw = this.accountPw;
+                        accountForm.account = this.account;
+                        accountForm.accountPw = this.accountPw;
 
-                        //잔고정보
-                        mainForm.xing_CSPAQ12200.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                        //잔고목록
-                        mainForm.xing_t0424.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                        //체결미체결
-                        mainForm.xing_t0425.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw);
-                        //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
+                        mainForm.accountAfter();
 
-                        //설정저장 버튼 활성화.
-                        mainForm.btn_config_save.Enabled = true;
-
-                        // 로그인 버튼 비활성
-                        mainForm.btn_login.Enabled = false;
-
-                        //매수금지종목 조회
-                        mainForm.xing_t1833Exclude.call_request();
-
+                        //계좌번호와 페스워드가 인증되었으면 계좌번호선택폼을 닫아준다.
                         accountForm.Close();
 
                     }

@@ -234,7 +234,7 @@ namespace PackageSellSystemTrading{
                 String sunikrt = (String)t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;//기존 종목 수익률
 
                 //-수익율이 -3% 이하이면 반복매수 해주자.
-                if (float.Parse(sunikrt) > int.Parse(Properties.Settings.Default.REPEAT_RATE))
+                if (float.Parse(sunikrt) > double.Parse(Properties.Settings.Default.REPEAT_RATE))
                 {
                     Log.WriteLine("t1833::" + hname + "(" + shcode + ") 반복매수 제한 [수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
                     return false;
@@ -285,7 +285,7 @@ namespace PackageSellSystemTrading{
                 /// <param name="Price">가격</param>
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
                 String buyMsg = "t1833::" + hname + "(" + shcode + ")  [주문가격:"+ close + "|주문수량:" + Quantity + "] ";
-                mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
+                mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
             }else{
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");
             }

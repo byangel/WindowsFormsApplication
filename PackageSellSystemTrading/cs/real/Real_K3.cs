@@ -41,11 +41,11 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-
-
+            String shcode = base.GetFieldData("OutBlock", "shcode");    //단축종목코드
+            String price  = base.GetFieldData("OutBlock", "price");     //현재가
+            //MessageBox.Show(shcode+"/"+price);
+            mainForm.realS3CallBack(shcode, price);
         }
-
-
 
         /// <summary>
         /// 종목 실시간 체결 등록
@@ -53,15 +53,8 @@ namespace PackageSellSystemTrading{
         /// <param name="IsuNo">종목번호</param>
         public void call_real(String shcode)
         {
-            //모의투자 여부 구분하여 모의투자이면 A+종목번호
-            if (mainForm.combox_targetServer.SelectedIndex == 0)
-            {
-                shcode = "A" + shcode;
-            }
-
-            //base.SetFieldData("InBlock", "shcode", shcode);         // 종목번호
-
-            //base.AdviseRealData();
+            base.SetFieldData("InBlock", "shcode", shcode);         // 종목번호
+            base.AdviseRealData();
 
         }	// end function
 

@@ -115,21 +115,7 @@ namespace PackageSellSystemTrading {
 
                 tmpT0424Vo.deleteAt = false;
 
-                //신규 또는 기존 보유종목 등 무조건 평단2 있는지 확인후 평균단가를 설정하자.
-                if (tmpT0424Vo.pamt2 != "" && tmpT0424Vo.pamt2 != null)
-                {
-                    //한가한날 손좀 보자....
-                    String sunikrt2  = Util.getSunikrt2(tmpT0424Vo);
-                    tmpT0424Vo.sunikrt2 = sunikrt2;
-                    ////////
-                    //수익률 계산
-                    //수익율2 -> ((현재가*매도가능수량) / ((평균단가2*매도가능수량)+수수료+세금) *100)-100
-                    //Double sunikrt2 = (((double.Parse(t0424Vo.price) * double.Parse(t0424Vo.mdposqt)) / ((double.Parse(t0424Vo.pamt2) * double.Parse(t0424Vo.mdposqt)) + double.Parse(t0424Vo.fee) + double.Parse(t0424Vo.tax))) * 100) - 100;
-
-                    //t0424Vo.sunikrt2 = String.Format("{0:#0.#0}", sunikrt2);
-                    //t0424Vo.sunikrt2 = Math.Round(sunikrt2, 2).ToString();
-                    //////////
-                }
+                
                
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                 if (findIndex < 0)
@@ -148,16 +134,34 @@ namespace PackageSellSystemTrading {
 
                     //리얼 종목 등록
                     jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
-                    if (jonggb == "3")
+                    if (jonggb == "3")//코스피
                     {
                         //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
                         mainForm.real_S3.call_real(tmpT0424Vo.expcode);
                     }
+                    if (jonggb == "2")//코스닥
+                    {
+                        mainForm.real_K3.call_real(tmpT0424Vo.expcode);
+                    }
 
                 }
-                
+                //신규 또는 기존 보유종목 등 무조건 평단2 있는지 확인후 평균단가를 설정하자.
+                if (tmpT0424Vo.pamt2 != "" && tmpT0424Vo.pamt2 != null)
+                {
+                    //한가한날 손좀 보자....
+                    String sunikrt2 = Util.getSunikrt2(tmpT0424Vo);
+                    tmpT0424Vo.sunikrt2 = sunikrt2;
 
-                //거래가능여부 && 주문중상태가 아이고 && 종목거래 에러 여부
+                    //수익률 계산
+                    //수익율2 -> ((현재가*매도가능수량) / ((평균단가2*매도가능수량)+수수료+세금) *100)-100
+                    //Double sunikrt2 = (((double.Parse(t0424Vo.price) * double.Parse(t0424Vo.mdposqt)) / ((double.Parse(t0424Vo.pamt2) * double.Parse(t0424Vo.mdposqt)) + double.Parse(t0424Vo.fee) + double.Parse(t0424Vo.tax))) * 100) - 100;
+
+                    ////t0424Vo.sunikrt2 = String.Format("{0:#0.#0}", sunikrt2);
+                    //return Math.Round(sunikrt2, 2).ToString();
+
+                }
+                /////////////////////////////////////////////////////매매//////////////////////////////////////////////////////
+                //거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
                 if (readyAt && tmpT0424Vo.orderAt == false && (tmpT0424Vo.errorcd == "" || tmpT0424Vo.errorcd==null)) {
 
                     //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
@@ -171,7 +175,7 @@ namespace PackageSellSystemTrading {
                         /// <param name="Price">가격</param>
                         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
                         String msg = "[" + mainForm.input_time.Text + "]t0424 ::매도[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    주문수량및매도가능:"+ tmpT0424Vo.mdposqt;
-                        mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, expcode, tmpT0424Vo.mdposqt, tmpT0424Vo.price, "1");
+                        mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, msg, expcode, tmpT0424Vo.mdposqt, tmpT0424Vo.price, "1");
                         tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정    
                     }
 
@@ -183,7 +187,7 @@ namespace PackageSellSystemTrading {
                         /// <param name="Price">가격</param>
                         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
                         String msg = "[" + mainForm.input_time.Text + "]t0424 ::손절[" + tmpT0424Vo.hname+"("+ tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%  주문수량및매도가능:" + tmpT0424Vo.mdposqt;
-                        mainForm.xing_CSPAT00600.call_request(mainForm.exXASessionClass.account, mainForm.exXASessionClass.accountPw, msg, expcode, tmpT0424Vo.mdposqt, tmpT0424Vo.price, "1");
+                        mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, msg, expcode, tmpT0424Vo.mdposqt, tmpT0424Vo.price, "1");
                         tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정
                     }
                 }
@@ -226,10 +230,6 @@ namespace PackageSellSystemTrading {
                 //label 출력
                 mainForm.label_mamt.Text = Util.GetNumberFormat(this.mamt);    // 매입금액
                
-
-
-                
-
                 //로그 및 중복 요청 처리 2:코스달, 3:코스피
                 mainForm.input_t0424_log2.Text = "[" + mainForm.input_time.Text + "]t0424 :: 잔고조회 완료";
 
@@ -330,6 +330,8 @@ namespace PackageSellSystemTrading {
         public String pamt2      { set; get; } //평균단가2
         public String sellSunik  { set; get; } //중간매도손익
         public String sunikrt2   { set; get; } //손익율2
+        public String sunikrt_   { set; get; } //손익율_ - 종목 추가매수가 되면 평균단가가 달라진다. 매수실시간 이벤트시 평단을 계산혹은 요청을 한다.
+        //후회할까? 
     }
 
 }   // end namespace

@@ -81,7 +81,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(153, 60);
+            this.label7.Location = new System.Drawing.Point(168, 60);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 12);
             this.label7.TabIndex = 85;
@@ -192,7 +192,7 @@
             this.input_stop_profit_target.Font = new System.Drawing.Font("Gulim", 8F);
             this.input_stop_profit_target.Location = new System.Drawing.Point(129, 56);
             this.input_stop_profit_target.Name = "input_stop_profit_target";
-            this.input_stop_profit_target.Size = new System.Drawing.Size(22, 20);
+            this.input_stop_profit_target.Size = new System.Drawing.Size(37, 20);
             this.input_stop_profit_target.TabIndex = 99;
             this.input_stop_profit_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 

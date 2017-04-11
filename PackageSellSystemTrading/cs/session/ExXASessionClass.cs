@@ -13,8 +13,6 @@ namespace PackageSellSystemTrading {
 
         public MainForm mainForm;
 
-        public String account { get; set; }
-        public String accountPw { get; set; }
         public Boolean loginAt; //로그인 여부
         // 생성자
         public ExXASessionClass() {
@@ -49,10 +47,13 @@ namespace PackageSellSystemTrading {
                 //mainForm.TimerLogin.Stop();
 
                 // 장 운영 정보 실시간 등록
-                //mainForm.mxRealJif.call_advise();
+                mainForm.real_jif.call_advise();
 
                 // HTS -> API 연동 등록
-                // mainForm.mxRealJif.call_advise_link_from_hts();
+                //mainForm.real_jif.call_advise_link_from_hts();
+
+                //실시간 체결정보 - 재접속했을때 안해주면 채결되도 그리드에서 종목을 제거해주지 못한다.
+                mainForm.real_SC1.AdviseRealData();
 
                 // 뉴스 정보 실시간 등록
                 //mainForm.mxRealNws.call_advise();
@@ -66,9 +67,7 @@ namespace PackageSellSystemTrading {
                 //mainForm.Timer0167.Start();
                 mainForm.Timer0167.Start();
 
-                //실시간 체결정보
-               // mainForm.real_SC1.AdviseRealData();
-                //mainForm.real_S3.AdviseRealData();
+               
 
                 // 디비에 백그라운드 데이터 저장 타이머 스타트
                 //mainForm.TimerDB.Start();
@@ -85,12 +84,12 @@ namespace PackageSellSystemTrading {
                 // }
 
                 //아침에 서버 접속이 끊겼을경우 재로그인 하는데 다이얼로그가 뜨지않아도 되기 때문에 이구문을 추가함
-                if (this.account == "" || this.account == null ){
+                if (mainForm.accountForm.account == "" || mainForm.accountForm.account == null ){
                     mainForm.accountForm.ShowDialog();
                 }
 
                 //계좌 선택및 비밀번호 선택 다이얼로그 이후 계좌번호와 비밀번호가 잘 설정 되어 있는지 체크한다.
-                if (this.account == "" || this.accountPw == "" || this.account == null || this.accountPw == null) {
+                if (mainForm.accountForm.account == "" || mainForm.accountForm.accountPw == "" || mainForm.accountForm.account == null || mainForm.accountForm.accountPw == null) {
                     msg = "계좌 및 계좌 비밀번호를 설정해주세요.";
                 }else {
                     loginAt = true;
