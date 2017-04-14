@@ -94,8 +94,7 @@ namespace PackageSellSystemTrading{
             //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", shtnIsuno.Replace("A", ""));
-            if (findIndex >= 0)
-            {
+            if (findIndex >= 0){
                 mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
 
                 if (ordptncode == "01")//매도 - 매도가능수량-체결수량
@@ -103,14 +102,14 @@ namespace PackageSellSystemTrading{
                     //1.t0424 에 매도가능수량 실시간 출력
                     t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(execqty)).ToString();
 
-                    mainForm.input_toDayAtm.Text = mainForm.dataLog.getToDaySellAmt();
+                    mainForm.input_toDayAtm.Text = mainForm.dataLog.getToDaySellAmt();//이상하게 금일매도매수 금액이 잡힌다.
                 }
                 else if (ordptncode == "02")//매수 - 매도가능수량+체결수량
                 {
                     t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(execqty)).ToString();
                 }
 
-                //수정된 평균단가를 실시간 적용해준다.
+                //수정된 평균단가를 실시간 적용해준다.  =======================편입일자와 등록할때 카운트를해서 순서를 알수 있도록 수정하자.
                 HistoryVo historyvo = mainForm.dataLog.getHistoryVo(dataLogVo.Isuno.Replace("A", ""));
                 if (historyvo != null)
                 {
@@ -119,31 +118,24 @@ namespace PackageSellSystemTrading{
                     mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value    = historyvo.buyCnt;
                     mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = historyvo.sellSunik;
                     //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
-                    //t0424VoList.ElementAt(findIndex).pamt2     = historyvo.pamt2;//평균단가2
-                    //t0424VoList.ElementAt(findIndex).sellCnt   = historyvo.sellCnt;//매도 횟수.
-                    //t0424VoList.ElementAt(findIndex).buyCnt    = historyvo.buyCnt;//매수 횟수
-                    //t0424VoList.ElementAt(findIndex).sellSunik = historyvo.sellSunik;//중간매도손익
+              
                     //평균단가 구한후 평규단가를 기준으로 수익율을 구한다.
-                    //t0424VoList.ResetItem(findIndex);
+                   
                 }
                
-                //매도가능수량이 0이면 잔고그리드와 dataLog에서 제거해주자.
-                if (t0424VoList.ElementAt(findIndex).mdposqt == "0")
+                //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
+                if (double.Parse(t0424VoList.ElementAt(findIndex).mdposqt) <= 0)
                 {
-                    //t0424VoList.RemoveAt(findIndex);
-                    mainForm.grd_t0424.Rows.Remove(mainForm.grd_t0424.Rows[findIndex]);
-
-                    //dataLog 도 제거해준다.
-                    mainForm.dataLog.deleteData(shtnIsuno);
-                    Log.WriteLine("real :: 팔린종목 제거 후 DataLog Line 제거.[종목코드:" + shtnIsuno + "]");
-
+                    mainForm.deleteCallBack(shtnIsuno);
+                    Log.WriteLine("real_SC1 deleteCallBack :: 청산된 종목 그리드와 DataLog Line 제거.[종목코드:" + shtnIsuno + "]");
                 }
+            }else{//실시간 체결정보인데 종목그리드에 존재하지 않는 종목일경우 t0424 를 호출해준다.
+                mainForm.xing_t0424.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw);
             }
-
-            
 
         }
 
+        
 
 
         /// <summary>

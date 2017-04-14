@@ -108,7 +108,7 @@ namespace PackageSellSystemTrading
         }
        
 
-        //종목 코드 --평균단가를 리턴한다.
+        //종목 코드 --총매수금액과 매도가능수량을 구해서 평균단가를 리턴한다. 
         public HistoryVo getHistoryVo(String Isuno){
             
 
@@ -154,7 +154,7 @@ namespace PackageSellSystemTrading
                         총매수금액 = 총매수금액 - (group.거래금액합 - (group.거래금액합 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100)));
                         매도가능수량 = 매도가능수량 - group.체결수량합;
                         historyVo.sellCnt = group.매매횟수.ToString();
-                        historyVo.sellSunik = Util.GetNumberFormat(중간매도손익.ToString());
+                        historyVo.sellSunik = 중간매도손익.ToString();
                     }
                     Log.WriteLine("DataLog::[key:" + group.goupKey + "거래금액합:" + group.거래금액합 + "체결수량합:" + group.체결수량합 + "|매매횟수:" + group.매매횟수 + "|중간매도손익:" + 중간매도손익);
                     foreach (var item in group.groupVoList)
@@ -168,7 +168,8 @@ namespace PackageSellSystemTrading
                 if (매도가능수량 != 0)
                 {
                     double 평균단가 = (총매수금액 / 매도가능수량);
-                    historyVo.pamt2 = Util.GetNumberFormat(평균단가.ToString());
+                    //historyVo.pamt2 = Util.GetNumberFormat(평균단가.ToString());
+                    historyVo.pamt2 = 평균단가.ToString();
                     //Log.WriteLine("DataLog::[평균단가:" + 평균단가.ToString() + "매도가능수량:" + 매도가능수량);
                 } else
                 {

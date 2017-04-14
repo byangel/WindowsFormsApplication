@@ -43,8 +43,8 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode)
         {
             String shcode = base.GetFieldData("OutBlock", "shcode");    //단축종목코드
-            String price = base.GetFieldData("OutBlock", "price");      //현재가
-            mainForm.realS3CallBack(shcode, price);
+            String price  = base.GetFieldData("OutBlock", "price");      //현재가
+            mainForm.realPriceCallBack(shcode, price);
         }
     
         /// <summary>
