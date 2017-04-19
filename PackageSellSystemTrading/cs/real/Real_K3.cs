@@ -12,7 +12,7 @@ using XA_DATASETLib;
 using System.Threading;
 
 namespace PackageSellSystemTrading{
-    //현물계좌 예수금/주문가능금액/총평가 조회(API)
+    //코스닥 현재가 실시간
     public class Real_K3 : XARealClass{
 
        

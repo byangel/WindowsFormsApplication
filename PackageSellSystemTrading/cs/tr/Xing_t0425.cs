@@ -183,6 +183,9 @@ namespace PackageSellSystemTrading {
                         /// <param name="OrdQty">주문수량</param>
                         mainForm.xing_CSPAT00800.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, tmpT0425Vo.ordno, tmpT0425Vo.expcode, "");
                         Log.WriteLine("t0425::" + tmpT0425Vo.hname + "(" + tmpT0425Vo.expcode + ")::취소주문 [주문번호:" + tmpT0425Vo.ordno+"]");
+
+                        //1.최소하면 dataLog 삭제
+                        mainForm.dataLog.deleteData(tmpT0425Vo.ordno);
                     }
                 }
 
@@ -205,7 +208,7 @@ namespace PackageSellSystemTrading {
 
                                 t0424_price = int.Parse(resultT0424.ElementAt(0).price); //현재가
                                 t0424_mdposqt = resultT0424.ElementAt(0).mdposqt == "" ? "0" : resultT0424.ElementAt(0).mdposqt;  //매도가능 수량
-                                t0424_sunikrt = resultT0424.ElementAt(0).sunikrt;//수익률
+                                t0424_sunikrt = resultT0424.ElementAt(0).sunikrt2;//수익률2 - 무조건 수익률2가 값이 있도록하자.
                                 t0424_hname = resultT0424.ElementAt(0).hname;//종목명
 
                                 //1.매도가능수량 > 주문수량  ->체결수량과 매도가능수량이 같으면 신규매수겠지? 여기는 반복매수만 처리해준다. --체결수량으로 하고싶지만...
@@ -233,13 +236,15 @@ namespace PackageSellSystemTrading {
                                             //당일매도 차익 합산.
                                             //toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + tmpAmt).ToString();
 
-                                            String msg = "t0425::" + tmpT0425Vo.hname + "(" + tmpT0425Vo.expcode + ")::금일매수/매도 [주문가격:" + t0424_price + "|주문수량:" + tmpT0425Vo.qty + "|금일수익율:" + late + "|차익:" + tmpAmt + "|매도가능수량:" + t0424_mdposqt + "|매도전수익률:" + t0424_sunikrt + "]";
 
                                             /// <param name="IsuNo">종목번호</param>
                                             /// <param name="Quantity">수량</param>
                                             /// <param name="Price">가격</param>
+                                            /// <param name="ordptnDetail">상세주문구분</param>
+                                            /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
                                             /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                                            mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, msg, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
+                                            mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, "금일매도", tmpT0425Vo.ordno, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
+                                            Log.WriteLine("t0425::" + tmpT0425Vo.hname + "(" + tmpT0425Vo.expcode + ")::금일매수/매도 [주문가격:" + t0424_price + "|주문수량:" + tmpT0425Vo.qty + "|금일수익율:" + late + "|차익:" + tmpAmt + "|매도가능수량:" + t0424_mdposqt + "|매도전수익률:" + t0424_sunikrt + "]");
                                             tmpT0425Vo.todaySellAt = true;
                                             //당일매도 차익 합산.
                                             //mainForm.input_toDayAtm.Text = toDaySellAmt;

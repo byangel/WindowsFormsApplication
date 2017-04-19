@@ -21,8 +21,8 @@ namespace PackageSellSystemTrading{
         private String quantity;      // 주문수량
         private String price;         // 주문가
         private String divideBuySell; // 매매구분: 1-매도, 2-매수
-          
-
+        private String ordptnDetail;  //상세주문구분
+        private String upOrdno;       //상위매수주문 - 금일매도매수일때만 값이 있다.
 
         // 생성자
         public Xing_CSPAT00600() {
@@ -43,10 +43,58 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
+
+            String RecCnt     = base.GetFieldData("CSPAT00600OutBlock1", "RecCnt",    0);//레코드갯수
+            String AcntNo     = base.GetFieldData("CSPAT00600OutBlock1", "AcntNo",    0);//계좌번호
+            String IsuNo      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNo",     0);//종목번호
+            String OrdQty     = base.GetFieldData("CSPAT00600OutBlock1", "OrdQty",    0);//주문수량
+            String OrdPrc     = base.GetFieldData("CSPAT00600OutBlock1", "OrdPrc",    0);//주문가격
+            String BnsTpCode  = base.GetFieldData("CSPAT00600OutBlock1", "BnsTpCode", 0);//매매구분
+            Log.WriteLine("CSPAT00600 block1:: [레코드:"+ RecCnt + "|계좌번호:" + AcntNo + "|종목번호:" + IsuNo + "|주문수량:" + OrdQty + "| 주문가격:" + OrdPrc + " | 매매구분:" + BnsTpCode + "]");
+
+            String RecCnt2    = base.GetFieldData("CSPAT00600OutBlock2", "RecCnt",     0);//레코드갯수
+            String OrdNo      = base.GetFieldData("CSPAT00600OutBlock2", "OrdNo",      0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
+            String OrdTime    = base.GetFieldData("CSPAT00600OutBlock2", "OrdTime",    0);//주문시각
+            String OrdMktCode = base.GetFieldData("CSPAT00600OutBlock2", "OrdMktCode", 0);//주문시장코드
+            String OrdPtnCode = base.GetFieldData("CSPAT00600OutBlock2", "OrdPtnCode", 0);//주문유형코드
+            String ShtnIsuNo  = base.GetFieldData("CSPAT00600OutBlock2", "ShtnIsuNo",  0);//단축종목번호
+            String MgempNo    = base.GetFieldData("CSPAT00600OutBlock2", "MgempNo",    0);//관리사원번호
+            String OrdAmt     = base.GetFieldData("CSPAT00600OutBlock2", "OrdAmt",     0);//주문금액
+            String SpotOrdQty = base.GetFieldData("CSPAT00600OutBlock1", "SpotOrdQty", 0);//실물주문수량  noData
+            String MnyOrdAmt  = base.GetFieldData("CSPAT00600OutBlock1", "MnyOrdAmt",  0);//현금주문금액  noData
+            String AcntNm     = base.GetFieldData("CSPAT00600OutBlock1", "AcntNm",     0);//계좌명
+            String IsuNm      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm",      0);//종목명
+            Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
+
+            DataLogVo dataLogVo = new DataLogVo();
             
-           //로그 및 중복 요청 처리
-           //Log.WriteLine("CSPAT00600 :: 데이터 응답 처리가 완료 되었습니다.");
- 
+
+            //데이타로그에 저장
+            //public class DataLogVo
+            dataLogVo.ordno  = OrdNo;//주문번호
+            dataLogVo.date   = DateTime.Now.ToString("yyyyMMdd");//일자
+            dataLogVo.time   = DateTime.Now.ToString("HHmmss");//시간
+            dataLogVo.accno  = AcntNo;//계좌번호
+            dataLogVo.Isuno  = IsuNo; //종목코드
+            dataLogVo.Isunm  = IsuNm; //종목명
+            dataLogVo.ordqty = OrdQty;// 주문수량
+            dataLogVo.ordprc = OrdPrc;// 주문가격
+            dataLogVo.execqty= "0";   // 체결수량
+            dataLogVo.execprc= "0";   // 체결가격
+
+            dataLogVo.ordptncode   = "0"+BnsTpCode;//주문구분 01:매도|02:매수 
+            dataLogVo.ordptnDetail = ordptnDetail;//상세 주문구분 신규매수|반복매수|금일매도|청산
+
+            if (upOrdno == ""){
+                dataLogVo.upOrdno = OrdNo;               //상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
+            }else{
+                dataLogVo.upOrdno = upOrdno; 
+            }
+            
+
+            //dataInsert호출
+            mainForm.dataLog.insertData(dataLogVo);
+            
         }
 
         //현물정상주문 메세지 처리
@@ -88,7 +136,7 @@ namespace PackageSellSystemTrading{
 
 
             }
-            //mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]CSPAT00600 :: [" + this.shcode + "]" + nMessageCode + " :: " + szMessage;
+           
         }
 
         /// <summary>
@@ -97,8 +145,10 @@ namespace PackageSellSystemTrading{
         /// <param name="IsuNo">종목번호</param>
         /// <param name="Quantity">수량</param>
         /// <param name="Price">가격</param>
+        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_request(String account, String accountPw,String msg, String shcode, String quantity, String price, String divideBuySell)
+        public void call_request(String account, String accountPw,String ordptnDetail,String upOrdno, String shcode, String quantity, String price, String divideBuySell)
         {
             
             //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
@@ -106,10 +156,12 @@ namespace PackageSellSystemTrading{
             {
                 shcode = "A" + shcode;
             }
-            this.shcode = shcode;        // 종목번호
-            this.quantity = quantity;      // 주문수량
-            this.price = price;         // 주문가
+            this.shcode        = shcode;        // 종목번호
+            this.quantity      = quantity;      // 주문수량
+            this.price         = price;         // 주문가
             this.divideBuySell = divideBuySell; // 매매구분: 1-매도, 2-매수
+            this.ordptnDetail  = ordptnDetail;  //상세주문구분
+            this.upOrdno       = upOrdno;       //상위매수주문번호  
             //2.실시간 체결 정보 등록
             //mainForm.real_SC1.call_real(shcode);
 
@@ -135,21 +187,8 @@ namespace PackageSellSystemTrading{
                     MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
                 }
                 else
-                {
-                    //if (int.Parse(mainForm.xing_t0167.time.Substring(0, 2)) > 9 && int.Parse(mainForm.xing_t0167.time.Substring(0, 2)) < 14)
-                    //{
+                {           
                     base.Request(false);  //연속조회일경우 true
-                    Log.WriteLine(msg);
-
-                    //if (divideBuySell == "1")
-                    //{
-                    //    Log.WriteLine("매입금액+D2예수금=" + (mainForm.xing_t0424.mamt + int.Parse(mainForm.xing_CSPAQ12200.D2Dps)));
-                    //}
-                    //  }
-                    //  else {
-                    //     mainForm.tempLog.Text = "["+mainForm.input_time.Text+"]정규매매장이 종료 되었습니다.";
-                    //   }
-
                 }
             }
         }	// end function

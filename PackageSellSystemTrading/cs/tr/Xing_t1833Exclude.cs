@@ -47,8 +47,8 @@ namespace PackageSellSystemTrading{
             //mainForm.grd_t1833.Rows.Clear();
 
             this.t1833ExcludeVoList.Clear();
+            EBindingList<T1833Vo> tmpList =  new EBindingList<T1833Vo>();
 
-           
             //String sunikrt;//수익률
             for (int i = 0; i < blockCount; i++) {
                 T1833Vo t1833Vo = new T1833Vo();
@@ -60,10 +60,14 @@ namespace PackageSellSystemTrading{
                 t1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
                 t1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
 
-                this.t1833ExcludeVoList.Add(t1833Vo);
+                tmpList.Add(t1833Vo);
             }
-     
-            Log.WriteLine("t1833 ::매수금지종목 조회 완료");
+            //혹시몰라서 1833에서 금지종목을 참조할때 로스가 생길거같아서 이런방식을 써보았다.
+            this.t1833ExcludeVoList = tmpList;
+            mainForm.exCnt.Text = blockCount.ToString();
+            
+            
+            //Log.WriteLine("t1833 ::매수금지종목 조회 완료");
             completeAt = true;//중복호출 여부
         }
 
@@ -89,7 +93,7 @@ namespace PackageSellSystemTrading{
                 completeAt = false;//중복호출 방지
 
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\ConditionExclude.ADF");//_6만급등족목_70_
+                base.RequestService("t1833", startupPath + "\\Resources\\"+Properties.Settings.Default.CONDITION_EXCLUDE);
             } else {
                 mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
                 //mainForm.input_t1833_log2.Text = "대기";

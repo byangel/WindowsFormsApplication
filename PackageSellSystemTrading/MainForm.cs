@@ -161,7 +161,7 @@ namespace PackageSellSystemTrading{
         //종목검색 버튼
         private void btn_search_Click(object sender, EventArgs e)
         {
-            xing_t1833.call_request(Properties.Settings.Default.CONDITION_ADF);
+            xing_t1833.call_request();
         }
 
         //로그아웃 버튼
@@ -308,8 +308,18 @@ namespace PackageSellSystemTrading{
             
 
             //condition2.ADF 기본 급등주 검색에서 거래량을 추가한 버전 오리지날 버전보다 보통 검색되는 종목수가 적다.
-            xing_t1833.call_request(Properties.Settings.Default.CONDITION_ADF);
-            
+            xing_t1833.call_request();
+            xing_t1833Exclude.call_request();
+
+            //일단여기서 금일매수 건에한하여 일정시간 지나면 매도 기능을 호출한다.
+
+
+        }
+
+        //timerSell -- 일단 dataLog 부터 처리해야 이기능을 구현할 수 있을것 같다.
+        public void timerSell()
+        {
+
         }
 
         private void Timer0167_Tick(object sender, EventArgs e)
@@ -329,7 +339,7 @@ namespace PackageSellSystemTrading{
             }
 
             //주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자.
-            this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
+            //this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
             //미체결내역
             this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
             //Log.WriteLine("xing_t1833:");
@@ -417,13 +427,15 @@ namespace PackageSellSystemTrading{
                         mdposqt = result_t0424.ElementAt(0).mdposqt; //주문가능수량수량
                         price   = result_t0424.ElementAt(0).price; //현재가
 
+                        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+                        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
                         /// <param name="IsuNo">종목번호</param>
                         /// <param name="Quantity">수량</param>
                         /// <param name="Price">가격</param>
                         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                        String msg = "t0424 ::선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt;
-                        this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, msg, expcode, mdposqt, price, "1");
-                        //tmpT0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정  
+                        this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, "선택매도", "", expcode, mdposqt, price, "1");
+                        Log.WriteLine("mainForm :: 선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt);
+                        
 
                         result_t0424.ElementAt(0).orderAt = true;//일괄 매도시 주문여부를 true로 설정
                     }
@@ -438,8 +450,10 @@ namespace PackageSellSystemTrading{
      
         private void test_Click(object sender, EventArgs e)
         {
+            //this.grd_t0424.Rows[0].Cells["c_hname"].Value = "test";
 
-            listBox1.Items.Insert(0,"dddd");
+            //grd_t0424.Rows[0].Cells["c_mdposqt"].Value = "test";
+            //listBox1.Items.Insert(0,"dddd");
 
             //this.listBox_account.Items.Add(account);
             //EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
@@ -528,7 +542,7 @@ namespace PackageSellSystemTrading{
                     }
                 }
             }
-
+            
             ///Log.WriteLine("ㅇㅇㅇㅇ"+e.ColumnIndex.ToString()+"="+ e.Value);
             //4:현재가,14:수수료, 6:평가손익, 3:매도가능, 5:평가금액, 4:현재가
             //if (e.ColumnIndex != 1 && e.ColumnIndex != 2 && e.ColumnIndex != 7 && e.ColumnIndex != 8)
@@ -658,9 +672,6 @@ namespace PackageSellSystemTrading{
         //실시간 현재가 정보 이벤트시 호출된다.
         public void realPriceCallBack(String shcode, String price)
         {
-
-
-
             String 당일매도금액;//매도수량
             String 당일매도단가;
             String 손익률2;
@@ -751,24 +762,29 @@ namespace PackageSellSystemTrading{
 
                 if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                 {
+                    /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+                    /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    String msg = "[" + this.input_time.Text + "]t0424 ::매도[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량및매도가능:" + t0424Vo.mdposqt;
-                    this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, msg, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price, "1");
+                    this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, "청산", "", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price, "1");
+                    Log.WriteLine("MainForm stopProFitTargetTest ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
                     t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정    
+
                 }
 
                 //손절
                 if (Properties.Settings.Default.STOP_LOSS_AT && float.Parse(t0424Vo.sunikrt) <= float.Parse(Properties.Settings.Default.STOP_LOSS))
                 {
+                    /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+                    /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    String msg = "[" + input_time.Text + "]t0424 ::손절[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%  주문수량및매도가능:" +t0424Vo.mdposqt;
-                    this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, msg, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price, "1");
+                    this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, "손절", "", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price, "1");
+                    Log.WriteLine("MainForm stopProFitTargetTest ::손절[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%  주문수량:" + t0424Vo.mdposqt);
                     t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정
                 }
             }
@@ -780,7 +796,7 @@ namespace PackageSellSystemTrading{
         {
             EBindingList<T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", Isuno.Replace("A", ""));
-            //t0424VoList.RemoveAt(findIndex);
+            //그리드삭제
             this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);
 
             //dataLog 도 제거해준다.
@@ -788,7 +804,12 @@ namespace PackageSellSystemTrading{
 
         }
 
-        
+
+        //조건검색 버튼 이벤트
+        private void btn_search_Click_1(object sender, EventArgs e)
+        {
+            xing_t1833.call_request();
+        }
     }//end class
 }//end namespace
 

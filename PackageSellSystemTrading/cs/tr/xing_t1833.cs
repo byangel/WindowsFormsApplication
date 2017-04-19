@@ -89,7 +89,7 @@ namespace PackageSellSystemTrading{
                 {
                    t1833VoList.Add(tmpT1833Vo);
                    //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
-                   this.buy(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
+                   this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
                 }
                
             }
@@ -129,7 +129,7 @@ namespace PackageSellSystemTrading{
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
-		public void call_request(string conditionFileName){
+		public void call_request(){
 
             if (completeAt) {
                 //폼 메세지.
@@ -137,7 +137,7 @@ namespace PackageSellSystemTrading{
                 mainForm.input_t1833_log1.Text = "[" + mainForm.input_time.Text + "]조건검색 요청.";
                 //Thread.Sleep(1000);
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\"+ conditionFileName);//_6만급등족목_70_
+                base.RequestService("t1833", startupPath + "\\Resources\\"+ Properties.Settings.Default.CONDITION_ADF);
             } else {
                 mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
                 //mainForm.input_t1833_log2.Text = "대기";
@@ -146,7 +146,7 @@ namespace PackageSellSystemTrading{
 
 
         //진입검색에서 검색된 종목을 매수한다.
-        private Boolean buy(String shcode,String hname, String close,int addIndex){
+        private Boolean buyTest(String shcode,String hname, String close,int addIndex){
             String time = mainForm.xing_t0167.time;
             //if (time == "" ) { time = "153000"; }//에러 안나게 기본값을 셋팅해준다.
             int cTime = (int.Parse(time.Substring(0, 2)) * 60 * 60) + (int.Parse(time.Substring(2, 2))*60) + (int.Parse(time.Substring(4, 2)));//현재 시간
@@ -163,6 +163,8 @@ namespace PackageSellSystemTrading{
             //String t0425_expcode;      //종목번호
             //String t0425_ordtime;      //주문시간
             int tmpTime;
+            String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
+
 
             //미체결목록그리드
             //EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체결
@@ -212,23 +214,21 @@ namespace PackageSellSystemTrading{
 
 
             //3.진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수
-            //var esult_t0424 = from item in t0424VoList
-            //                 where item.expcode == shcode
-            //                select item;
             int t0424VoListFindIndex = t0424VoList.Find("expcode", shcode);
-            //1.매수금지종목이면 매수제한. 보유종목이 아니면 즉 신규매수인데 매수금지종목이면 사지않는다. 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.
+            //4.매수금지종목 테스트. --신규매수일때에만 매수금지종목 제한한다, 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.
             int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
             if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
             {
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 매수금지 종목 ");
-                mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Red;
+                mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
                 return false;
             }
 
-            //DataRow[] dataRowArray = mainForm.dataTable_t0424.Select("expcode = '" + shcode + "'");
-            if (t0424VoListFindIndex >= 0){   
+            //5.보유종목 반복매수여부 테스트 
+            if (t0424VoListFindIndex >= 0){
+                ordptnDetail = "반복매수";
                 //보유종목이면..하이라키...
-               
+
                 mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
         
                 String sunikrt = (String)t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;//기존 종목 수익률
@@ -239,19 +239,16 @@ namespace PackageSellSystemTrading{
                     Log.WriteLine("t1833::" + hname + "(" + shcode + ") 반복매수 제한 [수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
                     return false;
                 }
-                //accountAt = "t1833::" + hname + "(" + shcode + ") 반복매수  실행 [매수전수익률:" + sunikrt + "%|매도가능수량:"+ (String)esult_t0424.ElementAt(0).mdposqt+"] ";
 
             }else{//-보유종목이 아니고 신규매수해야 한다면.
-                //-accountAt = "신규매수 실행 : ";
-                //-자본금 = 매입금액 + D2예수금 
-                Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
-
+                ordptnDetail = "신규매수";
+                 //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
+                 Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
                 //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
                 if (Properties.Settings.Default.LIMITED_AT)
                 {
-                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
-                    {//이런날이 올까?
-                     //Log.WriteLine("ㅡㅡㅡㅡㅡ");
+                    //이런날이 올까?
+                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT)) {
                         자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
                     }
                 }
@@ -283,9 +280,11 @@ namespace PackageSellSystemTrading{
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
+                /// <param name="ordptnDetail">상세주문구분</param>
+                /// <param name="upOrdno">상위매수주문번호-매수일때는 상위 주문번호개념이 없기때문에 금일매도일때만 셋팅한다.</param> 
                 /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                String buyMsg = "t1833::" + hname + "(" + shcode + ")  [주문가격:"+ close + "|주문수량:" + Quantity + "] ";
-                mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, buyMsg, shcode, Quantity.ToString(), close, "2");
+                mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, ordptnDetail, "", shcode, Quantity.ToString(), close, "2");
+                Log.WriteLine("t1833::" + hname + "(" + shcode + ") "+ ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
             }else{
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");
             }

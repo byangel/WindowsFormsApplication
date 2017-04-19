@@ -226,5 +226,17 @@ namespace PackageSellSystemTrading.Properties {
                 this["CONDITION_ADF"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CONDITION_EXCLUDE {
+            get {
+                return ((string)(this["CONDITION_EXCLUDE"]));
+            }
+            set {
+                this["CONDITION_EXCLUDE"] = value;
+            }
+        }
     }
 }

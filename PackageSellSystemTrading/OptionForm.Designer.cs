@@ -56,11 +56,16 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.combox_condition = new System.Windows.Forms.ComboBox();
+            this.combox_conditionExclude = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(301, 265);
+            this.btn_config_save.Location = new System.Drawing.Point(301, 305);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(63, 26);
             this.btn_config_save.TabIndex = 13;
@@ -70,7 +75,7 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(236, 265);
+            this.btn_rollback.Location = new System.Drawing.Point(236, 305);
             this.btn_rollback.Name = "btn_rollback";
             this.btn_rollback.Size = new System.Drawing.Size(59, 26);
             this.btn_rollback.TabIndex = 14;
@@ -132,6 +137,7 @@
             this.checkBox_limited.TabIndex = 92;
             this.checkBox_limited.Text = "최대운영자금 제한";
             this.checkBox_limited.UseVisualStyleBackColor = true;
+            this.checkBox_limited.CheckedChanged += new System.EventHandler(this.checkBox_limited_CheckedChanged);
             // 
             // input_repeat_term
             // 
@@ -207,7 +213,7 @@
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(370, 265);
+            this.close.Location = new System.Drawing.Point(370, 305);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(51, 26);
             this.close.TabIndex = 101;
@@ -248,18 +254,18 @@
             this.input_stop_loss.Font = new System.Drawing.Font("Gulim", 8F);
             this.input_stop_loss.Location = new System.Drawing.Point(69, 165);
             this.input_stop_loss.Name = "input_stop_loss";
-            this.input_stop_loss.Size = new System.Drawing.Size(23, 20);
+            this.input_stop_loss.Size = new System.Drawing.Size(38, 20);
             this.input_stop_loss.TabIndex = 105;
             this.input_stop_loss.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(92, 168);
+            this.label11.Location = new System.Drawing.Point(108, 168);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(115, 12);
+            this.label11.Size = new System.Drawing.Size(75, 12);
             this.label11.TabIndex = 106;
-            this.label11.Text = "% 이거나 이하 손절.";
+            this.label11.Text = "% 이하 손절.";
             // 
             // checkBox_stop_loss
             // 
@@ -270,6 +276,7 @@
             this.checkBox_stop_loss.TabIndex = 107;
             this.checkBox_stop_loss.Text = "손절기능사용";
             this.checkBox_stop_loss.UseVisualStyleBackColor = true;
+            this.checkBox_stop_loss.CheckedChanged += new System.EventHandler(this.checkBox_stop_loss_CheckedChanged);
             // 
             // input_battingAtm
             // 
@@ -303,9 +310,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(13, 222);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(103, 12);
+            this.label14.Size = new System.Drawing.Size(139, 12);
             this.label14.TabIndex = 111;
-            this.label14.Text = "6. 검색조건식선택";
+            this.label14.Text = "7. 매수 검색 조건식 선택";
             // 
             // combox_condition
             // 
@@ -314,16 +321,69 @@
             this.combox_condition.Items.AddRange(new object[] {
             "Condition.ADF",
             "Condition2.ADF"});
-            this.combox_condition.Location = new System.Drawing.Point(124, 220);
+            this.combox_condition.Location = new System.Drawing.Point(153, 220);
             this.combox_condition.Name = "combox_condition";
-            this.combox_condition.Size = new System.Drawing.Size(137, 19);
+            this.combox_condition.Size = new System.Drawing.Size(160, 19);
             this.combox_condition.TabIndex = 112;
+            // 
+            // combox_conditionExclude
+            // 
+            this.combox_conditionExclude.Font = new System.Drawing.Font("Gulim", 8F);
+            this.combox_conditionExclude.FormattingEnabled = true;
+            this.combox_conditionExclude.Items.AddRange(new object[] {
+            "ConditionExclude.ADF",
+            "ConditionExclude1000.ADF"});
+            this.combox_conditionExclude.Location = new System.Drawing.Point(151, 245);
+            this.combox_conditionExclude.Name = "combox_conditionExclude";
+            this.combox_conditionExclude.Size = new System.Drawing.Size(213, 19);
+            this.combox_conditionExclude.TabIndex = 114;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(13, 247);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(135, 12);
+            this.label15.TabIndex = 113;
+            this.label15.Text = "8. 매수금지 검색식 선택";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(13, 269);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(55, 12);
+            this.label16.TabIndex = 115;
+            this.label16.Text = "9. 매수후";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Gulim", 8F);
+            this.textBox1.Location = new System.Drawing.Point(72, 265);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(35, 20);
+            this.textBox1.TabIndex = 116;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(110, 269);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(61, 12);
+            this.label17.TabIndex = 117;
+            this.label17.Text = "초후 매도.";
             // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 303);
+            this.ClientSize = new System.Drawing.Size(433, 343);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.combox_conditionExclude);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.combox_condition);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -389,5 +449,10 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         public System.Windows.Forms.ComboBox combox_condition;
+        public System.Windows.Forms.ComboBox combox_conditionExclude;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        public System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label17;
     }
 }

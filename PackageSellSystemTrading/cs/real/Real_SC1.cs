@@ -42,75 +42,58 @@ namespace PackageSellSystemTrading{
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
 
-            //isuno//종목번호
-            //isunm//종목명
-            //ordno//주문번호
-            //orgordno//원주문번호
-            //execno//체결번호
-            //ordqty//주문수량
-            //ordprc//주문가격
-            //execqty//체결수량
-            //execprc//체결가격
-            //rjtqty //거부수량
-            //ordtrxptncode//주문처리유형코드
-            //mtiordseqno//복수주문일련번호
-            //avrpchsprc//평균매입가
-            //pchsant//매입금액
-            //deposit//예수금
-            //substamt//대용금액
-            String ordno      = base.GetFieldData("OutBlock", "ordno");      //주문번호
-            String ordptncode = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매도|02:매수 
-            String Isunm      = base.GetFieldData("OutBlock", "Isunm");      //종목명 
-            //String Isuno      = base.GetFieldData("OutBlock", "Isuno");      //종목번호 
-            String shtnIsuno  = base.GetFieldData("OutBlock", "shtnIsuno");
+            //4.주문처리유형코드,ordtrxptncode,
+            // 0    정상                    
+            //6    정정확인                
+            //7    정정거부(채권)
+            //8    취소확인                
+            //9    취소거부(채권)
 
-            String ordqty     = base.GetFieldData("OutBlock", "ordqty");     //ordqty//주문수량
-            String ordprc     = base.GetFieldData("OutBlock", "ordprc");     //ordprc//주문가격
-            String execqty    = base.GetFieldData("OutBlock", "execqty");    //execqty//체결수량
-            String execprc    = base.GetFieldData("OutBlock", "execprc");    //execprc//체결가격
+            RealSc1Vo realSc1Vo = new RealSc1Vo();
+            realSc1Vo.ordno         = base.GetFieldData("OutBlock", "ordno");      //주문번호
+            realSc1Vo.ordptncode    = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매도|02:매수 
+            realSc1Vo.ordtrxptncode = base.GetFieldData("OutBlock", "ordptncode"); // 0:정상|6:정정확인 |7:정정거부(채권) |8:취소확인 |9:취소거부(채권)
+            realSc1Vo.Isuno         = base.GetFieldData("OutBlock", "shtnIsuno");  //종목코드
+            realSc1Vo.Isunm         = base.GetFieldData("OutBlock", "Isunm");      //종목명 
+            realSc1Vo.ordqty        = base.GetFieldData("OutBlock", "ordqty");     //ordqty//주문수량
+            realSc1Vo.ordprc        = base.GetFieldData("OutBlock", "ordprc");     //ordprc//주문가격
+            realSc1Vo.execqty       = base.GetFieldData("OutBlock", "execqty");    //execqty//체결수량
+            realSc1Vo.execprc       = base.GetFieldData("OutBlock", "execprc");    //execprc//체결가격
+            realSc1Vo.avrpchsprc    = base.GetFieldData("OutBlock", "avrpchsprc"); //평균매입가 -실서버에서 제공하지 않는필드
+            realSc1Vo.pchsant       = base.GetFieldData("OutBlock", "pchsant");    //매입금액  -실서버에서 제공하지 않는필드
+            realSc1Vo.accno         = base.GetFieldData("OutBlock", "accno");      //계좌번호
 
-            String avrpchsprc = base.GetFieldData("OutBlock", "avrpchsprc");//평균매입가 -실서버에서 제공하지 않는필드
-            String pchsant    = base.GetFieldData("OutBlock", "pchsant");   //매입금액  -실서버에서 제공하지 않는필드
-            String accno      = base.GetFieldData("OutBlock", "accno");   //계좌번호
-
-            Log.WriteLine("real ::실시간 체결확인: 계좌번호:"+accno+ "|주문번호"+ordno+"|"+ Isunm + "("+  shtnIsuno+ ")|주문수량:" + ordqty+"|체결수량:" + execqty+"|거래구분:" + ordptncode+ "|평균매입가:" + avrpchsprc+"|체결가걱:"+execprc);
+            Log.WriteLine("real ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
             //Isuno +","+ shtnIsuno
 
 
-            //매매 체결이력 저장
-            DataLogVo dataLogVo  = new DataLogVo();
-            dataLogVo.accno      = accno;       //계좌번호
-            dataLogVo.ordptncode = ordptncode;  //주문구분 01:매도|02:매수
-            dataLogVo.Isuno      = shtnIsuno;   //종목코드
-            dataLogVo.ordno      = ordno;       //주문번호
-            dataLogVo.ordqty     = ordqty;      //주문수량 - 매도가능수량
-            dataLogVo.execqty    = execqty;     //체결수량 - 매도가능수량
-            dataLogVo.ordprc     = ordprc;      //주문가격 - 평균단가
-            dataLogVo.execprc    = execprc;     //체결가격 - 평균단가
-            dataLogVo.Isunm      = Isunm;       //종목명
-            mainForm.dataLog.insertData(dataLogVo);
+            //매매 체결수량 업데이트
+            if (!mainForm.dataLog.updateDataExecqty(realSc1Vo))
+            {
+                //업데이트 실패하면 - dataFile에 해당 종목이 아직 추가 되지 않은것같다.
+                Log.WriteLine("real_SC1 :: 매매 체결수량 업데이트 실패 [종목코드:" + realSc1Vo.Isuno + "]");
+            }
             
 
             //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-            int findIndex = t0424VoList.Find("expcode", shtnIsuno.Replace("A", ""));
+            int findIndex = t0424VoList.Find("expcode", realSc1Vo.Isuno.Replace("A", ""));
             if (findIndex >= 0){
                 mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
 
-                if (ordptncode == "01")//매도 - 매도가능수량-체결수량
+                if (realSc1Vo.ordptncode == "01")//매도 - 매도가능수량-체결수량
                 {
-                    //1.t0424 에 매도가능수량 실시간 출력
-                    t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(execqty)).ToString();
-
+                    //1.t0424 에 매도가능수량 실시간 출력                   
+                    mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(realSc1Vo.execqty)).ToString();
                     mainForm.input_toDayAtm.Text = mainForm.dataLog.getToDaySellAmt();//이상하게 금일매도매수 금액이 잡힌다.
                 }
-                else if (ordptncode == "02")//매수 - 매도가능수량+체결수량
+                else if (realSc1Vo.ordptncode == "02")//매수 - 매도가능수량+체결수량
                 {
-                    t0424VoList.ElementAt(findIndex).mdposqt = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(execqty)).ToString();
+                    mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(realSc1Vo.execqty)).ToString();
                 }
 
                 //수정된 평균단가를 실시간 적용해준다.  =======================편입일자와 등록할때 카운트를해서 순서를 알수 있도록 수정하자.
-                HistoryVo historyvo = mainForm.dataLog.getHistoryVo(dataLogVo.Isuno.Replace("A", ""));
+                HistoryVo historyvo = mainForm.dataLog.getHistoryVo(realSc1Vo.Isuno.Replace("A", ""));
                 if (historyvo != null)
                 {
                     mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value     = historyvo.pamt2;
@@ -126,10 +109,10 @@ namespace PackageSellSystemTrading{
                 //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
                 if (double.Parse(t0424VoList.ElementAt(findIndex).mdposqt) <= 0)
                 {
-                    mainForm.deleteCallBack(shtnIsuno);
-                    Log.WriteLine("real_SC1 deleteCallBack :: 청산된 종목 그리드와 DataLog Line 제거.[종목코드:" + shtnIsuno + "]");
+                    mainForm.deleteCallBack(realSc1Vo.Isuno);
+                    Log.WriteLine("real_SC1 deleteCallBack :: 청산된 종목 그리드와 DataLog Line 제거.[종목코드:" + realSc1Vo.Isuno + "]");
                 }
-            }else{//실시간 체결정보인데 종목그리드에 존재하지 않는 종목일경우 t0424 를 호출해준다.
+            }else{//실시간 체결정보인데 종목그리드에 존재하지 않는 종목일경우 t0424 를 호출해준다.--신규매수일수잇다.
                 mainForm.xing_t0424.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw);
             }
 
@@ -215,5 +198,33 @@ namespace PackageSellSystemTrading{
 
 
     } //end class 
+
+
+    public class RealSc1Vo
+    {
+        public String Isuno         { set; get; } //종목코드
+        public String Isunm         { set; get; } //종목명
+        public String ordno         { set; get; } //주문번호
+        public String orgordno      { set; get; } //원주문번호
+        public String execno        { set; get; } //체결번호
+        public String ordqty        { set; get; } //주문수량
+        public String ordprc        { set; get; } //주문가격
+        public String execqty       { set; get; } //체결수량
+        public String execprc       { set; get; } //체결가격
+        public String rjtqty        { set; get; }  //거부수량
+        public String ordtrxptncode { set; get; } //주문처리유형코드  // 0:정상|6:정정확인 |7:정정거부(채권) |8:취소확인 |9:취소거부(채권)
+        public String mtiordseqno   { set; get; } //복수주문일련번호
+        public String avrpchsprc    { set; get; } //평균매입가
+        public String pchsant       { set; get; } //매입금액
+        public String deposit       { set; get; } //예수금
+        public String substamt      { set; get; } //대용금액
+        public String accno         { set; get; } //계좌번호
+        public String ordptncode    { set; get; } //주문구분 01:매도|02:매수 
+                                                                    
+                                                 
+
+
+        //2017-04-09 후회할까? 
+    }
 
 }   // end namespace

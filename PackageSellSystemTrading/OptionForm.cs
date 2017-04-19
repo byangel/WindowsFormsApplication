@@ -14,18 +14,21 @@ namespace PackageSellSystemTrading
     {
         public MainForm mainForm;
 
-        Boolean LIMITED_AT           = true;     //운영자금 제한 여부
-        Boolean TODAY_SELL_AT        = true;     //중복매수된 종목 금일 매수/매도 기능 활성화 여부 디폴트 true
+        Boolean LIMITED_AT        = true;        //운영자금 제한 여부
+        Boolean TODAY_SELL_AT     = true;        //중복매수된 종목 금일 매수/매도 기능 활성화 여부 디폴트 true
         Boolean STOP_LOSS_AT      = false;       //손절사용여부
 
         String STOP_PROFIT_TARGET = "3.33";         //목표 이익율
-        String STOP_LOSS          = "";          //손절
+        String STOP_LOSS          = "-1.5";          //손절
         String REPEAT_TERM        = "9600";      //반복매수 시간
         String REPEAT_RATE        = "-5";        //반복매수 비율
         String BUY_STOP_RATE      = "90";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "100000000"; //최대 운영 금액 제한 - 기본 1억
         String BATTING_ATM        = "";
         String CONDITION_ADF      = "Condition2.ADF";
+        String CONDITION_EXCLUDE  = "ConditionExclude.ADF";
+
+        //생성자
         public OptionForm()
         {
             InitializeComponent();
@@ -37,18 +40,32 @@ namespace PackageSellSystemTrading
             input_repeat_rate.Text        = Properties.Settings.Default.REPEAT_RATE.ToString();
             input_buy_stop_rate.Text      = Properties.Settings.Default.BUY_STOP_RATE.ToString();
             input_max_amt_limit.Text      = Properties.Settings.Default.MAX_AMT_LIMIT.ToString();  
-            input_stop_loss.Text          = Properties.Settings.Default.STOP_LOSS.ToString(); //손절
+            input_stop_loss.Text          = Properties.Settings.Default.STOP_LOSS.ToString(); //손절 범위
             input_stop_profit_target.Text = Properties.Settings.Default.STOP_PROFIT_TARGET.ToString();//목표 이익율
             input_battingAtm.Text         = Properties.Settings.Default.BATTING_ATM.ToString();//배팅금액 설정
 
-            //combox_condition.SelectedIndex = 0;
-            for(int i=0;i< combox_condition.Items.Count; i++)
+
+            //combox_condition.SelectedIndex = 0; 조건검색식 선택 콤보박스 초기화
+            for (int i=0;i< combox_condition.Items.Count; i++)
             {
                 if(combox_condition.Items[i].ToString() == Properties.Settings.Default.CONDITION_ADF)
                 {
                     combox_condition.SelectedIndex = i;
                 }
             }
+
+            //exclude condition 매수금지 조건검색식 선택 콤보박스 초기화
+            for (int i = 0; i < combox_conditionExclude.Items.Count; i++)
+            {
+                if (combox_conditionExclude.Items[i].ToString() == Properties.Settings.Default.CONDITION_EXCLUDE)
+                {
+                    combox_conditionExclude.SelectedIndex = i;
+                }
+            }
+
+            //체크박스 화면 초기화
+            checkBox_stop_loss_CheckedChanged();
+            checkBox_limited_CheckedChanged();
         }
 
         //프로퍼티 초기화
@@ -65,6 +82,9 @@ namespace PackageSellSystemTrading
             input_stop_profit_target.Text = this.STOP_PROFIT_TARGET;//목표 이익율
             input_battingAtm.Text         = this.BATTING_ATM;       //배팅금액
             combox_condition.Text         = this.CONDITION_ADF;     //검색식
+            combox_conditionExclude.Text  = this.CONDITION_EXCLUDE; //매수금지 조건 검색식
+            
+
             //Properties.Settings.Default.Save();
         }
 
@@ -81,13 +101,16 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.STOP_LOSS           = input_stop_loss.Text;
             Properties.Settings.Default.STOP_PROFIT_TARGET  = input_stop_profit_target.Text; //목표 이익율
             Properties.Settings.Default.BATTING_ATM         = input_battingAtm.Text;         //배팅금액 강제설정
-            Properties.Settings.Default.CONDITION_ADF       = combox_condition.Text;               //검색식
-          
+            Properties.Settings.Default.CONDITION_ADF       = combox_condition.Text;        //검색식
+            Properties.Settings.Default.CONDITION_EXCLUDE   = combox_conditionExclude.Text;         //매수금지 조건 검색식
+           
 
             Properties.Settings.Default.Save();
             MessageBox.Show("설정을 저장하였습니다.");
             //this.Close();
         }
+
+        //===================================이벤트
 
         private void close_Click(object sender, EventArgs e)
         {
@@ -99,5 +122,45 @@ namespace PackageSellSystemTrading
         {
             this.rollBack();
         }
-    }
-}
+
+        //손절사용 여부 체크박스 변경 이벤트
+        private void checkBox_stop_loss_CheckedChanged(object sender, EventArgs e)
+        {
+            this.checkBox_stop_loss_CheckedChanged();
+        }
+
+        //손절사용 변경시 input_stop_loss 비활성
+        private void checkBox_stop_loss_CheckedChanged()
+        {
+            if (checkBox_stop_loss.Checked)//손절사용
+            {
+                this.input_stop_loss.Enabled = true;
+            }
+            else//손절 미사용
+            {
+                this.input_stop_loss.Enabled = false;
+            }
+        }
+
+        //최대운영자금 체크박스 변경 이벤트
+        private void checkBox_limited_CheckedChanged(object sender, EventArgs e)
+        {
+            this.checkBox_limited_CheckedChanged();
+        }
+        //최대운영자금 체크박스 변경 이벤트
+        private void checkBox_limited_CheckedChanged()
+        {
+            if (checkBox_limited.Checked)//손절사용
+            {
+                this.input_max_amt_limit.Enabled = true;
+            }
+            else//손절 미사용
+            {
+                this.input_max_amt_limit.Enabled = false;
+            }
+        }
+
+
+
+    }//class end
+}//name end
