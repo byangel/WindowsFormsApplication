@@ -265,7 +265,7 @@ namespace PackageSellSystemTrading{
        
         public void tradingRun()
         {
-            timer_enterSearch.Start();//진입검색 타이머
+            //timer_enterSearch.Start();//진입검색 타이머
             timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
@@ -277,7 +277,7 @@ namespace PackageSellSystemTrading{
         }
         public void tradingStop()
         {
-            timer_enterSearch.Stop();//진입검색 타이머
+            //timer_enterSearch.Stop();//진입검색 타이머
             timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
@@ -338,14 +338,23 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine("timer_accountSearch_Tick:: 로그인 호출");
             }
 
-            //주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자.
-            //this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
-            //미체결내역
+            //1.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
+            this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
+            //2.미체결내역 - 취소
             this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
-            //Log.WriteLine("xing_t1833:");
-
-            //현물계좌예수금/주문가능금액/총평가 조회
+            
+            //3.검색조건식 호출 - 잔고가 먼저 호출되어야한다.
+            xing_t1833.call_request();
+            //4.매수금지종목 업데이트
+            xing_t1833Exclude.call_request();
+            //5.현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
+            //6.금일매도실행
+            if (Properties.Settings.Default.TODAY_SELL_AT){
+                this.toDaySellTest();
+            }
+
+
         }
 
         
@@ -422,10 +431,10 @@ namespace PackageSellSystemTrading{
                     if (result_t0424.Count() > 0)
                     {
                         expcode = result_t0424.ElementAt(0).expcode; //종목코드
-                        hname   = result_t0424.ElementAt(0).hname; //종목명
+                        hname   = result_t0424.ElementAt(0).hname;   //종목명
                         sunikrt = result_t0424.ElementAt(0).sunikrt; //수익율
                         mdposqt = result_t0424.ElementAt(0).mdposqt; //주문가능수량수량
-                        price   = result_t0424.ElementAt(0).price; //현재가
+                        price   = result_t0424.ElementAt(0).price;   //현재가
 
                         /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
                         /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
@@ -450,6 +459,8 @@ namespace PackageSellSystemTrading{
      
         private void test_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(dataLog.getDataLogVoList().Find("Isuno", "057540").ToString());
+
             //this.grd_t0424.Rows[0].Cells["c_hname"].Value = "test";
 
             //grd_t0424.Rows[0].Cells["c_mdposqt"].Value = "test";
@@ -569,6 +580,24 @@ namespace PackageSellSystemTrading{
                     }else{
                         e.CellStyle.ForeColor = Color.Red;
                         e.CellStyle.SelectionForeColor = Color.Red;
+                    }
+                }
+            }
+
+            if (e.ColumnIndex == 2)
+            {
+                if (e.Value != null)
+                {
+                    //if (e.Value.ToString().IndexOf("신규매수") >= 0)
+                    if (e.Value.ToString() == "신규매수" || e.Value.ToString() == "반복매수")
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;  
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Blue;
+                        e.CellStyle.SelectionForeColor = Color.Blue;
                     }
                 }
             }
@@ -794,14 +823,12 @@ namespace PackageSellSystemTrading{
         //종목을 매도하면 1.그리드에서삭제 2.dataLog삭제 해야한다. 
         public void deleteCallBack(String Isuno)
         {
-            EBindingList<T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
-            int findIndex = t0424VoList.Find("expcode", Isuno.Replace("A", ""));
+            int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
             //그리드삭제
             this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);
 
             //dataLog 도 제거해준다.
             this.dataLog.deleteData(Isuno);
-
         }
 
 
@@ -810,6 +837,56 @@ namespace PackageSellSystemTrading{
         {
             xing_t1833.call_request();
         }
+
+        private void grd_t0425_chegb1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+        //금일매도
+        public void toDaySellTest(){
+            //금일 매수 and 매도여부:N and 반복매수 and 주문수량=체결수량
+            var varDataLogVoList = from item in dataLog.getDataLogVoList()
+                                   where item.date == DateTime.Now.ToString("yyyyMMdd") && item.ordptncode == "02"  && item.sellOrdAt == "N" && item.ordptnDetail == "반복매수" && item.ordqty == item.execqty
+                                   select item;
+            
+            for (int i=0; i < varDataLogVoList.Count(); i++)
+            {
+                
+                //계좌잔고 그리드에서 해당종목 정보 참조.
+                var varT0424List = from item in xing_t0424.getT0424VoList()
+                                  where item.expcode == varDataLogVoList.ElementAt(i).Isuno
+                                 select item;
+                int t0424Index = xing_t0424.getT0424VoList().Find("expcode", varDataLogVoList.ElementAt(i).Isuno);
+                if (t0424Index >= 0)
+                {
+                    Double price0424 = Double.Parse(xing_t0424.getT0424VoList().ElementAt(t0424Index).price);//현재가
+                    Double execprc   = Double.Parse(varDataLogVoList.ElementAt(i).execprc);//금일체결가격
+                    //1.현재가가 금일매수 값보다 2%이상 올랐으면 금일 매수 수량만큼 매도한다.
+                    Double late = ((price0424 / execprc) * 100) - 100;
+                    late = Math.Round(late, 2);
+                  
+                    if (late > double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
+                    {
+                            //int tmpAmt = ((t0424_price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
+
+                            /// <param name="IsuNo">종목번호</param>
+                            /// <param name="Quantity">수량</param>
+                            /// <param name="Price">가격</param>
+                            /// <param name="ordptnDetail">상세주문구분</param>
+                            /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+                            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                            xing_CSPAT00600.call_request(accountForm.account, accountForm.accountPw, "금일매도", varDataLogVoList.ElementAt(i).ordno, varDataLogVoList.ElementAt(i).Isuno, varDataLogVoList.ElementAt(i).execqty, price0424.ToString(), "1");
+                            Log.WriteLine("mainForm.toDaySellTest::" + varDataLogVoList.ElementAt(i).Isunm + "(" + varDataLogVoList.ElementAt(i).Isuno + ")::금일 매도 [주문가격:" + price0424.ToString() + "|주문수량:" + varDataLogVoList.ElementAt(i).execqty + "|금일수익율:" + late + "]");
+     
+                    }
+                }
+           }
+        }//금일매도매수 end
+
+
+
     }//end class
 }//end namespace
 

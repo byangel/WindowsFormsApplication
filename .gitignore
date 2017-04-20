@@ -244,3 +244,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /PackageSellSystemTrading/logs/log.txt
+/PackageSellSystemTrading/logs/data.ini

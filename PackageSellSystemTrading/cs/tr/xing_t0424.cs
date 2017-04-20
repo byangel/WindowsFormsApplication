@@ -123,21 +123,21 @@ namespace PackageSellSystemTrading {
                 {
                     tmpT0424Vo = new T0424Vo();
 
-                    tmpT0424Vo.expcode  = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-                    tmpT0424Vo.hname    = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
-                    tmpT0424Vo.mdposqt  = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
-                    tmpT0424Vo.price    = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
-                    tmpT0424Vo.appamt   = base.GetFieldData("t0424OutBlock1", "appamt", i); //평가금액
-                    tmpT0424Vo.dtsunik  = base.GetFieldData("t0424OutBlock1", "dtsunik", i); //평가손익
-                    tmpT0424Vo.sunikrt  = base.GetFieldData("t0424OutBlock1", "sunikrt", i); //수익율
-                    tmpT0424Vo.pamt     = base.GetFieldData("t0424OutBlock1", "pamt", i); //평균단가
-                    tmpT0424Vo.mamt     = base.GetFieldData("t0424OutBlock1", "mamt", i); //매입금액
-                    tmpT0424Vo.msat     = base.GetFieldData("t0424OutBlock1", "msat", i); //당일매수금액
-                    tmpT0424Vo.mpms     = base.GetFieldData("t0424OutBlock1", "mpms", i); //당일매수단가
-                    tmpT0424Vo.mdat     = base.GetFieldData("t0424OutBlock1", "mdat", i); //당일매도금액
-                    tmpT0424Vo.mpmd     = base.GetFieldData("t0424OutBlock1", "mpmd", i); //당일매도단가
-                    tmpT0424Vo.fee      = base.GetFieldData("t0424OutBlock1", "fee", i); //수수료
-                    tmpT0424Vo.tax      = base.GetFieldData("t0424OutBlock1", "tax", i); //제세금
+                    tmpT0424Vo.expcode  = base.GetFieldData("t0424OutBlock1", "expcode" , i); //종목코드
+                    tmpT0424Vo.hname    = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
+                    tmpT0424Vo.mdposqt  = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
+                    tmpT0424Vo.price    = base.GetFieldData("t0424OutBlock1", "price"   , i); //현재가
+                    tmpT0424Vo.appamt   = base.GetFieldData("t0424OutBlock1", "appamt"  , i); //평가금액
+                    tmpT0424Vo.dtsunik  = base.GetFieldData("t0424OutBlock1", "dtsunik" , i); //평가손익
+                    tmpT0424Vo.sunikrt  = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
+                    tmpT0424Vo.pamt     = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
+                    tmpT0424Vo.mamt     = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
+                    tmpT0424Vo.msat     = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
+                    tmpT0424Vo.mpms     = base.GetFieldData("t0424OutBlock1", "mpms"    , i); //당일매수단가
+                    tmpT0424Vo.mdat     = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
+                    tmpT0424Vo.mpmd     = base.GetFieldData("t0424OutBlock1", "mpmd"    , i); //당일매도단가
+                    tmpT0424Vo.fee      = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
+                    tmpT0424Vo.tax      = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
                     tmpT0424Vo.sininter = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
                 }
 
@@ -146,18 +146,16 @@ namespace PackageSellSystemTrading {
                 //tmpT0424Vo.deleteAt = false;
 
                 //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
-                if (findIndex < 0)
-                {
+                if (findIndex < 0){
 
                     this.t0424VoList.Add(tmpT0424Vo);
                     //종목매매 이력 참조                  
-                    Log.WriteLine("t0424::" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")::dataLog.getHistoryVo 호출 [매도가능:" + tmpT0424Vo.mdposqt + "]");
+                    //Log.WriteLine("t0424::" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")::dataLog.getHistoryVo 호출 [매도가능:" + tmpT0424Vo.mdposqt + "]");
                     HistoryVo historyvo = mainForm.dataLog.getHistoryVo(tmpT0424Vo.expcode.Replace("A", ""));
-                    if (historyvo != null)
-                    {
-                        tmpT0424Vo.pamt2 = historyvo.pamt2;//평균단가2
-                        tmpT0424Vo.sellCnt = historyvo.sellCnt;//매도 횟수.
-                        tmpT0424Vo.buyCnt = historyvo.buyCnt;//매수 횟수
+                    if (historyvo != null){
+                        tmpT0424Vo.pamt2     = historyvo.pamt2;    //평균단가2
+                        tmpT0424Vo.sellCnt   = historyvo.sellCnt;  //매도 횟수.
+                        tmpT0424Vo.buyCnt    = historyvo.buyCnt;   //매수 횟수
                         tmpT0424Vo.sellSunik = historyvo.sellSunik;//중간매도손익
 
                         //최초 등록시 평균단가2를 설정해준다.한가한날 손좀 보자....
@@ -166,13 +164,13 @@ namespace PackageSellSystemTrading {
 
                     //리얼 종목 등록
                     jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
-                    if (jonggb == "3")//코스피
-                    {
+                    //코스피
+                    if (jonggb == "3") {
                         //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
                         mainForm.real_S3.call_real(tmpT0424Vo.expcode);
                     }
-                    if (jonggb == "2")//코스닥
-                    {
+                    //코스닥
+                    if (jonggb == "2"){
                         mainForm.real_K3.call_real(tmpT0424Vo.expcode);
                     }
 
@@ -223,7 +221,7 @@ namespace PackageSellSystemTrading {
                 //mainForm.input_D2Dps.Text       = Util.GetNumberFormat(this.sunamt1); // D1예수금
                 //mainForm.input_sunamt.Text      = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
                 mainForm.input_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);  // 실현손익
-                mainForm.h_totalCount.Text = this.h_totalCount.ToString();       //종목수
+                mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
 
                 //label 출력
                 mainForm.label_mamt.Text = Util.GetNumberFormat(this.mamt);    // 매입금액

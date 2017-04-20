@@ -131,7 +131,7 @@
             // checkBox_limited
             // 
             this.checkBox_limited.AutoSize = true;
-            this.checkBox_limited.Location = new System.Drawing.Point(35, 10);
+            this.checkBox_limited.Location = new System.Drawing.Point(15, 10);
             this.checkBox_limited.Name = "checkBox_limited";
             this.checkBox_limited.Size = new System.Drawing.Size(124, 16);
             this.checkBox_limited.TabIndex = 92;
@@ -233,7 +233,7 @@
             // checkBox_today_sell
             // 
             this.checkBox_today_sell.AutoSize = true;
-            this.checkBox_today_sell.Location = new System.Drawing.Point(164, 10);
+            this.checkBox_today_sell.Location = new System.Drawing.Point(144, 10);
             this.checkBox_today_sell.Name = "checkBox_today_sell";
             this.checkBox_today_sell.Size = new System.Drawing.Size(102, 16);
             this.checkBox_today_sell.TabIndex = 103;
@@ -270,7 +270,7 @@
             // checkBox_stop_loss
             // 
             this.checkBox_stop_loss.AutoSize = true;
-            this.checkBox_stop_loss.Location = new System.Drawing.Point(272, 10);
+            this.checkBox_stop_loss.Location = new System.Drawing.Point(252, 10);
             this.checkBox_stop_loss.Name = "checkBox_stop_loss";
             this.checkBox_stop_loss.Size = new System.Drawing.Size(96, 16);
             this.checkBox_stop_loss.TabIndex = 107;

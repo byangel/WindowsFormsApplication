@@ -74,10 +74,7 @@ namespace PackageSellSystemTrading {
             //계좌잔고목록
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
 
-            int    t0424_price;   //현재가
-            String t0424_mdposqt; //매도가능 수량
-            String t0424_hname;   //종목명
-            String t0424_sunikrt;  //수익율
+          
 
             String ordno;  //주문번호
             String status; //상태 체결|미체결
@@ -114,59 +111,26 @@ namespace PackageSellSystemTrading {
                 tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
                 tmpT0425Vo.orgordno = base.GetFieldData("t0425OutBlock1", "orgordno", i); //원주문번호
 
+                //DataLog 정보 참조 - 매매 상세 구분
+                int dataLogIndex = mainForm.dataLog.getDataLogVoList().Find("ordno", ordno);
+                if (dataLogIndex >= 0)
+                {
+                    DataLogVo dataLogVo = mainForm.dataLog.getDataLogVoList().ElementAt(dataLogIndex);
+                    tmpT0425Vo.medosu2 = dataLogVo.ordptnDetail;
+                }
+
                 //목록추가
                 if (findIndex < 0)
                 {
                     this.t0425VoList.Insert(0, tmpT0425Vo);
                     chegb1Cnt++;
-
-
-                    
-                    
                 }
-
-                //시스템매매구분
-                if (tmpT0425Vo.medosu2 == null || tmpT0425Vo.medosu2 == "")
-                {
-                    int t0424findIndex = t0424VoList.Find("expcode", tmpT0425Vo.expcode);
-                   
-                    if (t0424findIndex >= 0)
-                    {
-                        
-                        if (tmpT0425Vo.medosu == "매수")
-                        {
-                           
-                            if (t0424VoList.ElementAt(t0424findIndex).buyCnt == "1")
-                            {
-                                tmpT0425Vo.medosu2 = "신규매수";
-                            }
-                            else
-                            {
-                                tmpT0425Vo.medosu2 = "반목매수";
-                            }
-                        }
-                        else if (tmpT0425Vo.medosu == "매도")
-                        {
-                            tmpT0425Vo.medosu2 = "금일매도";
-                        }
-                    }
-                    else
-                    {
-                        if (tmpT0425Vo.medosu == "매도")
-                        {
-                            tmpT0425Vo.medosu2 = "청산";
-                        }
-                    }
-                }
-
-                
-                
-                
 
 
                 //1.미체결목록 -- 미체결 잔량이 있다면...매도또는 매수 주문후  잔량이 있다면 걔좌에 종목이 있다는뜻이므로 미체결 목록에 뿌려준다.
                 //한주라도 체결되면 체결로 뜨기때문에 미체결에도 뿌려줘야할것같다
                 ////////////////////////////////////////매매//////////////////////////////////////////
+                //미체결 취소
                 if (status == "미체결")
                 //if (int.Parse(cheqty) < int.Parse(qty))
                 {
@@ -188,81 +152,6 @@ namespace PackageSellSystemTrading {
                         mainForm.dataLog.deleteData(tmpT0425Vo.ordno);
                     }
                 }
-
-                //최종 반복매수할때 매도된 종목인데 아직 뿌려지지않아서 매수여부 판단시 오류발생한다. 최초 한번은 목록을 가져온후 그다음부터 반복매수 해준다.
-                if (readyAt)
-                {
-                    //3.금일매수 금일매도 - 매수 && 미체결잔량 == 0  한하여 금일 매도 를 해주자.
-                    if (Properties.Settings.Default.TODAY_SELL_AT)
-                    {
-                        if (tmpT0425Vo.medosu == "매수" && int.Parse(tmpT0425Vo.ordrem) == 0)
-                        {
-                            //계좌잔고 그리드에서 해당종목 정보 참조.
-                            var resultT0424 = from item in t0424VoList
-                                                where item.expcode == tmpT0425Vo.expcode
-                                                select item;
-
-                            if (resultT0424.Count() > 0)
-                            {
-                                //당일매수수량 - 당일매도수량 = 금일매도가능수량
-
-                                t0424_price = int.Parse(resultT0424.ElementAt(0).price); //현재가
-                                t0424_mdposqt = resultT0424.ElementAt(0).mdposqt == "" ? "0" : resultT0424.ElementAt(0).mdposqt;  //매도가능 수량
-                                t0424_sunikrt = resultT0424.ElementAt(0).sunikrt2;//수익률2 - 무조건 수익률2가 값이 있도록하자.
-                                t0424_hname = resultT0424.ElementAt(0).hname;//종목명
-
-                                //1.매도가능수량 > 주문수량  ->체결수량과 매도가능수량이 같으면 신규매수겠지? 여기는 반복매수만 처리해준다. --체결수량으로 하고싶지만...
-                                if (int.Parse(t0424_mdposqt) > int.Parse(tmpT0425Vo.qty))
-                                {
-                                    //1.현재가가 금일매수 값보다 2%이상 올랐으면 금일 매수 수량만큼 매도한다.
-                                    Double late = ((t0424_price / Double.Parse(tmpT0425Vo.cheprice)) * 100) - 100;
-                                    late = Math.Round(late, 2);
-
-                                    if (late > float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
-                                    {
-                                       
-                                        var result_t0425Vo = from t0425VoChegb1 in this.t0425VoList
-                                                                where t0425VoChegb1.expcode == tmpT0425Vo.expcode
-                                                                        && t0425VoChegb1.medosu == "매도"
-                                                                        && t0425VoChegb1.qty == tmpT0425Vo.qty//주문수량   
-                                                                select t0425VoChegb1;
-                                        //매도 이력이 없다면 또는 매도체크 여부가 Y가 아니라면 매도해주자.-
-                                        //빠른게 2번 매도가 이루어지는문제가 있다 그래서 매도하면 매도했다고 체크를 하는데 문제는 프로그램 재시작시 체크 정보가 사라진다 그래서 매도이력이 있는지도 체크해준다.
-                                        if (result_t0425Vo.Count() == 0 && tmpT0425Vo.todaySellAt == false)
-                                        {
-
-                                            int tmpAmt = ((t0424_price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
-
-                                            //당일매도 차익 합산.
-                                            //toDaySellAmt = (int.Parse(mainForm.input_toDayAtm.Text == "" ? "0" : mainForm.input_toDayAtm.Text) + tmpAmt).ToString();
-
-
-                                            /// <param name="IsuNo">종목번호</param>
-                                            /// <param name="Quantity">수량</param>
-                                            /// <param name="Price">가격</param>
-                                            /// <param name="ordptnDetail">상세주문구분</param>
-                                            /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                                            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                                            mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, "금일매도", tmpT0425Vo.ordno, tmpT0425Vo.expcode, tmpT0425Vo.qty, t0424_price.ToString(), "1");
-                                            Log.WriteLine("t0425::" + tmpT0425Vo.hname + "(" + tmpT0425Vo.expcode + ")::금일매수/매도 [주문가격:" + t0424_price + "|주문수량:" + tmpT0425Vo.qty + "|금일수익율:" + late + "|차익:" + tmpAmt + "|매도가능수량:" + t0424_mdposqt + "|매도전수익률:" + t0424_sunikrt + "]");
-                                            tmpT0425Vo.todaySellAt = true;
-                                            //당일매도 차익 합산.
-                                            //mainForm.input_toDayAtm.Text = toDaySellAmt;
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-                    }//금일매도매수 end
-
-                    
-                }
-
-           
 
             }//for end
 
@@ -365,7 +254,7 @@ namespace PackageSellSystemTrading {
         public String status   { set; get; } //상태
         public String ordno    { set; get; } //주문번호
         public String orgordno { set; get; } //원주문번호
-        public Boolean todaySellAt { set; get; } //금일매도여부
+        //public Boolean todaySellAt { set; get; } //금일매도여부
 
     }
 }   // end namespace
