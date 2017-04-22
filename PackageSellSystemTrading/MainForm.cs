@@ -338,17 +338,24 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine("timer_accountSearch_Tick:: 로그인 호출");
             }
 
-            //1.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
-            this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
-            //2.미체결내역 - 취소
-            this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
-            
-            //3.검색조건식 호출 - 잔고가 먼저 호출되어야한다.
+            //3.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
             xing_t1833.call_request();
             //4.매수금지종목 업데이트
             xing_t1833Exclude.call_request();
+
+            //1.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
+            this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
+
+            //2.미체결내역 - 취소
+            this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
+            
+           
+
+           
+
             //5.현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
+
             //6.금일매도실행
             if (Properties.Settings.Default.TODAY_SELL_AT){
                 this.toDaySellTest();
@@ -437,12 +444,12 @@ namespace PackageSellSystemTrading{
                         price   = result_t0424.ElementAt(0).price;   //현재가
 
                         /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
-                        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+                        /// <param name="upOrdno">상위매수주문번호</param>
+                        /// <param name="upOrdno">상위체결금액</param>
                         /// <param name="IsuNo">종목번호</param>
                         /// <param name="Quantity">수량</param>
                         /// <param name="Price">가격</param>
-                        /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                        this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, "선택매도", "", expcode, mdposqt, price, "1");
+                        this.xing_CSPAT00600.call_requestSell( "선택매도", "none","0", expcode, mdposqt, price);
                         Log.WriteLine("mainForm :: 선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt);
                         
 
@@ -792,14 +799,15 @@ namespace PackageSellSystemTrading{
                 if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                 {
                     /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
-                    /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+                    /// <param name="upOrdno">상위매수주문번호</param>
+                    /// <param name="upOrdno">상위체결금액</param>
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
-                    /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, "청산", "", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price, "1");
+                    this.xing_CSPAT00600.call_requestSell("청산", "none", "0", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+
                     Log.WriteLine("MainForm stopProFitTargetTest ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
-                    t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정    
+                    t0424Vo.orderAt = true;//청산 주문여부를 true로 설정    
 
                 }
 
@@ -812,7 +820,7 @@ namespace PackageSellSystemTrading{
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
                     /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                    this.xing_CSPAT00600.call_request(this.accountForm.account, this.accountForm.accountPw, "손절", "", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price, "1");
+                    this.xing_CSPAT00600.call_requestSell("손절", "none", "0", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
                     Log.WriteLine("MainForm stopProFitTargetTest ::손절[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%  주문수량:" + t0424Vo.mdposqt);
                     t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정
                 }
@@ -820,15 +828,17 @@ namespace PackageSellSystemTrading{
 
         }//stopProFitTarget end
 
-        //종목을 매도하면 1.그리드에서삭제 2.dataLog삭제 해야한다. 
+        //실시간 체결(SC1) > 매도가능수량이 0이면 호출 
         public void deleteCallBack(String Isuno)
         {
+            //dataLog 도 제거해준다.
+            this.dataLog.deleteData(Isuno); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
+
             int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
             //그리드삭제
             this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);
 
-            //dataLog 도 제거해준다.
-            this.dataLog.deleteData(Isuno);
+            
         }
 
 
@@ -863,22 +873,21 @@ namespace PackageSellSystemTrading{
                 {
                     Double price0424 = Double.Parse(xing_t0424.getT0424VoList().ElementAt(t0424Index).price);//현재가
                     Double execprc   = Double.Parse(varDataLogVoList.ElementAt(i).execprc);//금일체결가격
-                    //1.현재가가 금일매수 값보다 2%이상 올랐으면 금일 매수 수량만큼 매도한다.
+                    //1.현재가가 금일매수 값보다 3%이상 올랐으면 금일 매수 수량만큼 매도한다.
                     Double late = ((price0424 / execprc) * 100) - 100;
                     late = Math.Round(late, 2);
                   
                     if (late > double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                     {
-                            //int tmpAmt = ((t0424_price - int.Parse(tmpT0425Vo.cheprice)) * int.Parse(tmpT0425Vo.qty));
-
-                            /// <param name="IsuNo">종목번호</param>
-                            /// <param name="Quantity">수량</param>
-                            /// <param name="Price">가격</param>
-                            /// <param name="ordptnDetail">상세주문구분</param>
-                            /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                            /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                            xing_CSPAT00600.call_request(accountForm.account, accountForm.accountPw, "금일매도", varDataLogVoList.ElementAt(i).ordno, varDataLogVoList.ElementAt(i).Isuno, varDataLogVoList.ElementAt(i).execqty, price0424.ToString(), "1");
-                            Log.WriteLine("mainForm.toDaySellTest::" + varDataLogVoList.ElementAt(i).Isunm + "(" + varDataLogVoList.ElementAt(i).Isuno + ")::금일 매도 [주문가격:" + price0424.ToString() + "|주문수량:" + varDataLogVoList.ElementAt(i).execqty + "|금일수익율:" + late + "]");
+                        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+                        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+                        /// <param name="IsuNo">종목번호</param>
+                        /// <param name="Quantity">수량</param>
+                        /// <param name="Price">가격</param>
+                        /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+                        /// this.xing_CSPAT00600.call_requestSell("청산", "none", "none", t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+                        xing_CSPAT00600.call_requestSell("금일매도", varDataLogVoList.ElementAt(i).ordno, varDataLogVoList.ElementAt(i).execprc, varDataLogVoList.ElementAt(i).Isuno, varDataLogVoList.ElementAt(i).execqty, price0424.ToString());
+                        Log.WriteLine("mainForm.toDaySellTest::" + varDataLogVoList.ElementAt(i).Isunm + "(" + varDataLogVoList.ElementAt(i).Isuno + ")::금일 매도 [주문가격:" + price0424.ToString() + "|주문수량:" + varDataLogVoList.ElementAt(i).execqty + "|금일수익율:" + late + "]");
      
                     }
                 }

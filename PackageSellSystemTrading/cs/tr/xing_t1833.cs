@@ -174,8 +174,10 @@ namespace PackageSellSystemTrading{
 
 
 
-            //1.금일 같은종목 진입 금지- 주문구분 01:매도|02:매수
-
+            //1.금일 같은종목 진입 금지- 주문구분 01:매도|02:매수 - t0425로 변경해야할듯.
+            var varT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
+                                   where item.expcode == shcode && item.medosu == "매수"
+                                   select item;
             var varDataLogVoList = from item in mainForm.dataLog.getDataLogVoList()
                                   where item.date == DateTime.Now.ToString("yyyyMMdd") && item.Isuno == shcode && item.ordptncode == "02"
                                  select item;
@@ -205,7 +207,7 @@ namespace PackageSellSystemTrading{
             //3.진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수 -> DataLogVoList 로 변경함
             EBindingList<DataLogVo> dataLogVoList = mainForm.dataLog.getDataLogVoList();
 
-            int dataLogVoListFindIndex = dataLogVoList.Find("Isuno", shcode);
+            int dataLogVoListFindIndex = dataLogVoList.Find("Isuno", shcode);//linquery 로변경해야할듯.
             
             //4.매수금지종목 테스트. --신규매수일때에만 매수금지종목 제한한다, 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.
             int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
@@ -223,6 +225,7 @@ namespace PackageSellSystemTrading{
                 //mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
                 EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
                 int t0424VoListFindIndex = t0424VoList.Find("expcode", shcode);
+                
                 String sunikrt = (String)t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;//기존 종목 수익률
 
                 //-수익율이 -3% 이하이면 반복매수 해주자.
@@ -268,13 +271,15 @@ namespace PackageSellSystemTrading{
             //int Quantity = 20000;
             //-정규장에만 주문실행.
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
+                /// <summary>
+                /// 현물정상주문
+                /// </summary>
+                /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
-                /// <param name="ordptnDetail">상세주문구분</param>
-                /// <param name="upOrdno">상위매수주문번호-매수일때는 상위 주문번호개념이 없기때문에 금일매도일때만 셋팅한다.</param> 
-                /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-                mainForm.xing_CSPAT00600.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw, ordptnDetail, "", shcode, Quantity.ToString(), close, "2");
+                mainForm.xing_CSPAT00600.call_requestBuy( ordptnDetail, shcode, Quantity.ToString(), close);
+
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") "+ ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
             }else{
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");

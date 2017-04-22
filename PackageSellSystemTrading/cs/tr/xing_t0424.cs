@@ -211,8 +211,8 @@ namespace PackageSellSystemTrading {
                 //this.sunamt1 = int.Parse(this.GetFieldData("t0424OutBlock", "sunamt1", 0));// D1예수금
                 this.dtsunik = int.Parse(this.GetFieldData("t0424OutBlock", "dtsunik", 0));// 실현손익
 
-                this.mamt = this.tmpMamt;      //매입금액
-                this.tappamt = this.tmpTappamt;   //평가금액
+                this.mamt     = this.tmpMamt;      //매입금액
+                this.tappamt  = this.tmpTappamt;   //평가금액
                 this.tdtsunik = this.tmpTdtsunik;  //평가손익
 
                 //mainForm.input_mamt.Text        = Util.GetNumberFormat(this.mamt);    // 매입금액

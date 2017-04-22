@@ -20,9 +20,13 @@ namespace PackageSellSystemTrading{
         private String shcode;        // 종목번호
         private String quantity;      // 주문수량
         private String price;         // 주문가
-        private String divideBuySell; // 매매구분: 1-매도, 2-매수
         private String ordptnDetail;  //상세주문구분
         private String upOrdno;       //상위매수주문 - 금일매도매수일때만 값이 있다.
+        private String upExecprc;     //상위체결금액  
+        private String sellOrdAt;     //매도주문여부
+
+
+        //상위체결가격
 
         // 생성자
         public Xing_CSPAT00600() {
@@ -71,26 +75,25 @@ namespace PackageSellSystemTrading{
 
             //데이타로그에 저장
             //public class DataLogVo
-            dataLogVo.ordno  = OrdNo;//주문번호
-            dataLogVo.date   = DateTime.Now.ToString("yyyyMMdd");//일자
-            dataLogVo.time   = DateTime.Now.ToString("HHmmss");//시간
-            dataLogVo.accno  = AcntNo;//계좌번호
-            dataLogVo.Isuno  = IsuNo; //종목코드
-            dataLogVo.Isunm  = IsuNm; //종목명
-            dataLogVo.ordqty = OrdQty;// 주문수량
-            dataLogVo.ordprc = OrdPrc;// 주문가격
-            dataLogVo.execqty= "0";   // 체결수량
-            dataLogVo.execprc= "0";   // 체결가격
-
-            dataLogVo.ordptncode   = "0"+BnsTpCode;//주문구분 01:매도|02:매수 
+            dataLogVo.ordno      = OrdNo;//주문번호
+            dataLogVo.accno      = AcntNo; //계좌번호
+            dataLogVo.ordptncode = "0" + BnsTpCode;//주문구분 01:매도|02:매수 
+            dataLogVo.Isuno      = IsuNo;  //종목코드
+            dataLogVo.ordqty     = OrdQty; //주문수량
+            dataLogVo.execqty    = "0";   //체결수량
+            dataLogVo.ordprc     = OrdPrc; //주문가격
+            dataLogVo.execprc    = "0";    //체결가격
+            dataLogVo.Isunm      = IsuNm;   //종목명
             dataLogVo.ordptnDetail = ordptnDetail;//상세 주문구분 신규매수|반복매수|금일매도|청산
-
-            if (upOrdno == ""){
+            //상위 주문번호
+            if (this.upOrdno == ""){
                 dataLogVo.upOrdno = OrdNo;               //상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
             }else{
-                dataLogVo.upOrdno = upOrdno; 
+                dataLogVo.upOrdno = this.upOrdno; 
             }
-            
+            dataLogVo.upExecprc = this.upExecprc; //상위 체결가격
+            dataLogVo.sellOrdAt = this.sellOrdAt; //매도 주문 여부
+            dataLogVo.useYN = "Y";                 //사용여부여부
 
             //dataInsert호출
             mainForm.dataLog.insertData(dataLogVo);
@@ -111,7 +114,7 @@ namespace PackageSellSystemTrading{
                 // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
-                
+
                 //정규매매장이 종료되었습니다.
                 if (nMessageCode=="03563")
                 {
@@ -145,32 +148,11 @@ namespace PackageSellSystemTrading{
         /// <param name="IsuNo">종목번호</param>
         /// <param name="Quantity">수량</param>
         /// <param name="Price">가격</param>
-        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
-        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_request(String account, String accountPw,String ordptnDetail,String upOrdno, String shcode, String quantity, String price, String divideBuySell)
-        {
-            
-            //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
-            if (mainForm.combox_targetServer.SelectedIndex == 0)
-            {
-                shcode = "A" + shcode;
-            }
-            this.shcode        = shcode;        // 종목번호
-            this.quantity      = quantity;      // 주문수량
-            this.price         = price;         // 주문가
-            this.divideBuySell = divideBuySell; // 매매구분: 1-매도, 2-매수
-            this.ordptnDetail  = ordptnDetail;  //상세주문구분
-            this.upOrdno       = upOrdno;       //상위매수주문번호  
-            //2.실시간 체결 정보 등록
-            //mainForm.real_SC1.call_real(shcode);
+        public void call_request(String shcode, String quantity, String price, String divideBuySell){
 
-            //if (completeAt){
-            //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
-            //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
-
-            base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, account);       // 계좌번호
-            base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, accountPw);     // 입력비밀번호
+            base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, mainForm.accountForm.account);       // 계좌번호
+            base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, mainForm.accountForm.accountPw);     // 입력비밀번호
             base.SetFieldData("CSPAT00600Inblock1", "IsuNo"        ,0, shcode);        // 종목번호
             base.SetFieldData("CSPAT00600Inblock1", "OrdQty"       ,0, quantity);      // 주문수량
             base.SetFieldData("CSPAT00600Inblock1", "OrdPrc"       ,0, price);         // 주문가
@@ -182,7 +164,7 @@ namespace PackageSellSystemTrading{
 
             if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530) 
             {
-                if (accountPw == "" || account == "")
+                if (mainForm.accountForm.accountPw == "" || mainForm.accountForm.account == "")
                 {
                     MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
                 }
@@ -191,6 +173,65 @@ namespace PackageSellSystemTrading{
                     base.Request(false);  //연속조회일경우 true
                 }
             }
+        }	// end function
+
+
+
+        /// <summary>
+        /// 현물정상주문
+        /// </summary>
+        /// <param name="IsuNo">종목번호</param>
+        /// <param name="Quantity">수량</param>
+        /// <param name="Price">가격</param>
+        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+        /// <param name="upExecprc">상위체결금액</param>
+        /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
+        public void call_requestSell(String ordptnDetail, String upOrdno, String upExecprc, String shcode, String quantity, String price)
+        {
+
+            //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
+            if (mainForm.combox_targetServer.SelectedIndex == 0)
+            {
+                shcode = "A" + shcode;
+            }
+            this.shcode       = shcode;      //종목번호
+            this.quantity     = quantity;    //주문수량
+            this.price        = price;       //주문가
+            this.ordptnDetail = ordptnDetail;//상세주문구분
+            this.upOrdno      = upOrdno;     //상위매수주문번호  
+            this.upExecprc    = upExecprc;   //상위체결가격
+            this.sellOrdAt    = "none";      //매도주문여부
+            this.call_request(shcode, quantity, price, "1");
+
+        }   // end function
+
+
+        /// <summary>
+        /// 현물정상주문
+        /// </summary>
+        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+        /// <param name="IsuNo">종목번호</param>
+        /// <param name="Quantity">수량</param>
+        /// <param name="Price">가격</param>
+        public void call_requestBuy(String ordptnDetail,  String shcode, String quantity, String price)
+        {
+
+            //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
+            if (mainForm.combox_targetServer.SelectedIndex == 0)
+            {
+                shcode = "A" + shcode;
+            }
+            this.shcode        = shcode;      // 종목번호
+            this.quantity      = quantity;    // 주문수량
+            this.price         = price;       // 주문가
+            this.ordptnDetail  = ordptnDetail;//상세주문구분
+            this.sellOrdAt     = "N";         //매도주문여부
+            this.upOrdno       = "none";      //상위매수주문번호  
+            this.upExecprc     = "0";         //상위체결가격
+
+            this.call_request(shcode, quantity, price, "2");
+
         }	// end function
 
 
