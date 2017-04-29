@@ -63,7 +63,7 @@ namespace PackageSellSystemTrading{
             realSc1Vo.pchsant       = base.GetFieldData("OutBlock", "pchsant");    //매입금액  -실서버에서 제공하지 않는필드
             realSc1Vo.accno         = base.GetFieldData("OutBlock", "accno");      //계좌번호
 
-            Log.WriteLine("real ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
+            Log.WriteLine("realSc1 ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
             //Isuno +","+ shtnIsuno
 
 
@@ -80,40 +80,36 @@ namespace PackageSellSystemTrading{
             int findIndex = t0424VoList.Find("expcode", realSc1Vo.Isuno.Replace("A", ""));
             if (findIndex >= 0){
                 mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
-
-                if (realSc1Vo.ordptncode == "01")//매도 - 매도가능수량-체결수량
-                {
-                    //1.t0424 에 매도가능수량 실시간 출력                   
+                //매도 - 매도가능수량-체결수량
+                if (realSc1Vo.ordptncode == "01")  {          
                     mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(realSc1Vo.execqty)).ToString();
-                    mainForm.input_toDayAtm.Text = mainForm.dataLog.getToDaySellAmt();//이상하게 금일매도매수 금액이 잡힌다.
-                }
-                else if (realSc1Vo.ordptncode == "02")//매수 - 매도가능수량+체결수량
-                {
+                   
+                } else if (realSc1Vo.ordptncode == "02") {//매수 - 매도가능수량+체결수량
                     mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = (int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(realSc1Vo.execqty)).ToString();
                 }
 
-                //수정된 평균단가를 실시간 적용해준다.  =======================편입일자와 등록할때 카운트를해서 순서를 알수 있도록 수정하자.
-                HistoryVo historyvo = mainForm.dataLog.getHistoryVo(realSc1Vo.Isuno.Replace("A", ""));
-                if (historyvo != null)
-                {
-                    mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value     = historyvo.pamt2;
-                    mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"].Value   = historyvo.sellCnt;
-                    mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value    = historyvo.buyCnt;
-                    mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = historyvo.sellSunik;
-                    //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
-              
-                    //평균단가 구한후 평규단가를 기준으로 수익율을 구한다.
-                   
-                }
-               
                 //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
                 if (double.Parse(t0424VoList.ElementAt(findIndex).mdposqt) <= 0)
                 {
                     mainForm.deleteCallBack(realSc1Vo.Isuno);
                     Log.WriteLine("real_SC1 deleteCallBack :: 청산된 종목 그리드와 DataLog Line 제거.[종목코드:" + realSc1Vo.Isuno + "]");
+                }else{
+                    //수정된 평균단가를 실시간 적용해준다.  =======================편입일자와 등록할때 카운트를해서 순서를 알수 있도록 수정하자.
+                    HistoryVo historyvo = mainForm.dataLog.getHistoryVo(realSc1Vo.Isuno.Replace("A", ""));
+                    Log.WriteLine("TEST Real Sc1 historyvo :[종목코드: " + realSc1Vo.Isuno + "]");
+                    if (historyvo != null)
+                    {
+                        mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value = historyvo.pamt2;//평균단가
+                        mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"].Value = historyvo.sellCnt;//매도횟수
+                        mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value = historyvo.buyCnt;//매수욋수
+                        mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = historyvo.sellSunik;//중간매도손익
+                        //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
+                        //평균단가 구한후 평균단가를 기준으로 수익율을 구한다.
+                    }
                 }
+
             }else{//실시간 체결정보인데 종목그리드에 존재하지 않는 종목일경우 t0424 를 호출해준다.--신규매수일수잇다.
-                mainForm.xing_t0424.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw);
+                //mainForm.xing_t0424.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw);
             }
 
         }

@@ -106,8 +106,8 @@ namespace PackageSellSystemTrading
             HistoryVo historyVo = null;
            
             //종목 매매 목록을 구한다.
-            var resultDataLogVoList =  from item in this.dataLogVoList
-                                      where item.Isuno == Isuno && item.accno == mainForm.accountForm.account && item.useYN=="Y"
+            var resultDataLogVoList =  from  item in this.dataLogVoList
+                                      where  item.Isuno == Isuno.Replace("A", "") && item.accno == mainForm.accountForm.account && item.useYN=="Y"
                                       select item;
            
             //매도 거래 정보
@@ -120,8 +120,8 @@ namespace PackageSellSystemTrading
                                        , 상위거래금액합 = g.Sum( o => int.Parse(o.execqty) *int.Parse(o.upExecprc) )
                                        , 체결수량합  = g.Sum(o => int.Parse(o.execqty))
                                       };
-            //groupping 매도:false | 매수:true
-
+            
+           
             //dataLogVoList에 매수 정보가 없다는것은 잔고목록과 매핑이 잘되지 않았다는거다...else구문을 구현해주자.
             if (resultDataLogVoList.Count() > 0){
                 historyVo = new HistoryVo();
@@ -147,13 +147,7 @@ namespace PackageSellSystemTrading
                         historyVo.sellCnt = group.매매횟수.ToString();
                         historyVo.sellSunik = 중간매도손익.ToString();
                     }
-                    //Log.WriteLine("DataLog::[key:" + group.goupKey + "거래금액합:" + group.거래금액합 + "체결수량합:" + group.체결수량합 + "|매매횟수:" + group.매매횟수 + "|중간매도손익:" + 중간매도손익);
-                    //foreach (var item in group.groupVoList)
-                    //{
-                    //    Log.WriteLine("DataLog::" + item.Isunm + "(" + item.Isuno + ")[거래일자:"+ item.date+ "|주문구분:" + item.ordptncode + "|주문수량:" + item.ordqty + "|체결수량:" + item.execqty + "|주문가격:" + item.ordprc + "|체결가격:" + item.execprc);
-
-                    //    //Log.WriteLine("===========================================");
-                    //}
+                   
                 }
                 //Log.WriteLine("DataLog:: [매도가능수량:" + 매도가능수량+ "|매수총금액:"+ 총매수금액 + "]");
                 if (매도가능수량 != 0)
@@ -163,26 +157,12 @@ namespace PackageSellSystemTrading
                     //historyVo.pamt2 = 평균단가.ToString();
                     //Log.WriteLine("DataLog::[평균단가:" + 평균단가.ToString() + "매도가능수량:" + 매도가능수량);
                 } else {
+                    Log.WriteLine("DataLog:: [매도가능수량:" + 매도가능수량 + "|매수총금액:" + 총매수금액 + "]");
                     return null;
                 }
                 //Log.WriteLine("===========================================");   
             } else {//종목번호로 데이타로그가 없을때. 데이타 로그에 등록해주고  historyVo를 설정해준다.
-                EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-                int i = t0424VoList.Find("expcode", Isuno.Replace("A", ""));
-                if (i >= 0) { 
-                   
-                    this.insertDataT0424(t0424VoList.ElementAt(i),"000"+i);
-                    Log.WriteLine("DataLog.getHistoryVo  종목번호로 데이타가 없을때 insertData 호출 "+t0424VoList.ElementAt(i).hname);
-                    //종목히스토리 수동 설정
-                    historyVo = new HistoryVo();
-                    historyVo.buyCnt = "1";
-                    historyVo.sellCnt = "";
-                    historyVo.sellSunik ="";
-                    historyVo.pamt2 = t0424VoList.ElementAt(i).pamt;
-                }else {
-                    Log.WriteLine("DataLog::뭐여? 왜 잔고그리드에 종목정보가 없어?" );
-                    return null;
-                }
+               return null;
             }
             return historyVo;
         }
@@ -212,12 +192,16 @@ namespace PackageSellSystemTrading
             //해당종목 매매이력에 사용안함 업데이트
             var varDataLogVoList = from item in this.dataLogVoList
                                   where item.accno == mainForm.accountForm.account
-                                         && item.Isuno == Isuno
+                                         && item.Isuno == Isuno.Replace("A","")
                                  select item;
-            foreach (var item in varDataLogVoList){
-                item.useYN = "N";
-                this.insertMergeData(item);
+            
+            for (int i=0;i< varDataLogVoList.Count();i++)
+            {
+                //Log.WriteLine("dataLog::"+ varDataLogVoList.ElementAt(i).Isunm+"("+ varDataLogVoList.ElementAt(i).Isuno+ ")청산호출됨 주문번호:"+ varDataLogVoList.ElementAt(i).ordno);
+                varDataLogVoList.ElementAt(i).useYN = "N";
+                this.insertMergeData(varDataLogVoList.ElementAt(i));
             }
+           
            
         }   // end function
 
@@ -265,7 +249,8 @@ namespace PackageSellSystemTrading
         //t0424에있고 dataLog에 없을때 호출 된다.
         public void insertDataT0424(T0424Vo t0424Vo, String ordno)
         {
-            DataLogVo dataLogVo  = new DataLogVo();
+            
+            DataLogVo dataLogVo    = new DataLogVo();
             dataLogVo.ordno        = ordno;                             //주문번호
             dataLogVo.accno        = mainForm.accountForm.account;      //계좌번호
             dataLogVo.ordptncode   = "02";                              //주문구분 01:매도|02:매수
@@ -280,7 +265,7 @@ namespace PackageSellSystemTrading
             dataLogVo.upOrdno      = ordno;                             //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
             dataLogVo.upExecprc    = "0";                               //상위체결가격
             dataLogVo.sellOrdAt    = "N";                               //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-            dataLogVo.useYN        = "Y";                               //사용여부여부
+            dataLogVo.useYN        = "Y";                               //사용여부
             this.insertData(dataLogVo);
         }
 
@@ -315,14 +300,17 @@ namespace PackageSellSystemTrading
         /// 메모리및 ini 파일에 체결 정보를 동시에 기록
         /// </summary>
         /// <param name="szMsg"></param>
-        public void insertData(DataLogVo dataLogVo)
-        {           
-            dataLogVoList.Add(dataLogVo);
+        public void insertData(DataLogVo dataLogVo){
+            int findIndex = this.dataLogVoList.Find("ordno", dataLogVo.ordno);
+            if(findIndex >= 0){
+                DataLogVo tmpDataLogVo = this.dataLogVoList.ElementAt(findIndex);
+                tmpDataLogVo = dataLogVo;
+            }else{
+                dataLogVoList.Add(dataLogVo);
+            }
+
             //insertMergeData
             this.insertMergeData(dataLogVo);
-
-            //Log.WriteLine("DataLog insertData::" + dataLogVo.Isunm + "(" + dataLogVo.Isuno.Replace("A", "") + ") [주문구분:"+ dataLogVo.ordptnDetail + "|주문수량: " + dataLogVo.ordqty + "|체결수량:"+ dataLogVo.execqty + "]");
-
         }   // end function
 
 
@@ -353,21 +341,19 @@ namespace PackageSellSystemTrading
             String section = dataLogVo.accno + "_" + dataLogVo.Isuno.Replace("A", "");
             WritePrivateProfileString(section, ordno, sb.ToString(), this.filePath);
 
-            //2.금일매수/매도이면 상위 매수 정보에 매도여부 상태값을 업데이트 해준다.
-            if (dataLogVo.ordptnDetail == "금일매도")
-            {
-                mainForm.dataLog.updateSellOrdAt(dataLogVo.upOrdno, "Y");
-            }
+            //2.금일매수/매도이면 상위 매수 정보에 매도여부 상태값을 업데이트 해준다.--나중에 지우던지 하자
+            //if (dataLogVo.ordptnDetail == "금일매도")
+            //{
+            //    this.updateSellOrdAt(dataLogVo.upOrdno, "Y");
+            //}
         }
 
         //금일매도일경우 상위매수주문 정보에 매도주문상태를 Y로 상태 업데이트 해준다.
-        public void updateSellOrdAt(String upOrdno, String state)
-        {
+        public void updateSellOrdAt(String upOrdno, String state){
             int findIndex = dataLogVoList.Find("ordno", upOrdno);
-            if (findIndex>=0)
-            {
+            if (findIndex>=0){
                 DataLogVo dataLogVo = dataLogVoList.ElementAt(findIndex);
-                dataLogVo.sellOrdAt = "Y";
+                dataLogVo.sellOrdAt = state;
 
                 this.insertMergeData(dataLogVo);
             }
@@ -375,8 +361,7 @@ namespace PackageSellSystemTrading
         }
 
         //금일매도 차익 --아직로직정의가 안되었다 금일 매수/매도 건인지 알길이 없다. 임시방편으로 추정값을 구한다.
-        public String getToDaySellAmt()
-        {
+        public String getToDaySellAmt(){
             //금일매도 차익 출력
             //EBindingList<DataLogVo> dataLogVoList = mainForm.dataLog.getDataLogVoList();
             //계좌별 금일 거래 목록을 구한다.
@@ -384,25 +369,12 @@ namespace PackageSellSystemTrading
             var resultDataLogVoList = from item in this.dataLogVoList
                                       where item.accno == mainForm.accountForm.account
                                          && item.date == DateTime.Now.ToString("yyyyMMdd")
-                                         && item.ordptncode == "01"
                                          && item.ordptnDetail == "금일매도"
-                                         && item.useYN == "Y"
                                       select item;
             //Log.WriteLine("DataLog::  [카운트:" + resultDataLogVoList.Count()+"]");
-            foreach (var item in resultDataLogVoList)
-            {
-
-                //금일 매도 매매정보만을 가지고 총매도금액 * 수익율을 이용하여 금일매도매수 차익을 임시방편으로 구해본다.
-                if (item.ordptncode == "02")//매수
-                {
-                    금일매도차익 = 금일매도차익 + (double.Parse(item.execprc) * double.Parse(item.execqty));
-                }
-                else if (item.ordptncode == "01") //매도
-                {
-                    금일매도차익 = 금일매도차익 - (double.Parse(item.execqty) * double.Parse(item.upExecprc) );
-                    //금일매도차익 = 금일매도차익 + (double.Parse(item.execprc) * double.Parse(item.execqty));
-                }
-                //Log.WriteLine("DataLog::  [날자:" + item.date + "|구분: " + item.ordptncode + "|금액:" + 금일매도차익 + "|종목며이:"+ item.Isunm+ "]");
+            foreach (var item in resultDataLogVoList){
+                //매도금액 - 매수금액
+                금일매도차익 = 금일매도차익 + ((double.Parse(item.execprc) * double.Parse(item.execqty)) - (double.Parse(item.execqty) * double.Parse(item.upExecprc)) );
             }
             //금일매도차익 = 금일매도차익 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100);
             return 금일매도차익.ToString();
@@ -410,7 +382,6 @@ namespace PackageSellSystemTrading
         }
 
     }   // end class
-
 
 
     //매매이력 정보

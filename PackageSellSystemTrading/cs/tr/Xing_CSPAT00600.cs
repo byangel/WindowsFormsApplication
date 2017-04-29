@@ -23,8 +23,8 @@ namespace PackageSellSystemTrading{
         private String ordptnDetail;  //상세주문구분
         private String upOrdno;       //상위매수주문 - 금일매도매수일때만 값이 있다.
         private String upExecprc;     //상위체결금액  
-        private String sellOrdAt;     //매도주문여부
-
+        //private String sellOrdAt;   //매도주문여부
+        private String hname;
 
         //상위체결가격
 
@@ -54,7 +54,7 @@ namespace PackageSellSystemTrading{
             String OrdQty     = base.GetFieldData("CSPAT00600OutBlock1", "OrdQty",    0);//주문수량
             String OrdPrc     = base.GetFieldData("CSPAT00600OutBlock1", "OrdPrc",    0);//주문가격
             String BnsTpCode  = base.GetFieldData("CSPAT00600OutBlock1", "BnsTpCode", 0);//매매구분
-            Log.WriteLine("CSPAT00600 block1:: [레코드:"+ RecCnt + "|계좌번호:" + AcntNo + "|종목번호:" + IsuNo + "|주문수량:" + OrdQty + "| 주문가격:" + OrdPrc + " | 매매구분:" + BnsTpCode + "]");
+            //Log.WriteLine("CSPAT00600 block1:: [레코드:"+ RecCnt + "|계좌번호:" + AcntNo + "|종목번호:" + IsuNo + "|주문수량:" + OrdQty + "| 주문가격:" + OrdPrc + " | 매매구분:" + BnsTpCode + "]");
 
             String RecCnt2    = base.GetFieldData("CSPAT00600OutBlock2", "RecCnt",     0);//레코드갯수
             String OrdNo      = base.GetFieldData("CSPAT00600OutBlock2", "OrdNo",      0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
@@ -67,36 +67,36 @@ namespace PackageSellSystemTrading{
             String SpotOrdQty = base.GetFieldData("CSPAT00600OutBlock1", "SpotOrdQty", 0);//실물주문수량  noData
             String MnyOrdAmt  = base.GetFieldData("CSPAT00600OutBlock1", "MnyOrdAmt",  0);//현금주문금액  noData
             String AcntNm     = base.GetFieldData("CSPAT00600OutBlock1", "AcntNm",     0);//계좌명
-            String IsuNm      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm",      0);//종목명
-            Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
+            String IsuNm      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm",      0);//종목명 -안넘어온다.
+            //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
 
             DataLogVo dataLogVo = new DataLogVo();
             
 
             //데이타로그에 저장
             //public class DataLogVo
-            dataLogVo.ordno      = OrdNo;//주문번호
-            dataLogVo.accno      = AcntNo; //계좌번호
-            dataLogVo.ordptncode = "0" + BnsTpCode;//주문구분 01:매도|02:매수 
-            dataLogVo.Isuno      = IsuNo;  //종목코드
-            dataLogVo.ordqty     = OrdQty; //주문수량
-            dataLogVo.execqty    = "0";   //체결수량
-            dataLogVo.ordprc     = OrdPrc; //주문가격
-            dataLogVo.execprc    = "0";    //체결가격
-            dataLogVo.Isunm      = IsuNm;   //종목명
-            dataLogVo.ordptnDetail = ordptnDetail;//상세 주문구분 신규매수|반복매수|금일매도|청산
+            dataLogVo.ordno        = OrdNo;          //주문번호
+            dataLogVo.accno        = AcntNo;         //계좌번호
+            dataLogVo.ordptncode   = "0" + BnsTpCode;//주문구분 01:매도|02:매수 
+            dataLogVo.Isuno        = IsuNo.Replace("A","");  //종목코드
+            dataLogVo.ordqty       = OrdQty;         //주문수량
+            dataLogVo.execqty      = "0";            //체결수량
+            dataLogVo.ordprc       = OrdPrc;         //주문가격
+            dataLogVo.execprc      = "0";            //체결가격
+            dataLogVo.Isunm        = this.hname;     //종목명
+            dataLogVo.ordptnDetail = this.ordptnDetail;   //상세 주문구분 신규매수|반복매수|금일매도|청산
+            dataLogVo.upExecprc    = this.upExecprc; //상위 체결가격
+            dataLogVo.sellOrdAt    = "N";            //매도 주문 여부
+            dataLogVo.useYN        = "Y";            //사용여부
             //상위 주문번호
             if (this.upOrdno == ""){
                 dataLogVo.upOrdno = OrdNo;               //상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
             }else{
-                dataLogVo.upOrdno = this.upOrdno; 
+                dataLogVo.upOrdno = this.upOrdno;
             }
-            dataLogVo.upExecprc = this.upExecprc; //상위 체결가격
-            dataLogVo.sellOrdAt = this.sellOrdAt; //매도 주문 여부
-            dataLogVo.useYN = "Y";                 //사용여부여부
-
             //dataInsert호출
             mainForm.dataLog.insertData(dataLogVo);
+
             
         }
 
@@ -107,7 +107,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000"){
                 ;
             }else{
-                Log.WriteLine("CSPAT00600 :: " + nMessageCode + " :: " + szMessage+" - 종목코드|수량"+"["+ this.shcode +"|"+ this.quantity + "]");
+                Log.WriteLine("CSPAT00600::" + this.hname + "(" + this.shcode + ") "+ szMessage+"("+nMessageCode+ ")- [수량:" + this.quantity + "]");
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 // 01222 :: 모의투자 매도잔고가 부족합니다  
                 // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
@@ -173,22 +173,23 @@ namespace PackageSellSystemTrading{
                     base.Request(false);  //연속조회일경우 true
                 }
             }
-        }	// end function
+        }   // end function
 
 
 
         /// <summary>
         /// 현물정상주문
         /// </summary>
-        /// <param name="IsuNo">종목번호</param>
-        /// <param name="Quantity">수량</param>
-        /// <param name="Price">가격</param>
-        /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+        /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
         /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
         /// <param name="upExecprc">상위체결금액</param>
-        /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_requestSell(String ordptnDetail, String upOrdno, String upExecprc, String shcode, String quantity, String price)
+        /// <param name="hname">종목명</param>
+        /// <param name="IsuNo">종목코드</param>
+        /// <param name="Quantity">수량</param>
+        /// <param name="Price">가격</param>
+        public void call_requestSell(String ordptnDetail, String upOrdno, String upExecprc, String hname, String shcode, String quantity, String price)
         {
+            //변수초기화 여기는 굳이 안해줘도 될듯.
 
             //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
@@ -196,12 +197,12 @@ namespace PackageSellSystemTrading{
                 shcode = "A" + shcode;
             }
             this.shcode       = shcode;      //종목번호
+            this.hname        = hname;       //종목명
             this.quantity     = quantity;    //주문수량
             this.price        = price;       //주문가
             this.ordptnDetail = ordptnDetail;//상세주문구분
             this.upOrdno      = upOrdno;     //상위매수주문번호  
             this.upExecprc    = upExecprc;   //상위체결가격
-            this.sellOrdAt    = "none";      //매도주문여부
             this.call_request(shcode, quantity, price, "1");
 
         }   // end function
@@ -216,6 +217,14 @@ namespace PackageSellSystemTrading{
         /// <param name="Price">가격</param>
         public void call_requestBuy(String ordptnDetail,  String shcode, String quantity, String price)
         {
+            //변수초기화
+            this.shcode       = "";        // 종목번호
+            this.quantity     = "";      // 주문수량
+            this.price        = "";         // 주문가
+            this.ordptnDetail = "";  //상세주문구분
+            this.upOrdno      = "";       //상위매수주문 - 금일매도매수일때만 값이 있다.
+            this.upExecprc    = "";     //상위체결금액  
+            this.hname        = "";
 
             //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
@@ -226,10 +235,8 @@ namespace PackageSellSystemTrading{
             this.quantity      = quantity;    // 주문수량
             this.price         = price;       // 주문가
             this.ordptnDetail  = ordptnDetail;//상세주문구분
-            this.sellOrdAt     = "N";         //매도주문여부
-            this.upOrdno       = "none";      //상위매수주문번호  
+            this.upOrdno       = "";          //상위매수주문번호  
             this.upExecprc     = "0";         //상위체결가격
-
             this.call_request(shcode, quantity, price, "2");
 
         }	// end function

@@ -77,7 +77,7 @@ namespace PackageSellSystemTrading{
                 ;
             } else { 
                 //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text + "]t1833_Exclude :: " + nMessageCode + " :: " + szMessage;
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]t1833_Exclude :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }         
 

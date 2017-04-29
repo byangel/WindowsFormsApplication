@@ -52,7 +52,7 @@ namespace PackageSellSystemTrading
 					mjstatus = jstatus;
 					this.set_label();
 
-                    mainForm.textBox_jstatus.Text = this.mlabel;
+                    mainForm.label_jif.Text = this.mlabel;
 
                 }
 			}

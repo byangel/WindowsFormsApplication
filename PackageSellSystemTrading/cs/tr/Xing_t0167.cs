@@ -57,8 +57,8 @@ namespace PackageSellSystemTrading{
                 this.year = this.date.Substring(0, 4);
                 this.moon = this.date.Substring(4, 2);
                 this.day = this.date.Substring(6, 2);
-                mainForm.input_date.Text = this.year + "-" + this.moon + "-" + this.day;
-               
+                mainForm.label_date.Text = this.year + "-" + this.moon + "-" + this.day;
+
             }
            
             if (this.time != "")
@@ -66,7 +66,7 @@ namespace PackageSellSystemTrading{
                 this.hour = this.time.Substring(0, 2);
                 this.minute = this.time.Substring(2, 2);
                 this.second = this.time.Substring(4, 2);
-                mainForm.input_time.Text = this.hour + ":" + this.minute + ":" + this.second;
+                mainForm.label_time.Text = this.hour + ":" + this.minute + ":" + this.second;
             }
 
             completeAt = true;//중복호출 방지

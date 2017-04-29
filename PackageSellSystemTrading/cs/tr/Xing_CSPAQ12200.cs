@@ -84,10 +84,10 @@ namespace PackageSellSystemTrading{
             //배팅금액설정
             if (Properties.Settings.Default.BATTING_ATM == "")
             {
-                mainForm.textBox_battingAtm.Text = Util.getBattingAmt(this.DpsastTotamt);
+                mainForm.label_battingAtm.Text = Util.getBattingAmt(this.DpsastTotamt);
             }else
             {
-                mainForm.textBox_battingAtm.Text = Properties.Settings.Default.BATTING_ATM;
+                mainForm.label_battingAtm.Text = Properties.Settings.Default.BATTING_ATM;
             }
             
 

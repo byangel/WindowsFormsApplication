@@ -99,17 +99,14 @@ namespace PackageSellSystemTrading{
             {
                 tmpT1833Vo = t1833VoList.ElementAt(i);
 
-                if (tmpT1833Vo.deleteAt == true)
-                {
-                    //Log.WriteLine("[" + mainForm.input_time.Text + "]t0118 :: 팔린종목 그리드에서 제거");
-                    //mainForm.input_tmpLog.Text = "[" + mainForm.input_time.Text + "]t1833 진입검색 목록에서 제거";
+                if (tmpT1833Vo.deleteAt == true) {
                     t1833VoList.RemoveAt(i);
                     i--;
                 }
                 tmpT1833Vo.deleteAt = true;
             }
 
-            mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text+ "]조건검색 응답 완료";
+            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text+ "]조건검색 응답 완료";
             completeAt = true;//중복호출 여부
         }
 
@@ -121,7 +118,7 @@ namespace PackageSellSystemTrading{
                 ;
             } else { 
                 //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t1833_log2.Text = "[" + mainForm.input_time.Text + "]t1833 :: " + nMessageCode + " :: " + szMessage;
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]t1833 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
             }         
 
@@ -134,7 +131,7 @@ namespace PackageSellSystemTrading{
             if (completeAt) {
                 //폼 메세지.
                 completeAt = false;//중복호출 방지
-                mainForm.input_t1833_log1.Text = "[" + mainForm.input_time.Text + "]조건검색 요청.";
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "]조건검색 요청.";
                 //Thread.Sleep(1000);
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
                 base.RequestService("t1833", startupPath + "\\Resources\\"+ Properties.Settings.Default.CONDITION_ADF);
@@ -156,41 +153,44 @@ namespace PackageSellSystemTrading{
             //3.실자본금 또는 보유금액 대비 95% 이상 매입이 이루어 졌을경우 신규 매수하지 않는다.
             //4.최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
 
-            //String toDayBuyAt="";//금일 매수여부
-            //String accountAt ="";//잔고 존재여부
-            //String t0425_ordrem;       //미체결잔량
-            //String t0425_medosu;       //매매구분 - 0:전체|1:매수|2:매도
-            //String t0425_expcode;      //종목번호
-            //String t0425_ordtime;      //주문시간
-            //int tmpTime;
             String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
-
-
-            //미체결목록그리드
-            //EBindingList<T0425Vo> t0425VoList_Chegb2 = ((EBindingList<T0425Vo>)mainForm.grd_t0425_chegb2.DataSource);//미체
             
             //매수금지목록
             EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.t1833ExcludeVoList;
 
 
-
             //1.금일 같은종목 진입 금지- 주문구분 01:매도|02:매수 - t0425로 변경해야할듯.
+            //var varDataLogVoList = from item in mainForm.dataLog.getDataLogVoList()
+            //                      where item.date == DateTime.Now.ToString("yyyyMMdd") && item.Isuno == shcode && item.ordptncode == "02"
+            //                     select item;
+            //if (varDataLogVoList.Count() > 0)
+            //{
+            //    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일 1회 매수 제한.");
+            //    return false;
+            //}
+
+
+            //////////////////////////////////
+
+            //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
             var varT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
-                                   where item.expcode == shcode && item.medosu == "매수"
-                                   select item;
-            var varDataLogVoList = from item in mainForm.dataLog.getDataLogVoList()
-                                  where item.date == DateTime.Now.ToString("yyyyMMdd") && item.Isuno == shcode && item.ordptncode == "02"
-                                 select item;
-            if (varDataLogVoList.Count() > 0)
+                               where item.expcode == shcode && item.medosu == "매수"
+                               select item;
+            if (varT0425VoList.Count() > 0)
             {
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일 1회 매수 제한.");
                 return false;
             }
 
-            
+           
+
+
+            ///////////////////////////////////////
+
+
 
             //2.반목매수 기간 제한.
-            
+
             //    //반복매수 시간 제한. --금일 중복및 반복매수 제한 조건이 있다면 필요없는 조건임.
             //    //반복매수 제한-분으로 푼다음 시간을 계산한다.
             //    tmpTime = (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(2, 2)) * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(4, 2)));
@@ -205,13 +205,17 @@ namespace PackageSellSystemTrading{
 
 
             //3.진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수 -> DataLogVoList 로 변경함
-            EBindingList<DataLogVo> dataLogVoList = mainForm.dataLog.getDataLogVoList();
 
-            int dataLogVoListFindIndex = dataLogVoList.Find("Isuno", shcode);//linquery 로변경해야할듯.
-            
+
+            //int dataLogVoListFindIndex = mainForm.dataLog.getDataLogVoList().Find("Isuno", shcode);//linquery 로변경해야할듯.
+
+
+
+
             //4.매수금지종목 테스트. --신규매수일때에만 매수금지종목 제한한다, 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.
             int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
-            if (t1833ExcludeVoListFindIndex >= 0 && dataLogVoListFindIndex < 0 )
+            int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
+            if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
             {
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 매수금지 종목 ");
                 mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
@@ -219,17 +223,16 @@ namespace PackageSellSystemTrading{
             }
 
             //5.보유종목 반복매수여부 테스트
-            if (dataLogVoListFindIndex >= 0){
+            if (t0424VoListFindIndex >= 0){
                 ordptnDetail = "반복매수";
                 //보유종목이면..하이라키...
                 //mainForm.grd_t1833.Rows[addIndex].Cells["shcode"].Style.BackColor = Color.Gray;
                 EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-                int t0424VoListFindIndex = t0424VoList.Find("expcode", shcode);
-                
-                String sunikrt = (String)t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;//기존 종목 수익률
+             
+                String sunikrt = (String)t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt2;//기존 종목 수익률
 
-                //-수익율이 -3% 이하이면 반복매수 해주자.
-                if (float.Parse(sunikrt) > double.Parse(Properties.Settings.Default.REPEAT_RATE)){
+                //-수익율이 -5% 이하이면 반복매수 해주자.
+                if (double.Parse(sunikrt) > double.Parse(Properties.Settings.Default.REPEAT_RATE)){
                     Log.WriteLine("t1833::" + hname + "(" + shcode + ") 반복매수 제한 [수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
                     return false;
                 }
@@ -259,7 +262,7 @@ namespace PackageSellSystemTrading{
 
 
             //4.매수
-            int battingAtm = int.Parse(mainForm.textBox_battingAtm.Text);
+            int battingAtm = int.Parse(mainForm.label_battingAtm.Text);
             //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
             if (close == "0"){
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") [현제가:" + close+";" );
