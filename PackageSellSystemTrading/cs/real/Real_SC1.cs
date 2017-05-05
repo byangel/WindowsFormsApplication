@@ -63,7 +63,7 @@ namespace PackageSellSystemTrading{
             realSc1Vo.pchsant       = base.GetFieldData("OutBlock", "pchsant");    //매입금액  -실서버에서 제공하지 않는필드
             realSc1Vo.accno         = base.GetFieldData("OutBlock", "accno");      //계좌번호
 
-            Log.WriteLine("realSc1 ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
+            //Log.WriteLine("realSc1 ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
             //Isuno +","+ shtnIsuno
 
 
@@ -96,7 +96,7 @@ namespace PackageSellSystemTrading{
                 }else{
                     //수정된 평균단가를 실시간 적용해준다.  =======================편입일자와 등록할때 카운트를해서 순서를 알수 있도록 수정하자.
                     HistoryVo historyvo = mainForm.dataLog.getHistoryVo(realSc1Vo.Isuno.Replace("A", ""));
-                    Log.WriteLine("TEST Real Sc1 historyvo :[종목코드: " + realSc1Vo.Isuno + "]");
+                    //Log.WriteLine("TEST Real Sc1 historyvo :[종목코드: " + realSc1Vo.Isuno + "]");
                     if (historyvo != null)
                     {
                         mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value = historyvo.pamt2;//평균단가

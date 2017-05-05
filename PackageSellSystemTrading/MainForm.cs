@@ -129,8 +129,7 @@ namespace PackageSellSystemTrading{
                 }
             }
 
-            
-          
+
         }
 
 
@@ -250,7 +249,6 @@ namespace PackageSellSystemTrading{
                     {
                         MessageBox.Show("로그인 후 서비스 이용가능합니다."); 
                     } else {
-
                         this.tradingRun();
                     }
                 } else {
@@ -266,7 +264,7 @@ namespace PackageSellSystemTrading{
         //자동매매 시작
         public void tradingRun()
         {
-            timer_search.Start();//진입검색 타이머
+            timer_t1833Exclude.Start();//진입검색 타이머
             timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
@@ -280,7 +278,7 @@ namespace PackageSellSystemTrading{
         //자동매매 정지
         public void tradingStop()
         {
-            timer_search.Stop();//진입검색 타이머
+            timer_t1833Exclude.Stop();//진입검색 타이머
             timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
@@ -300,13 +298,8 @@ namespace PackageSellSystemTrading{
 
         private void timer_search_Tick(object sender, EventArgs e)
         {
-            if (this.exXASessionClass.loginAt == false)
-            {
-                //login();
-                //Log.WriteLine("timer_enterSearch_Tick:: 로그인 호출");
-            }
-
-            
+            //매수금지종목 조회
+            xing_t1833Exclude.call_request();
         }
 
 
@@ -334,8 +327,7 @@ namespace PackageSellSystemTrading{
 
             //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
             xing_t1833.call_request();
-            //2.매수금지종목 업데이트
-            xing_t1833Exclude.call_request();
+           
 
             //3.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
             this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
@@ -346,16 +338,17 @@ namespace PackageSellSystemTrading{
             //5.현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
 
-            //6.금일매도실행
-            if (Properties.Settings.Default.TODAY_SELL_AT){
-                xing_t0425.toDaySellTest();
-            }
+            ////6.금일매도실행
+            //if (Properties.Settings.Default.TODAY_SELL_AT){
+            //    xing_t0425.toDaySellTest();
+            //}
 
-            //7.금일매도 실현손익 계산호출
-            this.label_toDayAtm.Text = this.dataLog.getToDaySellAmt();
-
-            //8.주문취소
-            xing_t0425.orderCancle();
+            ////7.금일매도 실현손익 계산호출
+            ////this.label_toDayAtm.Text = Util.GetNumberFormat(this.dataLog.getToDaySellAmt());
+            ////this.label_shSunik.Text = Util.GetNumberFormat(this.dataLog.getToDayShSunik());
+  
+            ////8.주문취소
+            //xing_t0425.orderCancle();
 
         }
 
@@ -415,7 +408,7 @@ namespace PackageSellSystemTrading{
             String mdposqt; //주문가능수량수량
             String sunikrt; //수익율
             String price;   //현재가
-            
+            String pamt2;   //평균단가2
             //EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
             for (int i=0;i< grd_t0424.RowCount; i++)
             {
@@ -440,7 +433,8 @@ namespace PackageSellSystemTrading{
                             hname   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).hname;   //종목명
                             sunikrt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).sunikrt; //수익율
                             mdposqt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).mdposqt; //주문가능수량수량
-                            price = this.xing_t0424.getT0424VoList().ElementAt(findIndex).price;   //현재가
+                            price   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).price;   //현재가
+                            pamt2 = this.xing_t0424.getT0424VoList().ElementAt(findIndex).pamt2;     //평균단가2
 
                             /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산(선택매도,손절매)</param>
                             /// <param name="upOrdno">상위매수주문번호</param>
@@ -449,7 +443,7 @@ namespace PackageSellSystemTrading{
                             /// <param name="IsuNo">종목번호</param>
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
-                            this.xing_CSPAT00600.call_requestSell("선택매도", "none", "0", hname, expcode, mdposqt, price);
+                            this.xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
 
                             this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = true;//일괄 매도시 주문여부를 true로 설정
 
@@ -468,124 +462,127 @@ namespace PackageSellSystemTrading{
         public int cnt = 100;
         private void test_Click(object sender, EventArgs e)
         {
+            //매수금지종목 조회
+            this.listBox_log.Items.Insert(0, "[" + label_time.Text + "]t0425::세스트종목:금일 매도.");
+            ///xing_t1833Exclude.call_request();
 
-            var resultDataLogVoList = from item in dataLog.getDataLogVoList()
-                                      where item.Isuno == "122800" && item.accno == accountForm.account && item.useYN == "Y"
-                                      select item;
+            //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
+            //                          where item.Isuno == "122800" && item.accno == accountForm.account && item.useYN == "Y"
+            //                          select item;
 
-            MessageBox.Show(resultDataLogVoList.Count().ToString());
-                                          //신규매수 테스트
-                                          //this.xing_CSPAT00600.call_requestBuy("신규매수", "214270", "10", "2640");
-                                          //int test = dataLog.getDataLogVoList().Find("Isuno", "010600");
-                                          //Log.WriteLine(dataLog.getDataLogVoList().Count().ToString());
-                                          //for (int i=0;i< dataLog.getDataLogVoList().Count();i++)
-                                          //{
-                                          //    Log.WriteLine(dataLog.getDataLogVoList().ElementAt(i).Isunm+","+ dataLog.getDataLogVoList().ElementAt(i).Isuno + "," + dataLog.getDataLogVoList().ElementAt(i).useYN );
-                                          //}
-                                          //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
-                                          //                          where item.Isuno == "010600" && item.accno == accountForm.account && item.useYN == "Y"
-                                          //                          select item;
+            //MessageBox.Show(resultDataLogVoList.Count().ToString());
+            //신규매수 테스트
+            //this.xing_CSPAT00600.call_requestBuy("신규매수", "214270", "10", "2640");
+            //int test = dataLog.getDataLogVoList().Find("Isuno", "010600");
+            //Log.WriteLine(dataLog.getDataLogVoList().Count().ToString());
+            //for (int i=0;i< dataLog.getDataLogVoList().Count();i++)
+            //{
+            //    Log.WriteLine(dataLog.getDataLogVoList().ElementAt(i).Isunm+","+ dataLog.getDataLogVoList().ElementAt(i).Isuno + "," + dataLog.getDataLogVoList().ElementAt(i).useYN );
+            //}
+            //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
+            //                          where item.Isuno == "010600" && item.accno == accountForm.account && item.useYN == "Y"
+            //                          select item;
 
-                                          //Log.WriteLine(dataLog.getDataLogVoList().ElementAt(test).Isunm );
-                                          //Log.WriteLine(resultDataLogVoList.ElementAt(0).Isunm);
-
-
-                                          ////데이타로그에 저장
-                                          ////public class DataLogVo
-                                          //DataLogVo dataLogVo = new DataLogVo();
-                                          //dataLogVo.ordno = "init"+(cnt+1).ToString();//주문번호
-                                          //dataLogVo.accno = "55501015734"; //계좌번호
-                                          //dataLogVo.ordptncode = "02";//주문구분 01:매도|02:매수 
-                                          //dataLogVo.Isuno = (cnt + 1).ToString();  //종목코드
-                                          //dataLogVo.ordqty = "11"; //주문수량
-                                          //dataLogVo.execqty = "0";   //체결수량
-                                          //dataLogVo.ordprc = "11111"; //주문가격
-                                          //dataLogVo.execprc = "0";    //체결가격
-                                          //dataLogVo.Isunm = "test종목명";   //종목명
-                                          //dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산
-                                          //                                //상위 주문번호
-
-                                          //dataLogVo.upOrdno = "init100";
-
-                                          //dataLogVo.upExecprc = "0"; //상위 체결가격
-                                          //dataLogVo.sellOrdAt = "N"; //매도 주문 여부
-                                          //dataLogVo.useYN = "Y";                 //사용여부여부
-
-                                          ////dataInsert호출
-                                          //this.dataLog.insertData(dataLogVo);
-
-                                          //////////////////////////////
-
-                                          //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
-                                          //                          where item.Isuno == "test코드" && item.accno == accountForm.account && item.useYN == "Y"
-                                          //                          select item;
-
-                                          //var groupDataLogVoList = from item in resultDataLogVoList
-                                          //                         group item by item.ordptncode == "02" into g
-                                          //                         select new
-                                          //                         {
-                                          //                             goupKey = g.Key,
-                                          //                             groupVoList = g,
-                                          //                             매매횟수 = g.Count(),
-                                          //                             거래금액합 = g.Sum(o => int.Parse(o.execqty) * int.Parse(o.execprc)),
-                                          //                             상위거래금액합 = g.Sum(o => int.Parse(o.execqty) * int.Parse(o.upExecprc)) ,
-                                          //                             체결수량합 = g.Sum(o => int.Parse(o.execqty))
-                                          //                         };
-                                          //groupping 매도:false | 매수:true
-
-                                          //dataLogVoList에 매수 정보가 없다는것은 잔고목록과 매핑이 잘되지 않았다는거다...else구문을 구현해주자.
+            //Log.WriteLine(dataLog.getDataLogVoList().ElementAt(test).Isunm );
+            //Log.WriteLine(resultDataLogVoList.ElementAt(0).Isunm);
 
 
+            ////데이타로그에 저장
+            ////public class DataLogVo
+            //DataLogVo dataLogVo = new DataLogVo();
+            //dataLogVo.ordno = "init"+(cnt+1).ToString();//주문번호
+            //dataLogVo.accno = "55501015734"; //계좌번호
+            //dataLogVo.ordptncode = "02";//주문구분 01:매도|02:매수 
+            //dataLogVo.Isuno = (cnt + 1).ToString();  //종목코드
+            //dataLogVo.ordqty = "11"; //주문수량
+            //dataLogVo.execqty = "0";   //체결수량
+            //dataLogVo.ordprc = "11111"; //주문가격
+            //dataLogVo.execprc = "0";    //체결가격
+            //dataLogVo.Isunm = "test종목명";   //종목명
+            //dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산
+            //                                //상위 주문번호
 
-                                          //var varDataLogVoList = from item in dataLog.getDataLogVoList()
-                                          //                       where item.accno == accountForm.account
-                                          //                              && item.Isuno == "019170"
-                                          //                       select item;
-                                          //Log.WriteLine("+++++++++++deleteData:" + varDataLogVoList.Count());
-                                          //MessageBox.Show(resultDataLogVoList.Count().ToString());
-                                          //MessageBox.Show(groupDataLogVoList.Count().ToString());
+            //dataLogVo.upOrdno = "init100";
+
+            //dataLogVo.upExecprc = "0"; //상위 체결가격
+            //dataLogVo.sellOrdAt = "N"; //매도 주문 여부
+            //dataLogVo.useYN = "Y";                 //사용여부여부
+
+            ////dataInsert호출
+            //this.dataLog.insertData(dataLogVo);
+
+            //////////////////////////////
+
+            //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
+            //                          where item.Isuno == "test코드" && item.accno == accountForm.account && item.useYN == "Y"
+            //                          select item;
+
+            //var groupDataLogVoList = from item in resultDataLogVoList
+            //                         group item by item.ordptncode == "02" into g
+            //                         select new
+            //                         {
+            //                             goupKey = g.Key,
+            //                             groupVoList = g,
+            //                             매매횟수 = g.Count(),
+            //                             거래금액합 = g.Sum(o => int.Parse(o.execqty) * int.Parse(o.execprc)),
+            //                             상위거래금액합 = g.Sum(o => int.Parse(o.execqty) * int.Parse(o.upExecprc)) ,
+            //                             체결수량합 = g.Sum(o => int.Parse(o.execqty))
+            //                         };
+            //groupping 매도:false | 매수:true
+
+            //dataLogVoList에 매수 정보가 없다는것은 잔고목록과 매핑이 잘되지 않았다는거다...else구문을 구현해주자.
 
 
 
-
-                                          //MessageBox.Show(dataLog.getDataLogVoList().Find("Isuno", "057540").ToString());
-
-                                          //this.grd_t0424.Rows[0].Cells["c_hname"].Value = "test";
-
-                                          //grd_t0424.Rows[0].Cells["c_mdposqt"].Value = "test";
-                                          //listBox1.Items.Insert(0,"dddd");
-
-                                          //this.listBox_account.Items.Add(account);
-                                          //EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
-                                          //int findIndex = t0424VoList.Find("expcode", "000890");
-                                          //if (findIndex >= 0)
-                                          //{
-                                          //    grd_t0424.Rows.Remove(grd_t0424.Rows[findIndex]);
-                                          //    MessageBox.Show("로우삭제");
-                                          //    //t0424VoList.ElementAt(findIndex).price = price;
-                                          //    //t0424VoList.ResetItem(findIndex);
-                                          //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
-                                          //}
-                                          //MessageBox.Show(t0424VoList.Find("expcode", "000890").ToString());
+            //var varDataLogVoList = from item in dataLog.getDataLogVoList()
+            //                       where item.accno == accountForm.account
+            //                              && item.Isuno == "019170"
+            //                       select item;
+            //Log.WriteLine("+++++++++++deleteData:" + varDataLogVoList.Count());
+            //MessageBox.Show(resultDataLogVoList.Count().ToString());
+            //MessageBox.Show(groupDataLogVoList.Count().ToString());
 
 
-                                          //for (int i=0;i<100;i++)
-                                          //{
-                                          //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.Gray;
-                                          //    //grd_t0424.Rows[0].Cells["price"].Value = i;
-                                          //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.White;
-                                          //}
-                                          //int findIndex = xing_t0424.getT0424VoList().Find("expcode", "002680");
-                                          //if (findIndex >= 0)
-                                          //{
 
-                                          //    MessageBox.Show(this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value.ToString());
-                                          //    this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value = "test";
-                                          //    MessageBox.Show(xing_t0424.getT0424VoList().ElementAt(findIndex).hname);
-                                          //    //t0424VoList.ElementAt(findIndex).price = price;
-                                          //    //t0424VoList.ResetItem(findIndex);
-                                          //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
-                                          //}
+
+            //MessageBox.Show(dataLog.getDataLogVoList().Find("Isuno", "057540").ToString());
+
+            //this.grd_t0424.Rows[0].Cells["c_hname"].Value = "test";
+
+            //grd_t0424.Rows[0].Cells["c_mdposqt"].Value = "test";
+            //listBox1.Items.Insert(0,"dddd");
+
+            //this.listBox_account.Items.Add(account);
+            //EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
+            //int findIndex = t0424VoList.Find("expcode", "000890");
+            //if (findIndex >= 0)
+            //{
+            //    grd_t0424.Rows.Remove(grd_t0424.Rows[findIndex]);
+            //    MessageBox.Show("로우삭제");
+            //    //t0424VoList.ElementAt(findIndex).price = price;
+            //    //t0424VoList.ResetItem(findIndex);
+            //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
+            //}
+            //MessageBox.Show(t0424VoList.Find("expcode", "000890").ToString());
+
+
+            //for (int i=0;i<100;i++)
+            //{
+            //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.Gray;
+            //    //grd_t0424.Rows[0].Cells["price"].Value = i;
+            //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.White;
+            //}
+            //int findIndex = xing_t0424.getT0424VoList().Find("expcode", "002680");
+            //if (findIndex >= 0)
+            //{
+
+            //    MessageBox.Show(this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value.ToString());
+            //    this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value = "test";
+            //    MessageBox.Show(xing_t0424.getT0424VoList().ElementAt(findIndex).hname);
+            //    //t0424VoList.ElementAt(findIndex).price = price;
+            //    //t0424VoList.ResetItem(findIndex);
+            //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
+            //}
 
 
 
@@ -769,6 +766,9 @@ namespace PackageSellSystemTrading{
 
             //매수금지종목 조회
             xing_t1833Exclude.call_request();
+
+            ////금일매도 수익 호출--0425 데이타가 아직 없어서 값을 설정 못한다.
+            //this.label_toDayAtm.Text = this.dataLog.getToDaySellAmt();
         }
 
         //실시간 현재가 정보 이벤트시 호출된다.
@@ -787,6 +787,7 @@ namespace PackageSellSystemTrading{
             Double 평가손익;
             Double 평가금액;
             String 매입금액;
+            
             EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", shcode.Replace("A", ""));
             if (findIndex >= 0)
@@ -800,8 +801,6 @@ namespace PackageSellSystemTrading{
                 당일매도금액 = t0424VoList.ElementAt(findIndex).mdat; //매도수량
                 당일매도단가 = t0424VoList.ElementAt(findIndex).mpmd;
                 매입금액     = t0424VoList.ElementAt(findIndex).mamt;
-
-
 
                 //평가금액: (보유수량 * 현재가) - 매도수수료(fee) - 매도제세금(tax) - 신용이자(sininter)
                 평가금액 = (double.Parse(매도가능수량) * double.Parse(price)) - double.Parse(수수료) - double.Parse(세금) - double.Parse(신용이자);
@@ -818,6 +817,7 @@ namespace PackageSellSystemTrading{
                 grd_t0424.Rows[findIndex].Cells["appamt"].Value = 평가금액;
                 grd_t0424.Rows[findIndex].Cells["dtsunik"].Value = 평가손익;
                 grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = Math.Round(손익률, 2).ToString();
+                //grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = Math.Round(테스트수익률, 2).ToString();
                 //grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = 실현손익;
 
 
@@ -830,22 +830,22 @@ namespace PackageSellSystemTrading{
 
                 ///////////////////////////////////////////////////////////////////////
                 //손익율2(sunikrt2)가 2% 이상이면 리스트에 박스에 출력한다.
-                if (double.Parse(손익률2) > 2)
-                {
-                    //var resultT0424 = from item in xing_t0425.getT0425VoList()
-                    //                  where item.expcode == shcode.Replace("A", "")
-                    //                  select item;
-                    //금일 매수된것중 2%에도달한 종목을 찾는데....매매 체결/미체결 그리드에 종목이 있다면 금일매수한것으로 간주한다. 
-                    int t0425FindIndex  = xing_t0425.getT0425VoList().Find("expcode", shcode.Replace("A", ""));
-                    if (t0425FindIndex >= 0)
-                    {
-                        if (!listBox1.Items.Contains(t0424VoList.ElementAt(findIndex).hname + "(" + shcode + ")"))
-                        {
-                            listBox1.Items.Insert(0, t0424VoList.ElementAt(findIndex).hname + "(" + shcode + ")");
-                        }
+                //if (double.Parse(손익률2) > 2)
+                //{
+                //    //var resultT0424 = from item in xing_t0425.getT0425VoList()
+                //    //                  where item.expcode == shcode.Replace("A", "")
+                //    //                  select item;
+                //    //금일 매수된것중 2%에도달한 종목을 찾는데....매매 체결/미체결 그리드에 종목이 있다면 금일매수한것으로 간주한다. 
+                //    int t0425FindIndex  = xing_t0425.getT0425VoList().Find("expcode", shcode.Replace("A", ""));
+                //    if (t0425FindIndex >= 0)
+                //    {
+                //        if (!listBox1.Items.Contains(t0424VoList.ElementAt(findIndex).hname + "(" + shcode + ")"))
+                //        {
+                //            listBox1.Items.Insert(0, t0424VoList.ElementAt(findIndex).hname + "(" + shcode + ")");
+                //        }
     
-                    }
-                }//급등필터 end
+                //    }
+                //}//급등필터 end
                
             }
         }//priceCallBack
@@ -878,6 +878,12 @@ namespace PackageSellSystemTrading{
         private void grd_t0425_chegb1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        //로그 클린
+        private void button2_Click(object sender, EventArgs e)
+        {
+            listBox_log.Items.Clear();
         }
     }//end class
 }//end namespace

@@ -23,7 +23,7 @@ namespace PackageSellSystemTrading{
         private String ordptnDetail;  //상세주문구분
         private String upOrdno;       //상위매수주문 - 금일매도매수일때만 값이 있다.
         private String upExecprc;     //상위체결금액  
-        //private String sellOrdAt;   //매도주문여부
+        private String sellOrdAt;   //매도주문여부
         private String hname;
 
         //상위체결가격
@@ -86,7 +86,7 @@ namespace PackageSellSystemTrading{
             dataLogVo.Isunm        = this.hname;     //종목명
             dataLogVo.ordptnDetail = this.ordptnDetail;   //상세 주문구분 신규매수|반복매수|금일매도|청산
             dataLogVo.upExecprc    = this.upExecprc; //상위 체결가격
-            dataLogVo.sellOrdAt    = "N";            //매도 주문 여부
+            dataLogVo.sellOrdAt    = sellOrdAt;      //매도 주문 여부
             dataLogVo.useYN        = "Y";            //사용여부
             //상위 주문번호
             if (this.upOrdno == ""){
@@ -203,6 +203,7 @@ namespace PackageSellSystemTrading{
             this.ordptnDetail = ordptnDetail;//상세주문구분
             this.upOrdno      = upOrdno;     //상위매수주문번호  
             this.upExecprc    = upExecprc;   //상위체결가격
+            this.sellOrdAt    = "Y";         //매도주문여부
             this.call_request(shcode, quantity, price, "1");
 
         }   // end function
@@ -215,28 +216,22 @@ namespace PackageSellSystemTrading{
         /// <param name="IsuNo">종목번호</param>
         /// <param name="Quantity">수량</param>
         /// <param name="Price">가격</param>
-        public void call_requestBuy(String ordptnDetail,  String shcode, String quantity, String price)
+        public void call_requestBuy(String ordptnDetail,  String shcode,String hname, String quantity, String price)
         {
-            //변수초기화
-            this.shcode       = "";        // 종목번호
-            this.quantity     = "";      // 주문수량
-            this.price        = "";         // 주문가
-            this.ordptnDetail = "";  //상세주문구분
-            this.upOrdno      = "";       //상위매수주문 - 금일매도매수일때만 값이 있다.
-            this.upExecprc    = "";     //상위체결금액  
-            this.hname        = "";
-
+           
             //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {
                 shcode = "A" + shcode;
             }
             this.shcode        = shcode;      // 종목번호
+            this.hname         = hname;
             this.quantity      = quantity;    // 주문수량
             this.price         = price;       // 주문가
             this.ordptnDetail  = ordptnDetail;//상세주문구분
             this.upOrdno       = "";          //상위매수주문번호  
             this.upExecprc     = "0";         //상위체결가격
+            this.sellOrdAt     = "N";
             this.call_request(shcode, quantity, price, "2");
 
         }	// end function

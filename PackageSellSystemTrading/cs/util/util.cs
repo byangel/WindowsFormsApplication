@@ -364,8 +364,9 @@ namespace PackageSellSystemTrading
 
             //t0424Vo.sunikrt2 = String.Format("{0:#0.#0}", sunikrt2);
             //return Math.Round(손익률, 2).ToString();
-            return Math.Round(sunikrt2, 2).ToString();
-            //return String.Format("{0:#0.#0}", 손익률.ToString());
+            //서버 수치보다 높게나와서 0.05 정도 강제 보정해준다.
+            return (Math.Round(sunikrt2, 2) - 0.05).ToString();
+            //return String.Format("{0:#0.#0}", 손익률.ToString());.
 
         }
        

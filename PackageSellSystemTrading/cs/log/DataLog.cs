@@ -68,7 +68,7 @@ namespace PackageSellSystemTrading
                 {
                     // 한줄을 읽습니다
                     lineString = streamReader.ReadLine();
-                    splitResult = lineString.Split(new char[] { '=', '|' });
+                    splitResult = lineString.Split(new char[] { '=', ',' });
                     dataLogVo = parserDataLogVo(lineString);
                     if (dataLogVo != null)
                     {
@@ -116,8 +116,8 @@ namespace PackageSellSystemTrading
                            select new {  goupKey       = g.Key 
                                        , groupVoList   = g 
                                        , 매매횟수       = g.Count()
-                                       , 거래금액합     = g.Sum( o => int.Parse(o.execqty) *int.Parse(o.execprc) )
-                                       , 상위거래금액합 = g.Sum( o => int.Parse(o.execqty) *int.Parse(o.upExecprc) )
+                                       , 거래금액합     = g.Sum( o => int.Parse(o.execqty) *double.Parse(o.execprc) )
+                                       , 상위거래금액합 = g.Sum( o => int.Parse(o.execqty) *double.Parse(o.upExecprc) )
                                        , 체결수량합  = g.Sum(o => int.Parse(o.execqty))
                                       };
             
@@ -218,7 +218,7 @@ namespace PackageSellSystemTrading
         public DataLogVo parserDataLogVo(String dataStr)
         {
             DataLogVo dataLogVo = null;
-            String[] splitResult = dataStr.ToString().Split(new char[] { '=', '|' });
+            String[] splitResult = dataStr.ToString().Split(new char[] { '=', ',' });
             if (splitResult.Length > 1)
             {
                 dataLogVo = new DataLogVo();
@@ -236,7 +236,7 @@ namespace PackageSellSystemTrading
 
                 dataLogVo.ordptnDetail = splitResult[11];//상세 주문구분 신규매수|반복매수|금일매도|청산
                 dataLogVo.upOrdno      = splitResult[12];//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-                dataLogVo.upExecprc     = splitResult[13];//상위 체결가걱
+                dataLogVo.upExecprc    = splitResult[13];//상위 체결가걱
                 dataLogVo.sellOrdAt    = splitResult[14];//매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
                 dataLogVo.useYN        = splitResult[15];//삭제여부
 
@@ -284,7 +284,7 @@ namespace PackageSellSystemTrading
                 String execqty = (int.Parse(dataLogVo.execqty) + int.Parse(realSc1Vo.execqty)).ToString();
 
                 dataLogVo.execqty = execqty;
-                dataLogVo.Isunm = realSc1Vo.Isunm;
+                dataLogVo.Isunm   = realSc1Vo.Isunm;
                 dataLogVo.execprc = realSc1Vo.execprc;//체결가격
                 
                 this.insertMergeData(dataLogVoList.ElementAt(findIndex));
@@ -321,20 +321,20 @@ namespace PackageSellSystemTrading
             String ordno = dataLogVo.ordno; //주문번호 
             StringBuilder sb = new StringBuilder();
             sb.Append(""  + DateTime.Now.ToString("yyyyMMdd"));
-            sb.Append("|" + DateTime.Now.ToString("HHmmss"));
-            sb.Append("|" + dataLogVo.accno);       //계좌번호
-            sb.Append("|" + dataLogVo.ordptncode);  //주문구분 01:매도|02:매수   
-            sb.Append("|" + dataLogVo.Isuno.Replace("A", ""));     //종목코드
-            sb.Append("|" + dataLogVo.ordqty);      //주문수량
-            sb.Append("|" + dataLogVo.execqty);     //체결수량
-            sb.Append("|" + dataLogVo.ordprc);      //주문가격
-            sb.Append("|" + dataLogVo.execprc);     //체결가격
-            sb.Append("|" + dataLogVo.Isunm);       //종목명
-            sb.Append("|" + dataLogVo.ordptnDetail);//상세 주문구분 신규매수|반복매수|금일매도|청산
-            sb.Append("|" + dataLogVo.upOrdno);     //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-            sb.Append("|" + dataLogVo.upExecprc);     //상위 체결가격
-            sb.Append("|" + dataLogVo.sellOrdAt);      //매도주문실행 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-            sb.Append("|" + dataLogVo.useYN);      //삭제여부(청산주문후 실시간 매도가능수량0이면 삭제 상태 업데이트) | 상위매수단가 | 
+            sb.Append("," + DateTime.Now.ToString("HHmmss"));
+            sb.Append("," + dataLogVo.accno);       //계좌번호
+            sb.Append("," + dataLogVo.ordptncode);  //주문구분 01:매도|02:매수   
+            sb.Append("," + dataLogVo.Isuno.Replace("A", ""));     //종목코드
+            sb.Append("," + dataLogVo.ordqty);      //주문수량
+            sb.Append("," + dataLogVo.execqty);     //체결수량
+            sb.Append("," + dataLogVo.ordprc);      //주문가격
+            sb.Append("," + dataLogVo.execprc);     //체결가격
+            sb.Append("," + dataLogVo.Isunm);       //종목명
+            sb.Append("," + dataLogVo.ordptnDetail);//상세 주문구분 신규매수|반복매수|금일매도|청산
+            sb.Append("," + dataLogVo.upOrdno);     //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
+            sb.Append("," + dataLogVo.upExecprc);     //상위 체결가격
+            sb.Append("," + dataLogVo.sellOrdAt);      //매도주문실행 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+            sb.Append("," + dataLogVo.useYN);      //삭제여부(청산주문후 실시간 매도가능수량0이면 삭제 상태 업데이트) | 상위매수단가 | 
 
 
             //ini 쓰기 주문번호로 같은주문번호가 있으면 업데이트 없으면 추가.--폴더는 추가되지 않는다.
@@ -360,26 +360,53 @@ namespace PackageSellSystemTrading
 
         }
 
-        //금일매도 차익 --아직로직정의가 안되었다 금일 매수/매도 건인지 알길이 없다. 임시방편으로 추정값을 구한다.
-        public String getToDaySellAmt(){
-            //금일매도 차익 출력
-            //EBindingList<DataLogVo> dataLogVoList = mainForm.dataLog.getDataLogVoList();
-            //계좌별 금일 거래 목록을 구한다.
-            double 금일매도차익 = 0;
-            var resultDataLogVoList = from item in this.dataLogVoList
-                                      where item.accno == mainForm.accountForm.account
-                                         && item.date == DateTime.Now.ToString("yyyyMMdd")
-                                         && item.ordptnDetail == "금일매도"
-                                      select item;
-            //Log.WriteLine("DataLog::  [카운트:" + resultDataLogVoList.Count()+"]");
-            foreach (var item in resultDataLogVoList){
-                //매도금액 - 매수금액
-                금일매도차익 = 금일매도차익 + ((double.Parse(item.execprc) * double.Parse(item.execqty)) - (double.Parse(item.execqty) * double.Parse(item.upExecprc)) );
-            }
-            //금일매도차익 = 금일매도차익 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100);
-            return 금일매도차익.ToString();
+        ////금일매도 차익 --아직로직정의가 안되었다 금일 매수/매도 건인지 알길이 없다. 임시방편으로 추정값을 구한다.
+        //public String getToDaySellAmt(){
+        //    //금일매도 차익 출력
+        //    //EBindingList<DataLogVo> dataLogVoList = mainForm.dataLog.getDataLogVoList();
+        //    //계좌별 금일 거래 목록을 구한다.
+        //    double 금일매도차익 = 0;
+        //    var resultDataLogVoList = from item in mainForm.xing_t0425.getT0425VoList()
+        //                              where item.ordptnDetail == "금일매도"
+        //                                 //&& item.date == DateTime.Now.ToString("yyyyMMdd")
+        //                                 //&& item.accno == mainForm.accountForm.account
+        //                              select item;
+        //    //Log.WriteLine("DataLog::  [카운트:" + resultDataLogVoList.Count()+"]");
+        //    foreach (var item in resultDataLogVoList){
+        //        //매도금액 - 매수금액
+        //        금일매도차익 = 금일매도차익 + ((double.Parse(item.cheprice) * double.Parse(item.cheqty)) - (double.Parse(item.cheqty) * double.Parse(item.upExecprc)) );
+        //        //MessageBox.Show(item.execprc+"/"+ item.execqty + "/"+ item.execqty + "/"+ item.upExecprc + "/");
+        //    }
+           
+        //    //금일매도차익 = 금일매도차익 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100);
+        //    return 금일매도차익.ToString();
       
-        }
+        //}
+        ////금일매도 차익 --아직로직정의가 안되었다 금일 매수/매도 건인지 알길이 없다. 임시방편으로 추정값을 구한다.
+        //public String getToDayShSunik()
+        //{
+        //    //금일매도 차익 출력
+        //    //EBindingList<DataLogVo> dataLogVoList = mainForm.dataLog.getDataLogVoList();
+        //    //계좌별 금일 거래 목록을 구한다.
+        //    double 금일매도차익 = 0;
+        //    var resultDataLogVoList = from item in mainForm.xing_t0425.getT0425VoList()
+        //                              where item.ordptnDetail == "청산"
+        //                              //&& item.date == DateTime.Now.ToString("yyyyMMdd")
+        //                              //&& item.accno == mainForm.accountForm.account
+        //                              select item;
+        //    //Log.WriteLine("DataLog::  [카운트:" + resultDataLogVoList.Count()+"]");
+        //    foreach (var item in resultDataLogVoList)
+        //    {
+        //        //매도금액 - 매수금액
+        //        금일매도차익 = 금일매도차익 + ((double.Parse(item.cheprice) * double.Parse(item.cheqty)) - (double.Parse(item.cheqty) * double.Parse(item.upExecprc)));
+        //        //MessageBox.Show(item.execprc+"/"+ item.execqty + "/"+ item.execqty + "/"+ item.upExecprc + "/");
+        //    }
+
+        //    //금일매도차익 = 금일매도차익 * (double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET) / 100);
+        //    return 금일매도차익.ToString();
+
+        //}
+   
 
     }   // end class
 

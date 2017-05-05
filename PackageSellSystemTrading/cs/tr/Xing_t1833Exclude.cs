@@ -64,6 +64,7 @@ namespace PackageSellSystemTrading{
             }
             //혹시몰라서 1833에서 금지종목을 참조할때 로스가 생길거같아서 이런방식을 써보았다.
             this.t1833ExcludeVoList = tmpList;
+            //MessageBox.Show(blockCount.ToString());
             mainForm.exCnt.Text = blockCount.ToString();
             
             
@@ -87,7 +88,7 @@ namespace PackageSellSystemTrading{
 		/// 종목검색 호출
 		/// </summary>
 		public void call_request(){
-
+           
             if (completeAt) {
                 //폼 메세지.
                 completeAt = false;//중복호출 방지

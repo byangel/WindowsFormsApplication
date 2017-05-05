@@ -103,21 +103,21 @@ namespace PackageSellSystemTrading {
                 if (findIndex >= 0)
                 {
                     tmpT0424Vo = this.t0424VoList.ElementAt(findIndex);
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_expcode"].Value = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_hname"].Value   = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능
-                    mainForm.grd_t0424.Rows[findIndex].Cells["price"].Value     = base.GetFieldData("t0424OutBlock1", "price", i); //현재가
-                    mainForm.grd_t0424.Rows[findIndex].Cells["appamt"].Value    = base.GetFieldData("t0424OutBlock1", "appamt", i); //평가금액
-                    mainForm.grd_t0424.Rows[findIndex].Cells["dtsunik"].Value   = base.GetFieldData("t0424OutBlock1", "dtsunik", i); //평가손익
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_sunikrt"].Value = base.GetFieldData("t0424OutBlock1", "sunikrt", i); //수익율
-                    mainForm.grd_t0424.Rows[findIndex].Cells["pamt"].Value      = base.GetFieldData("t0424OutBlock1", "pamt", i); //평균단가
-                    mainForm.grd_t0424.Rows[findIndex].Cells["mamt"].Value      = base.GetFieldData("t0424OutBlock1", "mamt", i); //매입금액
-                    mainForm.grd_t0424.Rows[findIndex].Cells["msat"].Value      = base.GetFieldData("t0424OutBlock1", "msat", i); //당일매수금액
-                    mainForm.grd_t0424.Rows[findIndex].Cells["mpms"].Value      = base.GetFieldData("t0424OutBlock1", "mpms", i); //당일매수단가
-                    mainForm.grd_t0424.Rows[findIndex].Cells["mdat"].Value      = base.GetFieldData("t0424OutBlock1", "mdat", i); //당일매도금액
-                    mainForm.grd_t0424.Rows[findIndex].Cells["mpmd"].Value      = base.GetFieldData("t0424OutBlock1", "mpmd", i); //당일매도단가
-                    mainForm.grd_t0424.Rows[findIndex].Cells["fee"].Value       = base.GetFieldData("t0424OutBlock1", "fee", i); //수수료
-                    mainForm.grd_t0424.Rows[findIndex].Cells["tax"].Value       = base.GetFieldData("t0424OutBlock1", "tax", i); //제세금
+                    mainForm.grd_t0424.Rows[findIndex].Cells["c_expcode"].Value = base.GetFieldData("t0424OutBlock1", "expcode" , i); //종목코드
+                    mainForm.grd_t0424.Rows[findIndex].Cells["c_hname"].Value   = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
+                    mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
+                    mainForm.grd_t0424.Rows[findIndex].Cells["price"].Value     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "price"   , i)); //현재가
+                    mainForm.grd_t0424.Rows[findIndex].Cells["appamt"].Value    = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "appamt"  , i)); //평가금액
+                    mainForm.grd_t0424.Rows[findIndex].Cells["dtsunik"].Value   = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "dtsunik" , i)); //평가손익
+                    mainForm.grd_t0424.Rows[findIndex].Cells["c_sunikrt"].Value = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
+                    mainForm.grd_t0424.Rows[findIndex].Cells["pamt"].Value      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "pamt"    , i)); //평균단가
+                    mainForm.grd_t0424.Rows[findIndex].Cells["mamt"].Value      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mamt"    , i)); //매입금액
+                    mainForm.grd_t0424.Rows[findIndex].Cells["msat"].Value      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "msat"    , i)); //당일매수금액
+                    mainForm.grd_t0424.Rows[findIndex].Cells["mpms"].Value      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mpms"    , i)); //당일매수단가
+                    mainForm.grd_t0424.Rows[findIndex].Cells["mdat"].Value      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mdat"    , i)); //당일매도금액
+                    mainForm.grd_t0424.Rows[findIndex].Cells["mpmd"].Value      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mpmd"    , i)); //당일매도단가
+                    mainForm.grd_t0424.Rows[findIndex].Cells["fee"].Value       = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "fee"     , i)); //수수료
+                    mainForm.grd_t0424.Rows[findIndex].Cells["tax"].Value       = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "tax"     , i)); //제세금
                     mainForm.grd_t0424.Rows[findIndex].Cells["sininter"].Value  = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자   
                 } else {
                     tmpT0424Vo = new T0424Vo();
@@ -125,18 +125,18 @@ namespace PackageSellSystemTrading {
                     tmpT0424Vo.expcode  = base.GetFieldData("t0424OutBlock1", "expcode" , i); //종목코드
                     tmpT0424Vo.hname    = base.GetFieldData("t0424OutBlock1", "hname"   , i); //종목명
                     tmpT0424Vo.mdposqt  = base.GetFieldData("t0424OutBlock1", "mdposqt" , i); //매도가능
-                    tmpT0424Vo.price    = base.GetFieldData("t0424OutBlock1", "price"   , i); //현재가
-                    tmpT0424Vo.appamt   = base.GetFieldData("t0424OutBlock1", "appamt"  , i); //평가금액
-                    tmpT0424Vo.dtsunik  = base.GetFieldData("t0424OutBlock1", "dtsunik" , i); //평가손익
+                    tmpT0424Vo.price    = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "price"   , i)); //현재가
+                    tmpT0424Vo.appamt   = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "appamt"  , i)); //평가금액
+                    tmpT0424Vo.dtsunik  = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "dtsunik" , i)); //평가손익
                     tmpT0424Vo.sunikrt  = base.GetFieldData("t0424OutBlock1", "sunikrt" , i); //수익율
-                    tmpT0424Vo.pamt     = base.GetFieldData("t0424OutBlock1", "pamt"    , i); //평균단가
-                    tmpT0424Vo.mamt     = base.GetFieldData("t0424OutBlock1", "mamt"    , i); //매입금액
-                    tmpT0424Vo.msat     = base.GetFieldData("t0424OutBlock1", "msat"    , i); //당일매수금액
-                    tmpT0424Vo.mpms     = base.GetFieldData("t0424OutBlock1", "mpms"    , i); //당일매수단가
-                    tmpT0424Vo.mdat     = base.GetFieldData("t0424OutBlock1", "mdat"    , i); //당일매도금액
-                    tmpT0424Vo.mpmd     = base.GetFieldData("t0424OutBlock1", "mpmd"    , i); //당일매도단가
-                    tmpT0424Vo.fee      = base.GetFieldData("t0424OutBlock1", "fee"     , i); //수수료
-                    tmpT0424Vo.tax      = base.GetFieldData("t0424OutBlock1", "tax"     , i); //제세금
+                    tmpT0424Vo.pamt     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "pamt"    , i)); //평균단가
+                    tmpT0424Vo.mamt     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mamt"    , i)); //매입금액
+                    tmpT0424Vo.msat     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "msat"    , i)); //당일매수금액
+                    tmpT0424Vo.mpms     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mpms"    , i)); //당일매수단가
+                    tmpT0424Vo.mdat     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mdat"    , i)); //당일매도금액
+                    tmpT0424Vo.mpmd     = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "mpmd"    , i)); //당일매도단가
+                    tmpT0424Vo.fee      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "fee"     , i)); //수수료
+                    tmpT0424Vo.tax      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "tax"     , i)); //제세금
                     tmpT0424Vo.sininter = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
 
                     tmpT0424Vo.orderAt = false;
@@ -144,7 +144,7 @@ namespace PackageSellSystemTrading {
                     this.t0424VoList.Add(tmpT0424Vo);
                     
 
-                    //리얼 종목 등록
+                    //실시간 현재가 종목  등록
                     jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
                     //코스피
                     if (jonggb == "3"){
@@ -170,9 +170,9 @@ namespace PackageSellSystemTrading {
                     tmpT0424Vo.sellSunik = historyvo.sellSunik;//중간매도손익
                 }else {//이력정보가 없으면 이력정보를 등록해준다. --프로그램 최초에만 동작해야한다.
                     tmpT0424Vo.expcode.Replace("A", "");
-                    tmpT0424Vo.pamt2   = tmpT0424Vo.pamt;    //평균단가2
-                    tmpT0424Vo.sellCnt = "0";  //매도 횟수.
-                    tmpT0424Vo.buyCnt  = "1";   //매수 횟수
+                    tmpT0424Vo.pamt2     = tmpT0424Vo.pamt;    //평균단가2
+                    tmpT0424Vo.sellCnt   = "0";  //매도 횟수.
+                    tmpT0424Vo.buyCnt    = "1";   //매수 횟수
                     tmpT0424Vo.sellSunik = "0";//중간매도손익
 
                     mainForm.dataLog.insertDataT0424(tmpT0424Vo, "init" + (mainForm.dataLog.getDataLogVoList().Count()+1));
@@ -182,15 +182,13 @@ namespace PackageSellSystemTrading {
                     //프로그램 최초에만 동작해야 하는데 신규매수 매도시 이력 등록이 잘 안된다는 뜻이다.
 
                 }
-                //최초 등록시 손익2 설정해준다.한가한날 손좀 보자....
+                //매매이력에 따른 손익율 재계산.
                 tmpT0424Vo.sunikrt2 = Util.getSunikrt2(tmpT0424Vo);
 
                
                 /////////////////////////////////////////////////////매매//////////////////////////////////////////////////////
                 //3.해당 보유종목 정보를 인자로 넘겨주어 매도가능인지 테스트한다.real price callBack 에서도 호출한다.
-                if (readyAt)
-                {
-                    
+                if (readyAt){
                     this.stopProFitTargetTest(tmpT0424Vo);
                 }
 
@@ -313,13 +311,14 @@ namespace PackageSellSystemTrading {
                     /// </summary>
                     /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
                     /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                    /// <param name="upExecprc">상위체결금액</param>
+                    /// <param name="upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
                     /// <param name="IsuNo">종목코드</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
-                    mainForm.xing_CSPAT00600.call_requestSell("청산", "none", "0", t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+                    mainForm.xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2.Replace(",", ""), t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
 
                     Log.WriteLine("MainForm stopProFitTargetTest ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
+                    mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산.");
                     t0424Vo.orderAt = true;//청산 주문여부를 true로 설정    
 
                 }
@@ -332,13 +331,14 @@ namespace PackageSellSystemTrading {
                     /// </summary>
                     /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
                     /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                    /// <param name="upExecprc">상위체결금액</param>
+                    /// <param name="upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
                     /// <param name="IsuNo">종목명</param>
                     /// <param name="IsuNo">종목코드</param>
                     /// <param name="Quantity">수량</param>
                     /// <param name="Price">가격</param>
-                    mainForm.xing_CSPAT00600.call_requestSell("손절", "none", "0", t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+                    mainForm.xing_CSPAT00600.call_requestSell("손절", "none", t0424Vo.pamt2.Replace(",",""), t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
                     Log.WriteLine("MainForm stopProFitTargetTest ::손절[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%  주문수량:" + t0424Vo.mdposqt);
+                    mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":손절.");
                     t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정
                 }
             }
