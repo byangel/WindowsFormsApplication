@@ -18,8 +18,8 @@ namespace PackageSellSystemTrading
         Boolean TODAY_SELL_AT     = true;        //중복매수된 종목 금일 매수/매도 기능 활성화 여부 디폴트 true
         Boolean STOP_LOSS_AT      = false;       //손절사용여부
 
-        String STOP_PROFIT_TARGET = "3.33";         //목표 이익율
-        String STOP_LOSS          = "-1.5";          //손절
+        String STOP_PROFIT_TARGET = "3";      //목표 이익율
+        String STOP_LOSS          = "2";         //2분후 무조건 매도
         String REPEAT_TERM        = "9600";      //반복매수 시간
         String REPEAT_RATE        = "-5";        //반복매수 비율
         String BUY_STOP_RATE      = "90";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율

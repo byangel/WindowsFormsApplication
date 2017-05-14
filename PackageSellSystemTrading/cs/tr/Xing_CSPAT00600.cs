@@ -71,31 +71,38 @@ namespace PackageSellSystemTrading{
             //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
 
             DataLogVo dataLogVo = new DataLogVo();
-            
 
-            //데이타로그에 저장
-            //public class DataLogVo
-            dataLogVo.ordno        = OrdNo;          //주문번호
-            dataLogVo.accno        = AcntNo;         //계좌번호
-            dataLogVo.ordptncode   = "0" + BnsTpCode;//주문구분 01:매도|02:매수 
-            dataLogVo.Isuno        = IsuNo.Replace("A","");  //종목코드
-            dataLogVo.ordqty       = OrdQty;         //주문수량
-            dataLogVo.execqty      = "0";            //체결수량
-            dataLogVo.ordprc       = OrdPrc;         //주문가격
-            dataLogVo.execprc      = "0";            //체결가격
-            dataLogVo.Isunm        = this.hname;     //종목명
-            dataLogVo.ordptnDetail = this.ordptnDetail;   //상세 주문구분 신규매수|반복매수|금일매도|청산
-            dataLogVo.upExecprc    = this.upExecprc; //상위 체결가격
-            dataLogVo.sellOrdAt    = sellOrdAt;      //매도 주문 여부
-            dataLogVo.useYN        = "Y";            //사용여부
-            //상위 주문번호
-            if (this.upOrdno == ""){
-                dataLogVo.upOrdno = OrdNo;               //상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
-            }else{
-                dataLogVo.upOrdno = this.upOrdno;
+            //주문 에러가 났을때 주문번호는 0번이 넘어오는것같다.
+            if (OrdNo != "0")
+            {
+                //데이타로그에 저장
+                //public class DataLogVo
+                dataLogVo.ordno = OrdNo;          //주문번호
+                dataLogVo.accno = AcntNo;         //계좌번호
+                dataLogVo.ordptncode = "0" + BnsTpCode;//주문구분 01:매도|02:매수 
+                dataLogVo.Isuno = IsuNo.Replace("A", "");  //종목코드
+                dataLogVo.ordqty = OrdQty;         //주문수량
+                dataLogVo.execqty = "0";            //체결수량
+                dataLogVo.ordprc = OrdPrc;         //주문가격
+                dataLogVo.execprc = "0";            //체결가격
+                dataLogVo.Isunm = this.hname;     //종목명
+                dataLogVo.ordptnDetail = this.ordptnDetail;   //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.upExecprc = this.upExecprc; //상위 체결가격
+                dataLogVo.sellOrdAt = sellOrdAt;      //매도 주문 여부
+                dataLogVo.useYN = "Y";            //사용여부
+                                                  //상위 주문번호
+                if (this.upOrdno == "")
+                {
+                    dataLogVo.upOrdno = OrdNo;               //상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
+                }
+                else
+                {
+                    dataLogVo.upOrdno = this.upOrdno;
+                }
+                //dataInsert호출
+                mainForm.dataLog.insertData(dataLogVo);
             }
-            //dataInsert호출
-            mainForm.dataLog.insertData(dataLogVo);
+            
 
             
         }
@@ -199,12 +206,12 @@ namespace PackageSellSystemTrading{
             this.shcode       = shcode;      //종목번호
             this.hname        = hname;       //종목명
             this.quantity     = quantity;    //주문수량
-            this.price        = price;       //주문가
+            this.price        = price.Replace(",", "");       //주문가
             this.ordptnDetail = ordptnDetail;//상세주문구분
             this.upOrdno      = upOrdno;     //상위매수주문번호  
-            this.upExecprc    = upExecprc;   //상위체결가격
+            this.upExecprc    = upExecprc.Replace(",", "");   //상위체결가격
             this.sellOrdAt    = "Y";         //매도주문여부
-            this.call_request(shcode, quantity, price, "1");
+            this.call_request(shcode, quantity, this.price, "1");
 
         }   // end function
 
@@ -218,7 +225,15 @@ namespace PackageSellSystemTrading{
         /// <param name="Price">가격</param>
         public void call_requestBuy(String ordptnDetail,  String shcode,String hname, String quantity, String price)
         {
-           
+            //변수초기화
+            //this.shcode       = "";        // 종목번호
+            //this.quantity     = "";      // 주문수량
+            //this.price        = "";         // 주문가
+            //this.ordptnDetail = "";  //상세주문구분
+            //this.upOrdno      = "";       //상위매수주문 - 금일매도매수일때만 값이 있다.
+            //this.upExecprc    = "";     //상위체결금액  
+            //this.hname        = "";
+            //this.sellOrdAt    = "";
             //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {
@@ -227,12 +242,12 @@ namespace PackageSellSystemTrading{
             this.shcode        = shcode;      // 종목번호
             this.hname         = hname;
             this.quantity      = quantity;    // 주문수량
-            this.price         = price;       // 주문가
+            this.price         = price.Replace(",", "");       // 주문가
             this.ordptnDetail  = ordptnDetail;//상세주문구분
             this.upOrdno       = "";          //상위매수주문번호  
             this.upExecprc     = "0";         //상위체결가격
             this.sellOrdAt     = "N";
-            this.call_request(shcode, quantity, price, "2");
+            this.call_request(shcode, quantity, this.price, "2");
 
         }	// end function
 

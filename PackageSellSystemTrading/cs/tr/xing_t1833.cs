@@ -25,7 +25,9 @@ namespace PackageSellSystemTrading{
 
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
-       
+        //투자 비율
+        public String enterRate;
+
         // 생성자
         public Xing_t1833(){
             //String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
@@ -50,6 +52,10 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
+
+            //투자율 설정
+            this.enterRate = this.getEnterRate();
+            mainForm.label_enterRate.Text = this.enterRate;
 
             int iCount = base.GetBlockCount("t1833OutBlock1");
 
@@ -88,8 +94,12 @@ namespace PackageSellSystemTrading{
                 if (result.Count() == 0)
                 {
                    t1833VoList.Add(tmpT1833Vo);
-                   //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
-                   this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
+                    //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
+                    if (mainForm.tradingAt == "Y")
+                    {
+                        this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
+                    }
+                   
                 }
                
             }
@@ -107,9 +117,13 @@ namespace PackageSellSystemTrading{
             }
 
             mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text+ "]조건검색 응답 완료";
+
+            
             completeAt = true;//중복호출 여부
         }
 
+
+        
 
         //메세지 이벤트 핸들러
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
@@ -169,26 +183,31 @@ namespace PackageSellSystemTrading{
             //    return false;
             //}
 
-
+            //시간초과 매도 기능 사용시 이미 매수된 종목이면 매수하않는다.
+            if (Properties.Settings.Default.STOP_LOSS_AT)
+            {
+                int findIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);
+                if (findIndex >=0)
+                {
+                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 시간초과 보유종목.");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ": 시간초과 보유종목.");
+                    return false;
+                }
+            }
             //////////////////////////////////
-
+            //시간 초과 손절 을 사용하면 금일 매수 제한 하지 않는다.
             //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
             var varT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
-                               where item.expcode == shcode && item.medosu == "매수"
+                                where item.expcode == shcode && item.medosu == "매수"
                                select item;
-            if (varT0425VoList.Count() > 0)
+            if (varT0425VoList.Count() > 0 && Properties.Settings.Default.STOP_LOSS_AT == false)
             {
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일 1회 매수 제한.");
-                mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t1833::" + hname + ": 금일 1회 매수 제한.");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ": 금일 1회 매수 제한.");
                 return false;
             }
 
-           
-
-
             ///////////////////////////////////////
-
-
 
             //2.반목매수 기간 제한.
 
@@ -219,7 +238,7 @@ namespace PackageSellSystemTrading{
             if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
             {
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 매수금지 종목 ");
-                mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t1833::" + hname + ":매수금지 종목.");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ":매수금지 종목.");
                 mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
                 return false;
             }
@@ -236,30 +255,32 @@ namespace PackageSellSystemTrading{
                 //-수익율이 -5% 이하이면 반복매수 해주자.
                 if (double.Parse(sunikrt) > double.Parse(Properties.Settings.Default.REPEAT_RATE)){
                     Log.WriteLine("t1833::" + hname + "(" + shcode + ") 반복매수 제한 [수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
-                    mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t1833::" + hname + ":반복매수 제한.");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ":반복매수 제한.");
                     return false;
                 }
 
             }else{//-보유종목이 아니고 신규매수해야 한다면.
                 ordptnDetail = "신규매수";
-                 //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
-                 Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
-                //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
-                if (Properties.Settings.Default.LIMITED_AT)
-                {
-                    //이런날이 올까?
-                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT)) {
-                        자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
-                    }
-                }
+                // //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
+                // Double 자본금 = this.mainForm.xing_t0424.mamt + int.Parse(this.mainForm.xing_CSPAQ12200.D2Dps);
+                ////-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
+                //if (Properties.Settings.Default.LIMITED_AT)
+                //{
+                //    //이런날이 올까?
+                //    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT)) {
+                //        자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
+                //    }
+                //}
 
-                //-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
-                //-매입금액 기초자산의 90% 이상 매입을 할수 없다.
-                //-매입금액 / 자본금 * 100 =자본금 대비 투자율
-                Double enterRate = (this.mainForm.xing_t0424.mamt / 자본금) * 100;
-                if (enterRate > float.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
+                ////-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
+                ////-매입금액 기초자산의 90% 이상 매입을 할수 없다.
+                ////-매입금액 / 자본금 * 100 =자본금 대비 투자율
+                //Double enterRate = (this.mainForm.xing_t0424.mamt / 자본금) * 100;
+                //String  enterRate = mainForm.getEnterRate();
+                //mainForm.label_enterRate.Text = enterRate;
+                if (Double.Parse(enterRate) > Double.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
                     Log.WriteLine("t1833::" + hname + "(" + shcode + ") 자본금 대비 투자율 제한   [자본금대비투자율:"+ enterRate+"%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%]");
-                    mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t1833::" + hname + ":자본금 대비 투자율 제한.");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ":자본금 대비 투자율 제한.");
                     return false;
                 }      
             }
@@ -285,21 +306,45 @@ namespace PackageSellSystemTrading{
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
-                mainForm.xing_CSPAT00600.call_requestBuy( ordptnDetail, shcode, hname, Quantity.ToString(), close);
+                Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
+                xing_CSPAT00600.mainForm = mainForm;
+                xing_CSPAT00600.call_requestBuy( ordptnDetail, shcode, hname, Quantity.ToString(), close);
 
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") "+ ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
-                mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t1833::" + hname + ":"+ ordptnDetail);
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ":" + ordptnDetail);
             }
             else{
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");
-                mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t1833::" + hname + ": 비정규장 제어.");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ": 비정규장 제어.");
             }
           
             return true;
         }
 
+        //투자율 개산
+        public String getEnterRate()
+        {
+            //자본금 투자 비율
+            //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
+            Double 자본금 = mainForm.xing_t0424.mamt + int.Parse(mainForm.xing_CSPAQ12200.D2Dps);
+            //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
+            if (Properties.Settings.Default.LIMITED_AT)
+            {
+                //이런날이 올까?
+                if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
+                {
+                    자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
+                }
+            }
 
-        
+            //-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
+            //-매입금액 기초자산의 90% 이상 매입을 할수 없다.
+            //-매입금액 / 자본금 * 100 =자본금 대비 투자율
+            //Double enterRate = (this.xing_t0424.mamt / 자본금) * 100;
+            return Math.Round(((mainForm.xing_t0424.mamt / 자본금) * 100), 2).ToString();
+        }
+
+
 
     } //end class 
 

@@ -58,9 +58,6 @@
             this.combox_condition = new System.Windows.Forms.ComboBox();
             this.combox_conditionExclude = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_config_save
@@ -245,9 +242,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 169);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 12);
+            this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 104;
-            this.label2.Text = "5. 수익율";
+            this.label2.Text = "5. 매수 후";
             // 
             // input_stop_loss
             // 
@@ -263,18 +260,18 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(108, 168);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(75, 12);
+            this.label11.Size = new System.Drawing.Size(61, 12);
             this.label11.TabIndex = 106;
-            this.label11.Text = "% 이하 손절.";
+            this.label11.Text = "분후 매도.";
             // 
             // checkBox_stop_loss
             // 
             this.checkBox_stop_loss.AutoSize = true;
             this.checkBox_stop_loss.Location = new System.Drawing.Point(252, 10);
             this.checkBox_stop_loss.Name = "checkBox_stop_loss";
-            this.checkBox_stop_loss.Size = new System.Drawing.Size(96, 16);
+            this.checkBox_stop_loss.Size = new System.Drawing.Size(120, 16);
             this.checkBox_stop_loss.TabIndex = 107;
-            this.checkBox_stop_loss.Text = "손절기능사용";
+            this.checkBox_stop_loss.Text = "시간초과매도기능";
             this.checkBox_stop_loss.UseVisualStyleBackColor = true;
             this.checkBox_stop_loss.CheckedChanged += new System.EventHandler(this.checkBox_stop_loss_CheckedChanged);
             // 
@@ -347,41 +344,11 @@
             this.label15.TabIndex = 113;
             this.label15.Text = "8. 매수금지 검색식 선택";
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(13, 269);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(55, 12);
-            this.label16.TabIndex = 115;
-            this.label16.Text = "9. 매수후";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Gulim", 8F);
-            this.textBox1.Location = new System.Drawing.Point(72, 265);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(35, 20);
-            this.textBox1.TabIndex = 116;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(110, 269);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(61, 12);
-            this.label17.TabIndex = 117;
-            this.label17.Text = "초후 매도.";
-            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(433, 343);
-            this.Controls.Add(this.label17);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label16);
             this.Controls.Add(this.combox_conditionExclude);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.combox_condition);
@@ -451,8 +418,5 @@
         public System.Windows.Forms.ComboBox combox_condition;
         public System.Windows.Forms.ComboBox combox_conditionExclude;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        public System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label17;
     }
 }

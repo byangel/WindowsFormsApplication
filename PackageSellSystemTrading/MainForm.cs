@@ -22,7 +22,7 @@ namespace PackageSellSystemTrading{
 
         public ExXASessionClass  exXASessionClass;
         public Xing_t1833        xing_t1833;        //조건검색
-        public Xing_t1833Exclude xing_t1833Exclude;  //매수금지종목
+        public Xing_t1833Exclude xing_t1833Exclude; //매수금지종목
         public Xing_t0424        xing_t0424;        //잔고2
        
         public Xing_t0425        xing_t0425;        //체결/미체결
@@ -40,12 +40,14 @@ namespace PackageSellSystemTrading{
         public Real_jif          real_jif; //장 정보
 
         public DataLog           dataLog; //데이타로그
-       
+
+        public String            tradingAt;//매매 여부 Y|N
         //생성자
         public MainForm(){
             InitializeComponent();
         }
-       
+      
+
         //1회 주문시 매입금액
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -92,12 +94,7 @@ namespace PackageSellSystemTrading{
             this.dataLog.mainForm           = this;
 
             
-            //계좌잔고 그리드 초기화
-            grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
-            //진입검색 그리드.
-            grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); ;
-            //체결미체결 그리드 DataSource 설정
-            grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
+            
 
             //폼 초기화
             initForm();
@@ -115,6 +112,13 @@ namespace PackageSellSystemTrading{
         //프로그램시작시 폼 초기화
         private void initForm(){
             
+            //계좌잔고 그리드 초기화
+            grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
+            //진입검색 그리드.
+            grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); ;
+            //체결미체결 그리드 DataSource 설정
+            grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
+
             input_loginId.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
             input_loginPw.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
             input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
@@ -128,7 +132,6 @@ namespace PackageSellSystemTrading{
                     combox_targetServer.SelectedIndex = i;
                 }
             }
-
 
         }
 
@@ -264,28 +267,22 @@ namespace PackageSellSystemTrading{
         //자동매매 시작
         public void tradingRun()
         {
-            timer_t1833Exclude.Start();//진입검색 타이머
-            timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
+            //timer_t1833Exclude.Start();//진입검색 타이머
+            //timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
+            this.tradingAt = "Y";
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
-
-            //실시간 체결정보 -트레이딩 시작시 - 트레이딩 로그인시점?
-            real_SC1.AdviseRealData();
-           
             Log.WriteLine("Trading Start..!!");
         }
 
         //자동매매 정지
         public void tradingStop()
         {
-            timer_t1833Exclude.Stop();//진입검색 타이머
-            timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
+            //timer_t1833Exclude.Stop();//진입검색 타이머
+            //timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
+            this.tradingAt = "N";
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
-
-            //실시간 체결정보
-            real_SC1.UnadviseRealData();
-           
             Log.WriteLine("Trading Stop..!!");
         }
 
@@ -295,20 +292,13 @@ namespace PackageSellSystemTrading{
             this.tradingStop();
         }
 
-
-        private void timer_search_Tick(object sender, EventArgs e)
-        {
-            //매수금지종목 조회
-            xing_t1833Exclude.call_request();
-        }
-
-
         //timerSell -- 일단 dataLog 부터 처리해야 이기능을 구현할 수 있을것 같다.
         public void timerSell()
         {
 
         }
 
+        //서버시간 호출 타이머
         private void Timer0167_Tick(object sender, EventArgs e)
         {
             xing_t0167.call_request();
@@ -316,41 +306,7 @@ namespace PackageSellSystemTrading{
         }
        
 
-        //타이머 계좌정보
-        private void timer_accountSearch_Tick(object sender, EventArgs e)
-        {
-            if (this.exXASessionClass.loginAt == false)
-            {
-                login();
-                Log.WriteLine("timer_accountSearch_Tick:: 로그인 호출");
-            }
-
-            //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
-            xing_t1833.call_request();
-           
-
-            //3.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
-            this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
-
-            //4.금일주문 목록
-            this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
-
-            //5.현물계좌예수금/주문가능금액/총평가 조회
-            this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
-
-            ////6.금일매도실행
-            //if (Properties.Settings.Default.TODAY_SELL_AT){
-            //    xing_t0425.toDaySellTest();
-            //}
-
-            ////7.금일매도 실현손익 계산호출
-            ////this.label_toDayAtm.Text = Util.GetNumberFormat(this.dataLog.getToDaySellAmt());
-            ////this.label_shSunik.Text = Util.GetNumberFormat(this.dataLog.getToDayShSunik());
-  
-            ////8.주문취소
-            //xing_t0425.orderCancle();
-
-        }
+        
 
         
 
@@ -412,9 +368,9 @@ namespace PackageSellSystemTrading{
             //EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
             for (int i=0;i< grd_t0424.RowCount; i++)
             {
-              
-                if (grd_t0424.Rows[i].Cells[0].FormattedValue.ToString() == "True")
-                {
+               
+                if (grd_t0424.Rows[i].Cells[0].FormattedValue.ToString() == "True") { 
+                //{
                     //선택된 종목이 이미 매도주문이 나간 상태인지 체크하는 부분이 없다.(청산 관련 매도주문에는 DataLog 를 참조하지 않고 t0424를 참조한다.
 
                     expcode = grd_t0424.Rows[i].Cells[1].FormattedValue.ToString(); //종목코드
@@ -423,12 +379,16 @@ namespace PackageSellSystemTrading{
                                        where  item.expcode == expcode.Replace("A", "")
                                        select item;
                     int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", expcode.Replace("A", ""));
+                    
                     //MessageBox.Show(result_t0424.Count().ToString());
 
                     if (findIndex >= 0)
                     {
+                        //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
+                        //주문여부
                         if (this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt == false)
                         {
+                            //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
                             expcode = this.xing_t0424.getT0424VoList().ElementAt(findIndex).expcode; //종목코드
                             hname   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).hname;   //종목명
                             sunikrt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).sunikrt; //수익율
@@ -444,6 +404,7 @@ namespace PackageSellSystemTrading{
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
                             this.xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
+                          
 
                             this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = true;//일괄 매도시 주문여부를 true로 설정
 
@@ -462,8 +423,18 @@ namespace PackageSellSystemTrading{
         public int cnt = 100;
         private void test_Click(object sender, EventArgs e)
         {
+
+            HistoryVo historyvo = this.dataLog.getHistoryVo(xing_t0424.getT0424VoList().ElementAt(0).expcode.Replace("A", ""));
+            if (historyvo == null)
+            {
+                MessageBox.Show("dd");
+            }
+            else
+            {
+                MessageBox.Show("xxxx");
+            }
             //매수금지종목 조회
-            this.listBox_log.Items.Insert(0, "[" + label_time.Text + "]t0425::세스트종목:금일 매도.");
+            //insertListBoxLog("[" + label_time.Text + "]t0425::세스트종목:금일 매도.");
             ///xing_t1833Exclude.call_request();
 
             //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
@@ -749,27 +720,39 @@ namespace PackageSellSystemTrading{
         {
             //접속이 귾겼다가 접속했을때...문제가 있어서 추가해준다. 잔고목록을 클리어 해준다.
             xing_t0424.getT0424VoList().Clear();
-            
+
+            //필요없는 데이타 삭제.
+            this.dataLog.initDelete();
+
+            //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
+            xing_t1833Exclude.call_request();
+            //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
+            timer_t1833Exclude.Start();//진입검색 타이머
+            timer_common.Start();//계좌 및 미체결 검색 타이머
+
+            //실시간 체결정보 등록
+            real_SC1.AdviseRealData();
+            //실시간 체결정보
+            //real_SC1.UnadviseRealData();
+
+
             //잔고정보
-            xing_CSPAQ12200.call_request(accountForm.account, accountForm.accountPw);
+            //xing_CSPAQ12200.call_request(accountForm.account, accountForm.accountPw);
             //잔고목록
-            xing_t0424.call_request(accountForm.account, accountForm.accountPw);
+            //xing_t0424.call_request(accountForm.account, accountForm.accountPw);
             //체결미체결
-            xing_t0425.call_request(accountForm.account, accountForm.accountPw);
+            //xing_t0425.call_request(accountForm.account, accountForm.accountPw);
             //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
 
             //설정저장 버튼 활성화.
             btn_config_save.Enabled = true;
-
             // 로그인 버튼 비활성
             btn_login.Enabled = false;
 
-            //매수금지종목 조회
-            xing_t1833Exclude.call_request();
 
-            ////금일매도 수익 호출--0425 데이타가 아직 없어서 값을 설정 못한다.
-            //this.label_toDayAtm.Text = this.dataLog.getToDaySellAmt();
         }
+
+        
 
         //실시간 현재가 정보 이벤트시 호출된다.
         public void realPriceCallBack(String shcode, String price)
@@ -813,9 +796,9 @@ namespace PackageSellSystemTrading{
                 //실현손익: (당일매도금액 - 매도수수료 - 매도제세금) - (매입금액 + 추정매입수수료) - 신용이자 
                 실현손익 = ((double.Parse(당일매도금액) * double.Parse(당일매도단가)) - double.Parse(수수료) - double.Parse(세금)) - (double.Parse(매입금액) - double.Parse(수수료)) - double.Parse(신용이자);
                 
-                grd_t0424.Rows[findIndex].Cells["price"].Value = price;
-                grd_t0424.Rows[findIndex].Cells["appamt"].Value = 평가금액;
-                grd_t0424.Rows[findIndex].Cells["dtsunik"].Value = 평가손익;
+                grd_t0424.Rows[findIndex].Cells["price"].Value = Util.GetNumberFormat(price);
+                grd_t0424.Rows[findIndex].Cells["appamt"].Value = Util.GetNumberFormat(평가금액);
+                grd_t0424.Rows[findIndex].Cells["dtsunik"].Value = Util.GetNumberFormat(평가손익);
                 grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = Math.Round(손익률, 2).ToString();
                 //grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = Math.Round(테스트수익률, 2).ToString();
                 //grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = 실현손익;
@@ -858,9 +841,9 @@ namespace PackageSellSystemTrading{
             //dataLog 도 제거해준다.
             this.dataLog.deleteData(Isuno); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
 
-            int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
             //그리드삭제
             //this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);//그리드에서 삭제하면 바인딩객체도 같이 삭제 되는지 잘모르겠어서 그냥 바인딩객체를 삭제로 바꿔준다.
+            int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
             if (findIndex>=0)
             {
                 this.xing_t0424.getT0424VoList().RemoveAt(findIndex);
@@ -884,6 +867,50 @@ namespace PackageSellSystemTrading{
         private void button2_Click(object sender, EventArgs e)
         {
             listBox_log.Items.Clear();
+        }
+
+       
+        //item 수가 500개 이상이면 마지막 item을 삭제한다.
+        public void insertListBoxLog(String Message)
+        {
+            this.listBox_log.Items.Insert(0, Message);
+            if (listBox_log.Items.Count > 100)
+            {
+                this.listBox_log.Items.RemoveAt(101);
+            }
+        }
+
+        //매수금지종목 호출 타이머.
+        private void timer_t1833Exclude_Tick(object sender, EventArgs e)
+        {
+            //매수금지종목 조회
+            xing_t1833Exclude.call_request();
+        }
+
+        //공통 타이머 계좌정보 --5초마다 호출됨.
+        private void timer_common_Tick(object sender, EventArgs e)
+        {
+            if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
+            {
+                this.login();
+                Log.WriteLine("timer_accountSearch_Tick:: 로그인 호출");
+            }
+            else
+            {
+                //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
+                xing_t1833.call_request();
+
+                //3.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
+                this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
+
+                //4.금일주문 이력
+                this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
+
+                //5.현물계좌예수금/주문가능금액/총평가 조회
+                this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
+
+                //데이터 조회와 매수/매도 프로세스 분리하자.
+            }
         }
     }//end class
 }//end namespace

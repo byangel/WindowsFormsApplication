@@ -35,13 +35,12 @@ namespace PackageSellSystemTrading {
 
         public int h_totalCount;
 
-        public Boolean readyAt;
+        
         // 생성자
         public Xing_t0424()
         {
             base.ResFileName = "₩res₩t0424.res";
 
-            readyAt = false;
             //base.Request(false); //연속조회가 아닐경우 false
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
@@ -184,13 +183,7 @@ namespace PackageSellSystemTrading {
                 }
                 //매매이력에 따른 손익율 재계산.
                 tmpT0424Vo.sunikrt2 = Util.getSunikrt2(tmpT0424Vo);
-
-               
-                /////////////////////////////////////////////////////매매//////////////////////////////////////////////////////
-                //3.해당 보유종목 정보를 인자로 넘겨주어 매도가능인지 테스트한다.real price callBack 에서도 호출한다.
-                if (readyAt){
-                    this.stopProFitTargetTest(tmpT0424Vo);
-                }
+  
 
             }//for end
            
@@ -217,55 +210,33 @@ namespace PackageSellSystemTrading {
                 this.tappamt  = this.tmpTappamt;   //평가금액
                 this.tdtsunik = this.tmpTdtsunik;  //평가손익
 
-               
                 //mainForm.input_sunamt.Text      = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
                 mainForm.label_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);  // 실현손익
                 mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
 
                 //label 출력
-                mainForm.label_mamt.Text = Util.GetNumberFormat(this.mamt);    // 매입금액
+                mainForm.label_mamt.Text    = Util.GetNumberFormat(this.mamt);    // 매입금액
 
                 //로그 및 중복 요청 처리 2:코스닥, 3:코스피
                 mainForm.input_t0424_log2.Text = "[" + mainForm.label_time.Text + "]t0424 :: 잔고조회 완료";
 
+
+
+                //목표수익 매도
+                //매매가능여부 체크후 매도 로직 호출 - 나중에 여기서 호출하지 말고 타이머에서 호출하는방법도 고려중.
+                if (mainForm.tradingAt == "Y")
+                {
+                    this.stopProFitTarget();
+                }
+   
                 //응답처리 완료
                 completeAt = true;
-                readyAt    = true;
-
-                for (int i=0;i < this.t0424VoList.Count();i++)
-                {
-                    if (this.t0424VoList.ElementAt(i).deleteAt == "Y")
-                    {
-                        Log.WriteLine("t0424 :: 팔린종목 그리드에서 제거");
-                        mainForm.deleteCallBack(this.t0424VoList.ElementAt(i).expcode); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
-                        i--;
-                    }
-                    this.t0424VoList.ElementAt(i).deleteAt = "Y";
-                }
-               
-
-                //0424 모든 로직이 끝나고 그리드에 매도가능수가 0인종목이 남아있다면 RealSc1에서 이벤트발생이 누락됬을 가능성이있다...
-                //그래서 여기서 마지막으로 한번더 체크후 있다면 삭제해주자.   
-                var resultT0424 = from item in this.t0424VoList
-                                  where item.mdposqt == "0"
-                                  select item;
-                String Isuno;
-                for (int i = 0; i < resultT0424.Count(); i++)
-                {
-                    //Log.WriteLine("t0424 는 매도가능수량이 0 건인것은 조회 되지 말아야하는데... 가끔 검색되어 나오는지 잘 모르겠다...");
-                    Isuno = resultT0424.ElementAt(i).expcode;
-                    mainForm.deleteCallBack(Isuno);
-                    Log.WriteLine("+++++++++++++++++++++++++t0424::" + resultT0424.ElementAt(i).hname + "(" + resultT0424.ElementAt(i).expcode + "):: 그리드에서 수동 삭제 deleteCallBack호출.[매도가능:" + resultT0424.ElementAt(i).mdposqt );
-                }
-
-                //블럭카운트와 0424 list 목록수가 같은지 비교.
-                //if (h_totalCount != this.t0424VoList.Count())
-                //{
-                //    Log.WriteLine("t0424:: 블록카운트" + h_totalCount + "| 리스트카운트" + this.t0424VoList.Count());
-                //}
+                
 
             }//end
         }
+
+
         //이벤트 메세지.
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage) {
             
@@ -283,70 +254,7 @@ namespace PackageSellSystemTrading {
             }
         }
 
-
-
-        //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
-        public void stopProFitTargetTest(T0424Vo t0424Vo)
-        {
-
-
-            //if (t0424Vo.expcode == "004100")
-            //{
-            //  MessageBox.Show(t0424Vo.sunikrt2.ToString() + "/" + t0424Vo.orderAt.ToString());
-            //}
-
-            //거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
-            if (t0424Vo.orderAt == false && (t0424Vo.errorcd == "" || t0424Vo.errorcd == null))
-            {
-
-                //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
-                //2.수익율2 로 변경함.
-                String sunikrt = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
-
-
-                if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
-                {
-                    /// <summary>
-                    /// 현물정상주문
-                    /// </summary>
-                    /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
-                    /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                    /// <param name="upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
-                    /// <param name="IsuNo">종목코드</param>
-                    /// <param name="Quantity">수량</param>
-                    /// <param name="Price">가격</param>
-                    mainForm.xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2.Replace(",", ""), t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
-
-                    Log.WriteLine("MainForm stopProFitTargetTest ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
-                    mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산.");
-                    t0424Vo.orderAt = true;//청산 주문여부를 true로 설정    
-
-                }
-
-                //손절
-                if (Properties.Settings.Default.STOP_LOSS_AT && float.Parse(t0424Vo.sunikrt) <= float.Parse(Properties.Settings.Default.STOP_LOSS))
-                {
-                    /// <summary>
-                    /// 현물정상주문
-                    /// </summary>
-                    /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
-                    /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                    /// <param name="upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
-                    /// <param name="IsuNo">종목명</param>
-                    /// <param name="IsuNo">종목코드</param>
-                    /// <param name="Quantity">수량</param>
-                    /// <param name="Price">가격</param>
-                    mainForm.xing_CSPAT00600.call_requestSell("손절", "none", t0424Vo.pamt2.Replace(",",""), t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
-                    Log.WriteLine("MainForm stopProFitTargetTest ::손절[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%  주문수량:" + t0424Vo.mdposqt);
-                    mainForm.listBox_log.Items.Insert(0, "[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":손절.");
-                    t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정
-                }
-            }
-
-        }//stopProFitTarget end
-
-
-
+        
 
         /// <summary>
 		/// 종목검색 호출
@@ -388,7 +296,105 @@ namespace PackageSellSystemTrading {
 
         }	// end function
 
+        ///////////////////////////////////////////////////////////
+        //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출 2.팔린종목 삭제
+        public void stopProFitTarget()
+        {
 
+            for (int i = 0; i < this.t0424VoList.Count(); i++)
+            {
+                //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
+                this.stopProFitTargetTest(t0424VoList.ElementAt(i));
+
+                //0424 모든 로직이 끝나고 그리드에 매도가능수가 0인종목이 남아있다면 RealSc1에서 이벤트발생이 누락됬을 가능성이있다...
+                //그래서 여기서 마지막으로 한번더 체크후 있다면 삭제해주자.
+                //2.이게 있을 이유가 없는데....삭제해야하는데...
+                if (t0424VoList.ElementAt(i).mdposqt == "0")
+                {
+                    //Log.WriteLine("t0424 는 매도가능수량이 0 건인것은 조회 되지 말아야하는데... 가끔 검색되어 나오는지 잘 모르겠다...");
+                    mainForm.deleteCallBack(t0424VoList.ElementAt(i).expcode);
+                    Log.WriteLine("t0424::" + t0424VoList.ElementAt(i).hname + "(" + t0424VoList.ElementAt(i).expcode + "):: 그리드에서 수동 삭제 deleteCallBack호출.[매도가능:" + t0424VoList.ElementAt(i).mdposqt);
+                }
+
+
+                //3.팔린종목 삭제
+                if (this.t0424VoList.ElementAt(i).deleteAt == "Y")
+                {
+                    Log.WriteLine("t0424 :: 팔린종목 그리드에서 제거");
+                    mainForm.deleteCallBack(this.t0424VoList.ElementAt(i).expcode); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
+                    i--;
+                }
+                this.t0424VoList.ElementAt(i).deleteAt = "Y";
+            }
+
+        }//stopProFitTarget end
+
+        //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
+        public Boolean stopProFitTargetTest(T0424Vo t0424Vo)
+        {
+            
+              
+           
+
+            //거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
+            if (t0424Vo.orderAt == false && (t0424Vo.errorcd == "" || t0424Vo.errorcd == null))
+            {
+
+                //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
+                //2.수익율2 로 변경함.
+                String sunikrt = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
+                if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
+                {
+
+                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
+                    {
+                        
+                        /// <summary>
+                        /// 현물정상주문
+                        /// </summary>
+                        /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
+                        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+                        /// <param name="upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
+                        /// <param name="IsuNo">종목코드</param>
+                        /// <param name="Quantity">수량</param>
+                        /// <param name="Price">가격</param>
+                        Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
+                        xing_CSPAT00600.mainForm = mainForm;
+                        xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+
+                        Log.WriteLine("t0424 ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
+                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산.");
+                        t0424Vo.orderAt = true;//청산 주문여부를 true로 설정    
+                        return true;
+                    }
+                    else
+                    {
+                        //Log.WriteLine("t0424 ::청산무시[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
+                        //mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산무시.");
+                    }
+                }
+
+                ////손절
+                //if (Properties.Settings.Default.STOP_LOSS_AT && float.Parse(t0424Vo.sunikrt) <= float.Parse(Properties.Settings.Default.STOP_LOSS))
+                //{
+                //    /// <summary>
+                //    /// 현물정상주문
+                //    /// </summary>
+                //    /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
+                //    /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
+                //    /// <param name="upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
+                //    /// <param name="IsuNo">종목명</param>
+                //    /// <param name="IsuNo">종목코드</param>
+                //    /// <param name="Quantity">수량</param>
+                //    /// <param name="Price">가격</param>
+                //    mainForm.xing_CSPAT00600.call_requestSell("손절", "none", t0424Vo.pamt2.Replace(",", ""), t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+                //    Log.WriteLine("t0424 ::손절[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%  주문수량:" + t0424Vo.mdposqt);
+                //    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":손절.");
+                //    t0424Vo.orderAt = true;//일괄 매도시 주문여부를 true로 설정
+                //}
+            }
+            return false;
+        }//stopProFitTarget end
     } //end class 
 
     public class T0424Vo
@@ -422,5 +428,7 @@ namespace PackageSellSystemTrading {
         public String sunikrt_   { set; get; } //손익율_ - 종목 추가매수가 되면 평균단가가 달라진다. 매수실시간 이벤트시 평단을 계산혹은 요청을 한다.
         //후회할까? 
     }
+
+
 
 }   // end namespace

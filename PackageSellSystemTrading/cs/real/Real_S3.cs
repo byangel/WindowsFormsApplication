@@ -44,9 +44,11 @@ namespace PackageSellSystemTrading{
         {
             String shcode = base.GetFieldData("OutBlock", "shcode");    //단축종목코드
             String price  = base.GetFieldData("OutBlock", "price");      //현재가
-            mainForm.realPriceCallBack(shcode, price);
+
+            //시스템 상태 구분해주자.
+            //mainForm.realPriceCallBack(shcode, price);
         }
-    
+
         /// <summary>
         /// 종목 실시간 체결 등록
         /// </summary>
