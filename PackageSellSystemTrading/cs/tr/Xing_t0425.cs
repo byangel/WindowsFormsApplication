@@ -271,8 +271,9 @@ namespace PackageSellSystemTrading {
             if (time == "" || time == null) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
+            //매수취소가 필요한지 모르겠다...
             var varT0425VoList = from item in this.t0425VoList
-                                 where item.qty != item.cheqty //item.status == "미체결"
+                                 where item.qty != item.cheqty && item.medosu == "매도"  
                                  select item;
             for (int i = 0; i < varT0425VoList.Count(); i++)
             {
@@ -281,6 +282,7 @@ namespace PackageSellSystemTrading {
                 int tmpTime = (int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(0, 2)) * 60) + int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(2, 2));//현재 시간
                 if ((cTime - tmpTime) > 2)
                 {
+                    
                     /// <summary>
                     /// 현물 취소 주문
                     /// </summary>
@@ -295,6 +297,8 @@ namespace PackageSellSystemTrading {
                     //주문 취소후 0425 주문여부 false 로 업데이트
                     int findIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", varT0425VoList.ElementAt(i).expcode);
                     mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = false;
+                    
+                    
                     //1.최소하면 dataLog 삭제 -- 매수인지 매도인지 잘모름...
                     //매수 미체결 - public String medosu   { set; get; } //매매구분 - 0:전체|1:매수|2:매도
                     //if (varT0425VoList.ElementAt(i).medosu == "1")
