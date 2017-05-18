@@ -19,9 +19,6 @@ namespace PackageSellSystemTrading
 
         public MainForm mainForm;
 
-        public String account { get; set; }
-        public String accountPw { get; set; }
-
         public AccountForm()
         {
             InitializeComponent();

@@ -343,7 +343,7 @@ namespace PackageSellSystemTrading {
                 //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
                 //2.수익율2 로 변경함.
                 String sunikrt = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
-                if (float.Parse(sunikrt) >= float.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
+                if (Double.Parse(sunikrt) >= Double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
                 {
 
                     if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530)
@@ -362,7 +362,7 @@ namespace PackageSellSystemTrading {
                         xing_CSPAT00600.mainForm = mainForm;
                         xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
 
-                        Log.WriteLine("t0424 ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
+                        Log.WriteLine("t0424 ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt);
                         mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산.");
                         t0424Vo.orderAt = true;//청산 주문여부를 true로 설정    
                         return true;

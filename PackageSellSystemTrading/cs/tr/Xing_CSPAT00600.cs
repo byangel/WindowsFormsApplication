@@ -77,26 +77,23 @@ namespace PackageSellSystemTrading{
             {
                 //데이타로그에 저장
                 //public class DataLogVo
-                dataLogVo.ordno = OrdNo;          //주문번호
-                dataLogVo.accno = AcntNo;         //계좌번호
-                dataLogVo.ordptncode = "0" + BnsTpCode;//주문구분 01:매도|02:매수 
-                dataLogVo.Isuno = IsuNo.Replace("A", "");  //종목코드
-                dataLogVo.ordqty = OrdQty;         //주문수량
-                dataLogVo.execqty = "0";            //체결수량
-                dataLogVo.ordprc = OrdPrc;         //주문가격
-                dataLogVo.execprc = "0";            //체결가격
-                dataLogVo.Isunm = this.hname;     //종목명
-                dataLogVo.ordptnDetail = this.ordptnDetail;   //상세 주문구분 신규매수|반복매수|금일매도|청산
-                dataLogVo.upExecprc = this.upExecprc; //상위 체결가격
-                dataLogVo.sellOrdAt = sellOrdAt;      //매도 주문 여부
-                dataLogVo.useYN = "Y";            //사용여부
-                                                  //상위 주문번호
-                if (this.upOrdno == "")
-                {
-                    dataLogVo.upOrdno = OrdNo;               //상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
-                }
-                else
-                {
+                dataLogVo.ordno         = OrdNo;                    //주문번호
+                dataLogVo.accno         = AcntNo;                   //계좌번호
+                dataLogVo.ordptncode    = "0" + BnsTpCode;          //주문구분 01:매도|02:매수 
+                dataLogVo.Isuno         = IsuNo.Replace("A", "");  //종목코드
+                dataLogVo.ordqty        = OrdQty;                   //주문수량
+                dataLogVo.execqty       = "0";                      //체결수량
+                dataLogVo.ordprc        = OrdPrc;                   //주문가격
+                dataLogVo.execprc       = "0";                      //체결가격
+                dataLogVo.Isunm         = this.hname;               //종목명
+                dataLogVo.ordptnDetail  = this.ordptnDetail;        //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.upExecprc     = this.upExecprc;           //상위 체결가격
+                dataLogVo.sellOrdAt     = sellOrdAt;                //매도 주문 여부
+                dataLogVo.useYN = "Y";                              //사용여부
+                //상위 주문번호
+                if (this.upOrdno == ""){
+                    dataLogVo.upOrdno = OrdNo;//상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
+                }else{
                     dataLogVo.upOrdno = this.upOrdno;
                 }
                 //dataInsert호출
@@ -121,7 +118,8 @@ namespace PackageSellSystemTrading{
                 // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
-
+                // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.    
+                MessageBox.Show("600:: 주문가격"+ price);                                  
                 //정규매매장이 종료되었습니다.
                 if (nMessageCode=="03563")
                 {
@@ -158,20 +156,20 @@ namespace PackageSellSystemTrading{
         /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
         public void call_request(String shcode, String quantity, String price, String divideBuySell){
 
-            base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, mainForm.accountForm.account);       // 계좌번호
-            base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, mainForm.accountForm.accountPw);     // 입력비밀번호
+            base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, mainForm.account);       // 계좌번호
+            base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, mainForm.accountPw);     // 입력비밀번호
             base.SetFieldData("CSPAT00600Inblock1", "IsuNo"        ,0, shcode);        // 종목번호
             base.SetFieldData("CSPAT00600Inblock1", "OrdQty"       ,0, quantity);      // 주문수량
-            base.SetFieldData("CSPAT00600Inblock1", "OrdPrc"       ,0, price);         // 주문가
+            base.SetFieldData("CSPAT00600Inblock1", "OrdPrc"       ,0, price.Replace(",",""));         // 주문가
             base.SetFieldData("CSPAT00600Inblock1", "BnsTpCode"    ,0, divideBuySell); // 매매구분: 1-매도, 2-매수
             base.SetFieldData("CSPAT00600Inblock1", "OrdprcPtnCode",0, "00");          // 호가유형코드: 00-지정가, 05-조건부지정가, 06-최유리지정가, 07-최우선지정가
             base.SetFieldData("CSPAT00600Inblock1", "MgntrnCode"   ,0, "000");         // 신용거래코드: 000-보통
             base.SetFieldData("CSPAT00600Inblock1", "LoanDt"       ,0, "");            // 대출일 : 신용주문이 아닐 경우 SPACE
             base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode",0, "0");           // 주문조건구분 : 0-없음
 
-            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530) 
+            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520) 
             {
-                if (mainForm.accountForm.accountPw == "" || mainForm.accountForm.account == "")
+                if (mainForm.accountPw == "" || mainForm.account == "")
                 {
                     MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
                 }

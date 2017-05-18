@@ -66,8 +66,8 @@ namespace PackageSellSystemTrading{
             this.t1833ExcludeVoList = tmpList;
             //MessageBox.Show(blockCount.ToString());
             mainForm.exCnt.Text = blockCount.ToString();
-            
-            
+
+            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]EXCLUDE 매수금지종목 조회 완료.";
             //Log.WriteLine("t1833 ::매수금지종목 조회 완료");
             completeAt = true;//중복호출 여부
         }
@@ -79,9 +79,10 @@ namespace PackageSellSystemTrading{
             } else { 
                 //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
                 mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]t1833_Exclude :: " + nMessageCode + " :: " + szMessage;
-                completeAt = true;//중복호출 방지
-            }         
-
+                
+            }
+            completeAt = true;//중복호출 방지
+           
         }
 
         /// <summary>
@@ -95,8 +96,10 @@ namespace PackageSellSystemTrading{
 
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
                 base.RequestService("t1833", startupPath + "\\Resources\\"+Properties.Settings.Default.CONDITION_EXCLUDE);
+
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]exclude 조건검색 요청.";
             } else {
-                mainForm.input_t1833_log1.Text = "[중복]조건검색 요청.";
+                mainForm.input_t1833_log2.Text = "[중복]EXCLUDE 조건검색 요청.";
                 //mainForm.input_t1833_log2.Text = "대기";
             }
         }

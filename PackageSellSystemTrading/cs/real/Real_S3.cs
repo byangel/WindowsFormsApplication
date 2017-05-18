@@ -46,7 +46,7 @@ namespace PackageSellSystemTrading{
             String price  = base.GetFieldData("OutBlock", "price");      //현재가
 
             //시스템 상태 구분해주자.
-            //mainForm.realPriceCallBack(shcode, price);
+            mainForm.realPriceCallBack(shcode, price);
         }
 
         /// <summary>

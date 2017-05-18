@@ -144,6 +144,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btn_search = new System.Windows.Forms.Button();
             this.grd_t1833 = new System.Windows.Forms.DataGridView();
+            this.shcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.close = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sign = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.change = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.diff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.t0118DeleteAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_t0425 = new System.Windows.Forms.Button();
             this.btn_option_config = new System.Windows.Forms.Button();
             this.btn_checkSell = new System.Windows.Forms.Button();
@@ -180,14 +188,7 @@
             this.label_jif = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.shcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.close = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sign = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.change = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.diff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.t0118DeleteAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
@@ -349,7 +350,7 @@
             // 
             this.input_t0424_log.Location = new System.Drawing.Point(240, 407);
             this.input_t0424_log.Name = "input_t0424_log";
-            this.input_t0424_log.Size = new System.Drawing.Size(210, 29);
+            this.input_t0424_log.Size = new System.Drawing.Size(298, 29);
             this.input_t0424_log.TabIndex = 39;
             // 
             // label15
@@ -471,14 +472,13 @@
             this.c_sunikrt.DefaultCellStyle = dataGridViewCellStyle38;
             this.c_sunikrt.HeaderText = "수익율";
             this.c_sunikrt.Name = "c_sunikrt";
-            this.c_sunikrt.Width = 65;
+            this.c_sunikrt.Width = 50;
             // 
             // sunikrt_
             // 
             this.sunikrt_.DataPropertyName = "sunikrt_";
             this.sunikrt_.HeaderText = "수익율_";
             this.sunikrt_.Name = "sunikrt_";
-            this.sunikrt_.Visible = false;
             this.sunikrt_.Width = 59;
             // 
             // sunikrt2
@@ -525,7 +525,7 @@
             this.fee.DefaultCellStyle = dataGridViewCellStyle42;
             this.fee.HeaderText = "수수료";
             this.fee.Name = "fee";
-            this.fee.Width = 65;
+            this.fee.Width = 50;
             // 
             // tax
             // 
@@ -535,7 +535,7 @@
             this.tax.DefaultCellStyle = dataGridViewCellStyle43;
             this.tax.HeaderText = "제세금";
             this.tax.Name = "tax";
-            this.tax.Width = 65;
+            this.tax.Width = 50;
             // 
             // sellCnt
             // 
@@ -675,7 +675,7 @@
             // 
             this.input_t0425_log.Location = new System.Drawing.Point(544, 729);
             this.input_t0425_log.Name = "input_t0425_log";
-            this.input_t0425_log.Size = new System.Drawing.Size(170, 29);
+            this.input_t0425_log.Size = new System.Drawing.Size(235, 29);
             this.input_t0425_log.TabIndex = 54;
             // 
             // btn_start
@@ -713,7 +713,7 @@
             // 
             // input_t0424_log2
             // 
-            this.input_t0424_log2.Location = new System.Drawing.Point(456, 407);
+            this.input_t0424_log2.Location = new System.Drawing.Point(545, 407);
             this.input_t0424_log2.Name = "input_t0424_log2";
             this.input_t0424_log2.Size = new System.Drawing.Size(394, 29);
             this.input_t0424_log2.TabIndex = 62;
@@ -725,7 +725,7 @@
             // 
             // input_t0425_log2
             // 
-            this.input_t0425_log2.Location = new System.Drawing.Point(720, 729);
+            this.input_t0425_log2.Location = new System.Drawing.Point(785, 729);
             this.input_t0425_log2.Name = "input_t0425_log2";
             this.input_t0425_log2.Size = new System.Drawing.Size(434, 29);
             this.input_t0425_log2.TabIndex = 67;
@@ -1019,6 +1019,82 @@
             this.grd_t1833.Size = new System.Drawing.Size(298, 268);
             this.grd_t1833.TabIndex = 79;
             this.grd_t1833.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_t1833_CellFormatting);
+            // 
+            // shcode
+            // 
+            this.shcode.DataPropertyName = "shcode";
+            dataGridViewCellStyle64.Font = new System.Drawing.Font("Gulim", 8F);
+            this.shcode.DefaultCellStyle = dataGridViewCellStyle64;
+            this.shcode.FillWeight = 24.82159F;
+            this.shcode.HeaderText = "코드";
+            this.shcode.Name = "shcode";
+            this.shcode.Width = 88;
+            // 
+            // hname
+            // 
+            this.hname.DataPropertyName = "hname";
+            dataGridViewCellStyle65.Font = new System.Drawing.Font("Gulim", 8F);
+            this.hname.DefaultCellStyle = dataGridViewCellStyle65;
+            this.hname.FillWeight = 34.36586F;
+            this.hname.HeaderText = "종목명";
+            this.hname.Name = "hname";
+            this.hname.Width = 107;
+            // 
+            // close
+            // 
+            this.close.DataPropertyName = "close";
+            dataGridViewCellStyle66.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle66.Format = "N1";
+            dataGridViewCellStyle66.NullValue = null;
+            this.close.DefaultCellStyle = dataGridViewCellStyle66;
+            this.close.FillWeight = 49.17073F;
+            this.close.HeaderText = "현재가";
+            this.close.Name = "close";
+            this.close.Visible = false;
+            this.close.Width = 107;
+            // 
+            // sign
+            // 
+            this.sign.DataPropertyName = "sign";
+            this.sign.FillWeight = 72.13579F;
+            this.sign.HeaderText = "구분";
+            this.sign.Name = "sign";
+            this.sign.Visible = false;
+            this.sign.Width = 88;
+            // 
+            // change
+            // 
+            this.change.DataPropertyName = "change";
+            this.change.FillWeight = 107.7587F;
+            this.change.HeaderText = "전일대비";
+            this.change.Name = "change";
+            this.change.Visible = false;
+            this.change.Width = 126;
+            // 
+            // diff
+            // 
+            this.diff.DataPropertyName = "diff";
+            this.diff.FillWeight = 163.0164F;
+            this.diff.HeaderText = "등락율";
+            this.diff.Name = "diff";
+            this.diff.Width = 107;
+            // 
+            // volume
+            // 
+            this.volume.DataPropertyName = "volume";
+            this.volume.FillWeight = 248.731F;
+            this.volume.HeaderText = "거래량";
+            this.volume.Name = "volume";
+            this.volume.Visible = false;
+            this.volume.Width = 107;
+            // 
+            // t0118DeleteAt
+            // 
+            this.t0118DeleteAt.DataPropertyName = "deleteAt";
+            this.t0118DeleteAt.HeaderText = "삭제확인";
+            this.t0118DeleteAt.Name = "t0118DeleteAt";
+            this.t0118DeleteAt.Visible = false;
+            this.t0118DeleteAt.Width = 126;
             // 
             // btn_t0425
             // 
@@ -1317,7 +1393,7 @@
             // 
             // timer_t1833Exclude
             // 
-            this.timer_t1833Exclude.Interval = 10000;
+            this.timer_t1833Exclude.Interval = 5000;
             this.timer_t1833Exclude.Tick += new System.EventHandler(this.timer_t1833Exclude_Tick);
             // 
             // 시간
@@ -1393,87 +1469,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // shcode
+            // button3
             // 
-            this.shcode.DataPropertyName = "shcode";
-            dataGridViewCellStyle64.Font = new System.Drawing.Font("Gulim", 8F);
-            this.shcode.DefaultCellStyle = dataGridViewCellStyle64;
-            this.shcode.FillWeight = 24.82159F;
-            this.shcode.HeaderText = "코드";
-            this.shcode.Name = "shcode";
-            this.shcode.Width = 88;
-            // 
-            // hname
-            // 
-            this.hname.DataPropertyName = "hname";
-            dataGridViewCellStyle65.Font = new System.Drawing.Font("Gulim", 8F);
-            this.hname.DefaultCellStyle = dataGridViewCellStyle65;
-            this.hname.FillWeight = 34.36586F;
-            this.hname.HeaderText = "종목명";
-            this.hname.Name = "hname";
-            this.hname.Width = 107;
-            // 
-            // close
-            // 
-            this.close.DataPropertyName = "close";
-            dataGridViewCellStyle66.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle66.Format = "N1";
-            dataGridViewCellStyle66.NullValue = null;
-            this.close.DefaultCellStyle = dataGridViewCellStyle66;
-            this.close.FillWeight = 49.17073F;
-            this.close.HeaderText = "현재가";
-            this.close.Name = "close";
-            this.close.Visible = false;
-            this.close.Width = 107;
-            // 
-            // sign
-            // 
-            this.sign.DataPropertyName = "sign";
-            this.sign.FillWeight = 72.13579F;
-            this.sign.HeaderText = "구분";
-            this.sign.Name = "sign";
-            this.sign.Visible = false;
-            this.sign.Width = 88;
-            // 
-            // change
-            // 
-            this.change.DataPropertyName = "change";
-            this.change.FillWeight = 107.7587F;
-            this.change.HeaderText = "전일대비";
-            this.change.Name = "change";
-            this.change.Visible = false;
-            this.change.Width = 126;
-            // 
-            // diff
-            // 
-            this.diff.DataPropertyName = "diff";
-            this.diff.FillWeight = 163.0164F;
-            this.diff.HeaderText = "등락율";
-            this.diff.Name = "diff";
-            this.diff.Width = 107;
-            // 
-            // volume
-            // 
-            this.volume.DataPropertyName = "volume";
-            this.volume.FillWeight = 248.731F;
-            this.volume.HeaderText = "거래량";
-            this.volume.Name = "volume";
-            this.volume.Visible = false;
-            this.volume.Width = 107;
-            // 
-            // t0118DeleteAt
-            // 
-            this.t0118DeleteAt.DataPropertyName = "deleteAt";
-            this.t0118DeleteAt.HeaderText = "삭제확인";
-            this.t0118DeleteAt.Name = "t0118DeleteAt";
-            this.t0118DeleteAt.Visible = false;
-            this.t0118DeleteAt.Width = 126;
+            this.button3.Location = new System.Drawing.Point(1013, 30);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(62, 20);
+            this.button3.TabIndex = 106;
+            this.button3.Text = "취소";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1452, 770);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label_jif);
@@ -1524,7 +1535,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Gulim", 8F);
             this.Name = "MainForm";
-            this.Text = "PackageSellSystemTrading";
+            this.Text = "Angel 1.0";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).EndInit();
@@ -1610,32 +1621,6 @@
         private System.Windows.Forms.Label label20;
         public System.Windows.Forms.ListBox listBox_log;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_expcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_hname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_sunikrt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sunikrt_;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sunikrt2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dtsunik;
-        private System.Windows.Forms.DataGridViewTextBoxColumn price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_mdposqt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fee;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tax;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sellCnt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn buyCnt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pamt2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pamt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sellSunik;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sininter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mamt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn appamt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn msat;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mpms;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mdat;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mpmd;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn orderAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn deleteAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn errorcd;
         private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
         private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
@@ -1663,6 +1648,33 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn diff;
         private System.Windows.Forms.DataGridViewTextBoxColumn volume;
         private System.Windows.Forms.DataGridViewTextBoxColumn t0118DeleteAt;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_expcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_hname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_sunikrt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sunikrt_;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sunikrt2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dtsunik;
+        private System.Windows.Forms.DataGridViewTextBoxColumn price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_mdposqt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fee;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellCnt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn buyCnt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pamt2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellSunik;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sininter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn appamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn msat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mpms;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mdat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mpmd;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn orderAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn deleteAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn errorcd;
+        public System.Windows.Forms.Button button3;
     }
 }
 

@@ -42,6 +42,13 @@ namespace PackageSellSystemTrading{
         public DataLog           dataLog; //데이타로그
 
         public String            tradingAt;//매매 여부 Y|N
+
+
+        public String account; //계좌번호
+        public String accountPw;//계좌 비밀번호
+        //public String account { get; set; }
+        //public String accountPw { get; set; }
+
         //생성자
         public MainForm(){
             InitializeComponent();
@@ -52,66 +59,52 @@ namespace PackageSellSystemTrading{
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //폼 초기화
+            initForm();
+        }
+
+        //프로그램시작시 폼 초기화
+        private void initForm(){
             //접속가능
             //실운영 : hts.ebestsec.co.kr
             //모의투자 : demo.ebestsec.co.kr
-            exXASessionClass                = new ExXASessionClass();//로그인
-            exXASessionClass.mainForm       = this;
+            exXASessionClass = new ExXASessionClass();//로그인
+            exXASessionClass.mainForm = this;
 
-            this.xing_t1833                 = new Xing_t1833();//종목검색
-            this.xing_t1833.mainForm        = this;
-            this.xing_t1833Exclude          = new Xing_t1833Exclude();//매수금지종목검색
+            this.xing_t1833 = new Xing_t1833();//종목검색
+            this.xing_t1833.mainForm = this;
+            this.xing_t1833Exclude = new Xing_t1833Exclude();//매수금지종목검색
             this.xing_t1833Exclude.mainForm = this;
-            this.xing_t0424                 = new Xing_t0424();//주식잔고2
-            this.xing_t0424.mainForm        = this;
-            this.xing_t0425                 = new Xing_t0425();//체결/미체결
-            this.xing_t0425.mainForm        = this;
-            this.xing_t0167                 = new Xing_t0167();//서버시간조회
-            this.xing_t0167.mainForm        = this;
-            this.xing_CSPAT00600            = new Xing_CSPAT00600();//정상주문
-            this.xing_CSPAT00600.mainForm   = this;
-            this.xing_CSPAT00800            = new Xing_CSPAT00800();//현물취소주문
-            this.xing_CSPAT00800.mainForm   = this;
-            this.xing_CSPAQ12200            = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
-            this.xing_CSPAQ12200.mainForm   = this;
+            this.xing_t0424 = new Xing_t0424();//주식잔고2
+            this.xing_t0424.mainForm = this;
+            this.xing_t0425 = new Xing_t0425();//체결/미체결
+            this.xing_t0425.mainForm = this;
+            this.xing_t0167 = new Xing_t0167();//서버시간조회
+            this.xing_t0167.mainForm = this;
+            this.xing_CSPAT00600 = new Xing_CSPAT00600();//정상주문
+            this.xing_CSPAT00600.mainForm = this;
+            this.xing_CSPAT00800 = new Xing_CSPAT00800();//현물취소주문
+            this.xing_CSPAT00800.mainForm = this;
+            this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
+            this.xing_CSPAQ12200.mainForm = this;
 
-            this.accountForm                = new AccountForm();//계좌선택폼
-            this.accountForm.mainForm       = this;
+            this.accountForm = new AccountForm();//계좌선택폼
+            this.accountForm.mainForm = this;
             this.accountForm.exXASessionClass = exXASessionClass;
-            this.optionForm                 = new OptionForm();
-            this.optionForm.mainForm        = this;
+            this.optionForm = new OptionForm();
+            this.optionForm.mainForm = this;
 
-            this.real_SC1                   = new Real_SC1();    //실시간 체결
-            this.real_SC1.mainForm          = this;
+            this.real_SC1 = new Real_SC1();    //실시간 체결
+            this.real_SC1.mainForm = this;
             this.real_S3 = new Real_S3();    //코스피 실시간 체결
             this.real_S3.mainForm = this;
             this.real_K3 = new Real_K3();    //코스닥 실시간 체결
             this.real_K3.mainForm = this;
             this.real_jif = new Real_jif();    //장정보
             this.real_jif.mainForm = this;
-            
-            this.dataLog                    = new DataLog();
-            this.dataLog.mainForm           = this;
 
-            
-            
-
-            //폼 초기화
-            initForm();
-
-
-            //프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
-            if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
-            {
-                optionForm.rollBack();
-                optionForm.btn_config_save_Click(new object(), new EventArgs());
-            }
-            
-        }
-
-        //프로그램시작시 폼 초기화
-        private void initForm(){
-            
+            this.dataLog = new DataLog();
+            this.dataLog.mainForm = this;
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
             //진입검색 그리드.
@@ -131,6 +124,14 @@ namespace PackageSellSystemTrading{
                 {
                     combox_targetServer.SelectedIndex = i;
                 }
+            }
+
+
+            //프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
+            if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
+            {
+                optionForm.rollBack();
+                optionForm.btn_config_save_Click(new object(), new EventArgs());
             }
 
         }
@@ -171,8 +172,8 @@ namespace PackageSellSystemTrading{
         {
             this.tradingStop();
             this.exXASessionClass.DisconnectServer();
-            this.accountForm.account = null;
-            this.accountForm.accountPw = null;
+            this.account = null;
+            this.accountPw = null;
             // 로그인 버튼 활성
             this.btn_login.Enabled = true;
             MessageBox.Show("성공적으로 로그아웃 하였습니다.");
@@ -222,10 +223,10 @@ namespace PackageSellSystemTrading{
         //주식 잔고2
         private void btn_accountSearch_Click(object sender, EventArgs e) {
 
-            if (this.accountForm.account == "" || this.accountForm.accountPw == ""){
+            if (this.account == "" || this.accountPw == ""){
                 MessageBox.Show("계좌 정보가 없습니다.");
             }else{
-                xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
+                xing_t0424.call_request(this.account, this.accountPw);
             }
 
             //setRowNumber(grd_t0424);
@@ -237,7 +238,7 @@ namespace PackageSellSystemTrading{
         //미체결내역
         private void btn_t0425_Click(object sender, EventArgs e)
         {
-            xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
+            xing_t0425.call_request(this.account, this.accountPw);
         }
 
         //시작버튼 클릭 이벤트
@@ -248,7 +249,7 @@ namespace PackageSellSystemTrading{
                 if (this.exXASessionClass.IsConnected())
                 {
                     //계좌번호까지있어야 로그인으로 간주하자.
-                    if (this.accountForm.account == null || this.accountForm.accountPw == null)
+                    if (this.account == null || this.accountPw == null)
                     {
                         MessageBox.Show("로그인 후 서비스 이용가능합니다."); 
                     } else {
@@ -270,8 +271,8 @@ namespace PackageSellSystemTrading{
             //timer_t1833Exclude.Start();//진입검색 타이머
             //timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
             this.tradingAt = "Y";
-            btn_start.Enabled = false;
-            btn_stop.Enabled = true;
+            btn_start.Enabled = false;//시작버튼 비활성
+            btn_stop.Enabled = true;//종료버튼 활성
             Log.WriteLine("Trading Start..!!");
         }
 
@@ -403,7 +404,9 @@ namespace PackageSellSystemTrading{
                             /// <param name="IsuNo">종목번호</param>
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
-                            this.xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
+                            Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
+                            xing_CSPAT00600.mainForm = this;
+                            xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
                           
 
                             this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = true;//일괄 매도시 주문여부를 true로 설정
@@ -420,145 +423,21 @@ namespace PackageSellSystemTrading{
             }
         }
 
-        public int cnt = 100;
+        //테스트 버튼 클릭 이벤트
         private void test_Click(object sender, EventArgs e)
         {
+            //xing_t1833.call_request();
 
-            HistoryVo historyvo = this.dataLog.getHistoryVo(xing_t0424.getT0424VoList().ElementAt(0).expcode.Replace("A", ""));
-            if (historyvo == null)
-            {
-                MessageBox.Show("dd");
-            }
-            else
-            {
-                MessageBox.Show("xxxx");
-            }
-            //매수금지종목 조회
-            //insertListBoxLog("[" + label_time.Text + "]t0425::세스트종목:금일 매도.");
-            ///xing_t1833Exclude.call_request();
-
-            //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
-            //                          where item.Isuno == "122800" && item.accno == accountForm.account && item.useYN == "Y"
-            //                          select item;
-
-            //MessageBox.Show(resultDataLogVoList.Count().ToString());
-            //신규매수 테스트
-            //this.xing_CSPAT00600.call_requestBuy("신규매수", "214270", "10", "2640");
-            //int test = dataLog.getDataLogVoList().Find("Isuno", "010600");
-            //Log.WriteLine(dataLog.getDataLogVoList().Count().ToString());
-            //for (int i=0;i< dataLog.getDataLogVoList().Count();i++)
-            //{
-            //    Log.WriteLine(dataLog.getDataLogVoList().ElementAt(i).Isunm+","+ dataLog.getDataLogVoList().ElementAt(i).Isuno + "," + dataLog.getDataLogVoList().ElementAt(i).useYN );
-            //}
-            //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
-            //                          where item.Isuno == "010600" && item.accno == accountForm.account && item.useYN == "Y"
-            //                          select item;
-
-            //Log.WriteLine(dataLog.getDataLogVoList().ElementAt(test).Isunm );
-            //Log.WriteLine(resultDataLogVoList.ElementAt(0).Isunm);
-
-
-            ////데이타로그에 저장
-            ////public class DataLogVo
-            //DataLogVo dataLogVo = new DataLogVo();
-            //dataLogVo.ordno = "init"+(cnt+1).ToString();//주문번호
-            //dataLogVo.accno = "55501015734"; //계좌번호
-            //dataLogVo.ordptncode = "02";//주문구분 01:매도|02:매수 
-            //dataLogVo.Isuno = (cnt + 1).ToString();  //종목코드
-            //dataLogVo.ordqty = "11"; //주문수량
-            //dataLogVo.execqty = "0";   //체결수량
-            //dataLogVo.ordprc = "11111"; //주문가격
-            //dataLogVo.execprc = "0";    //체결가격
-            //dataLogVo.Isunm = "test종목명";   //종목명
-            //dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산
-            //                                //상위 주문번호
-
-            //dataLogVo.upOrdno = "init100";
-
-            //dataLogVo.upExecprc = "0"; //상위 체결가격
-            //dataLogVo.sellOrdAt = "N"; //매도 주문 여부
-            //dataLogVo.useYN = "Y";                 //사용여부여부
-
-            ////dataInsert호출
-            //this.dataLog.insertData(dataLogVo);
-
-            //////////////////////////////
-
-            //var resultDataLogVoList = from item in dataLog.getDataLogVoList()
-            //                          where item.Isuno == "test코드" && item.accno == accountForm.account && item.useYN == "Y"
-            //                          select item;
-
-            //var groupDataLogVoList = from item in resultDataLogVoList
-            //                         group item by item.ordptncode == "02" into g
-            //                         select new
-            //                         {
-            //                             goupKey = g.Key,
-            //                             groupVoList = g,
-            //                             매매횟수 = g.Count(),
-            //                             거래금액합 = g.Sum(o => int.Parse(o.execqty) * int.Parse(o.execprc)),
-            //                             상위거래금액합 = g.Sum(o => int.Parse(o.execqty) * int.Parse(o.upExecprc)) ,
-            //                             체결수량합 = g.Sum(o => int.Parse(o.execqty))
-            //                         };
-            //groupping 매도:false | 매수:true
-
-            //dataLogVoList에 매수 정보가 없다는것은 잔고목록과 매핑이 잘되지 않았다는거다...else구문을 구현해주자.
-
-
-
-            //var varDataLogVoList = from item in dataLog.getDataLogVoList()
-            //                       where item.accno == accountForm.account
-            //                              && item.Isuno == "019170"
-            //                       select item;
-            //Log.WriteLine("+++++++++++deleteData:" + varDataLogVoList.Count());
-            //MessageBox.Show(resultDataLogVoList.Count().ToString());
-            //MessageBox.Show(groupDataLogVoList.Count().ToString());
-
-
-
-
-            //MessageBox.Show(dataLog.getDataLogVoList().Find("Isuno", "057540").ToString());
-
-            //this.grd_t0424.Rows[0].Cells["c_hname"].Value = "test";
-
-            //grd_t0424.Rows[0].Cells["c_mdposqt"].Value = "test";
-            //listBox1.Items.Insert(0,"dddd");
-
-            //this.listBox_account.Items.Add(account);
-            //EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
-            //int findIndex = t0424VoList.Find("expcode", "000890");
-            //if (findIndex >= 0)
-            //{
-            //    grd_t0424.Rows.Remove(grd_t0424.Rows[findIndex]);
-            //    MessageBox.Show("로우삭제");
-            //    //t0424VoList.ElementAt(findIndex).price = price;
-            //    //t0424VoList.ResetItem(findIndex);
-            //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
-            //}
-            //MessageBox.Show(t0424VoList.Find("expcode", "000890").ToString());
-
-
-            //for (int i=0;i<100;i++)
-            //{
-            //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.Gray;
-            //    //grd_t0424.Rows[0].Cells["price"].Value = i;
-            //    //grd_t0424.Rows[0].Cells["price"].Style.BackColor = Color.White;
-            //}
-            //int findIndex = xing_t0424.getT0424VoList().Find("expcode", "002680");
-            //if (findIndex >= 0)
-            //{
-
-            //    MessageBox.Show(this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value.ToString());
-            //    this.grd_t0424.Rows[findIndex].Cells["c_hname"].Value = "test";
-            //    MessageBox.Show(xing_t0424.getT0424VoList().ElementAt(findIndex).hname);
-            //    //t0424VoList.ElementAt(findIndex).price = price;
-            //    //t0424VoList.ResetItem(findIndex);
-            //    //Log.WriteLine("real S3 ::실시간 코스피 체결확인: 종목코드:" + shcode + "|현재가" + price);
-            //}
-
-
+            Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
+            xing_CSPAT00600.mainForm = this;
+            xing_CSPAT00600.call_requestSell("선택매도", "none", "2000", "대유플러스", "000300", "44", "1100");
 
         }
-
+        //취소
+        private void button3_Click(object sender, EventArgs e)
+        {
+            xing_CSPAT00800.call_request(this.account, this.accountPw, "14074", "000300", "");
+        }
 
 
 
@@ -732,17 +611,9 @@ namespace PackageSellSystemTrading{
 
             //실시간 체결정보 등록
             real_SC1.AdviseRealData();
-            //실시간 체결정보
+            
+            //실시간 체결정보 해제
             //real_SC1.UnadviseRealData();
-
-
-            //잔고정보
-            //xing_CSPAQ12200.call_request(accountForm.account, accountForm.accountPw);
-            //잔고목록
-            //xing_t0424.call_request(accountForm.account, accountForm.accountPw);
-            //체결미체결
-            //xing_t0425.call_request(accountForm.account, accountForm.accountPw);
-            //MessageBox.Show("계좌 정보가 정상확인 되었습니다.");
 
             //설정저장 버튼 활성화.
             btn_config_save.Enabled = true;
@@ -765,11 +636,12 @@ namespace PackageSellSystemTrading{
             String 신용이자;
             String 매도가능수량;
             String 평균단가;
-            Double 실현손익;
+            String 평균단가2;
+            String 평가손익;
             Double 손익률;
-            Double 평가손익;
             Double 평가금액;
-            String 매입금액;
+            Double 현재가 = Double.Parse(price);
+            Double 매입금액;
             
             EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", shcode.Replace("A", ""));
@@ -781,22 +653,32 @@ namespace PackageSellSystemTrading{
                 세금         = t0424VoList.ElementAt(findIndex).tax;
                 신용이자     = t0424VoList.ElementAt(findIndex).sininter;
                 평균단가     = t0424VoList.ElementAt(findIndex).pamt;
+                평균단가2    = t0424VoList.ElementAt(findIndex).pamt2;
                 당일매도금액 = t0424VoList.ElementAt(findIndex).mdat; //매도수량
                 당일매도단가 = t0424VoList.ElementAt(findIndex).mpmd;
-                매입금액     = t0424VoList.ElementAt(findIndex).mamt;
+                //매입금액     = t0424VoList.ElementAt(findIndex).mamt;
 
                 //평가금액: (보유수량 * 현재가) - 매도수수료(fee) - 매도제세금(tax) - 신용이자(sininter)
-                평가금액 = (double.Parse(매도가능수량) * double.Parse(price)) - double.Parse(수수료) - double.Parse(세금) - double.Parse(신용이자);
+                ////평가금액 = (double.Parse(매도가능수량) * double.Parse(price)) - double.Parse(수수료) - double.Parse(세금) - double.Parse(신용이자);
                 //매입금액: (매수수량 * 매수단가) + 매수수수료(fee) --매이금액은 변하지 않는 값이므로 계산하지 않고 기존데이타 활용
                 //매입금액 = (double.Parse(매도가능수량) * double.Parse(평균단가)) + double.Parse(세금);
                 //평가손익: 평가금액 - 매입금액
-                평가손익 = 평가금액 - double.Parse(매입금액);
+                /////평가손익 = 평가금액 - double.Parse(매입금액);
                 //손익률: (평가손익 / 매입금액)*100
-                손익률 = (평가손익 / double.Parse(매입금액)) * 100;
+                ////손익률 = (평가손익 / double.Parse(매입금액)) * 100;
                 //실현손익: (당일매도금액 - 매도수수료 - 매도제세금) - (매입금액 + 추정매입수수료) - 신용이자 
-                실현손익 = ((double.Parse(당일매도금액) * double.Parse(당일매도단가)) - double.Parse(수수료) - double.Parse(세금)) - (double.Parse(매입금액) - double.Parse(수수료)) - double.Parse(신용이자);
-                
-                grd_t0424.Rows[findIndex].Cells["price"].Value = Util.GetNumberFormat(price);
+                ////실현손익 = ((double.Parse(당일매도금액) * double.Parse(당일매도단가)) - double.Parse(수수료) - double.Parse(세금)) - (double.Parse(매입금액) - double.Parse(수수료)) - double.Parse(신용이자);
+
+                매입금액 = double.Parse(평균단가2) * double.Parse(매도가능수량);
+                평가금액 = 현재가 * double.Parse(매도가능수량);
+                평가금액 = 평가금액 - (평가금액 * 0.0033);
+                평가손익 = Util.GetNumberFormat(평가금액 - 매입금액);
+
+                현재가 = 현재가 - (현재가 * 0.0033);
+                //1.현재가가 금일매수 값보다 3%이상 올랐으면 금일 매수 수량만큼 매도한다.
+                손익률 = ((현재가 / Double.Parse(평균단가2)) * 100) - 100;
+
+                grd_t0424.Rows[findIndex].Cells["price"].Value = Util.GetNumberFormat(현재가);
                 grd_t0424.Rows[findIndex].Cells["appamt"].Value = Util.GetNumberFormat(평가금액);
                 grd_t0424.Rows[findIndex].Cells["dtsunik"].Value = Util.GetNumberFormat(평가손익);
                 grd_t0424.Rows[findIndex].Cells["sunikrt_"].Value = Math.Round(손익률, 2).ToString();
@@ -809,27 +691,9 @@ namespace PackageSellSystemTrading{
                 grd_t0424.Rows[findIndex].Cells["sunikrt2"].Value = 손익률2;
 
                 //매도테스트 - 해당 보유종목 정보를 인자로 넘겨주어 매도가능인지 테스트한다.
-                this.xing_t0424.stopProFitTargetTest(t0424VoList.ElementAt(findIndex));
+                //this.xing_t0424.stopProFitTargetTest(t0424VoList.ElementAt(findIndex));
 
-                ///////////////////////////////////////////////////////////////////////
-                //손익율2(sunikrt2)가 2% 이상이면 리스트에 박스에 출력한다.
-                //if (double.Parse(손익률2) > 2)
-                //{
-                //    //var resultT0424 = from item in xing_t0425.getT0425VoList()
-                //    //                  where item.expcode == shcode.Replace("A", "")
-                //    //                  select item;
-                //    //금일 매수된것중 2%에도달한 종목을 찾는데....매매 체결/미체결 그리드에 종목이 있다면 금일매수한것으로 간주한다. 
-                //    int t0425FindIndex  = xing_t0425.getT0425VoList().Find("expcode", shcode.Replace("A", ""));
-                //    if (t0425FindIndex >= 0)
-                //    {
-                //        if (!listBox1.Items.Contains(t0424VoList.ElementAt(findIndex).hname + "(" + shcode + ")"))
-                //        {
-                //            listBox1.Items.Insert(0, t0424VoList.ElementAt(findIndex).hname + "(" + shcode + ")");
-                //        }
-    
-                //    }
-                //}//급등필터 end
-               
+                
             }
         }//priceCallBack
 
@@ -876,15 +740,37 @@ namespace PackageSellSystemTrading{
             this.listBox_log.Items.Insert(0, Message);
             if (listBox_log.Items.Count > 100)
             {
-                this.listBox_log.Items.RemoveAt(101);
+                this.listBox_log.Items.RemoveAt(100);
             }
         }
 
+        int test = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833Exclude_Tick(object sender, EventArgs e)
         {
-            //매수금지종목 조회
-            xing_t1833Exclude.call_request();
+
+            if (test == 0)
+            {
+                xing_t1833Exclude.call_request();
+                test = 1;
+            }
+            else
+            {
+                xing_t1833.call_request();
+                test = 0;
+            }
+            //if ((int.Parse(xing_t0167.second) / 10) == 0)
+            //{
+                //매수금지종목 조회
+                //xing_t1833Exclude.call_request();
+            //}
+
+            //if ((int.Parse(xing_t0167.second) / 4) == 0)
+            //{
+                //매수금지종목 조회
+                //xing_t1833.call_request();
+            //}
+
         }
 
         //공통 타이머 계좌정보 --5초마다 호출됨.
@@ -892,26 +778,34 @@ namespace PackageSellSystemTrading{
         {
             if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
             {
-                this.login();
-                Log.WriteLine("timer_accountSearch_Tick:: 로그인 호출");
-            }
-            else
-            {
-                //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
-                xing_t1833.call_request();
+                if (this.login())
+                {
+                    Log.WriteLine("timer_accountSearch_Tick:: 로그인 성공");
+                    this.initForm();
+                }
+                else {
+                    Log.WriteLine("timer_accountSearch_Tick:: 재로그인 실패");
+                }
+                
+            }else{
+                
 
                 //3.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
-                this.xing_t0424.call_request(this.accountForm.account, this.accountForm.accountPw);
+                this.xing_t0424.call_request(this.account, this.accountPw);
 
                 //4.금일주문 이력
-                this.xing_t0425.call_request(this.accountForm.account, this.accountForm.accountPw);
+                this.xing_t0425.call_request(this.account, this.accountPw);
+
+                //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
+                //xing_t1833.call_request();
 
                 //5.현물계좌예수금/주문가능금액/총평가 조회
-                this.xing_CSPAQ12200.call_request(this.accountForm.account, this.accountForm.accountPw);
+                this.xing_CSPAQ12200.call_request(this.account, this.accountPw);
 
                 //데이터 조회와 매수/매도 프로세스 분리하자.
             }
         }
+        
     }//end class
 }//end namespace
 

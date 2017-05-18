@@ -84,12 +84,12 @@ namespace PackageSellSystemTrading {
                 // }
 
                 //아침에 서버 접속이 끊겼을경우 재로그인 하는데 다이얼로그가 뜨지않아도 되기 때문에 이구문을 추가함
-                if (mainForm.accountForm.account == "" || mainForm.accountForm.account == null ){
+                if (mainForm.account == "" || mainForm.account == null ){
                     mainForm.accountForm.ShowDialog();
                 }
 
                 //계좌 선택및 비밀번호 선택 다이얼로그 이후 계좌번호와 비밀번호가 잘 설정 되어 있는지 체크한다.
-                if (mainForm.accountForm.account == "" || mainForm.accountForm.accountPw == "" || mainForm.accountForm.account == null || mainForm.accountForm.accountPw == null) {
+                if (mainForm.account == "" || mainForm.accountPw == "" || mainForm.account == null || mainForm.accountPw == null) {
                     msg = "계좌 및 계좌 비밀번호를 설정해주세요.";
                 }else {
                     loginAt = true;
@@ -111,7 +111,9 @@ namespace PackageSellSystemTrading {
             Log.WriteLine("ExXASession :: " + szCode + " :: " + szMsg);
 
             if (msg != ""){
-                MessageBox.Show(msg);
+                //MessageBox.Show(msg);
+                Log.WriteLine("ExXASession :: " + msg);
+                mainForm.insertListBoxLog(msg);
             }
             
         }

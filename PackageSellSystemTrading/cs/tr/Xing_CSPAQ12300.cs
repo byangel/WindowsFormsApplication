@@ -51,37 +51,27 @@ namespace PackageSellSystemTrading{
         //이벤트 메세지.
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
 
-            try {
+        
                 //특정 오류없이 정상적으로 실행이 되었다면 화면 및 초기화를 해준다.
                 if (nMessageCode == "00136" || nMessageCode == "00133") {
-                    try
-                    {
-                        //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
-                        accountForm.account = this.account;
-                        accountForm.accountPw = this.accountPw;
+                   
+                    //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
+                    mainForm.account = this.account;
+                    mainForm.accountPw = this.accountPw;
 
-                        mainForm.accountAfter();
+                    mainForm.accountAfter();
 
-                        //계좌번호와 페스워드가 인증되었으면 계좌번호선택폼을 닫아준다.
-                        accountForm.Close();
+                    //계좌번호와 페스워드가 인증되었으면 계좌번호선택폼을 닫아준다.
+                    accountForm.Close();
 
-                    }
-                    catch (Exception e)
-                    {
-                        //MessageBox.Show("예외발생 로그 확인 요망.");
-                        MessageBox.Show("예외 발생:{0}", e.Message);
-                    }
+
+                    Log.WriteLine("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
+
+                }else{
+                    //MessageBox.Show("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
+                    Log.WriteLine("CSPAQ12300:: 예외 발생:" + nMessageCode + " :: " + szMessage);
                 }
-                else{
-                    MessageBox.Show("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
-                    completeAt = true;//중복호출 방지
-                }
-               
-            }
-            catch (Exception ex){
-                Log.WriteLine(ex.Message);
-               
-            }
+        
             completeAt = true;
 
         }
@@ -115,7 +105,8 @@ namespace PackageSellSystemTrading{
 
             } else {
                 //mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
-                MessageBox.Show("CSPAQ12300 :: 중복 조회 잠시후 시도해주세요.");
+                //MessageBox.Show("CSPAQ12300 :: 중복 조회 잠시후 시도해주세요.");
+                Log.WriteLine("CSPAQ12300 :: 중복 조회 잠시후 시도해주세요.");
             }
             
 

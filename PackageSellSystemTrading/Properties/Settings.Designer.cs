@@ -182,30 +182,6 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STOP_LOSS {
-            get {
-                return ((string)(this["STOP_LOSS"]));
-            }
-            set {
-                this["STOP_LOSS"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool STOP_LOSS_AT {
-            get {
-                return ((bool)(this["STOP_LOSS_AT"]));
-            }
-            set {
-                this["STOP_LOSS_AT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string BATTING_ATM {
             get {
                 return ((string)(this["BATTING_ATM"]));

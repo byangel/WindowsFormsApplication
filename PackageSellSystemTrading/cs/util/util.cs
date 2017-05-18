@@ -313,60 +313,38 @@ namespace PackageSellSystemTrading
         //손익률2를 vo에 설정한다.
         public static String getSunikrt2(T0424Vo t0424Vo)
         {
-            ///////////////////////////////////////
-            //String 현재가;
-            //String 당일매도금액;//매도수량
-            //String 당일매도단가;
-            //// 손익률2;
-            //String 수수료;
-            //String 세금;
-            //String 신용이자;
-            //String 매도가능수량;
-            //String 평균단가;
-            //String 평균단가2;
-            ////Double 실현손익;
-            //Double 손익률;
-            //Double 평가손익;
-            //Double 평가금액;
-            //Double 매입금액;
+            
 
-            //현재가 = t0424Vo.price;
-            //매도가능수량 = t0424Vo.mdposqt;
-            //수수료 = t0424Vo.fee;
-            //세금 = t0424Vo.tax;
-            //신용이자 = t0424Vo.sininter;
-            //평균단가 = t0424Vo.pamt;
-            //평균단가2 = t0424Vo.pamt2;
-            //당일매도금액 = t0424Vo.mdat; //매도수량
-            //당일매도단가 = t0424Vo.mpmd;
-            ////매입금액 = t0424Vo.mamt;
-
-            ////평가금액: (보유수량 * 현재가) - 매도수수료(fee) - 매도제세금(tax) - 신용이자(sininter)
-            //평가금액 = (double.Parse(매도가능수량) * double.Parse(현재가)) - double.Parse(수수료) - double.Parse(세금) - double.Parse(신용이자);
-            ////매입금액: (매수수량 * 매수단가) + 매수수수료(fee) --매이금액은 변하지 않는 값이므로 계산하지 않고 기존데이타 활용
-            //매입금액 = (double.Parse(매도가능수량) * double.Parse(평균단가2)) + double.Parse(세금);
-            ////평가손익: 평가금액 - 매입금액
-            //평가손익 = 평가금액 - 매입금액;
-            ////손익률: (평가손익 / 매입금액)*100
-            //손익률 = (평가손익 / 매입금액) * 100;
+          
             /////////////////////////////////////////////////////////////////////
-            Double sunikrt2;
-            if (t0424Vo.pamt2 != null)
-            {
-                //수익률 계산
-                //수익율2 -> ((현재가*매도가능수량) / ((평균단가2*매도가능수량)+수수료+세금) *100)-100
-                sunikrt2 = (((double.Parse(t0424Vo.price) * double.Parse(t0424Vo.mdposqt)) / ((double.Parse(t0424Vo.pamt2) * double.Parse(t0424Vo.mdposqt)) + double.Parse(t0424Vo.fee) + double.Parse(t0424Vo.tax))) * 100) - 100;
+            Double 손익률 = 0;
+            if (t0424Vo.pamt2 != null && t0424Vo.pamt2 != "") {
+                Double 매도가능수량 = double.Parse(t0424Vo.mdposqt);
+                Double 현재가      = double.Parse(t0424Vo.price);
+
+                Double 매입금액    = double.Parse(t0424Vo.pamt2) * 매도가능수량;
+                Double 평가금액    = (현재가 * 매도가능수량);
+                평가금액 = 평가금액 - (평가금액 * 0.0033);
+                Double 평균단가2 = double.Parse(t0424Vo.pamt2);
+ 
+                //평가손익 = Util.GetNumberFormat(평가금액 - 매입금액);
+
+                현재가 = 현재가 - (현재가 * 0.0033);
+                //1.현재가가 금일매수 값보다 3%이상 올랐으면 금일 매수 수량만큼 매도한다.
+                손익률 = ((현재가 / 평균단가2) * 100) - 100;
+                //손익률 = ((평가금액 / 매입금액) * 100) - 100;
+
             }
             else
             {
-                sunikrt2 = 0;
+                손익률 = 0;
             }
 
             //t0424Vo.sunikrt2 = String.Format("{0:#0.#0}", sunikrt2);
             //return Math.Round(손익률, 2).ToString();
             //서버 수치보다 높게나와서 0.05 정도 강제 보정해준다.
-            return (Math.Round(sunikrt2, 2) - 0.05).ToString();
-            //return String.Format("{0:#0.#0}", 손익률.ToString());.
+            //return (Math.Round(sunikrt2, 2) - 0.05).ToString();
+            return Math.Round(손익률, 2).ToString();
 
         }
        
