@@ -27,6 +27,7 @@ namespace PackageSellSystemTrading{
         public String InvstOrgAmt; //투자원금
         public String InvstPlAmt;  //투자손익금액
 
+        
         // 생성자
         public Xing_CSPAQ12200()
         {
@@ -103,13 +104,14 @@ namespace PackageSellSystemTrading{
             }
             else
             {
+                //00133 :: 조회가 계속 됩니다. 계속하시려면 연속버튼을 누르십시오.
                 completeAt = true;//중복호출 방지
             }
 
         }
 
-       
 
+        private int callCnt = 0;
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
@@ -127,8 +129,15 @@ namespace PackageSellSystemTrading{
                 this.completeAt = false;//중복호출 방지
 
             } else {
+                
                 //mainForm.input_t0424_log.Text = "[중복]잔고조회를 요청을 하였습니다.";
                 Log.WriteLine("CSPAQ12200 :: 중복 조회 잠시후 시도해주세요.");
+                callCnt++;
+                if (callCnt == 5)
+                {
+                    this.completeAt = true;
+                    callCnt = 0;
+                }
             }
             
 

@@ -58,8 +58,8 @@ namespace PackageSellSystemTrading
 			}
 			catch (Exception ex)
 			{
-				Log.WriteLine(ex.Message);
-                Log.WriteLine(ex.StackTrace);
+				Log.WriteLine("jif : " + ex.Message);
+                Log.WriteLine("jif : " + ex.StackTrace);
 			}
 		}	// end function
 

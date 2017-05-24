@@ -85,6 +85,7 @@ namespace PackageSellSystemTrading{
            
         }
 
+        private int callCnt = 0;
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
@@ -101,6 +102,12 @@ namespace PackageSellSystemTrading{
             } else {
                 mainForm.input_t1833_log2.Text = "[중복]EXCLUDE 조건검색 요청.";
                 //mainForm.input_t1833_log2.Text = "대기";
+                callCnt++;
+                if (callCnt == 5)
+                {
+                    this.completeAt = true;
+                    callCnt = 0;
+                }
             }
         }
 

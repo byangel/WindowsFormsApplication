@@ -26,12 +26,49 @@ namespace PackageSellSystemTrading {
 
         // 소멸자
         ~ExXASessionClass() {
-            //this.iXASession.Logout();
-            //this.iXASession.DisconnectServer();
+           
         }
 
-  
+        
 
+        public Boolean fnLogin()
+        {
+
+            Log.WriteLine("로그인 시도..!!");
+
+            this.DisconnectServer();//무조건 끊었다가 접속
+            if (this.ConnectServer(mainForm.combox_targetServer.Text, 20001) == false)
+            {
+                //MessageBox.Show(this.GetErrorMessage(this.GetLastError()));
+                Log.WriteLine(this.GetErrorMessage(this.GetLastError()));
+                return false;
+            }
+         
+            //this.DisconnectServer();//무조건 끊었다가 접속
+
+            //if (this.ConnectServer(mainForm.combox_targetServer.Text, 20001) == false)
+            //{
+            //    //MessageBox.Show(this.GetErrorMessage(this.GetLastError()));
+            //    Log.WriteLine(this.GetErrorMessage(this.GetLastError()));
+            //    return false;
+            //}
+
+            // 로그인
+            String loginId    = mainForm.input_loginId.Text;
+            String loginPass  = mainForm.input_loginPw.Text;
+            String publicPass = mainForm.input_publicPw.Text;
+            
+            if (loginId == "" && loginPass == ""){
+                Log.WriteLine("ID 또는 Pass 값을 참조할 수 없습니다.");
+                return false;
+            }else{
+                // 로그인 호출
+                bool loginAt = Login(loginId, loginPass, publicPass, 0, false);
+         
+            }
+           
+            return true;
+        }
 
 
         #region XASession 이벤트 핸들러
@@ -39,83 +76,64 @@ namespace PackageSellSystemTrading {
             String msg = "";
 
             // 정상적으로 로그인 되었으면...
-            if (szCode == "0000") {
+            if (szCode == "0000")
+            {
 
-                //Log.WriteLine(szCode + " :: " + szMsg);
-
-                // 자동로그인 타이머 멈춤
-                //mainForm.TimerLogin.Stop();
-
-                // 장 운영 정보 실시간 등록
-                mainForm.real_jif.call_advise();
-
-                // HTS -> API 연동 등록
-                //mainForm.real_jif.call_advise_link_from_hts();
-
-                //실시간 체결정보 - 재접속했을때 안해주면 채결되도 그리드에서 종목을 제거해주지 못한다.
-                mainForm.real_SC1.AdviseRealData();
-
-                // 뉴스 정보 실시간 등록
-                //mainForm.mxRealNws.call_advise();
-
-
-
-                //msg = "성공적으로 로그인 하였습니다.";
-                // 로그인          
-
-                // 서버의 시간 검색 타이머 스타트 - 여기서 PC의 시간을 서버 시간과 동기화 시킴
-                //mainForm.Timer0167.Start();
-                mainForm.Timer0167.Start();
-
-               
-
-                // 디비에 백그라운드 데이터 저장 타이머 스타트
-                //mainForm.TimerDB.Start();
-
-                // 메인프로그램은 자동거래 시작
-                //if (FormMain.mProgramId == 0)
-                //{
-                //  Log.WriteLine("Trading Start..!!");
-
-                // mainForm.TimerBuyRun.Start();
-
-                //mainForm.ButtonAutoBuyStart.Enabled = false;
-                //mainForm.ButtonAutoBuyStop.Enabled = true;
-                // }
+                
 
                 //아침에 서버 접속이 끊겼을경우 재로그인 하는데 다이얼로그가 뜨지않아도 되기 때문에 이구문을 추가함
-                if (mainForm.account == "" || mainForm.account == null ){
+                if (mainForm.account == "" || mainForm.account == null)
+                {
                     mainForm.accountForm.ShowDialog();
+                }
+                else
+                {   //접속이 끊겨서 로그인을 호출했을경우 다이얼로그 박스를 호출하지 않고 바로 계좌 검증 함수를 호출해준다.
+                    if (mainForm.accountForm.xing_CSPAQ12300.completeAt)
+                    {
+                        mainForm.accountForm.xing_CSPAQ12300.call_request(this.mainForm.account, mainForm.accountPw);
+                    }
+                   
                 }
 
                 //계좌 선택및 비밀번호 선택 다이얼로그 이후 계좌번호와 비밀번호가 잘 설정 되어 있는지 체크한다.
-                if (mainForm.account == "" || mainForm.accountPw == "" || mainForm.account == null || mainForm.accountPw == null) {
+                if (mainForm.account == "" || mainForm.accountPw == "" || mainForm.account == null || mainForm.accountPw == null)
+                {
                     msg = "계좌 및 계좌 비밀번호를 설정해주세요.";
-                }else {
+                }
+                else
+                {
                     loginAt = true;
                 }
+
+            }else{
+                if (szCode == "5201")
+                {
+                    // 프로그램 재시작
+                    msg = szCode + ":" + szMsg + ": [  -13] Request ID가 이상합니다.";
+                    //Log.WriteLine(szCode + " :: " + szMsg);
+                    // mainForm.fnRestartProgram();
+                }
+                else if (szCode == "2003")
+                { // 인증서가 없습니다.
+                    msg = szCode + ":" + szMsg + ": [공인인증] Full 인증과정에서 다음과 같은 오류가 발생하였습니다.";
+                    // mainForm.TimerLogin.Stop();
+
+                } else {
+                    //Log.WriteLine(szCode + " :: " + szMsg);
+                    msg = szCode + " :: " + szMsg;
+                }
                 
-            } else if (szCode == "5201") {
-                // 프로그램 재시작
-                msg = szCode + ":" + szMsg + ": [  -13] Request ID가 이상합니다.";
-                //Log.WriteLine(szCode + " :: " + szMsg);
-                // mainForm.fnRestartProgram();
-            } else if (szCode == "2003") { // 인증서가 없습니다.
-                msg = szCode + ":" + szMsg + ": [공인인증] Full 인증과정에서 다음과 같은 오류가 발생하였습니다.";
-                // mainForm.TimerLogin.Stop();
-
-            } else {
-                //Log.WriteLine(szCode + " :: " + szMsg);
-                msg = szCode + " :: " + szMsg;
-            }
-            Log.WriteLine("ExXASession :: " + szCode + " :: " + szMsg);
-
-            if (msg != ""){
                 //MessageBox.Show(msg);
                 Log.WriteLine("ExXASession :: " + msg);
                 mainForm.insertListBoxLog(msg);
+  
+              
             }
+
             
+            
+
+
         }
 
 

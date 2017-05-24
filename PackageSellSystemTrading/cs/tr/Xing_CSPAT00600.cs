@@ -26,7 +26,8 @@ namespace PackageSellSystemTrading{
         private String sellOrdAt;   //매도주문여부
         private String hname;
 
-        //상위체결가격
+        public Boolean completeAt = true;//완료여부.
+
 
         // 생성자
         public Xing_CSPAT00600() {
@@ -82,7 +83,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.ordptncode    = "0" + BnsTpCode;          //주문구분 01:매도|02:매수 
                 dataLogVo.Isuno         = IsuNo.Replace("A", "");  //종목코드
                 dataLogVo.ordqty        = OrdQty;                   //주문수량
-                dataLogVo.execqty       = "0";                      //체결수량
+                dataLogVo.execqty       = "0";                      //체결수량 --막 주문을 넣었기때문에 체결수량은 0
                 dataLogVo.ordprc        = OrdPrc;                   //주문가격
                 dataLogVo.execprc       = "0";                      //체결가격
                 dataLogVo.Isunm         = this.hname;               //종목명
@@ -99,8 +100,8 @@ namespace PackageSellSystemTrading{
                 //dataInsert호출
                 mainForm.dataLog.insertData(dataLogVo);
             }
-            
 
+            completeAt = true;
             
         }
 
@@ -118,15 +119,22 @@ namespace PackageSellSystemTrading{
                 // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
-                // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.    
-                MessageBox.Show("600:: 주문가격"+ price);                                  
+                // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.   
+                 
+                                              
                 //정규매매장이 종료되었습니다.
                 if (nMessageCode=="03563")
                 {
                     //mainForm.marketAt = false;
                     //mainForm.stateCd = "마켓종료";
                 }
-               
+                if (nMessageCode == "02705")
+                {
+                    MessageBox.Show("600:: 모의투자 주문가격을 잘못 입력하셨습니다." + price);
+                    //mainForm.marketAt = false;
+                    //mainForm.stateCd = "마켓종료";
+                }
+
                 //거래정지 종목으로 주문이 불가능합니다.
                 if (nMessageCode == "01069")
                 {
@@ -141,7 +149,8 @@ namespace PackageSellSystemTrading{
                        result_t0424.ElementAt(0).errorcd = "01069";
                     }  
                 }
-
+                //에러 리턴 받았을때
+                this.completeAt = true;
 
             }
            
@@ -167,17 +176,17 @@ namespace PackageSellSystemTrading{
             base.SetFieldData("CSPAT00600Inblock1", "LoanDt"       ,0, "");            // 대출일 : 신용주문이 아닐 경우 SPACE
             base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode",0, "0");           // 주문조건구분 : 0-없음
 
-            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520) 
+            
+            if (mainForm.accountPw == "" || mainForm.account == "")
             {
-                if (mainForm.accountPw == "" || mainForm.account == "")
-                {
-                    MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
-                }
-                else
-                {           
-                    base.Request(false);  //연속조회일경우 true
-                }
+                MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
             }
+            else
+            {           
+                base.Request(false);  //연속조회일경우 true
+                this.completeAt = false;
+            }
+            
         }   // end function
 
 

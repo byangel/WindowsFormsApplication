@@ -136,7 +136,7 @@ namespace PackageSellSystemTrading{
 
         }
 
-
+        
         //properties 저장
         private void btn_config_save_Click(object sender, EventArgs e)  {
 
@@ -179,45 +179,13 @@ namespace PackageSellSystemTrading{
             MessageBox.Show("성공적으로 로그아웃 하였습니다.");
         }
 
-        //서버 연결
-        public Boolean login(){
-
-            //MessageBox.Show(mServerAddress);
-            //이미접속이되어있으면접속을끊는다
-            //if (exXASessionClass.IsConnected())
-            //{
-            this.exXASessionClass.DisconnectServer();//무조건 끊었다가 접속
-            //}
-            //서버접속
-            //if (exXASessionClass.IsConnected() == false){
-            if (this.exXASessionClass.ConnectServer(combox_targetServer.Text, 20001)==false)
-            {
-                MessageBox.Show(this.exXASessionClass.GetErrorMessage(this.exXASessionClass.GetLastError()));
-                return false;
-            }
-            // }
-
-         
-            String loginId = input_loginId.Text;
-            String loginPass = input_loginPw.Text;
-            String publicPass = input_publicPw.Text;
-            //String accountPass = input_accountPass.Text;
-            if (loginId == "" && loginPass == "") {
-                MessageBox.Show("ID 또는 Pass 값을 참조할 수 없습니다.");
-                return false;
-            }else {
-                // 로그인 호출
-                bool loginAt = exXASessionClass.Login(loginId, loginPass, publicPass, 0, false);
-            }
-            
-            return true;
-        }
+        
 
 
         //로그인 버튼 클릭 이벤트
         private void btn_login_click(object sender, EventArgs e)
         {
-            login();
+            exXASessionClass.fnLogin();
         }
 
         //주식 잔고2
@@ -261,7 +229,8 @@ namespace PackageSellSystemTrading{
             }
             catch (Exception ex)
             {
-                MessageBox.Show("예외 발생:{0}", ex.Message);
+                Log.WriteLine("mainForm : " + ex.Message);
+                Log.WriteLine("mainForm : " + ex.StackTrace);
             }
         }
        
@@ -271,6 +240,12 @@ namespace PackageSellSystemTrading{
             //timer_t1833Exclude.Start();//진입검색 타이머
             //timer_accountSearch.Start();//계좌 및 미체결 검색 타이머
             this.tradingAt = "Y";
+
+            //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
+            this.timer_t1833Exclude.Start();//진입검색 타이머
+            this.timer_common.Start();//계좌 및 미체결 검색 타이머
+            this.Timer0167.Start();//시간검색
+
             btn_start.Enabled = false;//시작버튼 비활성
             btn_stop.Enabled = true;//종료버튼 활성
             Log.WriteLine("Trading Start..!!");
@@ -282,6 +257,11 @@ namespace PackageSellSystemTrading{
             //timer_t1833Exclude.Stop();//진입검색 타이머
             //timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
             this.tradingAt = "N";
+
+            this.timer_t1833Exclude.Stop();//진입검색 타이머
+            this.timer_common.Stop();//계좌 및 미체결 검색 타이머
+            this.Timer0167.Stop();//시간검색
+
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
             Log.WriteLine("Trading Stop..!!");
@@ -293,23 +273,9 @@ namespace PackageSellSystemTrading{
             this.tradingStop();
         }
 
-        //timerSell -- 일단 dataLog 부터 처리해야 이기능을 구현할 수 있을것 같다.
-        public void timerSell()
-        {
+      
 
-        }
 
-        //서버시간 호출 타이머
-        private void Timer0167_Tick(object sender, EventArgs e)
-        {
-            xing_t0167.call_request();
-            //input_dateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        }
-       
-
-        
-
-        
 
         //체결 그리드 row 번호 출력
         private void grd_t0425_chegb1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -404,8 +370,7 @@ namespace PackageSellSystemTrading{
                             /// <param name="IsuNo">종목번호</param>
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
-                            Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
-                            xing_CSPAT00600.mainForm = this;
+                            
                             xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
                           
 
@@ -426,17 +391,29 @@ namespace PackageSellSystemTrading{
         //테스트 버튼 클릭 이벤트
         private void test_Click(object sender, EventArgs e)
         {
+            //프로그램 종료
+            ////string szProgram = Util.GetCurrentDirectoryWithPath() + "\\AngelTrade.exe";
+            //String szProgram = Application.StartupPath;
+            //String startupPath = szProgram + "\\AngelTrade.exe";
+            //MessageBox.Show(startupPath);
+            //System.Diagnostics.Process.Start(startupPath, "0");
+           
+            //this.Dispose();
+            //Application.Exit();
+
             //xing_t1833.call_request();
 
-            Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
-            xing_CSPAT00600.mainForm = this;
-            xing_CSPAT00600.call_requestSell("선택매도", "none", "2000", "대유플러스", "000300", "44", "1100");
+            //Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
+            //xing_CSPAT00600.mainForm = this;
+            //xing_CSPAT00600.call_requestSell("선택매도", "none", "2000", "대유플러스", "000300", "44", "1100");
+            //MessageBox.Show(xing_t1833Exclude.t1833ExcludeVoList.Count().ToString());
+            //this.xing_t0424.call_request(this.account, this.accountPw);
 
         }
         //취소
         private void button3_Click(object sender, EventArgs e)
         {
-            xing_CSPAT00800.call_request(this.account, this.accountPw, "14074", "000300", "");
+            xing_CSPAT00800.call_request(this.account, this.accountPw, "14074", "030270", "");
         }
 
 
@@ -588,40 +565,8 @@ namespace PackageSellSystemTrading{
             }
         }
 
-        //로그인 후 작업
-        public void loginAfter()
-        {
+       
 
-        }
-
-        //계좌 선택후 작업
-        public void accountAfter()
-        {
-            //접속이 귾겼다가 접속했을때...문제가 있어서 추가해준다. 잔고목록을 클리어 해준다.
-            xing_t0424.getT0424VoList().Clear();
-
-            //필요없는 데이타 삭제.
-            this.dataLog.initDelete();
-
-            //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
-            xing_t1833Exclude.call_request();
-            //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
-            timer_t1833Exclude.Start();//진입검색 타이머
-            timer_common.Start();//계좌 및 미체결 검색 타이머
-
-            //실시간 체결정보 등록
-            real_SC1.AdviseRealData();
-            
-            //실시간 체결정보 해제
-            //real_SC1.UnadviseRealData();
-
-            //설정저장 버튼 활성화.
-            btn_config_save.Enabled = true;
-            // 로그인 버튼 비활성
-            btn_login.Enabled = false;
-
-
-        }
 
         
 
@@ -744,32 +689,45 @@ namespace PackageSellSystemTrading{
             }
         }
 
+
+        //서버시간 호출 타이머
+        private void Timer0167_Tick(object sender, EventArgs e)
+        {
+            if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
+            {
+                //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
+                Log.WriteLine("Timer0167_Tick:: 미접속");
+
+            } else{
+                xing_t0167.call_request();
+            }
+        }
+
+
         int test = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833Exclude_Tick(object sender, EventArgs e)
         {
 
-            if (test == 0)
+            if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
             {
-                xing_t1833Exclude.call_request();
-                test = 1;
-            }
-            else
-            {
-                xing_t1833.call_request();
-                test = 0;
-            }
-            //if ((int.Parse(xing_t0167.second) / 10) == 0)
-            //{
-                //매수금지종목 조회
-                //xing_t1833Exclude.call_request();
-            //}
+                //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
+                Log.WriteLine("timer_t1833Exclude_Tick:: 미접속");
 
-            //if ((int.Parse(xing_t0167.second) / 4) == 0)
-            //{
-                //매수금지종목 조회
-                //xing_t1833.call_request();
-            //}
+            }  else{
+
+                if (test == 0)
+                {
+                    xing_t1833Exclude.call_request();
+                    test = 1;
+                }
+                else
+                {
+                    xing_t1833.call_request();
+                    test = 0;
+                }
+               
+            }
 
         }
 
@@ -778,17 +736,10 @@ namespace PackageSellSystemTrading{
         {
             if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
             {
-                if (this.login())
-                {
-                    Log.WriteLine("timer_accountSearch_Tick:: 로그인 성공");
-                    this.initForm();
-                }
-                else {
-                    Log.WriteLine("timer_accountSearch_Tick:: 재로그인 실패");
-                }
+                this.tradingStop();
+                this.timerLogin.Start();
                 
             }else{
-                
 
                 //3.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
                 this.xing_t0424.call_request(this.account, this.accountPw);
@@ -796,6 +747,7 @@ namespace PackageSellSystemTrading{
                 //4.금일주문 이력
                 this.xing_t0425.call_request(this.account, this.accountPw);
 
+                
                 //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
                 //xing_t1833.call_request();
 
@@ -805,7 +757,16 @@ namespace PackageSellSystemTrading{
                 //데이터 조회와 매수/매도 프로세스 분리하자.
             }
         }
-        
+
+        private void timerLogin_Tick(object sender, EventArgs e)
+        {
+            Log.WriteLine("로그인타이머 호출");
+            
+             Boolean b = exXASessionClass.fnLogin();
+ 
+        }
+
+
     }//end class
 }//end namespace
 

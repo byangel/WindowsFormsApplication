@@ -113,7 +113,8 @@ namespace PackageSellSystemTrading
             }
             catch (Exception ex)
             {
-                Log.WriteLine(ex.Message);
+                Log.WriteLine("util : " + ex.Message);
+                Log.WriteLine("util : " + ex.StackTrace);
             }
 
 

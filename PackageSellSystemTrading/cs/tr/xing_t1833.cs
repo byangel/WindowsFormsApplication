@@ -135,10 +135,12 @@ namespace PackageSellSystemTrading{
             //중복호출 방지
             this.completeAt = true;
         }
+
+        private int callCnt = 0;
         /// <summary>
-		/// 종목검색 호출
-		/// </summary>
-		public void call_request(){
+        /// 종목검색 호출
+        /// </summary>
+        public void call_request(){
 
             if (completeAt) {
                 //폼 메세지.
@@ -150,6 +152,13 @@ namespace PackageSellSystemTrading{
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "]조건검색 요청.";
             } else {
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "[중복]조건검색 요청.";
+
+                callCnt++;
+                if (callCnt == 5)
+                {
+                    this.completeAt = true;
+                    callCnt = 0;
+                }
             }
         }
 
@@ -260,7 +269,7 @@ namespace PackageSellSystemTrading{
             int Quantity = battingAtm / int.Parse(close);
             //int Quantity = 20000;
             //-정규장에만 주문실행.
-            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 900 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1530){
+            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520){
                 /// <summary>
                 /// 현물정상주문
                 /// </summary>
@@ -268,12 +277,17 @@ namespace PackageSellSystemTrading{
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
-                Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
-                xing_CSPAT00600.mainForm = mainForm;
-                xing_CSPAT00600.call_requestBuy( ordptnDetail, shcode, hname, Quantity.ToString(), close);
+                if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
+                {
+                    mainForm.xing_CSPAT00600.call_requestBuy(ordptnDetail, shcode, hname, Quantity.ToString(), close);
 
-                Log.WriteLine("t1833::" + hname + "(" + shcode + ") "+ ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::" + hname + ":" + ordptnDetail);
+                    Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::검색주문" + hname + ":" + ordptnDetail);
+                }else
+                {
+                    Log.WriteLine("t1833::주문스킵(검색주문)" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t1833::주문스킵(검색주문)" + hname + ":" + ordptnDetail);
+                }
             }
             else{
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");
@@ -308,9 +322,10 @@ namespace PackageSellSystemTrading{
                 //Double enterRate = (this.xing_t0424.mamt / 자본금) * 100;
                 returnValue = Math.Round(((mainForm.xing_t0424.mamt / 자본금) * 100), 2).ToString();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                Log.WriteLine("t1833 : " + ex.Message);
+                Log.WriteLine("t1833 : " + ex.StackTrace);
             }
             return returnValue;
         }
