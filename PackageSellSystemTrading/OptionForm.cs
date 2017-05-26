@@ -22,11 +22,11 @@ namespace PackageSellSystemTrading
         //String STOP_LOSS          = "2";         //2분후 무조건 매도
         String REPEAT_TERM        = "9600";      //반복매수 시간
         String REPEAT_RATE        = "-5";        //반복매수 비율
-        String BUY_STOP_RATE      = "90";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
+        String BUY_STOP_RATE      = "70";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "100000000"; //최대 운영 금액 제한 - 기본 1억
         String BATTING_ATM        = "";
         String CONDITION_ADF      = "Condition2.ADF";
-        String CONDITION_EXCLUDE  = "ConditionExclude.ADF";
+        String CONDITION_EXCLUDE  = "ConditionExclude1000.ADF";
 
         //생성자
         public OptionForm()

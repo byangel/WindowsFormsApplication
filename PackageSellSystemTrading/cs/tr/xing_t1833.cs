@@ -54,7 +54,7 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
 
             //투자율 설정
-            this.enterRate = this.getEnterRate();
+            this.enterRate = this.getInputRate();
             mainForm.label_enterRate.Text = this.enterRate;
 
             int iCount = base.GetBlockCount("t1833OutBlock1");
@@ -162,6 +162,12 @@ namespace PackageSellSystemTrading{
             }
         }
 
+        /// <summary>-21 회피를 위해 호출 시간을 저장하는 변수</summary>
+		private DateTime mCallRequestTime;
+
+        /// <summary>-21 회피를 위해 초당 호출 제한 간격 설정 값(밀리세컨드 단위) :: 1.1초 설정</summary>
+        private int mCallRequestInterval = 1100;
+
 
         //진입검색에서 검색된 종목을 매수한다.
         private Boolean buyTest(String shcode,String hname, String close,int addIndex){
@@ -195,29 +201,22 @@ namespace PackageSellSystemTrading{
             }
 
             ///////////////////////////////////////
+            //2.반목매수 기간 제한. -이기능 구현할때 참고 소스
+            // 여전히 실행중인 상태라면 중복 호출이 되지 않도록 빠져나감
 
-            //2.반목매수 기간 제한.
+            // 정상적으로 응답 처리가 끝난 상태라면 다시 호출을 시도
 
-            //    //반복매수 시간 제한. --금일 중복및 반복매수 제한 조건이 있다면 필요없는 조건임.
-            //    //반복매수 제한-분으로 푼다음 시간을 계산한다.
-            //    tmpTime = (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(0, 2)) * 60 * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(2, 2)) * 60) + (int.Parse(result_t0425.ElementAt(i).ordtime.Substring(4, 2)));
-            //    tmpTime = (cTime - tmpTime);
-            //    if (tmpTime < (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60))
-            //    {
-            //        //Log.WriteLine("t1833 :: [" + hname + "] (" + time + ")" + cTime + "-" + "(" + ordtime + ")" + ordMTime + "=" + (cTime - ordMTime));
-            //        Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일반복매수 텀 제한.  [매수후지난시간" + tmpTime + "| 설정시간:" + (int.Parse(Properties.Settings.Default.REPEAT_TERM) * 60) + "]");
-            //        return false;
+            /** -21 시간당 전송 제한 우회를 위한 처리 */
+            // 처음 실행되는 거라면 패쓰~~
+            //if (mCallRequestTime.Ticks == 0) {
+            //        mCallRequestTime = DateTime.Now;
+            //    } else {// 이미 실행된적이 있다면..
+            //        DateTime iTimeNow = DateTime.Now;
+            //        // 이전 실행시간과 현재 시간의 간격이 지정값 보다 작으면..함수 빠져 나감
+            //        if (((iTimeNow - mCallRequestTime).Ticks / 10000) < mCallRequestInterval){
+                        
+            //        }else{  mCallRequestTime = iTimeNow;  }
             //    }
-            //}
-
-
-            //3.진입 검색된 종목이 계좌잔고 그리드에 존재하면 반복매수 아니면 신규매수 -> DataLogVoList 로 변경함
-
-
-            //int dataLogVoListFindIndex = mainForm.dataLog.getDataLogVoList().Find("Isuno", shcode);//linquery 로변경해야할듯.
-
-
-
 
             //4.매수금지종목 테스트. --보유종목이아니고 매수금지종목에 포함되면 매수하지 않는다.( 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.)
             int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
@@ -298,7 +297,7 @@ namespace PackageSellSystemTrading{
         }
 
         //투자율 개산
-        public String getEnterRate()
+        public String getInputRate()
         {
             String returnValue = "0"; ;
             try

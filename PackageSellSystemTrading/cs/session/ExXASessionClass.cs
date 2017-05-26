@@ -43,16 +43,7 @@ namespace PackageSellSystemTrading {
                 Log.WriteLine(this.GetErrorMessage(this.GetLastError()));
                 return false;
             }
-         
-            //this.DisconnectServer();//무조건 끊었다가 접속
-
-            //if (this.ConnectServer(mainForm.combox_targetServer.Text, 20001) == false)
-            //{
-            //    //MessageBox.Show(this.GetErrorMessage(this.GetLastError()));
-            //    Log.WriteLine(this.GetErrorMessage(this.GetLastError()));
-            //    return false;
-            //}
-
+      
             // 로그인
             String loginId    = mainForm.input_loginId.Text;
             String loginPass  = mainForm.input_loginPw.Text;

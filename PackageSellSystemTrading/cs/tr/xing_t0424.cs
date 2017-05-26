@@ -193,6 +193,13 @@ namespace PackageSellSystemTrading {
                     //매매이력에 따른 손익율 재계산.
                     tmpT0424Vo.sunikrt2 = Util.getSunikrt2(tmpT0424Vo);
 
+                    //손익률 체크 - 원인 찾으면 나주에 지워주자.
+                    //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
+                    if ((Double.Parse(tmpT0424Vo.sunikrt)+1) < (Double.Parse(tmpT0424Vo.sunikrt2) ))
+                    {
+                        //Log.WriteLine("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2+"/" + (Double.Parse(tmpT0424Vo.sunikrt) + 101).ToString()+"/"+ (Double.Parse(tmpT0424Vo.sunikrt2) + 100).ToString());
+                        //MessageBox.Show("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2);
+                    }
 
                 }//for end
 
@@ -229,11 +236,14 @@ namespace PackageSellSystemTrading {
                     //로그 및 중복 요청 처리 2:코스닥, 3:코스피
                     mainForm.input_t0424_log2.Text = "[" + mainForm.label_time.Text + "]t0424 :: 잔고조회 완료";
 
-                    //목표수익 매도
-                    //매매가능여부 체크후 매도 로직 호출 - 나중에 여기서 호출하지 말고 타이머에서 호출하는방법도 고려중.
-                    if (mainForm.tradingAt == "Y")
+
+                    //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
+                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
                     {
-                        this.stopProFitTarget();
+                        if (mainForm.tradingAt == "Y")
+                        {
+                            this.stopProFitTarget();
+                        }
                     }
 
                     //응답처리 완료
@@ -326,21 +336,10 @@ namespace PackageSellSystemTrading {
                 //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
                 this.stopProFitTargetTest(t0424VoList.ElementAt(i));
 
-                //0424 모든 로직이 끝나고 그리드에 매도가능수가 0인종목이 남아있다면 RealSc1에서 이벤트발생이 누락됬을 가능성이있다...
-                //그래서 여기서 마지막으로 한번더 체크후 있다면 삭제해주자.
-                //2.이게 있을 이유가 없는데....삭제해야하는데...
-                if (t0424VoList.ElementAt(i).mdposqt == "0")
-                {
-                    //Log.WriteLine("t0424 는 매도가능수량이 0 건인것은 조회 되지 말아야하는데... 가끔 검색되어 나오는지 잘 모르겠다...");
-                    mainForm.deleteCallBack(t0424VoList.ElementAt(i).expcode);
-                    Log.WriteLine("t0424::" + t0424VoList.ElementAt(i).hname + "(" + t0424VoList.ElementAt(i).expcode + "):: 그리드에서 수동 삭제 deleteCallBack호출.[매도가능:" + t0424VoList.ElementAt(i).mdposqt);
-                }
-
-
                 //3.팔린종목 삭제
                 if (this.t0424VoList.ElementAt(i).deleteAt == "Y")
                 {
-                    Log.WriteLine("t0424::" + t0424VoList.ElementAt(i).hname + "(" + t0424VoList.ElementAt(i).expcode + "):: 팔린종목 그리드에서 제거");
+                    Log.WriteLine("t0424::" + t0424VoList.ElementAt(i).hname + "(" + t0424VoList.ElementAt(i).expcode + "):: 팔린종목 그리드에서 제거 ");
                     mainForm.deleteCallBack(this.t0424VoList.ElementAt(i).expcode); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
                     i--;
                 }
@@ -352,9 +351,16 @@ namespace PackageSellSystemTrading {
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
         public Boolean stopProFitTargetTest(T0424Vo t0424Vo)
         {
-            
-              
-           
+
+            String 투입비율   = mainForm.xing_t1833.getInputRate();
+            String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
+            String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
+
+            //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
+            if (Double.Parse(투입비율) > (Double.Parse(제한비율) -5)  )
+            {
+                목표수익율 = "2.5";
+            }
 
             //거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
             if (t0424Vo.orderAt == false && (t0424Vo.errorcd == "" || t0424Vo.errorcd == null))
@@ -363,7 +369,7 @@ namespace PackageSellSystemTrading {
                 //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
                 //2.수익율2 로 변경함.
                 String sunikrt = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
-                if (Double.Parse(sunikrt) >= Double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET))
+                if (Double.Parse(sunikrt) >= Double.Parse(목표수익율))
                 {
                     if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
                     {
@@ -378,6 +384,14 @@ namespace PackageSellSystemTrading {
                         /// <param name="Price">가격</param>
                         if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                         {
+                            //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
+                            //청산일때만 체크
+                            if (Double.Parse(t0424Vo.sunikrt) < 1)
+                            {
+                                Log.WriteLine("t0424 :: 청산 수익률이 마이너스 확인해보자 .[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    수익율2:" + t0424Vo.sunikrt2);
+                                return false;
+                            }
+
                             mainForm.xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
 
                             Log.WriteLine("t0424 ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt);
