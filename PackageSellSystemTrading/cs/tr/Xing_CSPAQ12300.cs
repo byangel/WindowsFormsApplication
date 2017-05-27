@@ -90,6 +90,7 @@ namespace PackageSellSystemTrading{
                     mainForm.xing_t1833Exclude.call_request();//매수금지 데이타
                     mainForm.xing_t0424.call_request(this.account, this.accountPw);//잔고 데이타
                     mainForm.xing_t0425.call_request(this.account, this.accountPw);//매매이력 데이타
+                    mainForm.xing_CSPAQ12200.call_request(this.account, this.accountPw);//계좌정보
                     mainForm.xing_t0167.call_request();//시간데이타
 
                     

@@ -20,17 +20,17 @@ namespace PackageSellSystemTrading {
         public Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
-        public int sunamt;    //추정자산
-        //public int sunamt1; //d1예수금
+        public Double sunamt;    //추정자산
+        //public int sunamt1;     //d1예수금
         public Double dtsunik;   //실현손익
 
-        public int tmpMamt;      //매입금액
-        public int tmpTappamt;   //평가금액
-        public int tmpTdtsunik;  //평가손익
+        public Double tmpMamt;      //매입금액
+        public Double tmpTappamt;   //평가금액
+        public Double tmpTdtsunik;  //평가손익
 
-        public int mamt;      //매입금액
-        public int tappamt;   //평가금액
-        public int tdtsunik;  //평가손익
+        public Double mamt;      //매입금액
+        public Double tappamt;   //평가금액
+        public Double tdtsunik;  //평가손익
        
 
         public int h_totalCount;
@@ -204,8 +204,8 @@ namespace PackageSellSystemTrading {
                 }//for end
 
                 // 계좌정보 써머리 계산 - 연속 조회이기때문에 합산후 마지막에 폼으로 출력.
-                this.tmpMamt += int.Parse(base.GetFieldData("t0424OutBlock", "mamt", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt", 0));//매입금액
-                this.tmpTappamt += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt", 0));//평가금액
+                this.tmpMamt     += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
+                this.tmpTappamt  += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
                 this.tmpTdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
 
 
@@ -351,7 +351,7 @@ namespace PackageSellSystemTrading {
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
         public Boolean stopProFitTargetTest(T0424Vo t0424Vo)
         {
-
+            String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " % 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ "에러: "+ t0424Vo.errorcd ;
             String 투입비율   = mainForm.xing_t1833.getInputRate();
             String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
             String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
@@ -361,6 +361,11 @@ namespace PackageSellSystemTrading {
             {
                 목표수익율 = "2.5";
             }
+            if (t0424Vo.errorcd != null)
+            {
+                //Log.WriteLine("t0424 :: 에러코드발새 " + infoStr);
+                return false;
+            }
 
             //거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
             if (t0424Vo.orderAt == false && (t0424Vo.errorcd == "" || t0424Vo.errorcd == null))
@@ -369,8 +374,10 @@ namespace PackageSellSystemTrading {
                 //1.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
                 //2.수익율2 로 변경함.
                 String sunikrt = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
+                
                 if (Double.Parse(sunikrt) >= Double.Parse(목표수익율))
                 {
+                    Log.WriteLine(sunikrt.ToString() + "목표:" + 목표수익율);
                     if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
                     {
                         /// <summary>
@@ -388,26 +395,27 @@ namespace PackageSellSystemTrading {
                             //청산일때만 체크
                             if (Double.Parse(t0424Vo.sunikrt) < 1)
                             {
-                                Log.WriteLine("t0424 :: 청산 수익률이 마이너스 확인해보자 .[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    수익율2:" + t0424Vo.sunikrt2);
+                                Log.WriteLine("t0424 :: 청산 수익률이 마이너스 확인해보자 ." + infoStr);
+                                t0424Vo.errorcd = "sunikrt error";
                                 return false;
                             }
 
                             mainForm.xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
 
-                            Log.WriteLine("t0424 ::청산[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt);
-                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산.");
+                            Log.WriteLine("t0424 ::청산[" + infoStr);
+                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":청산.");
                             t0424Vo.orderAt = true;//청산 주문여부를 true로 설정    
                             return true;
                         }else
                         {
-                            Log.WriteLine("t0424 ::주문스킵(청산)[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt);
-                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":주문스킵(청산)");
+                            Log.WriteLine("t0424 ::주문스킵(청산)"+infoStr);
+                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":주문스킵(청산)");
                         }
                     }
                     else
                     {
                         //Log.WriteLine("t0424 ::청산무시[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")]  수익율:" + t0424Vo.sunikrt + "%    주문수량:" + t0424Vo.mdposqt);
-                        //mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0424:" + t0424Vo.hname + ":청산무시.");
+                        //mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":청산무시.");
                     }
                 }
 

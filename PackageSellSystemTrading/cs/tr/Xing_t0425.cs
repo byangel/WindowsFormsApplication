@@ -330,7 +330,7 @@ namespace PackageSellSystemTrading {
                         mainForm.xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
                         varT0425VoList.ElementAt(i).orderCancleAt = "Y";
                         Log.WriteLine("t0425::" + 종목명 + "(" + 종목코드 + ")::취소주문 [주문번호:" + 주문번호 + "]");
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0425::" + 종목명 + ":취소주문.");
+                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0425::" + 종목명 + ":취소주문.");
 
 
                         //주문 취소후 0425 주문여부 false 로 업데이트
@@ -462,11 +462,11 @@ namespace PackageSellSystemTrading {
 
 
                                     Log.WriteLine("t0425::" + hname + "(" + expcode + ")::금일매도 [주문가격:" + price0424.ToString() + "|주문수량:" + cheqty + "|금일수익율:" + _금일수익율 + " | 주문번호:" + _주문번호 + "]");
-                                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0425::" + hname + ":금일 매도.");
+                                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0425::" + hname + ":금일 매도.");
                                 }else
                                 {
                                     Log.WriteLine("t0425::" + hname + "(" + expcode + ")::주문스킵(금일매도) [주문가격:" + price0424.ToString() + "|주문수량:" + cheqty + "|금일수익율:" + _금일수익율 + " | 주문번호:" + _주문번호 + "]");
-                                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text + "]t0425::" + hname + ":주문 스킵.");
+                                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0425::" + hname + ":주문 스킵.");
                                 }
                                 
                             }

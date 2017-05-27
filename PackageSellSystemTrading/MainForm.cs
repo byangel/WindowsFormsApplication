@@ -667,11 +667,7 @@ namespace PackageSellSystemTrading{
             xing_t1833.call_request();
         }
 
-        private void grd_t0425_chegb1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
+    
         //로그 클린
         private void button2_Click(object sender, EventArgs e)
         {
@@ -765,8 +761,6 @@ namespace PackageSellSystemTrading{
              Boolean b = exXASessionClass.fnLogin();
  
         }
-
-
     }//end class
 }//end namespace
 

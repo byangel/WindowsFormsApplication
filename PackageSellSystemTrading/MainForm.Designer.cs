@@ -435,6 +435,7 @@
             dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.grd_t0424.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            this.grd_t0424.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.grd_t0424.RowTemplate.Height = 23;
             this.grd_t0424.Size = new System.Drawing.Size(1112, 352);
             this.grd_t0424.TabIndex = 49;
@@ -774,7 +775,6 @@
             this.grd_t0425.RowTemplate.Height = 23;
             this.grd_t0425.Size = new System.Drawing.Size(875, 268);
             this.grd_t0425.TabIndex = 68;
-            this.grd_t0425.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_chegb1_CellContentClick);
             this.grd_t0425.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_t0425_chegb1_CellFormatting);
             this.grd_t0425.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0425_chegb1_RowPostPaint);
             // 
@@ -1576,7 +1576,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Gulim", 8F);
             this.Name = "MainForm";
-            this.Text = "Angel v1.0";
+            this.Text = "Angel v1.14";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).EndInit();

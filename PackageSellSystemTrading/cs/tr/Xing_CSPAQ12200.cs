@@ -1,17 +1,10 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Windows.Forms;
-using XA_SESSIONLib;
 using XA_DATASETLib;
-using System.Threading;
 
 
-namespace PackageSellSystemTrading{
+namespace PackageSellSystemTrading
+{
     //현물계좌 예수금/주문가능금액/총평가 조회(API)
     public class Xing_CSPAQ12200 : XAQueryClass{
 
@@ -19,13 +12,13 @@ namespace PackageSellSystemTrading{
      
         public MainForm    mainForm;
 
-        public String D2Dps;       //D2예수금
-        public String Dps;         //예수금
-        public String PnlRat;      //손익율 
-        public String BalEvalAmt;  //잔고평가금액
-        public String DpsastTotamt;//예탁자잔총액
-        public String InvstOrgAmt; //투자원금
-        public String InvstPlAmt;  //투자손익금액
+        public String D2Dps        = "0"; //D2예수금
+        public String Dps          = "0"; //예수금
+        public String PnlRat       = "0"; //손익율 
+        public String BalEvalAmt   = "0"; //잔고평가금액
+        public String DpsastTotamt = "0"; //예탁자잔총액
+        public String InvstOrgAmt  = "0"; //투자원금
+        public String InvstPlAmt   = "0"; //투자손익금액
 
         
         // 생성자
