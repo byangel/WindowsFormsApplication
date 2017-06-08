@@ -52,79 +52,87 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
+            try
+            {
+                //투자율 설정
+                this.enterRate = this.getInputRate();
+                mainForm.label_enterRate.Text = this.enterRate;
 
-            //투자율 설정
-            this.enterRate = this.getInputRate();
-            mainForm.label_enterRate.Text = this.enterRate;
+                int iCount = base.GetBlockCount("t1833OutBlock1");
 
-            int iCount = base.GetBlockCount("t1833OutBlock1");
+                //매수종목 검색 그리드 초기화
+                //mainForm.grd_t1833.Rows.Clear();
 
-            //매수종목 검색 그리드 초기화
-            //mainForm.grd_t1833.Rows.Clear();
+                EBindingList<T1833Vo> t1833VoList = (EBindingList<T1833Vo>)mainForm.grd_t1833.DataSource;
 
-            EBindingList<T1833Vo> t1833VoList = (EBindingList<T1833Vo>)mainForm.grd_t1833.DataSource;
+                String shcode;//종목코드
+                T1833Vo tmpT1833Vo;
+                //String sunikrt;//수익률
+                for (int i = 0; i < iCount; i++) {
 
-            String shcode;//종목코드
-            T1833Vo tmpT1833Vo;
-            //String sunikrt;//수익률
-            for (int i = 0; i < iCount; i++) {
-
-                shcode = base.GetFieldData("t1833OutBlock1", "shcode", i);//종목코드
-                var result = from   item in t1833VoList
-                             where  item.shcode == shcode
-                             select item;
-                if (result.Count() > 0) {
-                    tmpT1833Vo = result.ElementAt(0);       
+                    shcode = base.GetFieldData("t1833OutBlock1", "shcode", i);//종목코드
+                    var result = from   item in t1833VoList
+                                 where  item.shcode == shcode
+                                 select item;
+                    if (result.Count() > 0) {
+                        tmpT1833Vo = result.ElementAt(0);       
                     
-                }else{
-                    tmpT1833Vo = new T1833Vo();
-                }
-
-
-                tmpT1833Vo.shcode = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
-                tmpT1833Vo.hname  = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
-                tmpT1833Vo.close  = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
-                tmpT1833Vo.sign   = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
-                tmpT1833Vo.change = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
-                tmpT1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
-                tmpT1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
-
-                tmpT1833Vo.deleteAt = false; //삭제여부 -나중에 true 인거는 다 삭제해준다.
-
-                if (result.Count() == 0)
-                {
-                   t1833VoList.Add(tmpT1833Vo);
-                    //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
-                    if (mainForm.tradingAt == "Y")
-                    {
-                        this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
+                    }else{
+                        tmpT1833Vo = new T1833Vo();
                     }
+
+
+                    tmpT1833Vo.shcode = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
+                    tmpT1833Vo.hname  = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
+                    tmpT1833Vo.close  = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
+                    tmpT1833Vo.sign   = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
+                    tmpT1833Vo.change = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
+                    tmpT1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
+                    tmpT1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+
+                    tmpT1833Vo.deleteAt = false; //삭제여부 -나중에 true 인거는 다 삭제해준다.
+
+                    if (result.Count() == 0)
+                    {
+                       t1833VoList.Add(tmpT1833Vo);
+                        //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
+                        if (mainForm.tradingAt == "Y")
+                        {
+                            this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
+                        }
                    
-                }
+                    }
                
-            }
-
-            //목록에 없는 종목 그리드에서 삭제.
-            for (int i = 0; i < t1833VoList.Count; i++) {
-                tmpT1833Vo = t1833VoList.ElementAt(i);
-
-                if (tmpT1833Vo.deleteAt == true) {
-                    t1833VoList.RemoveAt(i);
-                    i--;
                 }
-                tmpT1833Vo.deleteAt = true;
+
+                //목록에 없는 종목 그리드에서 삭제.
+                for (int i = 0; i < t1833VoList.Count; i++) {
+                    tmpT1833Vo = t1833VoList.ElementAt(i);
+
+                    if (tmpT1833Vo.deleteAt == true) {
+                        t1833VoList.RemoveAt(i);
+                        i--;
+                    }
+                    tmpT1833Vo.deleteAt = true;
+                }
+
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "]조건검색 응답 완료";
+
+                completeAt = true;//중복호출 여부
+
             }
-
-            mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "]조건검색 응답 완료";
-
-            completeAt = true;//중복호출 여부
+            catch (Exception ex)
+            {
+                Log.WriteLine("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.StackTrace);
+            }
         }
 
 
-        
+
 
         //메세지 이벤트 핸들러
-        void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
+            void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
           
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;

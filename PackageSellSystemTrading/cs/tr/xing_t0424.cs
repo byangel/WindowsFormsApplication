@@ -21,7 +21,7 @@ namespace PackageSellSystemTrading {
         public MainForm mainForm;
 
         public Double sunamt;    //추정자산
-        //public int sunamt1;     //d1예수금
+        //public int sunamt1; //d1예수금
         public Double dtsunik;   //실현손익
 
         public Double tmpMamt;      //매입금액
@@ -81,6 +81,8 @@ namespace PackageSellSystemTrading {
                 String expcode;//종목코드
                 String jonggb;//마켓구분
                 String mdposqt;//매도가능
+
+                
 
                 for (int i = 0; i < blockCount; i++)
                 {
@@ -238,7 +240,7 @@ namespace PackageSellSystemTrading {
 
 
                     //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
-                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
+                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
                     {
                         if (mainForm.tradingAt == "Y")
                         {

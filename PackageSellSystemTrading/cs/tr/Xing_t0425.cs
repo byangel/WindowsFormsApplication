@@ -63,12 +63,15 @@ namespace PackageSellSystemTrading {
             {
                 //응답 데이타 수
                 int blockCount = base.GetBlockCount("t0425OutBlock1");
-
+                if (blockCount == 0)
+                {
+                    this.t0425VoList.Clear();
+                }
 
                 //계좌잔고목록
                 EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
 
-
+            
 
                 String ordno;  //주문번호
                 String status; //상태 체결|미체결

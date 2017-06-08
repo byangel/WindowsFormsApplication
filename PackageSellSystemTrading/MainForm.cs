@@ -12,7 +12,7 @@ using System.Runtime.InteropServices.ComTypes;
 
 using XA_DATASETLib;
 using XA_SESSIONLib;
-
+using System.Data.SQLite;
 
 namespace PackageSellSystemTrading{
     public partial class MainForm : System.Windows.Forms.Form{
@@ -391,23 +391,88 @@ namespace PackageSellSystemTrading{
         //테스트 버튼 클릭 이벤트
         private void test_Click(object sender, EventArgs e)
         {
-            //프로그램 종료
-            ////string szProgram = Util.GetCurrentDirectoryWithPath() + "\\AngelTrade.exe";
-            //String szProgram = Application.StartupPath;
-            //String startupPath = szProgram + "\\AngelTrade.exe";
-            //MessageBox.Show(startupPath);
-            //System.Diagnostics.Process.Start(startupPath, "0");
-           
-            //this.Dispose();
-            //Application.Exit();
+            try { 
+                String dbFilePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\"+this.account+".db";
 
-            //xing_t1833.call_request();
+                SQLiteConnection conn = new SQLiteConnection("Data Source="+ dbFilePath+";Pooling=true;FailIfMissing=false");
+                conn.Open();//파일이 없으면 자동 생성 //conn.Close();
 
-            //Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600();
-            //xing_CSPAT00600.mainForm = this;
-            //xing_CSPAT00600.call_requestSell("선택매도", "none", "2000", "대유플러스", "000300", "44", "1100");
-            //MessageBox.Show(xing_t1833Exclude.t1833ExcludeVoList.Count().ToString());
-            //this.xing_t0424.call_request(this.account, this.accountPw);
+                //테이블이 있는데 확인
+                SQLiteCommand cmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'trading_history'", conn);
+
+                if (Convert.ToInt32(cmd.ExecuteScalar()) <= 0){
+                    cmd.CommandText = "CREATE TABLE tstring (tagname VARCHAR(16), dt DATETIME, val TINYTEXT, PRIMARY KEY(tagname, dt));";
+                    cmd.ExecuteNonQuery();
+                }
+
+
+                //쿼리정의
+                cmd.CommandText = "INSERT INTO trading_history  (tagname, dt, val) VALUES (@name, @dt, @val)";
+                cmd.Parameters.Add("@name", DbType.String);
+                cmd.Parameters.Add("@dt", DbType.DateTime);
+                cmd.Parameters.Add("@val", DbType.Byte);
+                cmd.Prepare();
+
+                //String sql = "insert into members (name, age) values ('김도현', 6)";
+                //SQLiteCommand command = new SQLiteCommand(sql, conn);
+                //int result = command.ExecuteNonQuery();
+
+
+                //......
+
+                cmd.Parameters[0].Value = "1ㅇ";
+                cmd.Parameters[1].Value = "2ㅇ";
+                cmd.Parameters[2].Value = "3ㄹ";
+                cmd.ExecuteNonQuery();
+
+
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine("main : " + ex.Message);
+                Log.WriteLine("main : " + ex.StackTrace);
+            }
+
+
+            //this.dataLogVoList = new EBindingList<DataLogVo>();
+
+
+
+            //conn.Open();
+
+            ////......
+
+            //conn.Close();
+
+            //SQLiteCommand cmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'tstring'", conn);
+
+            //if (Convert.ToInt32(cmd.ExecuteScalar()) <= 0)
+
+            //{
+
+            //    cmd.CommandText = "CREATE TABLE tstring (tagname VARCHAR(16), dt DATETIME, val TINYTEXT, PRIMARY KEY(tagname, dt));";
+
+            //    cmd.ExecuteNonQuery();
+
+            //}
+
+
+
+            //cmd.CommandText = "INSERT INTO tstring  (tagname, dt, val) VALUES (@name, @dt, @val)";
+
+            //cmd.Parameters.Add("@name", DbType.String);
+
+            //cmd.Parameters.Add("@dt", DbType.DateTime);
+
+            //cmd.Parameters.Add("@val", DbType.Byte);
+            //cmd.Prepare();
+            //cmd.Parameters[0].Value = tagid;
+            //cmd.Parameters[1].Value = dtNow;
+            //cmd.Parameters[2].Value = strvalue;
+            //cmd.ExecuteNonQuery();
+
+
+
 
         }
         //취소
