@@ -177,7 +177,8 @@ namespace PackageSellSystemTrading{
 
             String time = mainForm.xing_t0167.time;
             //if (time == "" ) { time = "153000"; }//에러 안나게 기본값을 셋팅해준다.
-            int cTime = (int.Parse(time.Substring(0, 2)) * 60 * 60) + (int.Parse(time.Substring(2, 2))*60) + (int.Parse(time.Substring(4, 2)));//현재 시간
+            //현재 시간
+            int cTime = (int.Parse(time.Substring(0, 2)) * 60 * 60) + (int.Parse(time.Substring(2, 2))*60) + (int.Parse(time.Substring(4, 2)));
 
             //1.미체결항목에 매수 항목이 있는지 확인하자.
             //2.반복매수 - 보유종목 매수 시기가 1시간이상 이전이고 수익률이 -3% 이하이면 반복매수한다.
@@ -197,7 +198,7 @@ namespace PackageSellSystemTrading{
                                select item;
             if (varT0425VoList.Count() > 0 )
             {
-                Log.WriteLine("t1833::" + hname + "(" + shcode + ") 금일 1회 매수 제한.");
+                Log.WriteLine("t1833::금일 1회 매수 제한:" + hname + "(" + shcode + ") ");
                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ": 금일 1회 매수 제한.");
                 return false;
             }
@@ -225,7 +226,7 @@ namespace PackageSellSystemTrading{
             int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
             if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
             {
-                Log.WriteLine("t1833::" + hname + "(" + shcode + ") 매수금지 종목 ");
+                Log.WriteLine("t1833::매수금지 종목:" + hname + "(" + shcode + ")");
                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":매수금지 종목.");
                 mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
                 return false;
@@ -242,7 +243,7 @@ namespace PackageSellSystemTrading{
 
                 //-수익율이 -5% 이하이면 반복매수 해주자.
                 if (double.Parse(sunikrt) > double.Parse(Properties.Settings.Default.REPEAT_RATE)){
-                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 반복매수 제한 [수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
+                    Log.WriteLine("t1833::반복매수 제한:" + hname + "(" + shcode + ")[수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%]");
                     mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":반복매수 제한.");
                     return false;
                 }
@@ -251,8 +252,8 @@ namespace PackageSellSystemTrading{
                 ordptnDetail = "신규매수";
                
                 if (Double.Parse(enterRate) > Double.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Log.WriteLine("t1833::" + hname + "(" + shcode + ") 자본금 대비 투자율 제한   [자본금대비투자율:"+ enterRate+"%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%]");
-                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":자본금 대비 투자율 제한.");
+                    Log.WriteLine("t1833::투자율 제한:" + hname + "(" + shcode + ")[투자율:"+ enterRate+"%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%]");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":투자율 제한.");
                     return false;
                 }      
             }
@@ -291,12 +292,12 @@ namespace PackageSellSystemTrading{
                 }
             }
             else{
-                Log.WriteLine("t1833::" + hname + "(" + shcode + ") 비정규장 제어 [주문가격:" + close + "|주문수량:" + Quantity + "]");
+                Log.WriteLine("t1833::비정규장 제어:" + hname + "(" + shcode + ") [주문가격:" + close + "|주문수량:" + Quantity + "]");
                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ": 비정규장 제어.");
             }
           
             return true;
-        }
+        }//buyTest END
 
         //투자율 개산
         public String getInputRate()

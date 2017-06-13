@@ -33,6 +33,7 @@ namespace PackageSellSystemTrading{
 
         public AccountForm       accountForm;       //계좌 선택
         public OptionForm        optionForm;        //프로그램 설정 폼
+        public HistoryForm       historyForm;        //매매이력 폼
 
         public Real_SC1          real_SC1; //실시간 체결
         public Real_S3           real_S3;  //코스피 체결체결
@@ -88,11 +89,16 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.mainForm = this;
 
+            this.dataLog = new DataLog();
+            this.dataLog.mainForm = this;
+
             this.accountForm = new AccountForm();//계좌선택폼
             this.accountForm.mainForm = this;
             this.accountForm.exXASessionClass = exXASessionClass;
             this.optionForm = new OptionForm();
             this.optionForm.mainForm = this;
+            this.historyForm = new HistoryForm();
+            this.historyForm.mainForm = this;
 
             this.real_SC1 = new Real_SC1();    //실시간 체결
             this.real_SC1.mainForm = this;
@@ -103,8 +109,7 @@ namespace PackageSellSystemTrading{
             this.real_jif = new Real_jif();    //장정보
             this.real_jif.mainForm = this;
 
-            this.dataLog = new DataLog();
-            this.dataLog.mainForm = this;
+            
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
             //진입검색 그리드.
@@ -151,10 +156,10 @@ namespace PackageSellSystemTrading{
             Properties.Settings.Default.LOGIN_ID       = loginId;
             Properties.Settings.Default.LOGIN_PW       = loginPw;
             Properties.Settings.Default.PUBLIC_PW      = publicPw;
-            //Properties.Settings.Default.ACCOUNT        = this.exXASessionClass.account;
-            //Properties.Settings.Default.ACCOUNT_PW     = this.exXASessionClass.accountPw;
-            //Properties.Settings.Default.AUTO_LOGIN = CheckAutoLogin.Checked;
-            //Properties.Settings.Default.TRAY_YN = CheckTrayYN.Checked;
+            //Properties.Settings.Default.ACCOUNT      = this.exXASessionClass.account;
+            //Properties.Settings.Default.ACCOUNT_PW   = this.exXASessionClass.accountPw;
+            //Properties.Settings.Default.AUTO_LOGIN   = CheckAutoLogin.Checked;
+            //Properties.Settings.Default.TRAY_YN      = CheckTrayYN.Checked;
 
             Properties.Settings.Default.Save();
             MessageBox.Show("로그인 설정을 저장했습니다..!!");
@@ -376,7 +381,7 @@ namespace PackageSellSystemTrading{
 
                             this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = true;//일괄 매도시 주문여부를 true로 설정
 
-                            Log.WriteLine("mainForm :: 선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    주문수량및매도가능:" + mdposqt);
+                            Log.WriteLine("mainForm :: 선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    |매도가능수량:" + mdposqt);
                         }
                         
                     }
@@ -391,40 +396,33 @@ namespace PackageSellSystemTrading{
         //테스트 버튼 클릭 이벤트
         private void test_Click(object sender, EventArgs e)
         {
-            try { 
-                String dbFilePath = Util.GetCurrentDirectoryWithPath() + "\\logs\\"+this.account+".db";
+            try {
 
-                SQLiteConnection conn = new SQLiteConnection("Data Source="+ dbFilePath+";Pooling=true;FailIfMissing=false");
-                conn.Open();//파일이 없으면 자동 생성 //conn.Close();
+                DataLogVo dataLogVo = new DataLogVo();
+                dataLogVo.ordno = "888";
+                dataLogVo.dt = "20171117035011";//일시
+                dataLogVo.accno = "32323";//계좌번호
+                dataLogVo.Isuno = "2323";//종목코드
+                dataLogVo.Isunm = "국민은행";//종목명
+                dataLogVo.ordptncode = "01";//주문구분 01:매도|02:매수 
+                dataLogVo.ordqty = "2";//주문수량  
+                dataLogVo.execqty = "2";//체결수량  
+                dataLogVo.execprc = "1222";//체결가격
+                dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산|
+                dataLogVo.upOrdno = "1111";//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
+                dataLogVo.upExecprc = "1444";//상위체결금액
+                dataLogVo.sellOrdAt = "N";//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
+                dataLogVo.useYN = "Y";//사용여부 
+                dataLog.insert(dataLogVo);
 
-                //테이블이 있는데 확인
-                SQLiteCommand cmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'trading_history'", conn);
+                dataLogVo.ordno = "999";
+                dataLog.insert(dataLogVo);
 
-                if (Convert.ToInt32(cmd.ExecuteScalar()) <= 0){
-                    cmd.CommandText = "CREATE TABLE tstring (tagname VARCHAR(16), dt DATETIME, val TINYTEXT, PRIMARY KEY(tagname, dt));";
-                    cmd.ExecuteNonQuery();
-                }
-
-
-                //쿼리정의
-                cmd.CommandText = "INSERT INTO trading_history  (tagname, dt, val) VALUES (@name, @dt, @val)";
-                cmd.Parameters.Add("@name", DbType.String);
-                cmd.Parameters.Add("@dt", DbType.DateTime);
-                cmd.Parameters.Add("@val", DbType.Byte);
-                cmd.Prepare();
-
-                //String sql = "insert into members (name, age) values ('김도현', 6)";
-                //SQLiteCommand command = new SQLiteCommand(sql, conn);
-                //int result = command.ExecuteNonQuery();
-
-
-                //......
-
-                cmd.Parameters[0].Value = "1ㅇ";
-                cmd.Parameters[1].Value = "2ㅇ";
-                cmd.Parameters[2].Value = "3ㄹ";
-                cmd.ExecuteNonQuery();
-
+                DataTable dt = dataLog.read("2323", "999");
+                String testNm = dt.Rows[0]["Isunm"].ToString();
+                //종목코드,주문번호
+                dataLog.delete("2323", "888");
+                dataLog.delete("2323", "999");
 
             }
             catch (Exception ex)
@@ -433,48 +431,10 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine("main : " + ex.StackTrace);
             }
 
-
-            //this.dataLogVoList = new EBindingList<DataLogVo>();
-
-
-
-            //conn.Open();
-
-            ////......
-
-            //conn.Close();
-
-            //SQLiteCommand cmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'tstring'", conn);
-
-            //if (Convert.ToInt32(cmd.ExecuteScalar()) <= 0)
-
-            //{
-
-            //    cmd.CommandText = "CREATE TABLE tstring (tagname VARCHAR(16), dt DATETIME, val TINYTEXT, PRIMARY KEY(tagname, dt));";
-
-            //    cmd.ExecuteNonQuery();
-
-            //}
-
-
-
-            //cmd.CommandText = "INSERT INTO tstring  (tagname, dt, val) VALUES (@name, @dt, @val)";
-
-            //cmd.Parameters.Add("@name", DbType.String);
-
-            //cmd.Parameters.Add("@dt", DbType.DateTime);
-
-            //cmd.Parameters.Add("@val", DbType.Byte);
-            //cmd.Prepare();
-            //cmd.Parameters[0].Value = tagid;
-            //cmd.Parameters[1].Value = dtNow;
-            //cmd.Parameters[2].Value = strvalue;
-            //cmd.ExecuteNonQuery();
-
-
-
-
         }
+
+
+
         //취소
         private void button3_Click(object sender, EventArgs e)
         {
@@ -764,8 +724,8 @@ namespace PackageSellSystemTrading{
             }
         }
 
-
-        int test = 0;
+        
+        int flag1833 = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833Exclude_Tick(object sender, EventArgs e)
         {
@@ -777,15 +737,15 @@ namespace PackageSellSystemTrading{
 
             }  else{
 
-                if (test == 0)
+                if (flag1833 == 0)
                 {
                     xing_t1833Exclude.call_request();
-                    test = 1;
+                    flag1833 = 1;
                 }
                 else
                 {
                     xing_t1833.call_request();
-                    test = 0;
+                    flag1833 = 0;
                 }
                
             }
@@ -825,6 +785,11 @@ namespace PackageSellSystemTrading{
             
              Boolean b = exXASessionClass.fnLogin();
  
+        }
+
+        private void btn_history_pop_Click(object sender, EventArgs e)
+        {
+            historyForm.ShowDialog();
         }
     }//end class
 }//end namespace

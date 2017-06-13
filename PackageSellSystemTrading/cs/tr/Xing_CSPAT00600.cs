@@ -99,6 +99,7 @@ namespace PackageSellSystemTrading{
                 }
                 //dataInsert호출
                 mainForm.dataLog.insertData(dataLogVo);
+                mainForm.dataLog.insert(dataLogVo);
             }
 
             completeAt = true;

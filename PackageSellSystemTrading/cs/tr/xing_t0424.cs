@@ -164,30 +164,30 @@ namespace PackageSellSystemTrading {
                         }
                     }
 
-                    //삭제여부
+                    //그리드에서 삭제여부
                     tmpT0424Vo.deleteAt = "N";
 
                     //종목매매 이력 참조
-
-                    HistoryVo historyvo = mainForm.dataLog.getHistoryVo(tmpT0424Vo.expcode.Replace("A", ""));
-                    if (historyvo != null)
+                    //매매 이력에 해당 종목정보가 존재여부에 따라 처리
+                    SummaryVo summaryVo = mainForm.dataLog.getSummaryVo(tmpT0424Vo.expcode.Replace("A", ""));
+                    if (summaryVo != null)
                     {
-                        tmpT0424Vo.pamt2 = historyvo.pamt2;    //평균단가2
-                        tmpT0424Vo.sellCnt = historyvo.sellCnt;  //매도 횟수.
-                        tmpT0424Vo.buyCnt = historyvo.buyCnt;   //매수 횟수
-                        tmpT0424Vo.sellSunik = historyvo.sellSunik;//중간매도손익
+                        tmpT0424Vo.pamt2     = summaryVo.pamt2;    //평균단가2
+                        tmpT0424Vo.sellCnt   = summaryVo.sellCnt;  //매도 횟수.
+                        tmpT0424Vo.buyCnt    = summaryVo.buyCnt;   //매수 횟수
+                        tmpT0424Vo.sellSunik = summaryVo.sellSunik;//중간매도손익
                     }
                     else
                     {//이력정보가 없으면 이력정보를 등록해준다. --프로그램 최초에만 동작해야한다.
                         tmpT0424Vo.expcode.Replace("A", "");
-                        tmpT0424Vo.pamt2 = tmpT0424Vo.pamt;    //평균단가2
-                        tmpT0424Vo.sellCnt = "0";  //매도 횟수.
-                        tmpT0424Vo.buyCnt = "1";   //매수 횟수
+                        tmpT0424Vo.pamt2     = tmpT0424Vo.pamt;    //평균단가2
+                        tmpT0424Vo.sellCnt   = "0";  //매도 횟수.
+                        tmpT0424Vo.buyCnt    = "1";   //매수 횟수
                         tmpT0424Vo.sellSunik = "0";//중간매도손익
 
                         mainForm.dataLog.insertDataT0424(tmpT0424Vo, "init" + (mainForm.dataLog.getDataLogVoList().Count() + 1));
 
-                        Log.WriteLine("t0424::" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ") 최초 이력 등록. ");
+                        Log.WriteLine("t0424::최초 이력 등록" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ") . ");
 
                         //프로그램 최초에만 동작해야 하는데 신규매수 매도시 이력 등록이 잘 안된다는 뜻이다.
 
@@ -341,7 +341,7 @@ namespace PackageSellSystemTrading {
                 //3.팔린종목 삭제
                 if (this.t0424VoList.ElementAt(i).deleteAt == "Y")
                 {
-                    Log.WriteLine("t0424::" + t0424VoList.ElementAt(i).hname + "(" + t0424VoList.ElementAt(i).expcode + "):: 팔린종목 그리드에서 제거 ");
+                    Log.WriteLine("t0424::팔린종목 그리드에서 제거: " + t0424VoList.ElementAt(i).hname + "(" + t0424VoList.ElementAt(i).expcode + ")");
                     mainForm.deleteCallBack(this.t0424VoList.ElementAt(i).expcode); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
                     i--;
                 }
