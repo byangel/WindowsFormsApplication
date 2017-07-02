@@ -25,7 +25,7 @@ namespace PackageSellSystemTrading
         String BUY_STOP_RATE      = "70";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "100000000"; //최대 운영 금액 제한 - 기본 1억
         String BATTING_ATM        = "";
-        String CONDITION_ADF      = "Condition2.ADF";
+        String CONDITION_ADF      = "Condition.ADF";
         String CONDITION_EXCLUDE  = "ConditionExclude1000.ADF";
 
         //생성자
@@ -123,24 +123,7 @@ namespace PackageSellSystemTrading
             this.rollBack();
         }
 
-        //손절사용 여부 체크박스 변경 이벤트
-        //private void checkBox_stop_loss_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    this.checkBox_stop_loss_CheckedChanged();
-        //}
-
-        //손절사용 변경시 input_stop_loss 비활성
-        //private void checkBox_stop_loss_CheckedChanged()
-        //{
-        //    if (checkBox_stop_loss.Checked)//손절사용
-        //    {
-        //        this.input_stop_loss.Enabled = true;
-        //    }
-        //    else//손절 미사용
-        //    {
-        //        this.input_stop_loss.Enabled = false;
-        //    }
-        //}
+        
 
         //최대운영자금 체크박스 변경 이벤트
         private void checkBox_limited_CheckedChanged(object sender, EventArgs e)
@@ -160,7 +143,9 @@ namespace PackageSellSystemTrading
             }
         }
 
+        private void combox_conditionExclude_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
-
+        }
     }//class end
 }//name end

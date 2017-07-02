@@ -31,6 +31,7 @@
             this.grd_history = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.btn_search = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grd_history)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,13 +65,25 @@
             this.btn_search.TabIndex = 18;
             this.btn_search.Text = "조회";
             this.btn_search.UseVisualStyleBackColor = true;
-            this.btn_search.Click += new System.EventHandler(this.button1_Click);
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(598, 7);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(51, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btn_test_Click);
             // 
             // HistoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 485);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btn_search);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.grd_history);
@@ -83,9 +96,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView grd_history;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btn_search;
+        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.DataGridView grd_history;
     }
 }

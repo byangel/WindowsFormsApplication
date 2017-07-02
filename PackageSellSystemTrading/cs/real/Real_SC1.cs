@@ -10,6 +10,7 @@ using System.Drawing;
 using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
+using System.Data;
 
 namespace PackageSellSystemTrading{
     //현물계좌 예수금/주문가능금액/총평가 조회(API)
@@ -68,12 +69,26 @@ namespace PackageSellSystemTrading{
 
 
             //매매 체결수량 업데이트
-            if (!mainForm.dataLog.updateDataExecqty(realSc1Vo))
+            var items = from item in mainForm.dataLog.getDataLogVoList()
+                                               where item.ordno == realSc1Vo.ordno
+                                                  && item.Isuno == realSc1Vo.Isuno
+                                                  && item.accno == mainForm.account
+                                                  && item.useYN == "Y"
+                                               select item;
+            String execqty;
+            foreach (DataLogVo item in items)
             {
-                //업데이트 실패하면 - dataFile에 해당 종목이 아직 추가 되지 않은것같다.
-                Log.WriteLine("real_SC1 :: 매매 체결수량 업데이트 실패 [종목코드:" + realSc1Vo.Isuno + "]");
+                //기존체결수량+체결수량
+                execqty = (int.Parse(item.execqty) + int.Parse(realSc1Vo.execqty)).ToString();
+                item.execqty  = execqty;
+                item.Isunm    = realSc1Vo.Isunm;
+                item.execprc  = realSc1Vo.execprc;//체결가격
+                item.sellOrdAt = "Y";
+                mainForm.dataLog.update(item);//매도주문 여부 상태 업데이트
+                //mainForm.dataLog.getHistoryDataTable().Rows.Find(row);
             }
-            
+
+
 
             //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
@@ -91,9 +106,26 @@ namespace PackageSellSystemTrading{
 
 
                 //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
-                if (double.Parse(t0424VoList.ElementAt(findIndex).mdposqt) <= 0)
+                if (mdposqt <= 0)
                 {
-                    mainForm.deleteCallBack(realSc1Vo.Isuno);
+                    //2.청산된 종목 사용여부를 db 'N'으로 업데이트한다.
+                    //mainForm.dataLog.updateUseYN(realSc1Vo.Isuno, "N");
+                    var items2 = from item in mainForm.dataLog.getDataLogVoList()
+                                 where item.Isuno == realSc1Vo.Isuno.Replace("A", "")
+                                   && item.accno == mainForm.account
+                                   && item.useYN == "Y"
+                                select item;
+                    //String execqty;
+                    foreach (DataLogVo item in items2)
+                    {
+                        item.useYN = "N";
+                        mainForm.dataLog.update(item);
+                    }
+                    
+                    //3.그리드에서 해당 로우 삭제
+                    //this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);//그리드에서 삭제하면 바인딩객체도 같이 삭제 되는지 잘모르겠어서 그냥 바인딩객체를 삭제로 바꿔준다.
+                    mainForm.xing_t0424.getT0424VoList().RemoveAt(findIndex);
+
                     Log.WriteLine("real_SC1 deleteCallBack :: 청산된 종목 그리드와 DataLog Line 제거.[종목코드:" + realSc1Vo.Isuno + "]");
                 }else{
                     //수정된 평균단가를 실시간 적용해준다.

@@ -28,6 +28,8 @@ namespace PackageSellSystemTrading{
         public string minute { get; set; }
         public string second { get; set; }
 
+        public Boolean initAt = false;
+
         // 생성자
         public Xing_t0167(){
           
@@ -63,7 +65,7 @@ namespace PackageSellSystemTrading{
            
             if (this.time != "")
             {
-                this.hour = this.time.Substring(0, 2);
+                this.hour   = this.time.Substring(0, 2);
                 this.minute = this.time.Substring(2, 2);
                 this.second = this.time.Substring(4, 2);
                 mainForm.label_time.Text = this.hour + ":" + this.minute + ":" + this.second;

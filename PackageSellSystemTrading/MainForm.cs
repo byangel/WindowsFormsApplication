@@ -15,41 +15,41 @@ using XA_SESSIONLib;
 using System.Data.SQLite;
 
 namespace PackageSellSystemTrading{
-    public partial class MainForm : System.Windows.Forms.Form{
+    public partial class MainForm : System.Windows.Forms.Form {
 
         //배팅금액
         public decimal battingAmt;
 
-        public ExXASessionClass  exXASessionClass;
-        public Xing_t1833        xing_t1833;        //조건검색
+        public ExXASessionClass exXASessionClass;
+        public Xing_t1833 xing_t1833;        //조건검색
         public Xing_t1833Exclude xing_t1833Exclude; //매수금지종목
-        public Xing_t0424        xing_t0424;        //잔고2
-       
-        public Xing_t0425        xing_t0425;        //체결/미체결
-        public Xing_t0167        xing_t0167;        //시간조회
-        public Xing_CSPAT00600   xing_CSPAT00600;   //주식주문
-        public Xing_CSPAT00800   xing_CSPAT00800;   //현물 취소주문
-        public Xing_CSPAQ12200   xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
+        public Xing_t0424 xing_t0424;        //잔고2
 
-        public AccountForm       accountForm;       //계좌 선택
-        public OptionForm        optionForm;        //프로그램 설정 폼
-        public HistoryForm       historyForm;        //매매이력 폼
+        public Xing_t0425 xing_t0425;        //체결/미체결
+        public Xing_t0167 xing_t0167;        //시간조회
+        public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
+        public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
+        public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
 
-        public Real_SC1          real_SC1; //실시간 체결
-        public Real_S3           real_S3;  //코스피 체결체결
-        public Real_K3           real_K3;  //코스닥 체결체결
-        public Real_jif          real_jif; //장 정보
+        public AccountForm accountForm;       //계좌 선택
+        public OptionForm optionForm;        //프로그램 설정 폼
+        public HistoryForm historyForm;        //매매이력 폼
 
-        public DataLog           dataLog; //데이타로그
+        public Real_SC1 real_SC1; //실시간 체결
+        public Real_S3 real_S3;  //코스피 체결체결
+        public Real_K3 real_K3;  //코스닥 체결체결
+        public Real_jif real_jif; //장 정보
 
-        public String            tradingAt;//매매 여부 Y|N
+        public DataLog dataLog; //데이타로그
+
+        public String tradingAt;//매매 여부 Y|N
 
 
         public String account; //계좌번호
         public String accountPw;//계좌 비밀번호
         //public String account { get; set; }
         //public String accountPw { get; set; }
-
+        //public String[] users = new {["dasdf", "sdfsfsd"]};
         //생성자
         public MainForm(){
             InitializeComponent();
@@ -396,37 +396,41 @@ namespace PackageSellSystemTrading{
         //테스트 버튼 클릭 이벤트
         private void test_Click(object sender, EventArgs e)
         {
-            try {
-
-                DataLogVo dataLogVo = new DataLogVo();
-                dataLogVo.ordno = "888";
-                dataLogVo.dt = "20171117035011";//일시
-                dataLogVo.accno = "32323";//계좌번호
-                dataLogVo.Isuno = "2323";//종목코드
-                dataLogVo.Isunm = "국민은행";//종목명
-                dataLogVo.ordptncode = "01";//주문구분 01:매도|02:매수 
-                dataLogVo.ordqty = "2";//주문수량  
-                dataLogVo.execqty = "2";//체결수량  
-                dataLogVo.execprc = "1222";//체결가격
-                dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산|
-                dataLogVo.upOrdno = "1111";//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-                dataLogVo.upExecprc = "1444";//상위체결금액
-                dataLogVo.sellOrdAt = "N";//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
-                dataLogVo.useYN = "Y";//사용여부 
-                dataLog.insert(dataLogVo);
-
-                dataLogVo.ordno = "999";
-                dataLog.insert(dataLogVo);
-
-                DataTable dt = dataLog.read("2323", "999");
-                String testNm = dt.Rows[0]["Isunm"].ToString();
-                //종목코드,주문번호
-                dataLog.delete("2323", "888");
-                dataLog.delete("2323", "999");
-
-            }
-            catch (Exception ex)
+            try
             {
+
+                //DataLogVo dataLogVo = new DataLogVo();
+                //dataLogVo.ordno = "888";
+                //dataLogVo.dt = "20171117035011";//일시
+                //dataLogVo.accno = "32323";//계좌번호
+                //dataLogVo.Isuno = "2323";//종목코드
+                //dataLogVo.Isunm = "국민은행";//종목명
+                //dataLogVo.ordptncode = "01";//주문구분 01:매도|02:매수 
+                //dataLogVo.ordqty = "2";//주문수량  
+                //dataLogVo.execqty = "2";//체결수량  
+                //dataLogVo.execprc = "1222";//체결가격
+                //dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산|
+                //dataLogVo.upOrdno = "1111";//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
+                //dataLogVo.upExecprc = "1444";//상위체결금액
+                //dataLogVo.sellOrdAt = "N";//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
+                //dataLogVo.useYN = "Y";//사용여부 
+                //dataLog.insert(dataLogVo);
+
+                //dataLogVo.ordno = "999";
+                //dataLog.insert(dataLogVo);
+
+                //DataTable dt = dataLog.read("2323", "999");
+                //String testNm = dt.Rows[0]["Isunm"].ToString();
+                ////종목코드,주문번호
+                //dataLog.delete("2323", "888");
+                //dataLog.delete("2323", "999");
+
+
+                //int dd= dataLog.updateUseYN("007720", "N");
+
+                MessageBox.Show(Math.Floor(1041.666667).ToString());
+            }
+            catch (Exception ex){
                 Log.WriteLine("main : " + ex.Message);
                 Log.WriteLine("main : " + ex.StackTrace);
             }
@@ -513,13 +517,32 @@ namespace PackageSellSystemTrading{
                     }
                 }
             }
-
+            //삭제예정
             if (e.ColumnIndex == 6 || e.ColumnIndex == 8)
             {
                 if (e.Value != null)
                 {
 
                     e.Value = Util.GetNumberFormat(e.Value.ToString());
+                }
+            }
+            //폰트색 지정
+            if (e.ColumnIndex == 17)
+            {
+                if (e.Value != null)
+                {
+
+                    if (e.Value.ToString().IndexOf("-") >= 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Blue;
+                        e.CellStyle.SelectionForeColor = Color.Blue;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;
+
+                    }
                 }
             }
             //주문시간 :: 0 / 09094942
@@ -531,7 +554,7 @@ namespace PackageSellSystemTrading{
             //주문수량 :: 4 / 18
             //주문가격 :: 5 / 2840
             //제결수량 :: 6 / 18
-            //Log.WriteLine(e.ColumnIndex.ToString()+"/"+ e.Value);
+            Log.WriteLine(e.ColumnIndex.ToString()+"/"+ e.Value);
         }
 
         //조건검색 그리드
@@ -670,20 +693,20 @@ namespace PackageSellSystemTrading{
         
 
         //실시간 체결(SC1) > 매도가능수량이 0이면 호출 
-        public void deleteCallBack(String Isuno)
-        {
-            //dataLog 도 제거해준다.
-            this.dataLog.deleteData(Isuno); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
+        //public void deleteCallBack(String Isuno)
+        //{
+        //    //dataLog 도 제거해준다.
+        //    this.dataLog.deleteData(Isuno); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
 
-            //그리드삭제
-            //this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);//그리드에서 삭제하면 바인딩객체도 같이 삭제 되는지 잘모르겠어서 그냥 바인딩객체를 삭제로 바꿔준다.
-            int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
-            if (findIndex>=0)
-            {
-                this.xing_t0424.getT0424VoList().RemoveAt(findIndex);
-            }
+        //    //그리드삭제
+        //    //this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);//그리드에서 삭제하면 바인딩객체도 같이 삭제 되는지 잘모르겠어서 그냥 바인딩객체를 삭제로 바꿔준다.
+        //    int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
+        //    if (findIndex>=0)
+        //    {
+        //        this.xing_t0424.getT0424VoList().RemoveAt(findIndex);
+        //    }
 
-        }
+        //}
 
 
         //조건검색 버튼 이벤트
@@ -762,20 +785,27 @@ namespace PackageSellSystemTrading{
                 
             }else{
 
-                //3.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
+                //1.주식잔고2 --잠시 주석또는 아예삭제 test후 결정내리자. --청산
                 this.xing_t0424.call_request(this.account, this.accountPw);
 
-                //4.금일주문 이력
+                //2.금일주문 이력
                 this.xing_t0425.call_request(this.account, this.accountPw);
 
-                
-                //1.검색조건식 호출 -신규매수및 반복매수 -  잔고가 먼저 호출되어야한다.(잘모르겠다.)
-                //xing_t1833.call_request();
+              
 
-                //5.현물계좌예수금/주문가능금액/총평가 조회
+                //3.현물계좌예수금/주문가능금액/총평가 조회
                 this.xing_CSPAQ12200.call_request(this.account, this.accountPw);
 
-                //데이터 조회와 매수/매도 프로세스 분리하자.
+
+                //4.매도/매수 카운트
+                var varT0425VoList = from item in this.xing_t0425.getT0425VoList()
+                                     where item.medosu == "매도" && item.cancelOrdAt != "Y"
+                                     select item;
+                this.label_sellCnt.Text = varT0425VoList.Count().ToString();
+                varT0425VoList = from item in this.xing_t0425.getT0425VoList()
+                                 where item.medosu == "매수" && item.cancelOrdAt != "Y"
+                                 select item;
+                this.label_buyCnt.Text = varT0425VoList.Count().ToString();
             }
         }
 
@@ -789,7 +819,9 @@ namespace PackageSellSystemTrading{
 
         private void btn_history_pop_Click(object sender, EventArgs e)
         {
+            historyForm.grd_history.DataSource = dataLog.getDataLogVoList();
             historyForm.ShowDialog();
+            
         }
     }//end class
 }//end namespace

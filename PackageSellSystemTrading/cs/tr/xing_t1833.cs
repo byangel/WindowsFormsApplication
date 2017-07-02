@@ -28,6 +28,8 @@ namespace PackageSellSystemTrading{
         //투자 비율
         public String enterRate;
 
+        public Boolean initAt = false;
+
         // 생성자
         public Xing_t1833(){
             //String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
@@ -260,7 +262,7 @@ namespace PackageSellSystemTrading{
 
 
             //4.매수
-            int battingAtm = int.Parse(mainForm.label_battingAtm.Text);
+            int battingAtm = int.Parse(mainForm.label_battingAtm.Text.Replace(",",""));
             //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
             if (close == "0"){
                 Log.WriteLine("t1833::" + hname + "(" + shcode + ") [현제가:" + close+";" );

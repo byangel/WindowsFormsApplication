@@ -19,6 +19,8 @@ namespace PackageSellSystemTrading{
 
         public EBindingList<T1833Vo> t1833ExcludeVoList;
 
+        public Boolean initAt = false;
+
         // 생성자
         public Xing_t1833Exclude(){
             this.t1833ExcludeVoList = new EBindingList<T1833Vo>();

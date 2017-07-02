@@ -16,15 +16,24 @@ namespace PackageSellSystemTrading{
        
         public MainForm mainForm;
 
+        //종목코드,수량,가격,주문구분|상세주문구분,상위매수주문번호(금일매도일때만),상위체결금액,매도주문여부
+        public String shcode;        // 종목번호
+        public String quantity;      // 주문수량
+        public String price;         // 주문가
+        public String ordptnDetail;  //상세주문구분
+        public String upOrdno;       //상위매수주문 - 금일매도매수일때만 값이 있다.
+        public String upExecprc;     //상위체결금액  
+        public String sellOrdAt;   //매도주문여부
+        public String hname;//종목명
 
-        private String shcode;        // 종목번호
-        private String quantity;      // 주문수량
-        private String price;         // 주문가
-        private String ordptnDetail;  //상세주문구분
-        private String upOrdno;       //상위매수주문 - 금일매도매수일때만 값이 있다.
-        private String upExecprc;     //상위체결금액  
-        private String sellOrdAt;   //매도주문여부
-        private String hname;
+        public String 종목코드;
+        public String 수량;
+        public String 가격;
+        public String 주문구분;
+        public String 상세주문구분;
+        public String 상위매수주문번호;//(금일매도일때만)
+        public String 상위체결금액;
+        public String 매도주문여부;
 
         public Boolean completeAt = true;//완료여부.
 
@@ -89,7 +98,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.Isunm         = this.hname;               //종목명
                 dataLogVo.ordptnDetail  = this.ordptnDetail;        //상세 주문구분 신규매수|반복매수|금일매도|청산
                 dataLogVo.upExecprc     = this.upExecprc;           //상위 체결가격
-                dataLogVo.sellOrdAt     = sellOrdAt;                //매도 주문 여부
+                dataLogVo.sellOrdAt     = this.sellOrdAt;           //매도 주문 여부
                 dataLogVo.useYN = "Y";                              //사용여부
                 //상위 주문번호
                 if (this.upOrdno == ""){
@@ -98,8 +107,8 @@ namespace PackageSellSystemTrading{
                     dataLogVo.upOrdno = this.upOrdno;
                 }
                 //dataInsert호출
-                mainForm.dataLog.insertData(dataLogVo);
                 mainForm.dataLog.insert(dataLogVo);
+                mainForm.dataLog.getDataLogVoList().Add(dataLogVo);
             }
 
             completeAt = true;
@@ -114,6 +123,38 @@ namespace PackageSellSystemTrading{
                 ;
             }else{
                 Log.WriteLine("CSPAT00600::" + this.hname + "(" + this.shcode + ") "+ szMessage+"("+nMessageCode+ ")- [수량:" + this.quantity + "]");
+                //에러 리턴 받았을때
+                this.completeAt = true;
+
+                if (upOrdno!="")
+                {
+                    //주문이 잘못되었을경우 매도여부를 초기화 해준다.
+                    int findIndex = mainForm.xing_t0425.getT0425VoList().Find("ordno", this.upOrdno);//upOrdno
+                    if (findIndex >= 0)
+                    {
+                        mainForm.grd_t0425.Rows[findIndex].Cells["sellOrdAt"].Value = ""; //종목코드
+
+
+                        //상위주문번호 주문여부 Y로 업데이트
+                        var items = from item in mainForm.dataLog.getDataLogVoList()
+                                    where item.ordno == this.upOrdno
+                                        && item.accno == mainForm.account
+                                    select item;
+
+                        foreach (DataLogVo item in items)
+                        {
+                            item.sellOrdAt = "";
+                            mainForm.dataLog.update(item);//매도주문 여부 상태 업데이트
+                        }
+                    }
+
+                }
+
+
+
+
+
+
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 // 01222 :: 모의투자 매도잔고가 부족합니다  
                 // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
@@ -121,19 +162,16 @@ namespace PackageSellSystemTrading{
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
                 // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.   
-                 
-                                              
+
+
                 //정규매매장이 종료되었습니다.
                 if (nMessageCode=="03563")
                 {
-                    //mainForm.marketAt = false;
-                    //mainForm.stateCd = "마켓종료";
+                    ;
                 }
                 if (nMessageCode == "02705")
                 {
                     MessageBox.Show("600:: 모의투자 주문가격을 잘못 입력하셨습니다." + price);
-                    //mainForm.marketAt = false;
-                    //mainForm.stateCd = "마켓종료";
                 }
 
                 //거래정지 종목으로 주문이 불가능합니다.
@@ -141,22 +179,26 @@ namespace PackageSellSystemTrading{
                 {
                     //잔고그리드 종목찾아서 에러상태 로 만들어서 매도 주문이 안나가도록 조치 하자. 
                     EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-                    var result_t0424 = from item in t0424VoList
-                                       where item.expcode == this.shcode.Replace("A","")
-                                       select item;
-                    //MessageBox.Show(result_t0424.Count().ToString());
-                    if (result_t0424.Count() > 0)
+                    int findIndex = t0424VoList.Find("expcode", this.shcode.Replace("A", ""));
+                    if (findIndex >= 0 )
                     {
-                       result_t0424.ElementAt(0).errorcd = "01069";
-                    }  
+                       mainForm.grd_t0424.Rows[findIndex].Cells["errorcd"].Value = "01069"; //에러코드
+                    }
+                    //var result_t0424 = from item in t0424VoList
+                    //                   where item.expcode == this.shcode.Replace("A","")
+                    //                   select item;
+                    ////MessageBox.Show(result_t0424.Count().ToString());
+                    //if (result_t0424.Count() > 0)
+                    //{
+                    //   result_t0424.ElementAt(0).errorcd = "01069";
+                    //}  
                 }
-                //에러 리턴 받았을때
-                this.completeAt = true;
+                
 
             }
            
         }
-
+        
         /// <summary>
         /// 현물정상주문
         /// </summary>
@@ -191,7 +233,7 @@ namespace PackageSellSystemTrading{
         }   // end function
 
 
-
+        
         /// <summary>
         /// 현물정상주문
         /// </summary>
@@ -218,12 +260,12 @@ namespace PackageSellSystemTrading{
             this.ordptnDetail = ordptnDetail;//상세주문구분
             this.upOrdno      = upOrdno;     //상위매수주문번호  
             this.upExecprc    = upExecprc.Replace(",", "");   //상위체결가격
-            this.sellOrdAt    = "Y";         //매도주문여부
+            this.sellOrdAt    = "";         //매도주문여부-상위매도주문에 설정해야한다.
             this.call_request(shcode, quantity, this.price, "1");
 
         }   // end function
 
-
+        
         /// <summary>
         /// 현물정상주문
         /// </summary>

@@ -138,7 +138,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Resources\Condition.ADF" />
-    <None Include="Resources\Condition2.ADF" />
     <None Include="Resources\ConditionExclude.ADF" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -151,6 +150,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\ConditionExclude1000.ADF" />
+    <None Include="Resources\ConditionNotAscDesc.ADF" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

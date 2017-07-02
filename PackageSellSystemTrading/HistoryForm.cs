@@ -24,10 +24,17 @@ namespace PackageSellSystemTrading
             
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        
+       
+
+        private void btn_test_Click(object sender, EventArgs e)
         {
-            DataTable historyDataTable = mainForm.dataLog.list();
-            grd_history.DataSource = historyDataTable;
+            mainForm.dataLog.dbSync();
+        }
+        //매매 이력 조회
+        private void btn_search_Click(object sender, EventArgs e)
+        {
+            mainForm.dataLog.dbSync();
         }
     }//class end
 }//name end

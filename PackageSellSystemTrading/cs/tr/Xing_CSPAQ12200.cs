@@ -20,7 +20,7 @@ namespace PackageSellSystemTrading
         public String InvstOrgAmt  = "0"; //투자원금
         public String InvstPlAmt   = "0"; //투자손익금액
 
-        
+        public Boolean initAt = false;
         // 생성자
         public Xing_CSPAQ12200()
         {
@@ -69,7 +69,8 @@ namespace PackageSellSystemTrading
             mainForm.label_D2Dps.Text        = Util.GetNumberFormat(this.D2Dps);        // D2예수금
             mainForm.label_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액           
             mainForm.label_BalEvalAmt.Text   = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
-            mainForm.label_tdtsunik.Text     = Util.GetNumberFormat(this.InvstPlAmt); //투자손익금액
+            
+            mainForm.label_tdtsunik.Text     = Util.GetNumberFormat(double.Parse(this.BalEvalAmt) - mainForm.xing_t0424.mamt); //투자손익금액(잔고평가금액-매입금액 )
 
             mainForm.label_PnlRat.Text = Util.GetNumberFormat(this.PnlRat);   // 손익률
 
@@ -78,10 +79,10 @@ namespace PackageSellSystemTrading
             //배팅금액설정
             if (Properties.Settings.Default.BATTING_ATM == "")
             {
-                mainForm.label_battingAtm.Text = Util.getBattingAmt(this.DpsastTotamt);
+                mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(this.DpsastTotamt));
             }else
             {
-                mainForm.label_battingAtm.Text = Properties.Settings.Default.BATTING_ATM;
+                mainForm.label_battingAtm.Text = Util.GetNumberFormat(Properties.Settings.Default.BATTING_ATM);
             }
             
 
