@@ -22,20 +22,21 @@ namespace PackageSellSystemTrading
     /// 실시간 체결정보를 기록하는 클래스 - 금일매수매도를 구현을 목표로한다.
     /// </summary>
     /// <returns>StreamWriter</returns>
-    public class DataLog{
+    public class TradingHistory
+    {
 
         //private DataTable historyDataTable;
-        private EBindingList<DataLogVo> dataLogVoList;
+        private EBindingList<TradingHistoryVo> tradingHistoryVoList;
         public MainForm mainForm;
         private String connStr = @"Data Source=" + Util.GetCurrentDirectoryWithPath() + "\\logs\\history.db;Pooling=true;FailIfMissing=false";
 
-        public EBindingList<DataLogVo> getDataLogVoList()
+        public EBindingList<TradingHistoryVo> getTradingHistoryVoList()
         {
-            return this.dataLogVoList;
+            return this.tradingHistoryVoList;
         }
 
         // 생성자
-        public DataLog()
+        public TradingHistory()
         {
             try {
                 
@@ -100,7 +101,7 @@ namespace PackageSellSystemTrading
 
         }  
         // 소멸자
-        ~DataLog()
+        ~TradingHistory()
         {         
             
         }
@@ -108,17 +109,17 @@ namespace PackageSellSystemTrading
         public void dbSync()
         {
             //this.historyDataTable = list();
-            if(dataLogVoList == null)
+            if(tradingHistoryVoList == null)
             {
-                this.dataLogVoList = new EBindingList<DataLogVo>();
+                this.tradingHistoryVoList = new EBindingList<TradingHistoryVo>();
             }
             
 
             DataTable dt = list();
-            this.dataLogVoList.Clear();
+            this.tradingHistoryVoList.Clear();
             foreach (DataRow dr in dt.Rows)
             {
-                DataLogVo dataLogVo     = new DataLogVo();
+                TradingHistoryVo dataLogVo     = new TradingHistoryVo();
                 dataLogVo.ordno         = dr["ordno"].ToString();    //주문번호
                 dataLogVo.dt            = dr["dt"].ToString();       //일시
                 dataLogVo.accno         = dr["accno"].ToString();    //계좌번호
@@ -136,7 +137,7 @@ namespace PackageSellSystemTrading
                 dataLogVo.cancelOrdAt   = dr["cancelOrdAt"].ToString();//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
                 dataLogVo.useYN         = dr["useYN"].ToString();    //사용여부 
 
-                this.dataLogVoList.Add(dataLogVo);
+                this.tradingHistoryVoList.Add(dataLogVo);
             }
         }
 
@@ -151,7 +152,7 @@ namespace PackageSellSystemTrading
         
 
         //등록
-        public int insert(DataLogVo dataLogVo){
+        public int insert(TradingHistoryVo dataLogVo){
             int result=0;
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
             {
@@ -240,7 +241,7 @@ namespace PackageSellSystemTrading
 
 
         ////수정
-        public int update(DataLogVo dataLogVo)
+        public int update(TradingHistoryVo dataLogVo)
         {
             int result = 0;
             using (var conn = new SQLiteConnection(connStr))
@@ -368,7 +369,11 @@ namespace PackageSellSystemTrading
 
             //로그출력
             String 최초진입 = "";
+            double 매입금액 = 0;
             double 총매수금액 = 0;
+            double 총매도금액 = 0;
+            double 총매도체결수량 = 0;
+            double 총매수체결수량 = 0;
             double 매도가능수량 = 0;
             double 중간매도손익 = 0;
             int 매도횟수 = 0;
@@ -379,18 +384,19 @@ namespace PackageSellSystemTrading
             //}
             //DataTable dt = list(Isuno);
             //if (dt.Rows.Count == 0) { return null;}
-            var items = from item in dataLogVoList
-                       where item.accno == mainForm.account
+            var items = from item in this.tradingHistoryVoList
+                        where item.accno == mainForm.account
                          && item.Isuno == Isuno.Replace("A", "")
                          && item.useYN == "Y"
                        select item;
             //foreach (DataRow dr in dt.Rows){
-            foreach (DataLogVo item in items)
+            foreach (TradingHistoryVo item in items)
             {
                 if (item.ordptncode == "02" && item.useYN == "Y")//매수그룹
                 {   //총매수금액 + 체결수량+체결가격
                     총매수금액 = 총매수금액 + (Double.Parse(item.execqty) * Double.Parse(item.execprc));
-                    매도가능수량 = 매도가능수량 + Double.Parse(item.execqty);
+                    //매도가능수량 = 매도가능수량 + Double.Parse(item.execqty);
+                    총매수체결수량 = 총매수체결수량 + Double.Parse(item.execqty);
                     매수횟수 = 매수횟수 + 1;
                     if (매수횟수 == 1)
                     {
@@ -399,12 +405,21 @@ namespace PackageSellSystemTrading
                 }
                 else if (item.ordptncode == "01" && item.useYN == "Y")
                 {//매도그룹
-                    총매수금액   = 총매수금액 - (Double.Parse(item.execqty) * Double.Parse(item.execprc));
-                    매도가능수량 = 매도가능수량 - Double.Parse(item.execqty);
+                    
+                    총매도금액 = 총매도금액 + (Double.Parse(item.execqty) * Double.Parse(item.execprc));
+
+                    //매도가능수량 = 매도가능수량 - Double.Parse(item.execqty);
+                    총매도체결수량 = 총매도체결수량 + Double.Parse(item.execqty);
                     매도횟수     = 매도횟수 + 1;
                     중간매도손익  = 중간매도손익 + (Double.Parse(item.execqty) * Double.Parse(item.upExecprc));
                 }
 
+            }
+            매입금액     = 총매수금액 - 총매도금액;
+            매도가능수량 = 총매수체결수량 - 총매도체결수량;
+            if (Isuno.Replace("A", "") == "131090")
+            {
+                int test = 0;
             }
 
             if (매수횟수 == 0) { return null; }
@@ -428,7 +443,8 @@ namespace PackageSellSystemTrading
 
 
     //매매이력 정보
-    public class DataLogVo {
+    public class TradingHistoryVo
+    {
         public String ordno        { set; get; }//주문번호 key
         public String dt           { set; get; }//일시
         public String accno        { set; get; }//계좌번호

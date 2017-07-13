@@ -195,10 +195,10 @@ namespace PackageSellSystemTrading{
             
             //시간 초과 손절 을 사용하면 금일 매수 제한 하지 않는다.
             //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
-            var varT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
+            var toDayBuyT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
                                 where item.expcode == shcode && item.medosu == "매수"
                                select item;
-            if (varT0425VoList.Count() > 0 )
+            if (toDayBuyT0425VoList.Count() > 0 )
             {
                 Log.WriteLine("t1833::금일 1회 매수 제한:" + hname + "(" + shcode + ") ");
                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ": 금일 1회 매수 제한.");
@@ -223,17 +223,23 @@ namespace PackageSellSystemTrading{
             //        }else{  mCallRequestTime = iTimeNow;  }
             //    }
 
-            //4.매수금지종목 테스트. --보유종목이아니고 매수금지종목에 포함되면 매수하지 않는다.( 기존 보유종목이면 보유한거 처리하기위해서 사도 된다.)
+            //4.매수금지종목 테스트. --보유종목이아니고 매수금지종목에 포함되면 매수하지 않는다.
             int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
             int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
-            if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
+            //if (t1833ExcludeVoListFindIndex >= 0 && t0424VoListFindIndex < 0 )
+            if (t1833ExcludeVoListFindIndex >= 0 )//매수금지종목이면 무조건 패스
             {
                 Log.WriteLine("t1833::매수금지 종목:" + hname + "(" + shcode + ")");
                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":매수금지 종목.");
                 mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
-                return false;
+                //만약에 보유종목일경우 보유종목도 색으로 표현해주자.
+                if (t0424VoListFindIndex >= 0)
+                {
+                    mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
+                }
+                 return false;
             }
-
+           
             //5.보유종목 반복매수여부 테스트
             if (t0424VoListFindIndex >= 0){
                 ordptnDetail = "반복매수";

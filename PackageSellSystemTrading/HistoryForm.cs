@@ -29,12 +29,12 @@ namespace PackageSellSystemTrading
 
         private void btn_test_Click(object sender, EventArgs e)
         {
-            mainForm.dataLog.dbSync();
+            mainForm.tradingHistory.dbSync();
         }
         //매매 이력 조회
         private void btn_search_Click(object sender, EventArgs e)
         {
-            mainForm.dataLog.dbSync();
+            mainForm.tradingHistory.dbSync();
         }
     }//class end
 }//name end

@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cs\log\ChartData.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,7 +75,7 @@
       <DependentUpon>HistoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="cs\log\Log.cs" />
-    <Compile Include="cs\log\DataLog.cs" />
+    <Compile Include="cs\log\TradingHistory.cs" />
     <Compile Include="cs\real\Real_S3.cs" />
     <Compile Include="cs\real\Real_K3.cs" />
     <Compile Include="cs\real\Real_SC1.cs" />

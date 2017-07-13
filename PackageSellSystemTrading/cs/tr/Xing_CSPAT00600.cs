@@ -80,7 +80,7 @@ namespace PackageSellSystemTrading{
             String IsuNm      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm",      0);//종목명 -안넘어온다.
             //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
 
-            DataLogVo dataLogVo = new DataLogVo();
+            TradingHistoryVo dataLogVo = new TradingHistoryVo();
 
             //주문 에러가 났을때 주문번호는 0번이 넘어오는것같다.
             if (OrdNo != "0")
@@ -107,8 +107,8 @@ namespace PackageSellSystemTrading{
                     dataLogVo.upOrdno = this.upOrdno;
                 }
                 //dataInsert호출
-                mainForm.dataLog.insert(dataLogVo);
-                mainForm.dataLog.getDataLogVoList().Add(dataLogVo);
+                mainForm.tradingHistory.insert(dataLogVo);
+                mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }
 
             completeAt = true;
@@ -136,15 +136,15 @@ namespace PackageSellSystemTrading{
 
 
                         //상위주문번호 주문여부 Y로 업데이트
-                        var items = from item in mainForm.dataLog.getDataLogVoList()
+                        var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
                                     where item.ordno == this.upOrdno
                                         && item.accno == mainForm.account
                                     select item;
 
-                        foreach (DataLogVo item in items)
+                        foreach (TradingHistoryVo item in items)
                         {
                             item.sellOrdAt = "";
-                            mainForm.dataLog.update(item);//매도주문 여부 상태 업데이트
+                            mainForm.tradingHistory.update(item);//매도주문 여부 상태 업데이트
                         }
                     }
 

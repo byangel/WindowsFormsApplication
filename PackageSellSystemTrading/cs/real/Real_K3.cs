@@ -41,12 +41,17 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-            String shcode = base.GetFieldData("OutBlock", "shcode");    //단축종목코드
+            String expcode = base.GetFieldData("OutBlock", "shcode");    //단축종목코드
             String price  = base.GetFieldData("OutBlock", "price");     //현재가
-            //MessageBox.Show(shcode+"/"+price);
+          
+            int findIndex = mainForm.xing_t0424.getT0424VoList().Find("ordno", expcode.Replace("A", ""));
+            if (findIndex >= 0)
+            {
+                mainForm.grd_t0424.Rows[findIndex].Cells["price"].Style.BackColor = Color.Gray;
+                mainForm.grd_t0425.Rows[findIndex].Cells["price"].Value = Util.GetNumberFormat(price);
+                mainForm.grd_t0424.Rows[findIndex].Cells["price"].Style.BackColor = Color.White;
+            }
 
-            //시스템 상태 구분해주자.
-            //mainForm.realPriceCallBack(shcode, price);
         }
 
         /// <summary>

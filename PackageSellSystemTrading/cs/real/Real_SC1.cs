@@ -69,14 +69,14 @@ namespace PackageSellSystemTrading{
 
 
             //매매 체결수량 업데이트
-            var items = from item in mainForm.dataLog.getDataLogVoList()
+            var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
                                                where item.ordno == realSc1Vo.ordno
                                                   && item.Isuno == realSc1Vo.Isuno
                                                   && item.accno == mainForm.account
                                                   && item.useYN == "Y"
                                                select item;
             String execqty;
-            foreach (DataLogVo item in items)
+            foreach (TradingHistoryVo item in items)
             {
                 //기존체결수량+체결수량
                 execqty = (int.Parse(item.execqty) + int.Parse(realSc1Vo.execqty)).ToString();
@@ -84,7 +84,7 @@ namespace PackageSellSystemTrading{
                 item.Isunm    = realSc1Vo.Isunm;
                 item.execprc  = realSc1Vo.execprc;//체결가격
                 item.sellOrdAt = "Y";
-                mainForm.dataLog.update(item);//매도주문 여부 상태 업데이트
+                mainForm.tradingHistory.update(item);//매도주문 여부 상태 업데이트
                 //mainForm.dataLog.getHistoryDataTable().Rows.Find(row);
             }
 
@@ -110,16 +110,16 @@ namespace PackageSellSystemTrading{
                 {
                     //2.청산된 종목 사용여부를 db 'N'으로 업데이트한다.
                     //mainForm.dataLog.updateUseYN(realSc1Vo.Isuno, "N");
-                    var items2 = from item in mainForm.dataLog.getDataLogVoList()
+                    var items2 = from item in mainForm.tradingHistory.getTradingHistoryVoList()
                                  where item.Isuno == realSc1Vo.Isuno.Replace("A", "")
                                    && item.accno == mainForm.account
                                    && item.useYN == "Y"
                                 select item;
                     //String execqty;
-                    foreach (DataLogVo item in items2)
+                    foreach (TradingHistoryVo item in items2)
                     {
                         item.useYN = "N";
-                        mainForm.dataLog.update(item);
+                        mainForm.tradingHistory.update(item);
                     }
                     
                     //3.그리드에서 해당 로우 삭제
@@ -129,7 +129,7 @@ namespace PackageSellSystemTrading{
                     Log.WriteLine("real_SC1 deleteCallBack :: 청산된 종목 그리드와 DataLog Line 제거.[종목코드:" + realSc1Vo.Isuno + "]");
                 }else{
                     //수정된 평균단가를 실시간 적용해준다.
-                    SummaryVo summaryVo = mainForm.dataLog.getSummaryVo(realSc1Vo.Isuno.Replace("A", ""));
+                    SummaryVo summaryVo = mainForm.tradingHistory.getSummaryVo(realSc1Vo.Isuno.Replace("A", ""));
                     //Log.WriteLine("TEST Real Sc1 historyvo :[종목코드: " + realSc1Vo.Isuno + "]");
                     if (summaryVo != null)
                     {

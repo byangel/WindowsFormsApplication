@@ -40,7 +40,7 @@ namespace PackageSellSystemTrading{
         public Real_K3 real_K3;  //코스닥 체결체결
         public Real_jif real_jif; //장 정보
 
-        public DataLog dataLog; //데이타로그
+        public TradingHistory tradingHistory; //데이타로그
 
         public String tradingAt;//매매 여부 Y|N
 
@@ -89,8 +89,8 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.mainForm = this;
 
-            this.dataLog = new DataLog();
-            this.dataLog.mainForm = this;
+            this.tradingHistory = new TradingHistory();
+            this.tradingHistory.mainForm = this;
 
             this.accountForm = new AccountForm();//계좌선택폼
             this.accountForm.mainForm = this;
@@ -358,7 +358,7 @@ namespace PackageSellSystemTrading{
                     {
                         //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
                         //주문여부
-                        if (this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt == false)
+                        if (this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt == "N")
                         {
                             //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
                             expcode = this.xing_t0424.getT0424VoList().ElementAt(findIndex).expcode; //종목코드
@@ -379,7 +379,7 @@ namespace PackageSellSystemTrading{
                             xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
                           
 
-                            this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = true;//일괄 매도시 주문여부를 true로 설정
+                            this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = "Y";//일괄 매도시 주문여부를 true로 설정
 
                             Log.WriteLine("mainForm :: 선택매도" + hname + "(" + expcode + ")]  수익율:" + sunikrt + "%    |매도가능수량:" + mdposqt);
                         }
@@ -554,7 +554,7 @@ namespace PackageSellSystemTrading{
             //주문수량 :: 4 / 18
             //주문가격 :: 5 / 2840
             //제결수량 :: 6 / 18
-            Log.WriteLine(e.ColumnIndex.ToString()+"/"+ e.Value);
+            //Log.WriteLine(e.ColumnIndex.ToString()+"/"+ e.Value);
         }
 
         //조건검색 그리드
@@ -819,7 +819,7 @@ namespace PackageSellSystemTrading{
 
         private void btn_history_pop_Click(object sender, EventArgs e)
         {
-            historyForm.grd_history.DataSource = dataLog.getDataLogVoList();
+            historyForm.grd_history.DataSource = tradingHistory.getTradingHistoryVoList();
             historyForm.ShowDialog();
             
         }

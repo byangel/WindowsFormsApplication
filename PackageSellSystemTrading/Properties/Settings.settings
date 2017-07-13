@@ -50,5 +50,8 @@
     <Setting Name="CONDITION_EXCLUDE" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="STOP_PROFIT_TARGET2" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

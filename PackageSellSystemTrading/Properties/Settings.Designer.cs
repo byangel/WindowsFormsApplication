@@ -214,5 +214,17 @@ namespace PackageSellSystemTrading.Properties {
                 this["CONDITION_EXCLUDE"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string STOP_PROFIT_TARGET2 {
+            get {
+                return ((string)(this["STOP_PROFIT_TARGET2"]));
+            }
+            set {
+                this["STOP_PROFIT_TARGET2"] = value;
+            }
+        }
     }
 }
