@@ -86,7 +86,7 @@ namespace PackageSellSystemTrading{
             if (OrdNo != "0")
             {
                 //데이타로그에 저장
-                //public class DataLogVo
+                //public class dataLogVo
                 dataLogVo.ordno         = OrdNo;                    //주문번호
                 dataLogVo.accno         = AcntNo;                   //계좌번호
                 dataLogVo.ordptncode    = "0" + BnsTpCode;          //주문구분 01:매도|02:매수 

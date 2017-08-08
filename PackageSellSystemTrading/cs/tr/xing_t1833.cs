@@ -26,7 +26,7 @@ namespace PackageSellSystemTrading{
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
         //투자 비율
-        public String enterRate;
+        public String investmentRatio;
 
         public Boolean initAt = false;
 
@@ -57,8 +57,8 @@ namespace PackageSellSystemTrading{
             try
             {
                 //투자율 설정
-                this.enterRate = this.getInputRate();
-                mainForm.label_enterRate.Text = this.enterRate;
+                this.investmentRatio = this.getInputRate();
+                mainForm.label_InvestmentRatio.Text = this.investmentRatio;
 
                 int iCount = base.GetBlockCount("t1833OutBlock1");
 
@@ -101,10 +101,8 @@ namespace PackageSellSystemTrading{
                         if (mainForm.tradingAt == "Y")
                         {
                             this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1);
-                        }
-                   
-                    }
-               
+                        }                 
+                    }          
                 }
 
                 //목록에 없는 종목 그리드에서 삭제.
@@ -129,8 +127,6 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine("t0424 : " + ex.StackTrace);
             }
         }
-
-
 
 
         //메세지 이벤트 핸들러
@@ -158,7 +154,7 @@ namespace PackageSellSystemTrading{
                 
                 //Thread.Sleep(1000);
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\"+ Properties.Settings.Default.CONDITION_ADF);
+                base.RequestService("t1833", startupPath + "\\Resources\\Condition.ADF");
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "]조건검색 요청.";
             } else {
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "[중복]조건검색 요청.";
@@ -259,8 +255,8 @@ namespace PackageSellSystemTrading{
             }else{//-보유종목이 아니고 신규매수해야 한다면.
                 ordptnDetail = "신규매수";
                
-                if (Double.Parse(enterRate) > Double.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Log.WriteLine("t1833::투자율 제한:" + hname + "(" + shcode + ")[투자율:"+ enterRate+"%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%]");
+                if (Double.Parse(this.investmentRatio) > Double.Parse(Properties.Settings.Default.BUY_STOP_RATE)){ //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
+                    Log.WriteLine("t1833::투자율 제한:" + hname + "(" + shcode + ")[투자율:"+ investmentRatio + "%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%]");
                     mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":투자율 제한.");
                     return false;
                 }      

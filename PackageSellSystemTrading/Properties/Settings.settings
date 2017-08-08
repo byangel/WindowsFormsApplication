@@ -44,12 +44,6 @@
     <Setting Name="BATTING_ATM" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="CONDITION_ADF" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CONDITION_EXCLUDE" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="STOP_PROFIT_TARGET2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

@@ -49,10 +49,34 @@ namespace PackageSellSystemTrading
 				// 장 구분이 코스피일 경우 
 				if (jangubun == "1")
 				{
-					mjstatus = jstatus;
-					this.set_label();
+					this.mjstatus = jstatus;
+                    this.mdatetiem = DateTime.Now;
+                    this.mlabel = mjstatus + "-" + get_label(mjstatus);
+                 
 
                     mainForm.label_jif.Text = this.mlabel;
+                    //장이 마감되면 스넵샷을 찍는다.(챠트데이타 저장)
+                    if (jstatus == "41")
+                    {
+                        ChartVo chartVo = new ChartVo();
+                        chartVo.date            = DateTime.Now.ToString("yyyyMMdd");                    //날자              
+                        chartVo.D2Dps           = mainForm.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
+                        chartVo.DpsastTotamt    = mainForm.label_DpsastTotamt.Text;               //예탁자산총액          
+                        chartVo.mamt            = mainForm.label_mamt.Text.Replace(",", "");      //매입금액            
+                        chartVo.BalEvalAmt      = mainForm.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
+                        chartVo.PnlRat          = mainForm.label_PnlRat.Text.Replace(",", "");    //손익율             
+                        chartVo.tdtsunik        = mainForm.label_tdtsunik.Text.Replace(",", "");  //평가손익            
+                        chartVo.dtsunik         = mainForm.label_dtsunik.Text.Replace(",", ""); ; //실현손익            
+                        chartVo.battingAtm      = mainForm.label_battingAtm.Text.Replace(",", "");//배팅금액            
+                        chartVo.toDaysunik      = mainForm.label_toDaysunik.Text.Replace(",", "");//당일매도 실현손익       
+                        chartVo.dtsunik2        = mainForm.label_dtsunik2.Text.Replace(",", ""); ;//실현손익2           
+                        chartVo.investmentRatio = mainForm.label_InvestmentRatio.Text;            //투자율             
+                        chartVo.itemTotalCnt    = mainForm.h_totalCount.Text;                     //총 보유종목 수     
+                        chartVo.buyFilterCnt    = mainForm.exCnt.Text;                            //매수금지종목수         
+                        chartVo.buyCnt          = mainForm.label_buyCnt.Text;                     //매수횟수            
+                        chartVo.sellCnt         = mainForm.label_sellCnt.Text.Replace(",", ""); ;//매도횟수  
+                        mainForm.chartData.insert(chartVo);
+                    }
 
                 }
 			}
@@ -83,15 +107,7 @@ namespace PackageSellSystemTrading
 		}	// end function
 
 
-		/// <summary>
-		/// 장 상태값에 해당하는 라벨값 생성
-		/// </summary>
-		private void set_label()
-		{
-			mdatetiem = DateTime.Now;
-			mlabel = mjstatus + "-" + get_label(mjstatus);
-		}	// end function
-
+		
 
 		/// <summary>
 		/// 장 상태값에 해당하는 라벨값 리턴

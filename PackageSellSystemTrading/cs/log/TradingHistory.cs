@@ -55,11 +55,11 @@ namespace PackageSellSystemTrading
                    conn.Open();//파일이 없으면 자동 생성 //conn.Close();
 
                     //테이블이 있는지 확인 후 없으면 테이블 생성
-                    SQLiteCommand sqlCmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'trading_history'", conn);
+                    SQLiteCommand sqlCmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'trading'", conn);
 
                     if (Convert.ToInt32(sqlCmd.ExecuteScalar()) <= 0)
                     {
-                        sqlCmd.CommandText = "CREATE TABLE trading_history ("
+                        sqlCmd.CommandText = "CREATE TABLE trading          ("
                                                                            + " ordno        VARCHAR(16)" //주문번호
                                                                            + ",dt           VARCHAR(14)" //일시
                                                                            + ",accno        VARCHAR(16)" //계좌번호
@@ -158,7 +158,7 @@ namespace PackageSellSystemTrading
             {
                 conn.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("insert into trading_history ( ordno                                          ");
+                sb.Append("insert into trading          ( ordno                                          ");
                 sb.Append("                             ,dt                                             "); //일시
                 sb.Append("                             ,accno                                          "); //계좌번호
                 sb.Append("                             ,Isuno                                          "); //종목코드
@@ -227,7 +227,7 @@ namespace PackageSellSystemTrading
             sb.Append("       ,sellOrdAt                            "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
             sb.Append("       ,cancelOrdAt                          "); //매도주문 여부
             sb.Append("       ,useYN                                "); //사용여부 
-            sb.Append("FROM  trading_history                        "); //사용여부 
+            sb.Append("FROM  trading                                "); //사용여부 
             sb.Append("WHERE ordno = '" + ordno + "'                "); //주문번호
             sb.Append("AND   Isuno = '" + Isuno + "'                "); //종목코드
             sb.Append("AND   accno = '" + mainForm.account + "'     "); //계좌번호
@@ -249,7 +249,7 @@ namespace PackageSellSystemTrading
                 conn.Open();
 
                 StringBuilder sb = new StringBuilder();
-                sb.Append("UPDATE trading_history SET                                                         ");
+                sb.Append("UPDATE trading         SET                                                         ");
                 sb.Append("                              ordqty           = '" + dataLogVo.ordqty       + "'  "); //주문수량  
                 sb.Append("                             ,execqty          = '" + dataLogVo.execqty      + "'  "); //체결수량  
                 sb.Append("                             ,execprc          = '" + dataLogVo.execprc      + "'  "); //체결가격
@@ -275,18 +275,22 @@ namespace PackageSellSystemTrading
        
 
 
-        //삭제
-        public int delete(String Isuno, String ordno)
+        
+
+        //로그인 할때 필요없는 매매 정보를 삭제해준다.
+        public int initDelete()
         {
+            //select * from trading where dt not like '20170727%' and useYN='N'
+            //select * from trading where dt  not like'20170807%' and useYN='N'
+            String date = DateTime.Now.ToString("yyyyMMdd");
             int result = 0;
             using (var conn = new SQLiteConnection(connStr))
             {
                 conn.Open();
                 StringBuilder sb = new StringBuilder();
-                sb.Append("DELETE FROM trading_history ordno           ");
-                sb.Append(" WHERE Isuno = '" + Isuno + "'              "); //종목코드
-                sb.Append("   AND ordno = '" + ordno + "'              "); //주문번호
-                sb.Append("   AND accno = '" + mainForm.account + "'   "); //계좌번호
+                sb.Append("DELETE FROM trading                  ");
+                sb.Append(" WHERE useYN       = 'N'             "); //종목코드
+                sb.Append("   AND dt not like ('" + date + "%') "); //오늘날자
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
                 result = sqlCmd.ExecuteNonQuery();
 
@@ -296,6 +300,7 @@ namespace PackageSellSystemTrading
             }
             return result;
         }
+        
 
         //목록 리턴
         public DataTable list()
@@ -325,11 +330,11 @@ namespace PackageSellSystemTrading
             sb.Append("       ,sellOrdAt                            "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
             sb.Append("       ,cancelOrdAt                          "); //매도주문 여부 YN
             sb.Append("       ,useYN                                "); //사용여부 
-            sb.Append("FROM  trading_history                        "); //사용여부 
-            //sb.Append("WHERE useYN = 'Y'                          "); //사용여부
+            sb.Append("FROM  trading                                ");  
+            //sb.Append("WHERE useYN = 'Y'                            "); //사용여부
             //sb.Append("AND   accno = '" + mainForm.account + "'     "); //계좌번호--프로그램 로드시 계좌정보가 없다 (모든정보를 메모리에 로드를 기본 정책으로한다.)
             if (Isuno != ""){
-                sb.Append("AND   Isuno = '" + Isuno + "'            "); //종목코드
+                sb.Append("WHERE   Isuno = '" + Isuno + "'            "); //종목코드
             }
             sb.Append("ORDER BY   accno, Isuno, dt                  "); //주문번호
 
@@ -411,20 +416,21 @@ namespace PackageSellSystemTrading
                     //매도가능수량 = 매도가능수량 - Double.Parse(item.execqty);
                     총매도체결수량 = 총매도체결수량 + Double.Parse(item.execqty);
                     매도횟수     = 매도횟수 + 1;
-                    중간매도손익  = 중간매도손익 + (Double.Parse(item.execqty) * Double.Parse(item.upExecprc));
+                    중간매도손익  = 중간매도손익 + ((Double.Parse(item.execqty) * Double.Parse(item.execprc)) - (Double.Parse(item.execqty) * Double.Parse(item.upExecprc)));
                 }
 
             }
             매입금액     = 총매수금액 - 총매도금액;
             매도가능수량 = 총매수체결수량 - 총매도체결수량;
-            if (Isuno.Replace("A", "") == "131090")
-            {
-                int test = 0;
-            }
+           
+            //if (Isuno.Replace("A", "") == "001000")
+            //{
+            //    int test = 0;
+            //}
 
             if (매수횟수 == 0) { return null; }
 
-            double 평균단가 = (총매수금액 / 매도가능수량);
+            double 평균단가 = (매입금액 / 매도가능수량);
 
             summaryVo.pamt2 = 평균단가.ToString(); //평균단가
             summaryVo.buyCnt = 매수횟수.ToString(); //매수횟수

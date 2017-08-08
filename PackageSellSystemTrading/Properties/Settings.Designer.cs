@@ -194,30 +194,6 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string CONDITION_ADF {
-            get {
-                return ((string)(this["CONDITION_ADF"]));
-            }
-            set {
-                this["CONDITION_ADF"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string CONDITION_EXCLUDE {
-            get {
-                return ((string)(this["CONDITION_EXCLUDE"]));
-            }
-            set {
-                this["CONDITION_EXCLUDE"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string STOP_PROFIT_TARGET2 {
             get {
                 return ((string)(this["STOP_PROFIT_TARGET2"]));

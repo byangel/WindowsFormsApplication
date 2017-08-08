@@ -237,8 +237,8 @@ namespace PackageSellSystemTrading {
 
                     ///////////////////////////////////////////////////////////////////////////////////////////
                     //1.금일매도 청산 각각 구분하여 출력해준다.  
-                    mainForm.label_toDayAtm.Text = Util.GetNumberFormat(this.getToDayShSunik("금일매도"));
-                    mainForm.label_shSunik.Text = Util.GetNumberFormat(this.getToDayShSunik("청산"));
+                    mainForm.label_toDaysunik.Text = Util.GetNumberFormat(this.getToDayShSunik("금일매도"));
+                    mainForm.label_dtsunik2.Text = Util.GetNumberFormat(this.getToDayShSunik("청산"));
 
 
                     if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)

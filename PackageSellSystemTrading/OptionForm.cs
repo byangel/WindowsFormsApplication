@@ -26,8 +26,8 @@ namespace PackageSellSystemTrading
         String BUY_STOP_RATE      = "70";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "300000000"; //최대 운영 금액 제한 - 기본 3억
         String BATTING_ATM        = "";
-        String CONDITION_ADF      = "Condition.ADF";
-        String CONDITION_EXCLUDE  = "ConditionExclude1000.ADF";
+        //String CONDITION_ADF      = "Condition.ADF";
+        //String CONDITION_EXCLUDE  = "ConditionExclude1000.ADF";
 
         //생성자
         public OptionForm()
@@ -48,22 +48,22 @@ namespace PackageSellSystemTrading
 
 
             //combox_condition.SelectedIndex = 0; 조건검색식 선택 콤보박스 초기화
-            for (int i=0;i< combox_condition.Items.Count; i++)
-            {
-                if(combox_condition.Items[i].ToString() == Properties.Settings.Default.CONDITION_ADF)
-                {
-                    combox_condition.SelectedIndex = i;
-                }
-            }
+            //for (int i=0;i< combox_condition.Items.Count; i++)
+            //{
+            //    if(combox_condition.Items[i].ToString() == Properties.Settings.Default.CONDITION_ADF)
+            //    {
+            //        combox_condition.SelectedIndex = i;
+            //    }
+            //}
 
-            //exclude condition 매수금지 조건검색식 선택 콤보박스 초기화
-            for (int i = 0; i < combox_conditionExclude.Items.Count; i++)
-            {
-                if (combox_conditionExclude.Items[i].ToString() == Properties.Settings.Default.CONDITION_EXCLUDE)
-                {
-                    combox_conditionExclude.SelectedIndex = i;
-                }
-            }
+            ////exclude condition 매수금지 조건검색식 선택 콤보박스 초기화
+            //for (int i = 0; i < combox_conditionExclude.Items.Count; i++)
+            //{
+            //    if (combox_conditionExclude.Items[i].ToString() == Properties.Settings.Default.CONDITION_EXCLUDE)
+            //    {
+            //        combox_conditionExclude.SelectedIndex = i;
+            //    }
+            //}
 
             //체크박스 화면 초기화
             //checkBox_stop_loss_CheckedChanged();
@@ -84,8 +84,8 @@ namespace PackageSellSystemTrading
             input_stop_profit_target.Text  = this.STOP_PROFIT_TARGET;//목표 이익율
             input_stop_profit_target2.Text = this.STOP_PROFIT_TARGET2;//목표 이익율2
             input_battingAtm.Text          = this.BATTING_ATM;       //배팅금액
-            combox_condition.Text          = this.CONDITION_ADF;     //검색식
-            combox_conditionExclude.Text   = this.CONDITION_EXCLUDE; //매수금지 조건 검색식
+            //combox_condition.Text          = this.CONDITION_ADF;     //검색식
+            //combox_conditionExclude.Text   = this.CONDITION_EXCLUDE; //매수금지 조건 검색식
             
 
             //Properties.Settings.Default.Save();
@@ -105,8 +105,8 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.STOP_PROFIT_TARGET  = input_stop_profit_target.Text; //목표 이익율
             Properties.Settings.Default.STOP_PROFIT_TARGET2 = input_stop_profit_target2.Text; //목표 이익율2
             Properties.Settings.Default.BATTING_ATM         = input_battingAtm.Text;         //배팅금액 강제설정
-            Properties.Settings.Default.CONDITION_ADF       = combox_condition.Text;        //검색식
-            Properties.Settings.Default.CONDITION_EXCLUDE   = combox_conditionExclude.Text;         //매수금지 조건 검색식
+            //Properties.Settings.Default.CONDITION_ADF       = combox_condition.Text;        //검색식
+            //Properties.Settings.Default.CONDITION_EXCLUDE   = combox_conditionExclude.Text;         //매수금지 조건 검색식
            
 
             Properties.Settings.Default.Save();

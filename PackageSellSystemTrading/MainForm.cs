@@ -41,6 +41,7 @@ namespace PackageSellSystemTrading{
         public Real_jif real_jif; //장 정보
 
         public TradingHistory tradingHistory; //데이타로그
+        public ChartData chartData;//차트데이타
 
         public String tradingAt;//매매 여부 Y|N
 
@@ -89,8 +90,10 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
             this.xing_CSPAQ12200.mainForm = this;
 
-            this.tradingHistory = new TradingHistory();
+            this.tradingHistory = new TradingHistory();//매매이력정보
             this.tradingHistory.mainForm = this;
+            this.chartData = new ChartData();//챠트데이타 저장
+            this.chartData.mainForm = this;
 
             this.accountForm = new AccountForm();//계좌선택폼
             this.accountForm.mainForm = this;
@@ -399,36 +402,24 @@ namespace PackageSellSystemTrading{
             try
             {
 
-                //DataLogVo dataLogVo = new DataLogVo();
-                //dataLogVo.ordno = "888";
-                //dataLogVo.dt = "20171117035011";//일시
-                //dataLogVo.accno = "32323";//계좌번호
-                //dataLogVo.Isuno = "2323";//종목코드
-                //dataLogVo.Isunm = "국민은행";//종목명
-                //dataLogVo.ordptncode = "01";//주문구분 01:매도|02:매수 
-                //dataLogVo.ordqty = "2";//주문수량  
-                //dataLogVo.execqty = "2";//체결수량  
-                //dataLogVo.execprc = "1222";//체결가격
-                //dataLogVo.ordptnDetail = "신규매수";//상세 주문구분 신규매수|반복매수|금일매도|청산|
-                //dataLogVo.upOrdno = "1111";//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-                //dataLogVo.upExecprc = "1444";//상위체결금액
-                //dataLogVo.sellOrdAt = "N";//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
-                //dataLogVo.useYN = "Y";//사용여부 
-                //dataLog.insert(dataLogVo);
-
-                //dataLogVo.ordno = "999";
-                //dataLog.insert(dataLogVo);
-
-                //DataTable dt = dataLog.read("2323", "999");
-                //String testNm = dt.Rows[0]["Isunm"].ToString();
-                ////종목코드,주문번호
-                //dataLog.delete("2323", "888");
-                //dataLog.delete("2323", "999");
-
-
-                //int dd= dataLog.updateUseYN("007720", "N");
-
-                MessageBox.Show(Math.Floor(1041.666667).ToString());
+                ChartVo chartVo = new ChartVo();
+                chartVo.date = DateTime.Now.ToString("yyyyMMdd");                    //날자              
+                chartVo.D2Dps = this.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
+                chartVo.DpsastTotamt = this.label_DpsastTotamt.Text;               //예탁자산총액          
+                chartVo.mamt = this.label_mamt.Text.Replace(",", "");      //매입금액            
+                chartVo.BalEvalAmt = this.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
+                chartVo.PnlRat = this.label_PnlRat.Text.Replace(",", "");    //손익율             
+                chartVo.tdtsunik = this.label_tdtsunik.Text.Replace(",", "");  //평가손익            
+                chartVo.dtsunik = this.label_dtsunik.Text.Replace(",", ""); ; //실현손익            
+                chartVo.battingAtm = this.label_battingAtm.Text.Replace(",", "");//배팅금액            
+                chartVo.toDaysunik = this.label_toDaysunik.Text.Replace(",", "");//당일매도 실현손익       
+                chartVo.dtsunik2 = this.label_dtsunik2.Text.Replace(",", ""); ;//실현손익2           
+                chartVo.investmentRatio = this.label_InvestmentRatio.Text;            //투자율             
+                chartVo.itemTotalCnt = this.h_totalCount.Text;                     //총 보유종목 수     
+                chartVo.buyFilterCnt = this.exCnt.Text;                            //매수금지종목수         
+                chartVo.buyCnt = this.label_buyCnt.Text;                     //매수횟수            
+                chartVo.sellCnt = this.label_sellCnt.Text.Replace(",", ""); ;//매도횟수  
+                this.chartData.insert(chartVo);
             }
             catch (Exception ex){
                 Log.WriteLine("main : " + ex.Message);

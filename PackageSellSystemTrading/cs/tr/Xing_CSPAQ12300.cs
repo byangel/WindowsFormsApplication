@@ -83,11 +83,12 @@ namespace PackageSellSystemTrading{
                     //mainForm.xing_t0424.getT0424VoList().Clear();
 
                     //필요없는 데이타 삭제.
-                    //mainForm.dataLog.initDelete();
+                    int deletedCnt= mainForm.tradingHistory.initDelete();
+                    mainForm.insertListBoxLog("CSPAQ12300:" + deletedCnt + ":삭제(초기화)");
 
                     //로그인 완료시(계좌선택후) 미리 호출할 필료가 있는것들
                     //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
-                    mainForm.xing_t0424.initAt          = true; //초기화 여부
+                    mainForm.xing_t0424.initAt          = true;//초기화 여부
                     mainForm.xing_t1833Exclude.initAt   = true;//초기화 여부
                     mainForm.xing_t0425.initAt          = true;//초기화 여부
                     mainForm.xing_CSPAQ12200.initAt     = true;//초기화 여부
@@ -98,6 +99,9 @@ namespace PackageSellSystemTrading{
                     mainForm.xing_t0425.call_request(this.account, this.accountPw);//매매이력 데이타
                     mainForm.xing_CSPAQ12200.call_request(this.account, this.accountPw);//계좌정보
                     mainForm.xing_t0167.call_request();//시간데이타
+
+
+
                     
 
                     //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.

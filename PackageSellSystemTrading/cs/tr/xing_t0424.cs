@@ -144,7 +144,7 @@ namespace PackageSellSystemTrading {
                         tmpT0424Vo.fee      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
                         tmpT0424Vo.tax      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금
                         tmpT0424Vo.sininter = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
-
+                        //System.String.Format("{0:N0}",value);System.String.Format("{0:#,##0}",value);
                         tmpT0424Vo.orderAt = "N";
                         //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
                         this.t0424VoList.Add(tmpT0424Vo);
@@ -184,14 +184,17 @@ namespace PackageSellSystemTrading {
                         mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"      ].Value = summaryVo.sellCnt;  //매도 횟수.
                         mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"       ].Value = summaryVo.buyCnt;   //매수 횟수
                         mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"    ].Value = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
-                        mainForm.grd_t0424.Rows[findIndex].Cells["firstBuyDt"   ].Value = summaryVo.firstBuyDt;//최초진입일시
+                        mainForm.grd_t0424.Rows[findIndex].Cells["firstBuyDt"   ].Value = String.Format("{0:yyyy-MM-dd}", summaryVo.firstBuyDt);//최초진입일시
+                        //String.Format(@"{0:yyyy/MM/dd}", Value);
+                        //String.Format(@"{0:tt hh:mm:ss}", Value);
 
-                        //여기서 매도가능수량과 히스토리의 매도가능수량을 비교하자.
-                        //tmpT0424Vo.pamt2     = Util.GetNumberFormat(summaryVo.pamt2);    //평균단가2
-                        //tmpT0424Vo.sellCnt   = summaryVo.sellCnt;  //매도 횟수.
-                        //tmpT0424Vo.buyCnt    = summaryVo.buyCnt;   //매수 횟수
-                        //tmpT0424Vo.sellSunik = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
-                        //tmpT0424Vo.firstBuyDt = summaryVo.firstBuyDt;//최초진입일시
+
+                        //String.Format(@"{0:yyyy/MM/dd hh:mm:ss}", Value);
+                        //String.Format(CultureInfo.GetCultureInfo("ko-KR"),@"{0:yyyy/MM/dd hh:mm:ss}", Value);
+                        // 오후 03:03:02
+                        // en-US AM 03:03:02
+
+                        
                         //if (tmpT0424Vo.expcode == "006050")
                         //{
                         //    int test = 0;

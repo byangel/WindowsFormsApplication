@@ -48,10 +48,6 @@
             this.input_battingAtm = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.combox_condition = new System.Windows.Forms.ComboBox();
-            this.combox_conditionExclude = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.input_stop_profit_target2 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -59,9 +55,10 @@
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(301, 305);
+            this.btn_config_save.Location = new System.Drawing.Point(344, 381);
+            this.btn_config_save.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_config_save.Name = "btn_config_save";
-            this.btn_config_save.Size = new System.Drawing.Size(63, 26);
+            this.btn_config_save.Size = new System.Drawing.Size(72, 32);
             this.btn_config_save.TabIndex = 13;
             this.btn_config_save.Text = "설정저장";
             this.btn_config_save.UseVisualStyleBackColor = true;
@@ -69,9 +66,10 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(236, 305);
+            this.btn_rollback.Location = new System.Drawing.Point(270, 381);
+            this.btn_rollback.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_rollback.Name = "btn_rollback";
-            this.btn_rollback.Size = new System.Drawing.Size(59, 26);
+            this.btn_rollback.Size = new System.Drawing.Size(67, 32);
             this.btn_rollback.TabIndex = 14;
             this.btn_rollback.Text = "초기화";
             this.btn_rollback.UseVisualStyleBackColor = true;
@@ -80,45 +78,46 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(197, 60);
+            this.label7.Location = new System.Drawing.Point(225, 75);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 12);
+            this.label7.Size = new System.Drawing.Size(88, 15);
             this.label7.TabIndex = 85;
             this.label7.Text = "%이상 매도.";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(166, 167);
+            this.label4.Location = new System.Drawing.Point(190, 209);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 12);
+            this.label4.Size = new System.Drawing.Size(118, 15);
             this.label4.TabIndex = 89;
             this.label4.Text = "% 이하 반복매수";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 140);
+            this.label5.Location = new System.Drawing.Point(15, 175);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(75, 12);
+            this.label5.Size = new System.Drawing.Size(95, 15);
             this.label5.TabIndex = 90;
             this.label5.Text = "3.자본금대비";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 111);
+            this.label6.Location = new System.Drawing.Point(15, 139);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 12);
+            this.label6.Size = new System.Drawing.Size(110, 15);
             this.label6.TabIndex = 91;
             this.label6.Text = "3.최대운영자금";
             // 
             // checkBox_limited
             // 
             this.checkBox_limited.AutoSize = true;
-            this.checkBox_limited.Location = new System.Drawing.Point(15, 10);
+            this.checkBox_limited.Location = new System.Drawing.Point(17, 12);
+            this.checkBox_limited.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox_limited.Name = "checkBox_limited";
-            this.checkBox_limited.Size = new System.Drawing.Size(124, 16);
+            this.checkBox_limited.Size = new System.Drawing.Size(151, 19);
             this.checkBox_limited.TabIndex = 92;
             this.checkBox_limited.Text = "최대운영자금 제한";
             this.checkBox_limited.UseVisualStyleBackColor = true;
@@ -127,71 +126,76 @@
             // input_repeat_rate
             // 
             this.input_repeat_rate.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_repeat_rate.Location = new System.Drawing.Point(132, 163);
+            this.input_repeat_rate.Location = new System.Drawing.Point(151, 204);
+            this.input_repeat_rate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.input_repeat_rate.Name = "input_repeat_rate";
-            this.input_repeat_rate.Size = new System.Drawing.Size(34, 20);
+            this.input_repeat_rate.Size = new System.Drawing.Size(38, 20);
             this.input_repeat_rate.TabIndex = 94;
             this.input_repeat_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // input_buy_stop_rate
             // 
             this.input_buy_stop_rate.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_buy_stop_rate.Location = new System.Drawing.Point(93, 135);
+            this.input_buy_stop_rate.Location = new System.Drawing.Point(106, 169);
+            this.input_buy_stop_rate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.input_buy_stop_rate.Name = "input_buy_stop_rate";
-            this.input_buy_stop_rate.Size = new System.Drawing.Size(44, 20);
+            this.input_buy_stop_rate.Size = new System.Drawing.Size(50, 20);
             this.input_buy_stop_rate.TabIndex = 95;
             this.input_buy_stop_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(139, 140);
+            this.label8.Location = new System.Drawing.Point(159, 175);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(241, 12);
+            this.label8.Size = new System.Drawing.Size(301, 15);
             this.label8.TabIndex = 96;
             this.label8.Text = "% 이상 신규매수 금지.(매입금액+D2예수금)";
             // 
             // input_max_amt_limit
             // 
             this.input_max_amt_limit.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_max_amt_limit.Location = new System.Drawing.Point(103, 107);
+            this.input_max_amt_limit.Location = new System.Drawing.Point(118, 134);
+            this.input_max_amt_limit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.input_max_amt_limit.Name = "input_max_amt_limit";
-            this.input_max_amt_limit.Size = new System.Drawing.Size(80, 20);
+            this.input_max_amt_limit.Size = new System.Drawing.Size(91, 20);
             this.input_max_amt_limit.TabIndex = 97;
             this.input_max_amt_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(187, 111);
+            this.label9.Location = new System.Drawing.Point(214, 139);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(183, 12);
+            this.label9.Size = new System.Drawing.Size(229, 15);
             this.label9.TabIndex = 98;
             this.label9.Text = "원 이하.(예탁자산총액과 비교함)";
             // 
             // input_stop_profit_target
             // 
             this.input_stop_profit_target.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_stop_profit_target.Location = new System.Drawing.Point(158, 56);
+            this.input_stop_profit_target.Location = new System.Drawing.Point(181, 70);
+            this.input_stop_profit_target.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.input_stop_profit_target.Name = "input_stop_profit_target";
-            this.input_stop_profit_target.Size = new System.Drawing.Size(37, 20);
+            this.input_stop_profit_target.Size = new System.Drawing.Size(42, 20);
             this.input_stop_profit_target.TabIndex = 99;
             this.input_stop_profit_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 60);
+            this.label10.Location = new System.Drawing.Point(15, 75);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(143, 12);
+            this.label10.Size = new System.Drawing.Size(180, 15);
             this.label10.TabIndex = 100;
             this.label10.Text = "1.개별종목 목표 수익률이";
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(370, 305);
+            this.close.Location = new System.Drawing.Point(423, 381);
+            this.close.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.close.Name = "close";
-            this.close.Size = new System.Drawing.Size(51, 26);
+            this.close.Size = new System.Drawing.Size(58, 32);
             this.close.TabIndex = 101;
             this.close.Text = "닫기";
             this.close.UseVisualStyleBackColor = true;
@@ -200,18 +204,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 167);
+            this.label1.Location = new System.Drawing.Point(15, 209);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 12);
+            this.label1.Size = new System.Drawing.Size(145, 15);
             this.label1.TabIndex = 102;
             this.label1.Text = "4.개별종목별 수익율";
             // 
             // checkBox_today_sell
             // 
             this.checkBox_today_sell.AutoSize = true;
-            this.checkBox_today_sell.Location = new System.Drawing.Point(144, 10);
+            this.checkBox_today_sell.Location = new System.Drawing.Point(165, 12);
+            this.checkBox_today_sell.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox_today_sell.Name = "checkBox_today_sell";
-            this.checkBox_today_sell.Size = new System.Drawing.Size(102, 16);
+            this.checkBox_today_sell.Size = new System.Drawing.Size(122, 19);
             this.checkBox_today_sell.TabIndex = 103;
             this.checkBox_today_sell.Text = "금일매수/매도";
             this.checkBox_today_sell.UseVisualStyleBackColor = true;
@@ -219,112 +224,67 @@
             // input_battingAtm
             // 
             this.input_battingAtm.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_battingAtm.Location = new System.Drawing.Point(174, 195);
+            this.input_battingAtm.Location = new System.Drawing.Point(199, 244);
+            this.input_battingAtm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.input_battingAtm.Name = "input_battingAtm";
-            this.input_battingAtm.Size = new System.Drawing.Size(92, 20);
+            this.input_battingAtm.Size = new System.Drawing.Size(105, 20);
             this.input_battingAtm.TabIndex = 108;
             this.input_battingAtm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(13, 197);
+            this.label12.Location = new System.Drawing.Point(15, 246);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(159, 12);
+            this.label12.Size = new System.Drawing.Size(192, 15);
             this.label12.TabIndex = 109;
             this.label12.Text = "6. 배팅금액(default util use)";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(272, 197);
+            this.label13.Location = new System.Drawing.Point(311, 246);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(17, 12);
+            this.label13.Size = new System.Drawing.Size(22, 15);
             this.label13.TabIndex = 110;
             this.label13.Text = "원";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(13, 222);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(139, 12);
-            this.label14.TabIndex = 111;
-            this.label14.Text = "7. 매수 검색 조건식 선택";
-            // 
-            // combox_condition
-            // 
-            this.combox_condition.Font = new System.Drawing.Font("Gulim", 8F);
-            this.combox_condition.FormattingEnabled = true;
-            this.combox_condition.Items.AddRange(new object[] {
-            "Condition.ADF",
-            "ConditionNotAscDesc.ADF"});
-            this.combox_condition.Location = new System.Drawing.Point(153, 220);
-            this.combox_condition.Name = "combox_condition";
-            this.combox_condition.Size = new System.Drawing.Size(160, 19);
-            this.combox_condition.TabIndex = 112;
-            // 
-            // combox_conditionExclude
-            // 
-            this.combox_conditionExclude.Font = new System.Drawing.Font("Gulim", 8F);
-            this.combox_conditionExclude.FormattingEnabled = true;
-            this.combox_conditionExclude.Items.AddRange(new object[] {
-            "ConditionExclude.ADF",
-            "ConditionExclude1000.ADF"});
-            this.combox_conditionExclude.Location = new System.Drawing.Point(151, 245);
-            this.combox_conditionExclude.Name = "combox_conditionExclude";
-            this.combox_conditionExclude.Size = new System.Drawing.Size(213, 19);
-            this.combox_conditionExclude.TabIndex = 114;
-            this.combox_conditionExclude.SelectedIndexChanged += new System.EventHandler(this.combox_conditionExclude_SelectedIndexChanged);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(13, 247);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(135, 12);
-            this.label15.TabIndex = 113;
-            this.label15.Text = "8. 매수금지 검색식 선택";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 85);
+            this.label2.Location = new System.Drawing.Point(15, 106);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(161, 12);
+            this.label2.Size = new System.Drawing.Size(202, 15);
             this.label2.TabIndex = 117;
             this.label2.Text = "2.투자율95%이상 목표수익률";
             // 
             // input_stop_profit_target2
             // 
             this.input_stop_profit_target2.Font = new System.Drawing.Font("Gulim", 8F);
-            this.input_stop_profit_target2.Location = new System.Drawing.Point(185, 81);
+            this.input_stop_profit_target2.Location = new System.Drawing.Point(211, 101);
+            this.input_stop_profit_target2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.input_stop_profit_target2.Name = "input_stop_profit_target2";
-            this.input_stop_profit_target2.Size = new System.Drawing.Size(37, 20);
+            this.input_stop_profit_target2.Size = new System.Drawing.Size(42, 20);
             this.input_stop_profit_target2.TabIndex = 116;
             this.input_stop_profit_target2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(224, 85);
+            this.label11.Location = new System.Drawing.Point(256, 106);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(71, 12);
+            this.label11.Size = new System.Drawing.Size(88, 15);
             this.label11.TabIndex = 115;
             this.label11.Text = "%이상 매도.";
             // 
             // OptionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 343);
+            this.ClientSize = new System.Drawing.Size(495, 429);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.input_stop_profit_target2);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.combox_conditionExclude);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.combox_condition);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.input_battingAtm);
@@ -345,6 +305,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btn_rollback);
             this.Controls.Add(this.btn_config_save);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "OptionForm";
             this.Text = "설정관리";
             this.ResumeLayout(false);
@@ -374,10 +335,6 @@
         public System.Windows.Forms.TextBox input_battingAtm;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        public System.Windows.Forms.ComboBox combox_condition;
-        public System.Windows.Forms.ComboBox combox_conditionExclude;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox input_stop_profit_target2;
         private System.Windows.Forms.Label label11;
