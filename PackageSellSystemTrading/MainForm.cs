@@ -116,9 +116,12 @@ namespace PackageSellSystemTrading{
             //계좌잔고 그리드 초기화
             grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
             //진입검색 그리드.
-            grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); ;
+            grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); 
             //체결미체결 그리드 DataSource 설정
             grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
+            //챠트(스냅샷) 그리드 초기화
+            grd_chart.DataSource = this.chartData.getchartVoList();
+            this.chartData.dbSync();
 
             input_loginId.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
             input_loginPw.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
@@ -135,12 +138,12 @@ namespace PackageSellSystemTrading{
             }
 
 
-            //프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
-            if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
-            {
-                optionForm.rollBack();
-                optionForm.btn_config_save_Click(new object(), new EventArgs());
-            }
+            ////프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
+            //if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
+            //{
+            //    optionForm.rollBack();
+            //    optionForm.btn_config_save_Click(new object(), new EventArgs());
+            //}
 
         }
 
@@ -404,11 +407,11 @@ namespace PackageSellSystemTrading{
 
                 ChartVo chartVo = new ChartVo();
                 chartVo.date = DateTime.Now.ToString("yyyyMMdd");                    //날자              
-                chartVo.D2Dps = this.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
-                chartVo.DpsastTotamt = this.label_DpsastTotamt.Text;               //예탁자산총액          
+                chartVo.d2Dps = this.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
+                chartVo.dpsastTotamt = this.label_DpsastTotamt.Text;               //예탁자산총액          
                 chartVo.mamt = this.label_mamt.Text.Replace(",", "");      //매입금액            
-                chartVo.BalEvalAmt = this.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
-                chartVo.PnlRat = this.label_PnlRat.Text.Replace(",", "");    //손익율             
+                chartVo.balEvalAmt = this.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
+                chartVo.pnlRat = this.label_PnlRat.Text.Replace(",", "");    //손익율             
                 chartVo.tdtsunik = this.label_tdtsunik.Text.Replace(",", "");  //평가손익            
                 chartVo.dtsunik = this.label_dtsunik.Text.Replace(",", ""); ; //실현손익            
                 chartVo.battingAtm = this.label_battingAtm.Text.Replace(",", "");//배팅금액            

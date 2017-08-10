@@ -60,11 +60,11 @@ namespace PackageSellSystemTrading
                     {
                         ChartVo chartVo = new ChartVo();
                         chartVo.date            = DateTime.Now.ToString("yyyyMMdd");                    //날자              
-                        chartVo.D2Dps           = mainForm.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
-                        chartVo.DpsastTotamt    = mainForm.label_DpsastTotamt.Text;               //예탁자산총액          
+                        chartVo.d2Dps           = mainForm.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
+                        chartVo.dpsastTotamt    = mainForm.label_DpsastTotamt.Text;               //예탁자산총액          
                         chartVo.mamt            = mainForm.label_mamt.Text.Replace(",", "");      //매입금액            
-                        chartVo.BalEvalAmt      = mainForm.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
-                        chartVo.PnlRat          = mainForm.label_PnlRat.Text.Replace(",", "");    //손익율             
+                        chartVo.balEvalAmt      = mainForm.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
+                        chartVo.pnlRat          = mainForm.label_PnlRat.Text.Replace(",", "");    //손익율             
                         chartVo.tdtsunik        = mainForm.label_tdtsunik.Text.Replace(",", "");  //평가손익            
                         chartVo.dtsunik         = mainForm.label_dtsunik.Text.Replace(",", ""); ; //실현손익            
                         chartVo.battingAtm      = mainForm.label_battingAtm.Text.Replace(",", "");//배팅금액            

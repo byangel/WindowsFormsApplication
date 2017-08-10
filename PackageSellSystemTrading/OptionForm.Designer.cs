@@ -55,7 +55,7 @@
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(344, 381);
+            this.btn_config_save.Location = new System.Drawing.Point(344, 272);
             this.btn_config_save.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(72, 32);
@@ -66,7 +66,7 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(270, 381);
+            this.btn_rollback.Location = new System.Drawing.Point(270, 272);
             this.btn_rollback.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_rollback.Name = "btn_rollback";
             this.btn_rollback.Size = new System.Drawing.Size(67, 32);
@@ -192,7 +192,7 @@
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(423, 381);
+            this.close.Location = new System.Drawing.Point(423, 272);
             this.close.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(58, 32);
@@ -281,7 +281,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 429);
+            this.ClientSize = new System.Drawing.Size(495, 313);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.input_stop_profit_target2);
             this.Controls.Add(this.label11);

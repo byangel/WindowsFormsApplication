@@ -138,7 +138,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Resources\6만급등족목70_.ADF" />
     <None Include="Resources\Condition.ADF" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -151,8 +150,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\Exclude.ADF" />
-    <None Include="Resources\Exclude20Up_.ADF" />
-    <None Include="Resources\ExcludeArr_.ADF" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

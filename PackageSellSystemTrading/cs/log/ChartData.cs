@@ -36,8 +36,9 @@ namespace PackageSellSystemTrading
         // 생성자
         public ChartData()
         {
-            try {
-                
+            try
+            {
+
                 //    //디렉토리 체크
                 String dirPath = Util.GetCurrentDirectoryWithPath() + "\\logs";
                 if (!Directory.Exists(dirPath))
@@ -46,11 +47,11 @@ namespace PackageSellSystemTrading
                     Log.WriteLine("DataLog ::디렉토리 생성[" + dirPath + "]");
                 }
 
-                
+
                 /////////////////////////////DB 테이블 설정//////////////////////////////////
                 using (var conn = new SQLiteConnection(connStr))
                 {
-                   conn.Open();//파일이 없으면 자동 생성 //conn.Close();
+                    conn.Open();//파일이 없으면 자동 생성 //conn.Close();
 
                     //테이블이 있는지 확인 후 없으면 테이블 생성
                     SQLiteCommand sqlCmd = new SQLiteCommand("SELECT COUNT(*) cnt FROM sqlite_master WHERE name = 'chart'", conn);
@@ -59,11 +60,11 @@ namespace PackageSellSystemTrading
                     {
                         sqlCmd.CommandText = "CREATE TABLE chart ("
                                                                 + " date             VARCHAR(16)" //날자         
-                                                                + ",D2Dps            VARCHAR(16)" //예수금(D2)    
-                                                                + ",DpsastTotamt     VARCHAR(16)" //예탁자산총액     
+                                                                + ",d2Dps            VARCHAR(16)" //예수금(D2)    
+                                                                + ",dpsastTotamt     VARCHAR(16)" //예탁자산총액     
                                                                 + ",mamt             VARCHAR(16)" //매입금액       
-                                                                + ",BalEvalAmt       VARCHAR(16)" //매입평가금액     
-                                                                + ",PnlRat           VARCHAR(16)" //손익율        
+                                                                + ",balEvalAmt       VARCHAR(16)" //매입평가금액     
+                                                                + ",pnlRat           VARCHAR(16)" //손익율        
                                                                 + ",tdtsunik         VARCHAR(16)" //평가손익       
                                                                 + ",dtsunik          VARCHAR(16)" //실현손익       
                                                                 + ",battingAtm       VARCHAR(16)" //배팅금액       
@@ -88,19 +89,21 @@ namespace PackageSellSystemTrading
                 this.dbSync();
                 /////////////////////////////DB 설정//////////////////////////////////   
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 Log.WriteLine("DataLog : " + ex.Message);
                 Log.WriteLine("DataLog : " + ex.StackTrace);
             }
-            finally{
-                
+            finally
+            {
+
             }
 
-        }  
+        }
         // 소멸자
         ~ChartData()
-        {         
-            
+        {
+
         }
 
         public void dbSync()
@@ -116,44 +119,41 @@ namespace PackageSellSystemTrading
             foreach (DataRow dr in dt.Rows)
             {
                 ChartVo chartVo = new ChartVo();
-                chartVo.date            = dr["date"            ].ToString();//날자         
-                chartVo.D2Dps           = dr["D2Dps"           ].ToString();//예수금(D2)    
-                chartVo.DpsastTotamt    = dr["DpsastTotamt"    ].ToString();//예탁자산총액     
-                chartVo.mamt            = dr["mamt"            ].ToString();//매입금액       
-                chartVo.BalEvalAmt      = dr["BalEvalAmt"      ].ToString();//매입평가금액     
-                chartVo.PnlRat          = dr["PnlRat"          ].ToString();//손익율        
-                chartVo.tdtsunik        = dr["tdtsunik"        ].ToString();//평가손익       
-                chartVo.dtsunik         = dr["dtsunik"         ].ToString();//실현손익       
-                chartVo.battingAtm      = dr["battingAtm"      ].ToString();//배팅금액       
-                chartVo.toDaysunik      = dr["toDaysunik"      ].ToString();//당일매도 실현손익  
-                chartVo.dtsunik2        = dr["dtsunik2"        ].ToString();//실현손익2      
-                chartVo.investmentRatio = dr["investmentRatio" ].ToString();//투자율        
-                chartVo.itemTotalCnt    = dr["itemTotalCnt"    ].ToString();//계좌잔고(매수종목수)
-                chartVo.buyFilterCnt    = dr["buyFilterCnt"    ].ToString();//매수금지종목수    
-                chartVo.buyCnt          = dr["buyCnt"          ].ToString();//매수횟수       
-                chartVo.sellCnt         = dr["sellCnt"         ].ToString();//매도횟수       
+                chartVo.date            = dr["date"].ToString();//날자         
+                chartVo.d2Dps           = dr["d2Dps"].ToString();//예수금(D2)    
+                chartVo.dpsastTotamt    = dr["dpsastTotamt"].ToString();//예탁자산총액     
+                chartVo.mamt            = dr["mamt"].ToString();//매입금액       
+                chartVo.balEvalAmt      = dr["balEvalAmt"].ToString();//매입평가금액     
+                chartVo.pnlRat          = dr["pnlRat"].ToString();//손익율        
+                chartVo.tdtsunik        = dr["tdtsunik"].ToString();//평가손익       
+                chartVo.dtsunik         = dr["dtsunik"].ToString();//실현손익       
+                chartVo.battingAtm      = dr["battingAtm"].ToString();//배팅금액       
+                chartVo.toDaysunik      = dr["toDaysunik"].ToString();//당일매도 실현손익  
+                chartVo.dtsunik2        = dr["dtsunik2"].ToString();//실현손익2      
+                chartVo.investmentRatio = dr["investmentRatio"].ToString();//투자율        
+                chartVo.itemTotalCnt    = dr["itemTotalCnt"].ToString();//계좌잔고(매수종목수)
+                chartVo.buyFilterCnt    = dr["buyFilterCnt"].ToString();//매수금지종목수    
+                chartVo.buyCnt          = dr["buyCnt"].ToString();//매수횟수       
+                chartVo.sellCnt         = dr["sellCnt"].ToString();//매도횟수       
 
                 this.chartVoList.Add(chartVo);
             }
         }
 
-
-
-
         //등록
         public int insert(ChartVo chartVo)
         {
-            int result=0;
+            int result = 0;
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
             {
                 conn.Open();
                 StringBuilder sb = new StringBuilder();
                 sb.Append("insert into chart           ( date                                               "); //날자          
-                sb.Append("                             ,D2Dps                                              "); //예수금(D2)     
-                sb.Append("                             ,DpsastTotamt                                       "); //예탁자산총액      
+                sb.Append("                             ,d2Dps                                              "); //예수금(D2)     
+                sb.Append("                             ,dpsastTotamt                                       "); //예탁자산총액      
                 sb.Append("                             ,mamt                                               "); //매입금액        
-                sb.Append("                             ,BalEvalAmt                                         "); //매입평가금액      
-                sb.Append("                             ,PnlRat                                             "); //손익율         
+                sb.Append("                             ,balEvalAmt                                         "); //매입평가금액      
+                sb.Append("                             ,pnlRat                                             "); //손익율         
                 sb.Append("                             ,tdtsunik                                           "); //평가손익        
                 sb.Append("                             ,dtsunik                                            "); //실현손익        
                 sb.Append("                             ,battingAtm                                         "); //배팅금액        
@@ -165,22 +165,22 @@ namespace PackageSellSystemTrading
                 sb.Append("                             ,buyCnt                                             "); //매수횟수        
                 sb.Append("                             ,sellCnt                                            "); //매도횟수        
                 sb.Append("                             )VALUES(                                            ");
-                sb.Append("                              '" + chartVo.date                  + "'            ");//날자              
-                sb.Append("                             ,'" + chartVo.D2Dps                 + "'            ");//예수금(D2)         
-                sb.Append("                             ,'" + chartVo.DpsastTotamt          + "'            ");//예탁자산총액          
-                sb.Append("                             ,'" + chartVo.mamt                  + "'            ");//매입금액            
-                sb.Append("                             ,'" + chartVo.BalEvalAmt            + "'            ");//매입평가금액          
-                sb.Append("                             ,'" + chartVo.PnlRat                + "'            ");//손익율             
-                sb.Append("                             ,'" + chartVo.tdtsunik              + "'            ");//평가손익            
-                sb.Append("                             ,'" + chartVo.dtsunik               + "'            ");//실현손익            
-                sb.Append("                             ,'" + chartVo.battingAtm            + "'            ");//배팅금액            
-                sb.Append("                             ,'" + chartVo.toDaysunik            + "'            ");//당일매도 실현손익       
-                sb.Append("                             ,'" + chartVo.dtsunik2              + "'            ");//실현손익2           
-                sb.Append("                             ,'" + chartVo.investmentRatio       + "'            ");//투자율             
-                sb.Append("                             ,'" + chartVo.itemTotalCnt          + "'            ");//계좌잔고(매수종목수)     
-                sb.Append("                             ,'" + chartVo.buyFilterCnt          + "'            ");//매수금지종목수         
-                sb.Append("                             ,'" + chartVo.buyCnt                + "'            ");//매수횟수            
-                sb.Append("                             ,'" + chartVo.sellCnt               + "' )          ");//매도횟수  
+                sb.Append("                              '" + chartVo.date              + "'            ");//날자              
+                sb.Append("                             ,'" + chartVo.d2Dps             + "'            ");//예수금(D2)         
+                sb.Append("                             ,'" + chartVo.dpsastTotamt      + "'            ");//예탁자산총액          
+                sb.Append("                             ,'" + chartVo.mamt              + "'            ");//매입금액            
+                sb.Append("                             ,'" + chartVo.balEvalAmt        + "'            ");//매입평가금액          
+                sb.Append("                             ,'" + chartVo.pnlRat            + "'            ");//손익율             
+                sb.Append("                             ,'" + chartVo.tdtsunik          + "'            ");//평가손익            
+                sb.Append("                             ,'" + chartVo.dtsunik           + "'            ");//실현손익            
+                sb.Append("                             ,'" + chartVo.battingAtm        + "'            ");//배팅금액            
+                sb.Append("                             ,'" + chartVo.toDaysunik        + "'            ");//당일매도 실현손익       
+                sb.Append("                             ,'" + chartVo.dtsunik2          + "'            ");//실현손익2           
+                sb.Append("                             ,'" + chartVo.investmentRatio   + "'            ");//투자율             
+                sb.Append("                             ,'" + chartVo.itemTotalCnt      + "'            ");//계좌잔고(매수종목수)     
+                sb.Append("                             ,'" + chartVo.buyFilterCnt      + "'            ");//매수금지종목수         
+                sb.Append("                             ,'" + chartVo.buyCnt            + "'            ");//매수횟수            
+                sb.Append("                             ,'" + chartVo.sellCnt           + "' )          ");//매도횟수  
 
 
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
@@ -192,7 +192,7 @@ namespace PackageSellSystemTrading
             }
             return result;
         }
-        
+
 
 
 
@@ -206,11 +206,11 @@ namespace PackageSellSystemTrading
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE chart           SET                                                         ");
                 sb.Append("                              date             = '" + chartVo.date           + "'  ");//날자             
-                sb.Append("                             ,D2Dps            = '" + chartVo.D2Dps          + "'  ");//예수금(D2)        
-                sb.Append("                             ,DpsastTotamt     = '" + chartVo.DpsastTotamt   + "'  ");//예탁자산총액         
+                sb.Append("                             ,d2Dps            = '" + chartVo.d2Dps          + "'  ");//예수금(D2)        
+                sb.Append("                             ,dpsastTotamt     = '" + chartVo.dpsastTotamt   + "'  ");//예탁자산총액         
                 sb.Append("                             ,mamt             = '" + chartVo.mamt           + "'  ");//매입금액           
-                sb.Append("                             ,BalEvalAmt       = '" + chartVo.BalEvalAmt     + "'  ");//매입평가금액         
-                sb.Append("                             ,PnlRat           = '" + chartVo.PnlRat         + "'  ");//손익율            
+                sb.Append("                             ,balEvalAmt       = '" + chartVo.balEvalAmt     + "'  ");//매입평가금액         
+                sb.Append("                             ,pnlRat           = '" + chartVo.pnlRat         + "'  ");//손익율            
                 sb.Append("                             ,tdtsunik         = '" + chartVo.tdtsunik       + "'  ");//평가손익           
                 sb.Append("                             ,dtsunik          = '" + chartVo.dtsunik        + "'  ");//실현손익           
                 sb.Append("                             ,battingAtm       = '" + chartVo.battingAtm     + "'  ");//배팅금액           
@@ -236,7 +236,7 @@ namespace PackageSellSystemTrading
             return result;
         }
 
-        
+
         //목록
         public DataTable list()
         {
@@ -244,13 +244,12 @@ namespace PackageSellSystemTrading
             //string sql = "SELECT * FROM member WHERE Id>=2";
             //쿼리정의
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT  ordno                                ");
-            sb.Append("       ,date                                    ");//날자         
-            sb.Append("       ,D2Dps                                   ");//예수금(D2)    
-            sb.Append("       ,DpsastTotamt                            ");//예탁자산총액     
+            sb.Append("SELECT  date                                    ");//날자         
+            sb.Append("       ,d2Dps                                   ");//예수금(D2)    
+            sb.Append("       ,dpsastTotamt                            ");//예탁자산총액     
             sb.Append("       ,mamt                                    ");//매입금액       
-            sb.Append("       ,BalEvalAmt                              ");//매입평가금액     
-            sb.Append("       ,PnlRat                                  ");//손익율        
+            sb.Append("       ,balEvalAmt                              ");//매입평가금액     
+            sb.Append("       ,pnlRat                                  ");//손익율        
             sb.Append("       ,tdtsunik                                ");//평가손익       
             sb.Append("       ,dtsunik                                 ");//실현손익       
             sb.Append("       ,battingAtm                              ");//배팅금액       
@@ -261,18 +260,18 @@ namespace PackageSellSystemTrading
             sb.Append("       ,buyFilterCnt                            ");//매수금지종목수    
             sb.Append("       ,buyCnt                                  ");  //매수횟수  
             sb.Append("       ,sellCnt                                 ");   //매도횟수                          
-            sb.Append("FROM   chart                                    "); 
-            
-            sb.Append("ORDER BY   date                  "); //날자
+            sb.Append("FROM   chart                                    ");
 
+            sb.Append("ORDER BY   date                  "); //날자
+            String test = sb.ToString();
             var adpt = new SQLiteDataAdapter(sb.ToString(), connStr);
             adpt.Fill(dt);
             return dt;
         }
 
 
-        
-        
+
+
 
 
     }   // end class
@@ -282,11 +281,11 @@ namespace PackageSellSystemTrading
     public class ChartVo
     {
         public String date              { set; get; }//날자
-        public String D2Dps             { set; get; }//예수금(D2)
-        public String DpsastTotamt      { set; get; }//예탁자산총액
+        public String d2Dps             { set; get; }//예수금(D2)
+        public String dpsastTotamt      { set; get; }//예탁자산총액
         public String mamt              { set; get; }//매입금액
-        public String BalEvalAmt        { set; get; }//매입평가금액
-        public String PnlRat            { set; get; }//손익율
+        public String balEvalAmt        { set; get; }//매입평가금액
+        public String pnlRat            { set; get; }//손익율
         public String tdtsunik          { set; get; }//평가손익
         public String dtsunik           { set; get; }//실현손익
         public String battingAtm        { set; get; }//배팅금액
