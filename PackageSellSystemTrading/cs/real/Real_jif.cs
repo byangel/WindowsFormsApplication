@@ -8,6 +8,7 @@ using XA_DATASETLib;
 
 namespace PackageSellSystemTrading
 {
+    //장정보
 	public class Real_jif : XARealClass
     {
 		// 멤버변수 선언
@@ -60,22 +61,26 @@ namespace PackageSellSystemTrading
                     {
                         ChartVo chartVo = new ChartVo();
                         chartVo.date            = DateTime.Now.ToString("yyyyMMdd");                    //날자              
-                        chartVo.d2Dps           = mainForm.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
-                        chartVo.dpsastTotamt    = mainForm.label_DpsastTotamt.Text;               //예탁자산총액          
-                        chartVo.mamt            = mainForm.label_mamt.Text.Replace(",", "");      //매입금액            
-                        chartVo.balEvalAmt      = mainForm.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
-                        chartVo.pnlRat          = mainForm.label_PnlRat.Text.Replace(",", "");    //손익율             
-                        chartVo.tdtsunik        = mainForm.label_tdtsunik.Text.Replace(",", "");  //평가손익            
-                        chartVo.dtsunik         = mainForm.label_dtsunik.Text.Replace(",", ""); ; //실현손익            
-                        chartVo.battingAtm      = mainForm.label_battingAtm.Text.Replace(",", "");//배팅금액            
-                        chartVo.toDaysunik      = mainForm.label_toDaysunik.Text.Replace(",", "");//당일매도 실현손익       
-                        chartVo.dtsunik2        = mainForm.label_dtsunik2.Text.Replace(",", ""); ;//실현손익2           
-                        chartVo.investmentRatio = mainForm.label_InvestmentRatio.Text;            //투자율             
-                        chartVo.itemTotalCnt    = mainForm.h_totalCount.Text;                     //총 보유종목 수     
-                        chartVo.buyFilterCnt    = mainForm.exCnt.Text;                            //매수금지종목수         
-                        chartVo.buyCnt          = mainForm.label_buyCnt.Text;                     //매수횟수            
-                        chartVo.sellCnt         = mainForm.label_sellCnt.Text.Replace(",", ""); ;//매도횟수  
+                        chartVo.d2Dps           = mainForm.label_D2Dps          .Text.Replace(",", ""); //예수금(D2)         
+                        chartVo.dpsastTotamt    = mainForm.label_DpsastTotamt   .Text.Replace(",", ""); //예탁자산총액          
+                        chartVo.mamt            = mainForm.label_mamt           .Text.Replace(",", ""); //매입금액            
+                        chartVo.balEvalAmt      = mainForm.label_BalEvalAmt     .Text.Replace(",", ""); //매입평가금액          
+                        chartVo.pnlRat          = mainForm.label_PnlRat         .Text.Replace(",", ""); //손익율             
+                        chartVo.tdtsunik        = mainForm.label_tdtsunik       .Text.Replace(",", ""); //평가손익            
+                        chartVo.dtsunik         = mainForm.label_dtsunik        .Text.Replace(",", ""); //실현손익            
+                        chartVo.battingAtm      = mainForm.label_battingAtm     .Text.Replace(",", ""); //배팅금액            
+                        chartVo.toDaysunik      = mainForm.label_toDaysunik     .Text.Replace(",", ""); //당일매도 실현손익       
+                        chartVo.dtsunik2        = mainForm.label_dtsunik2       .Text.Replace(",", ""); //실현손익2           
+                        chartVo.investmentRatio = mainForm.label_InvestmentRatio.Text;                  //투자율             
+                        chartVo.itemTotalCnt    = mainForm.h_totalCount         .Text;                  //총 보유종목 수     
+                        chartVo.buyFilterCnt    = mainForm.exCnt                .Text;                  //매수금지종목수         
+                        chartVo.buyCnt          = mainForm.label_buyCnt         .Text;                  //매수횟수            
+                        chartVo.sellCnt         = mainForm.label_sellCnt.Text.Replace(",", "");         //매도횟수  
                         mainForm.chartData.insert(chartVo);
+
+                        mainForm.chartData.dbSync();
+                        //누적수익율 출력
+                        mainForm.label_sum_dtsunik.Text = Util.GetNumberFormat(mainForm.chartData.getSumDtsunik());
                     }
 
                 }

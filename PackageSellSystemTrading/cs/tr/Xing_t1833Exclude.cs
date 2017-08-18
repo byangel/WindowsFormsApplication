@@ -98,7 +98,7 @@ namespace PackageSellSystemTrading{
                 completeAt = false;//중복호출 방지
 
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\Exclude.ADF");
+                base.RequestService("t1833", startupPath + "\\Resources\\"+mainForm.optionForm.EXCLUDE_NM);
 
                 mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]exclude 조건검색 요청.";
             } else {

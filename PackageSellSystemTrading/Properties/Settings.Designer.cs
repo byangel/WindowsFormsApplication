@@ -26,18 +26,6 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STOP_PROFIT_TARGET {
-            get {
-                return ((string)(this["STOP_PROFIT_TARGET"]));
-            }
-            set {
-                this["STOP_PROFIT_TARGET"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LOGIN_ID {
             get {
                 return ((string)(this["LOGIN_ID"]));
@@ -188,6 +176,18 @@ namespace PackageSellSystemTrading.Properties {
             }
             set {
                 this["BATTING_ATM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string STOP_PROFIT_TARGET {
+            get {
+                return ((string)(this["STOP_PROFIT_TARGET"]));
+            }
+            set {
+                this["STOP_PROFIT_TARGET"] = value;
             }
         }
         

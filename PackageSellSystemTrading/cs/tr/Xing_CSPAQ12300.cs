@@ -101,9 +101,6 @@ namespace PackageSellSystemTrading{
                     mainForm.xing_t0167.call_request();//시간데이타
 
 
-
-                    
-
                     //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
                     //mainForm.timer_t1833Exclude.Start();//진입검색 타이머
                     //mainForm.timer_common.Start();//계좌 및 미체결 검색 타이머

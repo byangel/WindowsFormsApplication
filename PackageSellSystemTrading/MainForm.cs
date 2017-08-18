@@ -70,84 +70,93 @@ namespace PackageSellSystemTrading{
             //접속가능
             //실운영 : hts.ebestsec.co.kr
             //모의투자 : demo.ebestsec.co.kr
-            exXASessionClass = new ExXASessionClass();//로그인
-            exXASessionClass.mainForm = this;
+            try { 
+                exXASessionClass = new ExXASessionClass();//로그인
+                exXASessionClass.mainForm = this;
 
-            this.xing_t1833 = new Xing_t1833();//종목검색
-            this.xing_t1833.mainForm = this;
-            this.xing_t1833Exclude = new Xing_t1833Exclude();//매수금지종목검색
-            this.xing_t1833Exclude.mainForm = this;
-            this.xing_t0424 = new Xing_t0424();//주식잔고2
-            this.xing_t0424.mainForm = this;
-            this.xing_t0425 = new Xing_t0425();//체결/미체결
-            this.xing_t0425.mainForm = this;
-            this.xing_t0167 = new Xing_t0167();//서버시간조회
-            this.xing_t0167.mainForm = this;
-            this.xing_CSPAT00600 = new Xing_CSPAT00600();//정상주문
-            this.xing_CSPAT00600.mainForm = this;
-            this.xing_CSPAT00800 = new Xing_CSPAT00800();//현물취소주문
-            this.xing_CSPAT00800.mainForm = this;
-            this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
-            this.xing_CSPAQ12200.mainForm = this;
+                this.xing_t1833 = new Xing_t1833();//종목검색
+                this.xing_t1833.mainForm = this;
+                this.xing_t1833Exclude = new Xing_t1833Exclude();//매수금지종목검색
+                this.xing_t1833Exclude.mainForm = this;
+                this.xing_t0424 = new Xing_t0424();//주식잔고2
+                this.xing_t0424.mainForm = this;
+                this.xing_t0425 = new Xing_t0425();//체결/미체결
+                this.xing_t0425.mainForm = this;
+                this.xing_t0167 = new Xing_t0167();//서버시간조회
+                this.xing_t0167.mainForm = this;
+                this.xing_CSPAT00600 = new Xing_CSPAT00600();//정상주문
+                this.xing_CSPAT00600.mainForm = this;
+                this.xing_CSPAT00800 = new Xing_CSPAT00800();//현물취소주문
+                this.xing_CSPAT00800.mainForm = this;
+                this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
+                this.xing_CSPAQ12200.mainForm = this;
 
-            this.tradingHistory = new TradingHistory();//매매이력정보
-            this.tradingHistory.mainForm = this;
-            this.chartData = new ChartData();//챠트데이타 저장
-            this.chartData.mainForm = this;
+                this.tradingHistory = new TradingHistory();//매매이력정보
+                this.tradingHistory.mainForm = this;
+                this.chartData = new ChartData();//챠트데이타 저장
+                this.chartData.mainForm = this;
 
-            this.accountForm = new AccountForm();//계좌선택폼
-            this.accountForm.mainForm = this;
-            this.accountForm.exXASessionClass = exXASessionClass;
-            this.optionForm = new OptionForm();
-            this.optionForm.mainForm = this;
-            this.historyForm = new HistoryForm();
-            this.historyForm.mainForm = this;
+                this.accountForm = new AccountForm();//계좌선택폼
+                this.accountForm.mainForm = this;
+                this.accountForm.exXASessionClass = exXASessionClass;
+                this.optionForm = new OptionForm();
+                this.optionForm.mainForm = this;
+                this.historyForm = new HistoryForm();
+                this.historyForm.mainForm = this;
 
-            this.real_SC1 = new Real_SC1();    //실시간 체결
-            this.real_SC1.mainForm = this;
-            this.real_S3 = new Real_S3();    //코스피 실시간 체결
-            this.real_S3.mainForm = this;
-            this.real_K3 = new Real_K3();    //코스닥 실시간 체결
-            this.real_K3.mainForm = this;
-            this.real_jif = new Real_jif();    //장정보
-            this.real_jif.mainForm = this;
-
+                this.real_SC1 = new Real_SC1();    //실시간 체결
+                this.real_SC1.mainForm = this;
+                this.real_S3 = new Real_S3();    //코스피 실시간 체결
+                this.real_S3.mainForm = this;
+                this.real_K3 = new Real_K3();    //코스닥 실시간 체결
+                this.real_K3.mainForm = this;
+                this.real_jif = new Real_jif();    //장정보
+                this.real_jif.mainForm = this;
+  
+                //계좌잔고 그리드 초기화
+                grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
+                //진입검색 그리드.
+                grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); 
+                //체결미체결 그리드 DataSource 설정
+                grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
+                //챠트(스냅샷) 그리드 초기화
+                grd_chart.DataSource = this.chartData.getchartVoList();
             
-            //계좌잔고 그리드 초기화
-            grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
-            //진입검색 그리드.
-            grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); 
-            //체결미체결 그리드 DataSource 설정
-            grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
-            //챠트(스냅샷) 그리드 초기화
-            grd_chart.DataSource = this.chartData.getchartVoList();
-            this.chartData.dbSync();
+                //누적수익율 출력
+                this.label_sum_dtsunik.Text = Util.GetNumberFormat(this.chartData.getSumDtsunik());
 
-            input_loginId.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
-            input_loginPw.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
-            input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
+                input_loginId.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
+                input_loginPw.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
+                input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
 
-            //서버 선택 콤보 초기화
-            //combox_condition.SelectedIndex = 0;
-            for (int i = 0; i < combox_targetServer.Items.Count; i++)
-            {
-                if (combox_targetServer.Items[i].ToString() == Properties.Settings.Default.SERVER_ADDRESS)
+                //서버 선택 콤보 초기화
+                //combox_condition.SelectedIndex = 0;
+                for (int i = 0; i < combox_targetServer.Items.Count; i++)
                 {
-                    combox_targetServer.SelectedIndex = i;
+                    if (combox_targetServer.Items[i].ToString() == Properties.Settings.Default.SERVER_ADDRESS)
+                    {
+                        combox_targetServer.SelectedIndex = i;
+                    }
                 }
+
+
+                ////프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
+                //if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
+                //{
+                //    optionForm.rollBack();
+                //    optionForm.btn_config_save_Click(new object(), new EventArgs());
+                //}
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.StackTrace);
             }
 
 
-            ////프로그램 최초 실행시 프로퍼티 설정이 안되어잇기 때문에 초기 셋팅값을 설정해준다.
-            //if (Properties.Settings.Default.CONDITION_ADF.ToString() == "")
-            //{
-            //    optionForm.rollBack();
-            //    optionForm.btn_config_save_Click(new object(), new EventArgs());
-            //}
-
         }
 
-        
+
         //properties 저장
         private void btn_config_save_Click(object sender, EventArgs e)  {
 
@@ -405,24 +414,14 @@ namespace PackageSellSystemTrading{
             try
             {
 
-                ChartVo chartVo = new ChartVo();
-                chartVo.date = DateTime.Now.ToString("yyyyMMdd");                    //날자              
-                chartVo.d2Dps = this.label_D2Dps.Text.Replace(",", "");     //예수금(D2)         
-                chartVo.dpsastTotamt = this.label_DpsastTotamt.Text;               //예탁자산총액          
-                chartVo.mamt = this.label_mamt.Text.Replace(",", "");      //매입금액            
-                chartVo.balEvalAmt = this.label_BalEvalAmt.Text.Replace(",", "");//매입평가금액          
-                chartVo.pnlRat = this.label_PnlRat.Text.Replace(",", "");    //손익율             
-                chartVo.tdtsunik = this.label_tdtsunik.Text.Replace(",", "");  //평가손익            
-                chartVo.dtsunik = this.label_dtsunik.Text.Replace(",", ""); ; //실현손익            
-                chartVo.battingAtm = this.label_battingAtm.Text.Replace(",", "");//배팅금액            
-                chartVo.toDaysunik = this.label_toDaysunik.Text.Replace(",", "");//당일매도 실현손익       
-                chartVo.dtsunik2 = this.label_dtsunik2.Text.Replace(",", ""); ;//실현손익2           
-                chartVo.investmentRatio = this.label_InvestmentRatio.Text;            //투자율             
-                chartVo.itemTotalCnt = this.h_totalCount.Text;                     //총 보유종목 수     
-                chartVo.buyFilterCnt = this.exCnt.Text;                            //매수금지종목수         
-                chartVo.buyCnt = this.label_buyCnt.Text;                     //매수횟수            
-                chartVo.sellCnt = this.label_sellCnt.Text.Replace(",", ""); ;//매도횟수  
-                this.chartData.insert(chartVo);
+                //시간 초과 손절 을 사용하면 금일 매수 제한 하지 않는다.
+                //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
+                var dtsunik = from item in this.chartData.getchartVoList()
+                                              //where item.expcode == shcode && item.medosu == "매수"
+                              select item.dtsunik;
+                List<double> listval = this.chartData.getchartVoList().Select(row => double.Parse(row.dtsunik)).ToList();
+                String 누적수익 = Util.GetNumberFormat(listval.Sum().ToString());
+                this.label_sum_dtsunik.Text = 누적수익;
             }
             catch (Exception ex){
                 Log.WriteLine("main : " + ex.Message);
@@ -799,7 +798,7 @@ namespace PackageSellSystemTrading{
                 varT0425VoList = from item in this.xing_t0425.getT0425VoList()
                                  where item.medosu == "매수" && item.cancelOrdAt != "Y"
                                  select item;
-                this.label_buyCnt.Text = varT0425VoList.Count().ToString();
+                this.label_buyCnt.Text = varT0425VoList.Count().ToString(); 
             }
         }
 
@@ -816,6 +815,114 @@ namespace PackageSellSystemTrading{
             historyForm.grd_history.DataSource = tradingHistory.getTradingHistoryVoList();
             historyForm.ShowDialog();
             
+        }
+
+        private void grd_chart_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+            //폰트색 지정
+            if (e.ColumnIndex == 1 || e.ColumnIndex == 3 || e.ColumnIndex == 4)
+            {
+                if (e.Value != null)
+                {
+                    e.Value = Util.GetNumberFormat(e.Value.ToString());
+                }
+            }
+                if (e.ColumnIndex == 2 || e.ColumnIndex == 7 || e.ColumnIndex == 8 || e.ColumnIndex == 9||e.ColumnIndex == 10)
+            {
+                if (e.Value != null)
+                {
+
+                    //if (e.Value.ToString().IndexOf("-") >= 0)
+                    //{
+                    //    e.CellStyle.ForeColor = Color.Blue;
+                    //    e.CellStyle.SelectionForeColor = Color.Blue;
+                    //}
+                    //else
+                    //{
+                    if (e.Value != null)
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        //e.CellStyle.SelectionForeColor = Color.Red;
+                        e.Value = Util.GetNumberFormat(e.Value.ToString());
+                    }
+                    //}
+                }
+            }
+
+            if (e.ColumnIndex == 6 || e.ColumnIndex == 5)
+            {
+                if (e.Value != null)
+                {
+
+                    //if (e.Value.ToString().IndexOf("-") >= 0)
+                    //{
+                    //    e.CellStyle.ForeColor = Color.Blue;
+                    //    e.CellStyle.SelectionForeColor = Color.Blue;
+                    //}
+                    //else
+                    //{
+                    e.CellStyle.ForeColor = Color.Blue;
+                    //e.CellStyle.SelectionForeColor = Color.Red;
+                    e.Value = Util.GetNumberFormat(e.Value.ToString());
+
+                    //}
+                }
+            }
+
+            //Log.WriteLine("ㅇㅇㅇㅇ"+e.ColumnIndex.ToString()+"="+ e.Value);
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 = 20170808
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 = 99365
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 = 36.61
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 = 195155058
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 = 291418505
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 = 20170809
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 = 111393
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 = 37.83
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 = 191472233
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 = 290026126
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 = 20170810
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 = 33622
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 = 38.22
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 = 190271533
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 = 289373953
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 = 20170811
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 = 41723
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 = 4.59
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 = 286263447
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 = 299780962
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 = 20170814
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 = 118995
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 = 6.81
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 = 279709966
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 = 299631684
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 = 20170816
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 = 179813
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 = 7.03
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 = 279219482
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 = 299673372
+            //2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ0 =
+            //    2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ7 =
+            //        2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ11 =
+            //            2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ1 =
+            //                2017 - 08 - 16 17:25:35 :: ㅇㅇㅇㅇ2 =
+            //                    2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ0 = 20170811
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ0 = 20170811
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ0 = 20170810
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ0 = 20170810
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ7 = 111393
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ7 = 111393
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ7 = 99365
+            //2017 - 08 - 16 17:25:36 :: ㅇㅇㅇㅇ7 = 99365
+            //4:현재가,14:수수료, 6:평가손익, 3:매도가능, 5:평가금액, 4:현재가
+            //if (e.ColumnIndex != 1 && e.ColumnIndex != 2 && e.ColumnIndex != 7 && e.ColumnIndex != 8)
+            //{
+            //    if (e.Value != null)
+            //    {
+            //        //e.Value = String.Format("{0:#,##0}",e.Value.ToString());
+            //        e.Value = Util.GetNumberFormat(e.Value.ToString());
+            //    }
+            //}
         }
     }//end class
 }//end namespace

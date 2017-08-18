@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PackageSellSystemTrading.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="STOP_PROFIT_TARGET" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="LOGIN_ID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -42,6 +39,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="BATTING_ATM" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="STOP_PROFIT_TARGET" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="STOP_PROFIT_TARGET2" Type="System.String" Scope="User">

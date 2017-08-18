@@ -18,16 +18,18 @@ namespace PackageSellSystemTrading
         Boolean TODAY_SELL_AT     = true;        //중복매수된 종목 금일 매수/매도 기능 활성화 여부 디폴트 true
         //Boolean STOP_LOSS_AT      = false;       //손절사용여부
 
-        String STOP_PROFIT_TARGET = "2.5";      //목표 이익율
-        String STOP_PROFIT_TARGET2 = "2";       //투자율 95%이상 목표 이익율2
+        
         //String STOP_LOSS          = "2";      //2분후 무조건 매도
         //String REPEAT_TERM        = "9600";      //반복매수 시간
         String REPEAT_RATE        = "-5";        //반복매수 비율
         String BUY_STOP_RATE      = "70";        //자본금 대비 매입금액  제한 비율 - 매입금액 / 자본금(매입금액 + D2예수금) * 100 =자본금 대비 투자율
         String MAX_AMT_LIMIT      = "300000000"; //최대 운영 금액 제한 - 기본 3억
         String BATTING_ATM        = "";
-        //String CONDITION_ADF      = "Condition.ADF";
-        //String CONDITION_EXCLUDE  = "ConditionExclude1000.ADF";
+
+        public String CONDITION_NM       = "Condition.ADF";
+        public String EXCLUDE_NM         = "Exclude.ADF";
+        public String STOP_PROFIT_TARGET = "2.5";      //목표 이익율
+        public String STOP_PROFIT_TARGET2 = "2";       //투자율 95%이상 목표 이익율2
 
         //생성자
         public OptionForm()
@@ -147,9 +149,6 @@ namespace PackageSellSystemTrading
             }
         }
 
-        private void combox_conditionExclude_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+       
     }//class end
 }//name end

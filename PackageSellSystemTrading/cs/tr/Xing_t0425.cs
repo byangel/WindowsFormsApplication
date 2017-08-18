@@ -108,7 +108,9 @@ namespace PackageSellSystemTrading {
                         mainForm.grd_t0425.Rows[findIndex].Cells["ordrem"       ].Value = base.GetFieldData("t0425OutBlock1", "ordrem"  , i); //미체결잔량
                         mainForm.grd_t0425.Rows[findIndex].Cells["status"       ].Value = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
                         mainForm.grd_t0425.Rows[findIndex].Cells["ordno"        ].Value = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
+                        mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"     ].Value = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
                     }
+                    
                     else
                     {
                         tmpT0425Vo = new T0425Vo();
@@ -123,6 +125,7 @@ namespace PackageSellSystemTrading {
                         tmpT0425Vo.ordrem   = base.GetFieldData("t0425OutBlock1", "ordrem"  , i); //미체결잔량
                         tmpT0425Vo.status   = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
                         tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
+                        tmpT0425Vo.ordermtd = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문번호
 
                         //목록추가
                         this.t0425VoList.Add(tmpT0425Vo);
@@ -392,14 +395,14 @@ namespace PackageSellSystemTrading {
         public void toDaySellTest()
         {
 
-            String 투입비율 = mainForm.xing_t1833.getInputRate();
-            String 제한비율 = Properties.Settings.Default.BUY_STOP_RATE;
+            String 투입비율   = mainForm.xing_t1833.getInputRate();
+            String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
             String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
 
             //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
             if (Double.Parse(투입비율) > (Double.Parse(제한비율) - 5))
             {
-                목표수익율 = "2.5";
+                목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET2;
             }
 
             String price0424;//0424 현재가
@@ -528,7 +531,7 @@ namespace PackageSellSystemTrading {
         public String ordrem   { set; get; } //미체결잔량
         public String status   { set; get; } //상태
         public String ordno    { set; get; } //주문번호
-
+        public String ordermtd { set; get; } //주문매체
 
         public String ordptnDetail { set; get; }//상세 주문구분 신규매수|반복매수|금일매도|청산
         public String upOrdno      { set; get; }//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.

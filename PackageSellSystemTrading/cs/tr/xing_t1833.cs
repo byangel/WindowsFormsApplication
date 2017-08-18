@@ -154,7 +154,7 @@ namespace PackageSellSystemTrading{
                 
                 //Thread.Sleep(1000);
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\Condition.ADF");
+                base.RequestService("t1833", startupPath + "\\Resources\\"+mainForm.optionForm.CONDITION_NM);
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "]조건검색 요청.";
             } else {
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "[중복]조건검색 요청.";

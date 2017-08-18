@@ -148,6 +148,7 @@
             this.cancelOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.upExecprc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.useYn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label21 = new System.Windows.Forms.Label();
             this.btn_logout = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
@@ -213,12 +214,12 @@
             this.grd_chart_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_dtsunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_investmentRatio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grd_chart_tdtsunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_d2Dps = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_dpsastTotamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_mamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_balEvalAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.grd_chart_tdtsunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_battingAtm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_toDaySunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_dtsunik2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -226,11 +227,16 @@
             this.grd_chart_buyFilterCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_buyCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grd_chart_sellCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grd_info = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label_sum_dtsunik = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_info)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -493,6 +499,7 @@
             this.c_expcode.DefaultCellStyle = dataGridViewCellStyle3;
             this.c_expcode.HeaderText = "코드";
             this.c_expcode.Name = "c_expcode";
+            this.c_expcode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.c_expcode.Width = 49;
             // 
             // c_hname
@@ -502,6 +509,7 @@
             this.c_hname.DefaultCellStyle = dataGridViewCellStyle4;
             this.c_hname.HeaderText = "종목명";
             this.c_hname.Name = "c_hname";
+            this.c_hname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // c_sunikrt
             // 
@@ -510,6 +518,7 @@
             this.c_sunikrt.DefaultCellStyle = dataGridViewCellStyle5;
             this.c_sunikrt.HeaderText = "수익율";
             this.c_sunikrt.Name = "c_sunikrt";
+            this.c_sunikrt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.c_sunikrt.Width = 50;
             // 
             // sunikrt2
@@ -517,6 +526,7 @@
             this.sunikrt2.DataPropertyName = "sunikrt2";
             this.sunikrt2.HeaderText = "수익율2";
             this.sunikrt2.Name = "sunikrt2";
+            this.sunikrt2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.sunikrt2.Width = 40;
             // 
             // dtsunik
@@ -528,6 +538,7 @@
             this.dtsunik.DefaultCellStyle = dataGridViewCellStyle6;
             this.dtsunik.HeaderText = "평가손익";
             this.dtsunik.Name = "dtsunik";
+            this.dtsunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dtsunik.Width = 59;
             // 
             // price
@@ -538,6 +549,7 @@
             this.price.DefaultCellStyle = dataGridViewCellStyle7;
             this.price.HeaderText = "현재가";
             this.price.Name = "price";
+            this.price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.price.Width = 65;
             // 
             // c_mdposqt
@@ -547,6 +559,7 @@
             this.c_mdposqt.DefaultCellStyle = dataGridViewCellStyle8;
             this.c_mdposqt.HeaderText = "매도가능";
             this.c_mdposqt.Name = "c_mdposqt";
+            this.c_mdposqt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.c_mdposqt.Width = 40;
             // 
             // fee
@@ -556,6 +569,7 @@
             this.fee.DefaultCellStyle = dataGridViewCellStyle9;
             this.fee.HeaderText = "수수료";
             this.fee.Name = "fee";
+            this.fee.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.fee.Width = 50;
             // 
             // tax
@@ -566,6 +580,7 @@
             this.tax.DefaultCellStyle = dataGridViewCellStyle10;
             this.tax.HeaderText = "제세금";
             this.tax.Name = "tax";
+            this.tax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.tax.Width = 50;
             // 
             // sellCnt
@@ -573,6 +588,7 @@
             this.sellCnt.DataPropertyName = "sellCnt";
             this.sellCnt.HeaderText = "매도횟수";
             this.sellCnt.Name = "sellCnt";
+            this.sellCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.sellCnt.Width = 40;
             // 
             // buyCnt
@@ -580,6 +596,7 @@
             this.buyCnt.DataPropertyName = "buyCnt";
             this.buyCnt.HeaderText = "매수횟수";
             this.buyCnt.Name = "buyCnt";
+            this.buyCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.buyCnt.Width = 40;
             // 
             // pamt2
@@ -587,6 +604,7 @@
             this.pamt2.DataPropertyName = "pamt2";
             this.pamt2.HeaderText = "평규단가2";
             this.pamt2.Name = "pamt2";
+            this.pamt2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.pamt2.Width = 59;
             // 
             // pamt
@@ -597,6 +615,7 @@
             this.pamt.DefaultCellStyle = dataGridViewCellStyle11;
             this.pamt.HeaderText = "평균단가";
             this.pamt.Name = "pamt";
+            this.pamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.pamt.Width = 59;
             // 
             // sellSunik
@@ -604,6 +623,7 @@
             this.sellSunik.DataPropertyName = "sellSunik";
             this.sellSunik.HeaderText = "중간손익";
             this.sellSunik.Name = "sellSunik";
+            this.sellSunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.sellSunik.Width = 59;
             // 
             // sininter
@@ -613,6 +633,7 @@
             this.sininter.DefaultCellStyle = dataGridViewCellStyle12;
             this.sininter.HeaderText = "신용이자";
             this.sininter.Name = "sininter";
+            this.sininter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.sininter.Visible = false;
             this.sininter.Width = 74;
             // 
@@ -624,6 +645,7 @@
             this.mamt.DefaultCellStyle = dataGridViewCellStyle13;
             this.mamt.HeaderText = "매입금액";
             this.mamt.Name = "mamt";
+            this.mamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.mamt.Width = 59;
             // 
             // appamt
@@ -634,6 +656,7 @@
             this.appamt.DefaultCellStyle = dataGridViewCellStyle14;
             this.appamt.HeaderText = "평가금액";
             this.appamt.Name = "appamt";
+            this.appamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.appamt.Width = 59;
             // 
             // msat
@@ -644,6 +667,7 @@
             this.msat.DefaultCellStyle = dataGridViewCellStyle15;
             this.msat.HeaderText = "당일매수금액";
             this.msat.Name = "msat";
+            this.msat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.msat.Visible = false;
             this.msat.Width = 96;
             // 
@@ -655,6 +679,7 @@
             this.mpms.DefaultCellStyle = dataGridViewCellStyle16;
             this.mpms.HeaderText = "당일매수단가";
             this.mpms.Name = "mpms";
+            this.mpms.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.mpms.Visible = false;
             this.mpms.Width = 96;
             // 
@@ -666,6 +691,7 @@
             this.mdat.DefaultCellStyle = dataGridViewCellStyle17;
             this.mdat.HeaderText = "당일매도금액";
             this.mdat.Name = "mdat";
+            this.mdat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.mdat.Visible = false;
             this.mdat.Width = 69;
             // 
@@ -677,6 +703,7 @@
             this.mpmd.DefaultCellStyle = dataGridViewCellStyle18;
             this.mpmd.HeaderText = "당일매도단가";
             this.mpmd.Name = "mpmd";
+            this.mpmd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.mpmd.Visible = false;
             this.mpmd.Width = 69;
             // 
@@ -798,7 +825,8 @@
             this.toDaysunikrt,
             this.cancelOrdAt,
             this.upExecprc,
-            this.useYn});
+            this.useYn,
+            this.ordermtd});
             dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle28.Font = new System.Drawing.Font("Gulim", 8F);
@@ -955,6 +983,13 @@
             this.useYn.HeaderText = "사용여부";
             this.useYn.Name = "useYn";
             this.useYn.Width = 40;
+            // 
+            // ordermtd
+            // 
+            this.ordermtd.DataPropertyName = "ordermtd";
+            this.ordermtd.HeaderText = "주문매체";
+            this.ordermtd.Name = "ordermtd";
+            this.ordermtd.Visible = false;
             // 
             // label21
             // 
@@ -1570,11 +1605,11 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(319, 9);
+            this.label26.Location = new System.Drawing.Point(372, 9);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(41, 11);
+            this.label26.Size = new System.Drawing.Size(52, 11);
             this.label26.TabIndex = 112;
-            this.label26.Text = "장상태:";
+            this.label26.Text = "누적수익:";
             // 
             // grd_chart
             // 
@@ -1594,12 +1629,12 @@
             this.grd_chart_date,
             this.grd_chart_dtsunik,
             this.grd_chart_investmentRatio,
+            this.grd_chart_tdtsunik,
             this.dataGridViewTextBoxColumn4,
             this.grd_chart_d2Dps,
             this.grd_chart_dpsastTotamt,
             this.grd_chart_mamt,
             this.grd_chart_balEvalAmt,
-            this.grd_chart_tdtsunik,
             this.grd_chart_battingAtm,
             this.grd_chart_toDaySunik,
             this.grd_chart_dtsunik2,
@@ -1631,6 +1666,7 @@
             this.grd_chart.RowTemplate.Height = 23;
             this.grd_chart.Size = new System.Drawing.Size(435, 352);
             this.grd_chart.TabIndex = 113;
+            this.grd_chart.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_chart_CellFormatting);
             // 
             // grd_chart_date
             // 
@@ -1660,6 +1696,16 @@
             this.grd_chart_investmentRatio.Name = "grd_chart_investmentRatio";
             this.grd_chart_investmentRatio.Width = 50;
             // 
+            // grd_chart_tdtsunik
+            // 
+            this.grd_chart_tdtsunik.DataPropertyName = "tdtsunik";
+            dataGridViewCellStyle38.Font = new System.Drawing.Font("Gulim", 8F);
+            this.grd_chart_tdtsunik.DefaultCellStyle = dataGridViewCellStyle38;
+            this.grd_chart_tdtsunik.HeaderText = "평가손익";
+            this.grd_chart_tdtsunik.Name = "grd_chart_tdtsunik";
+            this.grd_chart_tdtsunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.grd_chart_tdtsunik.ToolTipText = "평가손익금액";
+            // 
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.DataPropertyName = "pnlRat";
@@ -1671,55 +1717,48 @@
             // grd_chart_d2Dps
             // 
             this.grd_chart_d2Dps.DataPropertyName = "d2Dps";
-            dataGridViewCellStyle38.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle38.Format = "###,##0";
-            dataGridViewCellStyle38.NullValue = null;
-            this.grd_chart_d2Dps.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("Gulim", 8F);
+            dataGridViewCellStyle39.Format = "###,##0";
+            dataGridViewCellStyle39.NullValue = null;
+            this.grd_chart_d2Dps.DefaultCellStyle = dataGridViewCellStyle39;
             this.grd_chart_d2Dps.HeaderText = "예수금(D2)";
             this.grd_chart_d2Dps.Name = "grd_chart_d2Dps";
             // 
             // grd_chart_dpsastTotamt
             // 
             this.grd_chart_dpsastTotamt.DataPropertyName = "dpsastTotamt";
-            dataGridViewCellStyle39.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle39.Format = "{0:#,##0}";
-            this.grd_chart_dpsastTotamt.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle40.Font = new System.Drawing.Font("Gulim", 8F);
+            this.grd_chart_dpsastTotamt.DefaultCellStyle = dataGridViewCellStyle40;
             this.grd_chart_dpsastTotamt.HeaderText = "자산총액";
             this.grd_chart_dpsastTotamt.Name = "grd_chart_dpsastTotamt";
+            this.grd_chart_dpsastTotamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_dpsastTotamt.ToolTipText = "예탁자산총액";
             // 
             // grd_chart_mamt
             // 
             this.grd_chart_mamt.DataPropertyName = "mamt";
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Gulim", 8F);
-            this.grd_chart_mamt.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle41.Font = new System.Drawing.Font("Gulim", 8F);
+            this.grd_chart_mamt.DefaultCellStyle = dataGridViewCellStyle41;
             this.grd_chart_mamt.HeaderText = "매입금액";
             this.grd_chart_mamt.Name = "grd_chart_mamt";
+            this.grd_chart_mamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // grd_chart_balEvalAmt
             // 
             this.grd_chart_balEvalAmt.DataPropertyName = "balEvalAmt";
-            dataGridViewCellStyle41.Font = new System.Drawing.Font("Gulim", 8F);
-            this.grd_chart_balEvalAmt.DefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle42.Font = new System.Drawing.Font("Gulim", 8F);
+            this.grd_chart_balEvalAmt.DefaultCellStyle = dataGridViewCellStyle42;
             this.grd_chart_balEvalAmt.HeaderText = "매입평가";
             this.grd_chart_balEvalAmt.Name = "grd_chart_balEvalAmt";
+            this.grd_chart_balEvalAmt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_balEvalAmt.ToolTipText = "매입평가금액";
-            // 
-            // grd_chart_tdtsunik
-            // 
-            this.grd_chart_tdtsunik.DataPropertyName = "tdtsunik";
-            dataGridViewCellStyle42.Font = new System.Drawing.Font("Gulim", 8F);
-            dataGridViewCellStyle42.Format = "###,##0";
-            this.grd_chart_tdtsunik.DefaultCellStyle = dataGridViewCellStyle42;
-            this.grd_chart_tdtsunik.HeaderText = "평가손익";
-            this.grd_chart_tdtsunik.Name = "grd_chart_tdtsunik";
-            this.grd_chart_tdtsunik.ToolTipText = "평가손익금액";
             // 
             // grd_chart_battingAtm
             // 
             this.grd_chart_battingAtm.DataPropertyName = "battingAtm";
             this.grd_chart_battingAtm.HeaderText = "배팅";
             this.grd_chart_battingAtm.Name = "grd_chart_battingAtm";
+            this.grd_chart_battingAtm.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_battingAtm.ToolTipText = "배팅금액";
             this.grd_chart_battingAtm.Width = 60;
             // 
@@ -1728,6 +1767,7 @@
             this.grd_chart_toDaySunik.DataPropertyName = "toDaySunik";
             this.grd_chart_toDaySunik.HeaderText = "당일실현";
             this.grd_chart_toDaySunik.Name = "grd_chart_toDaySunik";
+            this.grd_chart_toDaySunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_toDaySunik.ToolTipText = "당일매도실현손익금액";
             this.grd_chart_toDaySunik.Width = 70;
             // 
@@ -1736,6 +1776,7 @@
             this.grd_chart_dtsunik2.DataPropertyName = "dtsunik2";
             this.grd_chart_dtsunik2.HeaderText = "손익2";
             this.grd_chart_dtsunik2.Name = "grd_chart_dtsunik2";
+            this.grd_chart_dtsunik2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_dtsunik2.ToolTipText = "당일매도포함 실현손익 금액";
             this.grd_chart_dtsunik2.Width = 70;
             // 
@@ -1747,6 +1788,7 @@
             this.grd_chart_itemTotalCnt.DefaultCellStyle = dataGridViewCellStyle43;
             this.grd_chart_itemTotalCnt.HeaderText = "종목수";
             this.grd_chart_itemTotalCnt.Name = "grd_chart_itemTotalCnt";
+            this.grd_chart_itemTotalCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_itemTotalCnt.ToolTipText = "보유종목수";
             this.grd_chart_itemTotalCnt.Width = 70;
             // 
@@ -1755,6 +1797,7 @@
             this.grd_chart_buyFilterCnt.DataPropertyName = "buyFilterCnt";
             this.grd_chart_buyFilterCnt.HeaderText = "매수금지";
             this.grd_chart_buyFilterCnt.Name = "grd_chart_buyFilterCnt";
+            this.grd_chart_buyFilterCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_buyFilterCnt.ToolTipText = "매수금지종목수";
             this.grd_chart_buyFilterCnt.Width = 50;
             // 
@@ -1763,25 +1806,58 @@
             this.grd_chart_buyCnt.DataPropertyName = "buyCnt";
             dataGridViewCellStyle44.Font = new System.Drawing.Font("Gulim", 8F);
             this.grd_chart_buyCnt.DefaultCellStyle = dataGridViewCellStyle44;
-            this.grd_chart_buyCnt.HeaderText = "매수";
+            this.grd_chart_buyCnt.HeaderText = "매수(건)";
             this.grd_chart_buyCnt.Name = "grd_chart_buyCnt";
+            this.grd_chart_buyCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.grd_chart_buyCnt.ToolTipText = "매수횟수";
-            this.grd_chart_buyCnt.Visible = false;
             this.grd_chart_buyCnt.Width = 50;
             // 
             // grd_chart_sellCnt
             // 
             this.grd_chart_sellCnt.DataPropertyName = "sellCnt";
-            this.grd_chart_sellCnt.HeaderText = "매도";
+            this.grd_chart_sellCnt.HeaderText = "매도(건)";
             this.grd_chart_sellCnt.Name = "grd_chart_sellCnt";
             this.grd_chart_sellCnt.ToolTipText = "매도횟수";
             this.grd_chart_sellCnt.Width = 50;
+            // 
+            // grd_info
+            // 
+            this.grd_info.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2});
+            this.grd_info.Location = new System.Drawing.Point(917, 8);
+            this.grd_info.Name = "grd_info";
+            this.grd_info.RowTemplate.Height = 27;
+            this.grd_info.Size = new System.Drawing.Size(251, 41);
+            this.grd_info.TabIndex = 114;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "누적수익";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "장상태";
+            this.Column2.Name = "Column2";
+            // 
+            // label_sum_dtsunik
+            // 
+            this.label_sum_dtsunik.AutoSize = true;
+            this.label_sum_dtsunik.ForeColor = System.Drawing.Color.Red;
+            this.label_sum_dtsunik.Location = new System.Drawing.Point(430, 8);
+            this.label_sum_dtsunik.Name = "label_sum_dtsunik";
+            this.label_sum_dtsunik.Size = new System.Drawing.Size(11, 11);
+            this.label_sum_dtsunik.TabIndex = 115;
+            this.label_sum_dtsunik.Text = "0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1364, 770);
+            this.Controls.Add(this.label_sum_dtsunik);
+            this.Controls.Add(this.grd_info);
             this.Controls.Add(this.grd_chart);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.btn_history_pop);
@@ -1847,6 +1923,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_info)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1942,24 +2019,8 @@
         public System.Windows.Forms.TextBox input_publicPw;
         public System.Windows.Forms.Timer timerLogin;
         public System.Windows.Forms.Button btn_history_pop;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordptnDetail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn expcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_hname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cheqty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cheprice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordrem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn upOrdno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sellOrdAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn toDaysunikrt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cancelOrdAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn upExecprc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
+        public System.Windows.Forms.Label label26;
+        public System.Windows.Forms.DataGridView grd_chart;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_expcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_hname;
@@ -1986,17 +2047,19 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn deleteAt;
         private System.Windows.Forms.DataGridViewTextBoxColumn firstBuyDt;
         private System.Windows.Forms.DataGridViewTextBoxColumn errorcd;
-        public System.Windows.Forms.Label label26;
-        public System.Windows.Forms.DataGridView grd_chart;
+        private System.Windows.Forms.DataGridView grd_info;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        public System.Windows.Forms.Label label_sum_dtsunik;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_dtsunik;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_investmentRatio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_tdtsunik;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_d2Dps;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_dpsastTotamt;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_mamt;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_balEvalAmt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_tdtsunik;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_battingAtm;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_toDaySunik;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_dtsunik2;
@@ -2004,6 +2067,25 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_buyFilterCnt;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_buyCnt;
         private System.Windows.Forms.DataGridViewTextBoxColumn grd_chart_sellCnt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordptnDetail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn expcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_hname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cheqty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cheprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordrem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn upOrdno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellOrdAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn toDaysunikrt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cancelOrdAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn upExecprc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
     }
 }
 
