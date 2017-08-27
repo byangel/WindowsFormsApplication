@@ -68,7 +68,7 @@ namespace PackageSellSystemTrading{
             //Isuno +","+ shtnIsuno
 
 
-            //매매 체결수량 업데이트
+            //매매 체결수량 업데이트 -단건
             var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
                                                where item.ordno == realSc1Vo.ordno
                                                   && item.Isuno == realSc1Vo.Isuno
@@ -93,20 +93,20 @@ namespace PackageSellSystemTrading{
             //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", realSc1Vo.Isuno.Replace("A", ""));
-            int mdposqt = 0;
+            int 메도가능수 = 0;
             if (findIndex >= 0){
                 mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
                 //매도 - 매도가능수량-체결수량
                 if (realSc1Vo.ordptncode == "01")  {
-                    mdposqt = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(realSc1Vo.execqty);     
+                    메도가능수 = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(realSc1Vo.execqty);     
                 } else if (realSc1Vo.ordptncode == "02") {//매수 - 매도가능수량+체결수량
-                    mdposqt = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(realSc1Vo.execqty);                
+                    메도가능수 = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(realSc1Vo.execqty);                
                 }
-                mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = mdposqt.ToString();
+                mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = 메도가능수.ToString();
 
 
                 //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
-                if (mdposqt <= 0)
+                if (메도가능수 <= 0)
                 {
                     //2.청산된 종목 사용여부를 db 'N'으로 업데이트한다.
                     //mainForm.dataLog.updateUseYN(realSc1Vo.Isuno, "N");

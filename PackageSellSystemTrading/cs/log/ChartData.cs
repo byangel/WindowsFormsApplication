@@ -24,14 +24,20 @@ namespace PackageSellSystemTrading
     {
 
         //private DataTable historyDataTable;
-        private EBindingList<ChartVo> chartVoList;
+        private EBindingList<ChartVo> chartVoList;//DataTable 로 교체 예정
+        private DataTable dataTable;
+
         private String sumDtsunik;//누적 실현손익
         public MainForm mainForm;
         private String connStr = @"Data Source=" + Util.GetCurrentDirectoryWithPath() + "\\logs\\history.db;Pooling=true;FailIfMissing=false";
 
-        public EBindingList<ChartVo> getchartVoList()
+        public EBindingList<ChartVo> getChartVoList()
         {
             return this.chartVoList;
+        }
+        public DataTable getDataTable()
+        {
+            return this.dataTable;
         }
         public String getSumDtsunik()
         {
@@ -119,9 +125,9 @@ namespace PackageSellSystemTrading
                 this.chartVoList = new EBindingList<ChartVo>();
             }
 
-            DataTable dt = list();
+            this.dataTable = list();
             this.chartVoList.Clear();
-            foreach (DataRow dr in dt.Rows)
+            foreach (DataRow dr in dataTable.Rows)
             {
                 ChartVo chartVo = new ChartVo();
                 chartVo.date            = dr["date"             ].ToString();//날자         
@@ -144,9 +150,9 @@ namespace PackageSellSystemTrading
                 this.chartVoList.Add(chartVo);
             }
 
-            //실현손익 구한다.
-            
-            List<double> listval = chartVoList.Select(row => double.Parse(row.dtsunik)).ToList();
+            //누적 실현손익 구한다.
+            List<double> listval = dataTable.AsEnumerable().Select(row => double.Parse(row["dtsunik"].ToString())).ToList();
+            //List<double> listval = chartVoList.Select(row => double.Parse(row.dtsunik)).ToList();
             this.sumDtsunik = listval.Sum().ToString();
            
         }

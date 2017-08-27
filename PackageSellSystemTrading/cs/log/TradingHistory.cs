@@ -77,7 +77,14 @@ namespace PackageSellSystemTrading
                                                                            + ",cancelOrdAt  VARCHAR(1)" //취소주문 여부 YN default:N 
                                                                            + ",useYN        VARCHAR(16)" //사용여부    
 
-                                                                           + ", PRIMARY KEY(accno,Isuno,ordno));";
+                                                                           + ",ordermtd     VARCHAR(16)" //주문매체
+                                                                           + ",targClearPrc VARCHAR(16)" //목표청산가격 
+                                                                           + ",secEntPrc    VARCHAR(16)" //2차진입가격 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+                                                                           + ",secEntAmt    VARCHAR(16)" //2차진입비중금액 
+                                                                           + ",stopPrc      VARCHAR(16)" //손절가격 
+                                                                           + ",exclWatchAt  VARCHAR(1)"  //감시제외여부 
+
+                        + ", PRIMARY KEY(accno,Isuno,ordno));";
                         sqlCmd.ExecuteNonQuery();
                     }
 
@@ -120,22 +127,29 @@ namespace PackageSellSystemTrading
             foreach (DataRow dr in dt.Rows)
             {
                 TradingHistoryVo dataLogVo     = new TradingHistoryVo();
-                dataLogVo.ordno         = dr["ordno"].ToString();    //주문번호
-                dataLogVo.dt            = dr["dt"].ToString();       //일시
-                dataLogVo.accno         = dr["accno"].ToString();    //계좌번호
-                dataLogVo.Isuno         = dr["Isuno"].ToString();    //종목코드
-                dataLogVo.Isunm         = dr["Isunm"].ToString();    //종목명
-                dataLogVo.ordptncode    = dr["ordptncode"].ToString();//주문구분 01:매도|02:매수 
-                dataLogVo.ordqty        = dr["ordqty"].ToString();   //주문수량  
-                dataLogVo.execqty       = dr["execqty"].ToString();  //체결수량 
-                dataLogVo.ordprc        = dr["ordprc"].ToString();   //주문가격 
-                dataLogVo.execprc       = dr["execprc"].ToString();  //체결가격 
-                dataLogVo.ordptnDetail  = dr["ordptnDetail"].ToString();//상세 주문구분 신규매수|반복매수|금일매도|청산|
-                dataLogVo.upOrdno       = dr["upOrdno"].ToString();  //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-                dataLogVo.upExecprc     = dr["upExecprc"].ToString();//상위체결금액
-                dataLogVo.sellOrdAt     = dr["sellOrdAt"].ToString();//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
-                dataLogVo.cancelOrdAt   = dr["cancelOrdAt"].ToString();//매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
-                dataLogVo.useYN         = dr["useYN"].ToString();    //사용여부 
+                dataLogVo.ordno         = dr["ordno"        ].ToString(); //주문번호
+                dataLogVo.dt            = dr["dt"           ].ToString(); //일시
+                dataLogVo.accno         = dr["accno"        ].ToString(); //계좌번호
+                dataLogVo.Isuno         = dr["Isuno"        ].ToString(); //종목코드
+                dataLogVo.Isunm         = dr["Isunm"        ].ToString(); //종목명
+                dataLogVo.ordptncode    = dr["ordptncode"   ].ToString(); //주문구분 01:매도|02:매수 
+                dataLogVo.ordqty        = dr["ordqty"       ].ToString(); //주문수량  
+                dataLogVo.execqty       = dr["execqty"      ].ToString(); //체결수량 
+                dataLogVo.ordprc        = dr["ordprc"       ].ToString(); //주문가격 
+                dataLogVo.execprc       = dr["execprc"      ].ToString(); //체결가격 
+                dataLogVo.ordptnDetail  = dr["ordptnDetail" ].ToString(); //상세 주문구분 신규매수|반복매수|금일매도|청산|
+                dataLogVo.upOrdno       = dr["upOrdno"      ].ToString(); //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
+                dataLogVo.upExecprc     = dr["upExecprc"    ].ToString(); //상위체결금액
+                dataLogVo.sellOrdAt     = dr["sellOrdAt"    ].ToString(); //매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
+                dataLogVo.cancelOrdAt   = dr["cancelOrdAt"  ].ToString(); //매도주문 여부 YN default:N -02:매 일때만 값이 있어야한다.
+                dataLogVo.useYN         = dr["useYN"        ].ToString(); //사용여부
+                 
+                dataLogVo.ordermtd      = dr["ordermtd"     ].ToString(); //주문매체
+                dataLogVo.targClearPrc  = dr["targClearPrc" ].ToString(); //목표청산가격 
+                dataLogVo.secEntPrc     = dr["secEntPrc"    ].ToString(); //2차진입가격 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+                dataLogVo.secEntAmt     = dr["secEntAmt"    ].ToString(); //2차진입비중금액 
+                dataLogVo.stopPrc       = dr["stopPrc"      ].ToString(); //손절 
+                dataLogVo.exclWatchAt   = dr["exclWatchAt"  ].ToString(); //감시제외여부 
 
                 this.tradingHistoryVoList.Add(dataLogVo);
             }
@@ -173,6 +187,7 @@ namespace PackageSellSystemTrading
                 sb.Append("                             ,upExecprc                                      "); //상위체결금액
                 sb.Append("                             ,sellOrdAt                                      "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
                 sb.Append("                             ,cancelOrdAt                                    "); //취소주문 여부 YN
+                sb.Append("                             ,ordermtd                                       "); //주문매체
                 sb.Append("                             ,useYN ) VALUES(                                "); //사용여부 
 
                 sb.Append("                                         '"  + dataLogVo.ordno + "'           "); //주문번호
@@ -190,6 +205,7 @@ namespace PackageSellSystemTrading
                 sb.Append("                                         ,'" + dataLogVo.upExecprc + "'       ");//상위체결금액
                 sb.Append("                                         ,'" + dataLogVo.sellOrdAt + "'       ");//매도주문 여부 YN default:N 금일매도일때 의미있다.
                 sb.Append("                                         ,'" + dataLogVo.cancelOrdAt + "'     ");//매도주문 여부 YN
+                sb.Append("                                         ,'" + dataLogVo.ordermtd + "'        ");//주문매체
                 sb.Append("                                         ,'" + dataLogVo.useYN + "' )         ");//사용여부 
 
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
@@ -227,6 +243,14 @@ namespace PackageSellSystemTrading
             sb.Append("       ,sellOrdAt                            "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
             sb.Append("       ,cancelOrdAt                          "); //매도주문 여부
             sb.Append("       ,useYN                                "); //사용여부 
+  
+            sb.Append("       ,ordermtd                             "); //주문매체
+            sb.Append("       ,targClearPrc                         "); //목표청산가격 
+            sb.Append("       ,secEntPrc                            "); //2차진입가격 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+            sb.Append("       ,secEntAmt                            "); //2차진입비중금액 
+            sb.Append("       ,stopPrc                              "); //손절 
+            sb.Append("       ,exclWatchAt                          "); //감시제외여부 
+            
             sb.Append("FROM  trading                                "); //사용여부 
             sb.Append("WHERE ordno = '" + ordno + "'                "); //주문번호
             sb.Append("AND   Isuno = '" + Isuno + "'                "); //종목코드
@@ -237,8 +261,103 @@ namespace PackageSellSystemTrading
             return dt;
         }
 
+        //감시제외 여부 상태값 업데이트 - 종목 일괄적용
+        public int watchUpdate(TradingHistoryVo dataLogVo)
+        {
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
 
+                StringBuilder sb = new StringBuilder();
+                sb.Append("UPDATE trading         SET   exclWatchAt      = '" + dataLogVo.exclWatchAt  + "'  "); //감시제외여부  
+                
+                sb.Append("WHERE Isuno = '" + dataLogVo.Isuno + "'                                            "); //종목코드
+                sb.Append("AND   accno = '" + mainForm.account + "'                                           "); //계좌번호
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                //Log.WriteLine(sb.ToString());
+                result = sqlCmd.ExecuteNonQuery();
 
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            return result;
+        }
+        //사용여부 업데이트 - 종목 일괄적용
+        public int useYnUpdate(TradingHistoryVo dataLogVo)
+        {
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("UPDATE useYN         SET   useYN      = '" + dataLogVo.useYN + "'  "); //감시제외여부  
+
+                sb.Append("WHERE Isuno = '" + dataLogVo.Isuno + "'                                            "); //종목코드
+                sb.Append("AND   accno = '" + mainForm.account + "'                                           "); //계좌번호
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                //Log.WriteLine(sb.ToString());
+                result = sqlCmd.ExecuteNonQuery();
+
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            return result;
+        }
+
+        //수동주문 진입청산 값 수정
+        public int clearUpdate(TradingHistoryVo dataLogVo)
+        {
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("UPDATE trading  SET targClearPrc  = '" + dataLogVo.targClearPrc  + "'  "); //목표청산가격  
+                sb.Append("                   ,secEntPrc     = '" + dataLogVo.secEntPrc     + "'  "); //2차진입가격 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+                sb.Append("                   ,secEntAmt     = '" + dataLogVo.secEntAmt     + "'  "); //2차진입비중금액 
+                sb.Append("                   ,stopPrc       = '" + dataLogVo.stopPrc       + "'  "); //손절
+                sb.Append("WHERE accno = '" + mainForm.account + "'                               "); //계좌번호
+                sb.Append("AND   Isuno = '" + dataLogVo.Isuno + "'                                "); //주문번호
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                //Log.WriteLine(sb.ToString());
+                result = sqlCmd.ExecuteNonQuery();
+
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            return result;
+        }
+
+        //금일매수 건 매도 여부 업데이트
+        public int sellOrdAtUpdate(TradingHistoryVo dataLogVo)
+        {
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("UPDATE trading SET sellOrdA = '" + dataLogVo.sellOrdAt + "'  "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
+              
+                sb.Append("WHERE accno = '" + mainForm.account + "'     "); //계좌번호
+                sb.Append("AND   ordno = '" + dataLogVo.ordno  + "'     "); //주문번호
+                sb.Append("AND   Isuno = '" + dataLogVo.Isuno  + "'     "); //종목코드
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                //Log.WriteLine(sb.ToString());
+                result = sqlCmd.ExecuteNonQuery();
+
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            return result;
+        }
 
         ////수정
         public int update(TradingHistoryVo dataLogVo)
@@ -259,9 +378,9 @@ namespace PackageSellSystemTrading
                 sb.Append("                             ,sellOrdAt        = '" + dataLogVo.sellOrdAt    + "'  "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
                 sb.Append("                             ,cancelOrdAt      = '" + dataLogVo.cancelOrdAt  + "'  "); //금일매도주문 여부 YN
                 sb.Append("                             ,useYN 			  = '" + dataLogVo.useYN        + "'  "); //사용여부 
-                sb.Append("WHERE Isuno = '" + dataLogVo.Isuno + "'                                            "); //주문번호
-                sb.Append("AND   ordno = '" + dataLogVo.ordno + "'                                            "); //종목코드
-                sb.Append("AND   accno = '" + mainForm.account + "'                                           "); //계좌번호
+                sb.Append("WHERE accno = '" + mainForm.account + "'                                           "); //계좌번호
+                sb.Append("AND   ordno = '" + dataLogVo.ordno + "'                                            "); //주문번호
+                sb.Append("AND   Isuno = '" + dataLogVo.Isuno + "'                                            "); //종목코드
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
                 //Log.WriteLine(sb.ToString());
                 result = sqlCmd.ExecuteNonQuery();
@@ -273,10 +392,6 @@ namespace PackageSellSystemTrading
             return result;
         }
        
-
-
-        
-
         //로그인 할때 필요없는 매매 정보를 삭제해준다.
         public int initDelete()
         {
@@ -301,7 +416,6 @@ namespace PackageSellSystemTrading
             return result;
         }
         
-
         //목록 리턴
         public DataTable list()
         {
@@ -330,6 +444,14 @@ namespace PackageSellSystemTrading
             sb.Append("       ,sellOrdAt                            "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
             sb.Append("       ,cancelOrdAt                          "); //매도주문 여부 YN
             sb.Append("       ,useYN                                "); //사용여부 
+
+            sb.Append("       ,ordermtd                             "); //주문매체
+            sb.Append("       ,targClearPrc                         "); //목표청산가격 
+            sb.Append("       ,secEntPrc                            "); //2차진입가격 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+            sb.Append("       ,secEntAmt                            "); //2차진입비중금액
+            sb.Append("       ,stopPrc                              "); //손절 
+            sb.Append("       ,exclWatchAt                          "); //감시제외여부 
+
             sb.Append("FROM  trading                                ");  
             //sb.Append("WHERE useYN = 'Y'                            "); //사용여부
             //sb.Append("AND   accno = '" + mainForm.account + "'     "); //계좌번호--프로그램 로드시 계좌정보가 없다 (모든정보를 메모리에 로드를 기본 정책으로한다.)
@@ -383,10 +505,10 @@ namespace PackageSellSystemTrading
             double 중간매도손익 = 0;
             int 매도횟수 = 0;
             int 매수횟수 = 0;
-            //if (Isuno == "006050")
-            //{
-            //    int test = 0;
-            //}
+            if (Isuno == "001275")
+            {
+                int test = 0;
+            }
             //DataTable dt = list(Isuno);
             //if (dt.Rows.Count == 0) { return null;}
             var items = from item in this.tradingHistoryVoList
@@ -430,14 +552,21 @@ namespace PackageSellSystemTrading
 
             if (매수횟수 == 0) { return null; }
 
-            double 평균단가 = (매입금액 / 매도가능수량);
+            double 평균단가         = (매입금액 / 매도가능수량);
 
-            summaryVo.pamt2 = 평균단가.ToString(); //평균단가
-            summaryVo.buyCnt = 매수횟수.ToString(); //매수횟수
-            summaryVo.sellCnt = 매도횟수.ToString();//매도횟수
-            summaryVo.sellSunik = 중간매도손익.ToString(); //중간매도손익
-            summaryVo.firstBuyDt = 최초진입;
-            summaryVo.mdposqt = 매도가능수량.ToString();
+            summaryVo.pamt2         = 평균단가.ToString(); //평균단가
+            summaryVo.buyCnt        = 매수횟수.ToString(); //매수횟수
+            summaryVo.sellCnt       = 매도횟수.ToString();//매도횟수
+            summaryVo.sellSunik     = 중간매도손익.ToString(); //중간매도손익
+            summaryVo.firstBuyDt    = 최초진입;
+            summaryVo.sumMdposqt = 매도가능수량.ToString();
+
+            summaryVo.ordermtd      = items.First().ordermtd;       //주문매체 - 감시제외 일때 사용
+            summaryVo.targClearPrc  = items.First().targClearPrc;   //목표청산가격    - 감시제외 일때 사용
+            summaryVo.secEntPrc     = items.First().secEntPrc;      //2차진입가격     - 감시제외 일때 사용 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+            summaryVo.secEntAmt     = items.First().secEntAmt;      //2차진입비중가격 - 감시제외 일때 사용
+            summaryVo.stopPrc       = items.First().stopPrc;        //손절가격 - 감시제외 일때 사용
+            summaryVo.exclWatchAt   = items.First().exclWatchAt;    //감시제외여부
 
             return summaryVo;
 
@@ -461,12 +590,20 @@ namespace PackageSellSystemTrading
         public String ordprc       { set; get; }// 주문가격
         public String execqty      { set; get; }// 체결수량
         public String execprc      { set; get; }// 체결가격
-        public String ordptnDetail { set; get; }//상세 주문구분 신규매수|반복매수|금일매도|청산
+        public String ordptnDetail { set; get; }//상세 주문구분 신규매수|반복매수|금일매도|청산 - 2차추가매수|수동신규매수|수동반복매수
         public String upOrdno      { set; get; }//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
         public String upExecprc    { set; get; }//상위체결금액
         public String sellOrdAt    { set; get; }//금일매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
         public String cancelOrdAt  { set; get; }//주문취소 여부 YN default:N    
         public String useYN        { set; get; }//사용여부
+
+        //목표수익율-안만들어도 될듯 당일 기준으로 업데이트 해주자.
+        public String ordermtd     { set; get; }//주문매체 - 감시제외 일때 사용
+        public String targClearPrc { set; get; }//목표청산가격    - 감시제외 일때 사용
+        public String secEntPrc    { set; get; }//2차진입가격     - 감시제외 일때 사용 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+        public String secEntAmt    { set; get; }//2차진입비중가격 - 감시제외 일때 사용
+        public String stopPrc      { set; get; }//손절가격 - 감시제외 일때 사용
+        public String exclWatchAt  { set; get; }//감시제외여부
 
     }
     //종목별 매매이력 정보를 리턴한다.
@@ -477,7 +614,14 @@ namespace PackageSellSystemTrading
         public String sellCnt   { set; get; } //매도횟수
         public String sellSunik { set; get; } //중간매도손익
         public String firstBuyDt{ set; get; } //최초진입일시
-        public String mdposqt   { set; get; } //매도가능수량
+        public String sumMdposqt   { set; get; } //매도가능수량
+
+        public String ordermtd { set; get; }//주문매체 - 감시제외 일때 사용
+        public String targClearPrc { set; get; }//목표청산가격    - 감시제외 일때 사용
+        public String secEntPrc { set; get; }//2차진입가격     - 감시제외 일때 사용 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
+        public String secEntAmt { set; get; }//2차진입비중가격 - 감시제외 일때 사용
+        public String stopPrc { set; get; }//손절가격 - 감시제외 일때 사용
+        public String exclWatchAt { set; get; }//감시제외여부
     }
 
 }   // end namespace

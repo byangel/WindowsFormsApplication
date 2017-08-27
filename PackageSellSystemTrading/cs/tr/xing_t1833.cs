@@ -176,7 +176,7 @@ namespace PackageSellSystemTrading{
             String time = mainForm.xing_t0167.time;
             //if (time == "" ) { time = "153000"; }//에러 안나게 기본값을 셋팅해준다.
             //현재 시간
-            int cTime = (int.Parse(time.Substring(0, 2)) * 60 * 60) + (int.Parse(time.Substring(2, 2))*60) + (int.Parse(time.Substring(4, 2)));
+            int 현재시간 = (int.Parse(time.Substring(0, 2)) * 60 * 60) + (int.Parse(time.Substring(2, 2))*60) + (int.Parse(time.Substring(4, 2)));
 
             //1.미체결항목에 매수 항목이 있는지 확인하자.
             //2.반복매수 - 보유종목 매수 시기가 1시간이상 이전이고 수익률이 -3% 이하이면 반복매수한다.
@@ -303,7 +303,7 @@ namespace PackageSellSystemTrading{
             return true;
         }//buyTest END
 
-        //투자율 개산
+        //총자산대비 투자 비율을 리턴한다.
         public String getInputRate()
         {
             String returnValue = "0"; ;

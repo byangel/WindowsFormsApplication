@@ -100,6 +100,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.upExecprc     = this.upExecprc;           //상위 체결가격
                 dataLogVo.sellOrdAt     = this.sellOrdAt;           //매도 주문 여부
                 dataLogVo.useYN = "Y";                              //사용여부
+                dataLogVo.ordermtd      = "XING API";           //주문 매체
                 //상위 주문번호
                 if (this.upOrdno == ""){
                     dataLogVo.upOrdno = OrdNo;//상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.

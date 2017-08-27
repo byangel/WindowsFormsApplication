@@ -81,7 +81,7 @@ namespace PackageSellSystemTrading {
                 Double 매도금액;
                 T0425Vo tmpT0425Vo;
                 String medosu;//매매구분
-
+                var blockData = base.GetBlockData("t0425OutBlock1");
                 for (int i = 0; i < blockCount; i++)
                 {
                     ordno  = base.GetFieldData("t0425OutBlock1", "ordno" , i); //주문번호
@@ -109,10 +109,7 @@ namespace PackageSellSystemTrading {
                         mainForm.grd_t0425.Rows[findIndex].Cells["status"       ].Value = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
                         mainForm.grd_t0425.Rows[findIndex].Cells["ordno"        ].Value = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
                         mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"     ].Value = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
-                    }
-                    
-                    else
-                    {
+                    }else{
                         tmpT0425Vo = new T0425Vo();
                         tmpT0425Vo.ordtime  = base.GetFieldData("t0425OutBlock1", "ordtime" , i); //주문시간
                         tmpT0425Vo.medosu   = base.GetFieldData("t0425OutBlock1", "medosu"  , i); //매매구분 - 0:전체|1:매수|2:매도
@@ -125,21 +122,22 @@ namespace PackageSellSystemTrading {
                         tmpT0425Vo.ordrem   = base.GetFieldData("t0425OutBlock1", "ordrem"  , i); //미체결잔량
                         tmpT0425Vo.status   = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
                         tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
-                        tmpT0425Vo.ordermtd = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문번호
+                        tmpT0425Vo.ordermtd = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
 
                         //목록추가
                         this.t0425VoList.Add(tmpT0425Vo);
                         //findIndex = this.t0425VoList.Count()-1;
+                      
                     }
 
-                    //int test = mainForm.dataLog.getDataLogVoList().Find("ordno", tmpT0425Vo.ordno);
                     var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
                                 where item.accno == mainForm.account
                                    && item.Isuno == tmpT0425Vo.expcode
                                    && item.ordno == tmpT0425Vo.ordno
                                 select item;
-                    
-                    //DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
+
+                   
+                    //2.DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
                     foreach (TradingHistoryVo item in items){
           
                         /////////프로그램 재시작하는동안 체결된 정보는 DB에 저장이 안되기 때문에 체결수량이 DB정보와 다르면 DB정보를 수정해준다.///////////
@@ -165,7 +163,7 @@ namespace PackageSellSystemTrading {
                             mainForm.grd_t0425.Rows[findIndex].Cells["useYN"       ].Value = item.useYN;       //사용여부
                             mainForm.grd_t0425.Rows[findIndex].Cells["upOrdno"     ].Value = item.upOrdno;     //상위 매수 주문번호
                             mainForm.grd_t0425.Rows[findIndex].Cells["upExecprc"   ].Value = Util.GetNumberFormat(item.upExecprc);   //상위체결금액
-
+                            //mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"    ].Value = item.ordermtd;     //주문매체
                             //실현손익: (당일매도금액 - 매도수수료 - 매도제세금) - (매입금액 + 추정매입수수료) - 신용이자
                             if (item.ordptncode == "01")
                             {
