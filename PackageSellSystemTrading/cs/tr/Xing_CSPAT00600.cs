@@ -107,7 +107,7 @@ namespace PackageSellSystemTrading{
                 }else{
                     dataLogVo.upOrdno = this.upOrdno;
                 }
-                //dataInsert호출
+                //주문정보를 주문이력 DB에 저장 - dataInsert호출
                 mainForm.tradingHistory.insert(dataLogVo);
                 mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }

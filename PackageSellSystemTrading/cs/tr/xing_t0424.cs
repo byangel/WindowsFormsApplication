@@ -125,7 +125,8 @@ namespace PackageSellSystemTrading {
                         mainForm.grd_t0424.Rows[findIndex].Cells["fee"          ].Value = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
                         mainForm.grd_t0424.Rows[findIndex].Cells["tax"          ].Value = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금
                         mainForm.grd_t0424.Rows[findIndex].Cells["sininter"     ].Value = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자   
-                        if (tmpT0424Vo.orderAt == "C")//매도 주문후 취소된 종목은 N상태이고 종목 정보가 업데이트 되면 주문여부를 N 으로 다시 돌려놓는다.
+                        //매도 주문후 취소된 종목은 N상태이고 종목 정보가 업데이트 되면 주문여부를 N 으로 다시 돌려놓는다.
+                        if (tmpT0424Vo.orderAt == "C")
                         {//주문이 나가 종목은 t0424에서 종목 정보가 넘어오지 않아서 주문한 시점부터 정보가 업데이트 되지 않느다.
                             tmpT0424Vo.orderAt = "N";
                         }
@@ -274,15 +275,12 @@ namespace PackageSellSystemTrading {
                         //MessageBox.Show("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2);
                     }
 
-                
-                  
                 }//for end
 
                 // 계좌정보 써머리 계산 - 연속 조회이기때문에 합산후 마지막에 폼으로 출력.
                 this.tmpMamt     += int.Parse(base.GetFieldData("t0424OutBlock", "mamt"    , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "mamt"    , 0));//매입금액
                 this.tmpTappamt  += int.Parse(base.GetFieldData("t0424OutBlock", "tappamt" , 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tappamt" , 0));//평가금액
                 this.tmpTdtsunik += int.Parse(base.GetFieldData("t0424OutBlock", "tdtsunik", 0) == "" ? "0" : base.GetFieldData("t0424OutBlock", "tdtsunik", 0));//평가손익
-
 
                 this.h_totalCount += blockCount;
 
@@ -313,10 +311,8 @@ namespace PackageSellSystemTrading {
 
 
                     //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
-                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
-                    {
-                        if (mainForm.tradingAt == "Y")
-                        {
+                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520){
+                        if (mainForm.tradingAt == "Y"){
                             this.stopProFitTarget();
                         }
                     }
@@ -468,7 +464,7 @@ namespace PackageSellSystemTrading {
                 String 목표청산가격   = t0424Vo.targClearPrc.Replace(",", ""); //목표청산가격    - 감시제외 일때 사용
                 String 추가진입가격   = t0424Vo.secEntPrc.Replace(",", "");   //2차진입가격     - 감시제외 일때 사용 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
                 String 추가진입금액   = t0424Vo.secEntAmt.Replace(",", "");   //2차진입비중가격 - 감시제외 일때 사용
-                String 손절가격       = t0424Vo.stopPrc.Replace(",", "");   //손절가격 - 감시제외 일때 사용
+                String 제외손절가격       = t0424Vo.stopPrc.Replace(",", "");   //손절가격 - 감시제외 일때 사용
                 String 감시제외여부   = t0424Vo.exclWatchAt;                  //감시제외여부
                 String 현재가격 =t0424Vo.price.Replace(",", "");
                 Double.Parse(t0424Vo.price.Replace(",", ""));
@@ -508,6 +504,7 @@ namespace PackageSellSystemTrading {
 
                             Log.WriteLine("t1833::2차매수" + t0424Vo.hname + "(" + t0424Vo.expcode + ")2차매수   [주문가격:" + 현재가격 + "|주문수량:" + 수량.ToString() + "] ");
                             mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t1833::검색주문" + t0424Vo.hname + ":2차매수");
+                            t0424Vo.orderAt = "Y";// 주문여부를 true로 설정   
                             return true;
                         }else {
                             Log.WriteLine("t1833::주문스킵(2차매수)" + t0424Vo.hname + "(" + t0424Vo.expcode + ") 2차매수  [주문가격:" + 현재가격 + "|주문수량:" + 수량.ToString() + "] ");
@@ -519,9 +516,9 @@ namespace PackageSellSystemTrading {
                 }
 
                 //손절
-                if (손절가격 != "" && 손절가격 != "0")
+                if (제외손절가격 != "" && 제외손절가격 != "0")
                 {
-                    if (Double.Parse(현재가격) <= Double.Parse(손절가격)) {
+                    if (Double.Parse(현재가격) <= Double.Parse(제외손절가격)) {
                         //손절매도.
                         //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                         if (mainForm.xing_CSPAT00600.completeAt){
