@@ -1081,6 +1081,11 @@ namespace PackageSellSystemTrading{
             //감시제외종목 동기화
             xing_t0424.exclWatchSync();
         }
+
+        private void grd_t0424_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }//end class
 }//end namespace
 
