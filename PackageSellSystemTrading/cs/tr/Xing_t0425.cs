@@ -344,13 +344,15 @@ namespace PackageSellSystemTrading {
                                     where item.qty != item.cheqty 
                                     //&& item.medosu == "매도" 
                                     && item.cancelOrdAt != "Y"//주문취소 Y가 아닌거.
-                                    select item;
+                                    && item.ordermtd == "XING API"
+                                 select item;
+            int 주문시간;
             for (int i = 0; i < varT0425VoList.Count(); i++)
             {
 
                 //미체결 시간이 5분 이상이면 취소주문 한다.
-                int ordrTime = (int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(0, 2)) * 60) + int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(2, 2));//현재 시간
-                if ((cTime - ordrTime) >= 5)
+                주문시간 = (int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(0, 2)) * 60) + int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(2, 2));//현재 시간
+                if ((cTime - 주문시간) >= 5)
                 {
                     종목명   = varT0425VoList.ElementAt(i).hname;
                     종목코드 = varT0425VoList.ElementAt(i).expcode;
@@ -419,7 +421,7 @@ namespace PackageSellSystemTrading {
             var varT0425VoList = from item in this.t0425VoList
                                 where item.sellOrdAt == "N" && item.ordptnDetail == "반복매수"
                                select item;
-
+            int t0424Index;
             for (int i = 0; i < varT0425VoList.Count(); i++){
                 주문번호    = varT0425VoList.ElementAt(i).ordno;   //주문번호
                 expcode     = varT0425VoList.ElementAt(i).expcode; //종목코드
@@ -432,7 +434,7 @@ namespace PackageSellSystemTrading {
                 주문수량    = varT0425VoList.ElementAt(i).qty;
                 체결수량    = varT0425VoList.ElementAt(i).cheqty;
                 //계좌잔고 그리드에서 해당종목 정보 참조.
-                int t0424Index = mainForm.xing_t0424.getT0424VoList().Find("expcode", expcode);
+                t0424Index = mainForm.xing_t0424.getT0424VoList().Find("expcode", expcode);
                 if (t0424Index >= 0)
                 {
                     price0424 = mainForm.xing_t0424.getT0424VoList().ElementAt(t0424Index).price;//현재가

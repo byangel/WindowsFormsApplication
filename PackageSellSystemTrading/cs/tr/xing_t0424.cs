@@ -87,7 +87,7 @@ namespace PackageSellSystemTrading {
                 String expcode;//종목코드
                 String jonggb;//마켓구분
                 String mdposqt;//매도가능
-
+                int findIndex;
                 for (int i = 0; i < blockCount; i++)
                 {
                     expcode = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
@@ -106,7 +106,7 @@ namespace PackageSellSystemTrading {
                     }
 
 
-                    int findIndex = t0424VoList.Find("expcode", expcode);
+                    findIndex = t0424VoList.Find("expcode", expcode);
                     if (findIndex >= 0){
                         tmpT0424Vo = this.t0424VoList.ElementAt(findIndex);
                         mainForm.grd_t0424.Rows[findIndex].Cells["c_expcode"    ].Value = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
