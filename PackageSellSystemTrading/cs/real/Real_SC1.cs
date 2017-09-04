@@ -36,12 +36,12 @@ namespace PackageSellSystemTrading{
           
         }
 
-
+        private RealSc1Vo realSc1Vo = new RealSc1Vo();
         /// <summary>
-		/// 데이터 응답 처리
-		/// </summary>
-		/// <param name="szTrCode">조회코드</param>
-		void receiveDataEventHandler(string szTrCode){
+        /// 데이터 응답 처리
+        /// </summary>
+        /// <param name="szTrCode">조회코드</param>
+        void receiveDataEventHandler(string szTrCode){
 
             //4.주문처리유형코드,ordtrxptncode,
             // 0    정상                    
@@ -50,7 +50,6 @@ namespace PackageSellSystemTrading{
             //8    취소확인                
             //9    취소거부(채권)
 
-            RealSc1Vo realSc1Vo = new RealSc1Vo();
             realSc1Vo.ordno         = base.GetFieldData("OutBlock", "ordno");      //주문번호
             realSc1Vo.ordptncode    = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매도|02:매수 
             realSc1Vo.ordtrxptncode = base.GetFieldData("OutBlock", "ordptncode"); // 0:정상|6:정정확인 |7:정정거부(채권) |8:취소확인 |9:취소거부(채권)
@@ -75,18 +74,45 @@ namespace PackageSellSystemTrading{
                                                   && item.accno == mainForm.account
                                                   && item.useYN == "Y"
                                                select item;
-            String execqty;
-            foreach (TradingHistoryVo item in items)
-            {
-                //기존체결수량+체결수량
-                execqty = (int.Parse(item.execqty) + int.Parse(realSc1Vo.execqty)).ToString();
-                item.execqty  = execqty;
-                item.Isunm    = realSc1Vo.Isunm;
-                item.execprc  = realSc1Vo.execprc;//체결가격
-                item.sellOrdAt = "Y";
-                mainForm.tradingHistory.update(item);//매도주문 여부 상태 업데이트
-                //mainForm.dataLog.getHistoryDataTable().Rows.Find(row);
+            //매매이력이없으면 등록해줘야한다.
+            if(items.Count() >= 0){
+                String execqty;
+                foreach (TradingHistoryVo item in items){
+                    //기존체결수량+체결수량
+                    execqty = (int.Parse(item.execqty) + int.Parse(realSc1Vo.execqty)).ToString();
+                    item.execqty = execqty;
+                    item.Isunm = realSc1Vo.Isunm;
+                    item.execprc = realSc1Vo.execprc;//체결가격
+                    item.sellOrdAt = "Y";
+                    mainForm.tradingHistory.update(item);//매도주문 여부 상태 업데이트
+                                                         //mainForm.dataLog.getHistoryDataTable().Rows.Find(row);
+                }
+            }else{
+                //데이타로그에 저장
+                //public class dataLogVo
+                TradingHistoryVo dataLogVo = new TradingHistoryVo();
+                dataLogVo.ordno         = realSc1Vo.ordno;                  //주문번호
+                dataLogVo.accno         = mainForm.account;                 //계좌번호
+                dataLogVo.ordptncode    = realSc1Vo.ordptncode;             //주문구분 01:매도|02:매수 
+                dataLogVo.Isuno         = realSc1Vo.Isuno.Replace("A", ""); //종목코드
+                dataLogVo.ordqty        = realSc1Vo.ordqty;                 //주문수량
+                dataLogVo.execqty       = realSc1Vo.execqty;                //체결수량
+                dataLogVo.ordprc        = realSc1Vo.ordprc;                 //주문가격
+                dataLogVo.execprc       = realSc1Vo.execprc;                //체결가격
+                dataLogVo.Isunm         = realSc1Vo.Isunm;                  //종목명
+                dataLogVo.ordptnDetail  = "수동매수";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.upExecprc     = "0";                              //상위체결가격
+                dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+                dataLogVo.useYN         = "Y";                              //사용여부
+                dataLogVo.ordermtd      = "REAL SC1 HTS";                    //주문 매체
+                //상위 주문번호
+                dataLogVo.upOrdno = realSc1Vo.ordno;
+
+                //주문정보를 주문이력 DB에 저장 - dataInsert호출
+                mainForm.tradingHistory.insert(dataLogVo);
+                mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }
+            
 
 
 

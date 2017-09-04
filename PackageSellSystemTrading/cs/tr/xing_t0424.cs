@@ -170,8 +170,8 @@ namespace PackageSellSystemTrading {
                         }
 
                     }//else END
-                    
-                    //if (tmpT0424Vo.expcode.Replace("A", "") == "131090")
+
+                    //if (tmpT0424Vo.expcode.Replace("A", "") == "017680")
                     //{
                     //    int test = 0;
                     //}
@@ -237,26 +237,9 @@ namespace PackageSellSystemTrading {
                         dataLogVo.upExecprc    = "0";                                   //상위체결가격
                         dataLogVo.sellOrdAt    = "N";                                   //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
                         dataLogVo.useYN        = "Y";                                   //사용여부
-                        //주문매체가 운좋게  0425에서확인이 가능하면사용한다.
-                                                   //주문매체
-                        var items = from item in mainForm.xing_t0425.getT0425VoList()
-                                    where item.expcode == tmpT0424Vo.expcode.Replace("A", "")
-                                       && item.medosu == "매수"
-                                    select item;
 
-                        if (items.Count() <= 0) {
-                            dataLogVo.ordermtd = "XING API";
-                        } else {//수동매수일 가능성이 많다.
-                            foreach (T0425Vo item in items) {
-                               
-                                dataLogVo.ordermtd = item.ordermtd;      //주문매체
-                                //dataLogVo.targClearPrc;   //목표청산가격
-                                //dataLogVo.secEntPrc;     //2차진입가격
-                                //dataLogVo.secEntAmt;     //2차진입비중가격
-                                //dataLogVo.stopPrc;       //손절가격
-                                dataLogVo.exclWatchAt="Y";   //감시제외여부
-                            }
-                        }
+                        dataLogVo.ordermtd = "XING API";
+                        
                         //2.DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
                         mainForm.tradingHistory.insert(dataLogVo); //쿼리 호출
                         mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
@@ -295,9 +278,9 @@ namespace PackageSellSystemTrading {
                     //this.sunamt1 = int.Parse(this.GetFieldData("t0424OutBlock", "sunamt1", 0));// D1예수금
                     this.dtsunik = Double.Parse(this.GetFieldData("t0424OutBlock", "dtsunik", 0));// 실현손익
 
-                    this.mamt = this.tmpMamt;      //매입금액
-                    this.tappamt = this.tmpTappamt;   //평가금액
-                    this.tdtsunik = this.tmpTdtsunik;  //평가손익
+                    this.mamt      = this.tmpMamt;      //매입금액
+                    this.tappamt   = this.tmpTappamt;   //평가금액
+                    this.tdtsunik  = this.tmpTdtsunik;  //평가손익
 
                     //mainForm.input_sunamt.Text      = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
                     mainForm.label_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);  // 실현손익
@@ -403,7 +386,7 @@ namespace PackageSellSystemTrading {
 
 
         
-        //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출 2.팔린종목 삭제
+        //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출 2.팔린종목 삭제,3.손절
         public void stopProFitTarget()
         {
 
@@ -428,9 +411,11 @@ namespace PackageSellSystemTrading {
         public Boolean stopProFitTargetTest(T0424Vo t0424Vo){
             try {
                 String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
-                String 투입비율   = mainForm.xing_t1833.getInputRate();
-                String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;//투자 비중 제한
-                String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
+                String 투입비율      = mainForm.xing_t1833.getInputRate();
+                String 제한비율      = Properties.Settings.Default.BUY_STOP_RATE;//투자 비중 제한
+                String 목표수익율    = Properties.Settings.Default.STOP_PROFIT_TARGET;
+                Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
+                String 손절값        = Properties.Settings.Default.STOP_LOSS;
 
                 //if (t0424Vo.expcode== "094170")
                 //{
@@ -464,7 +449,7 @@ namespace PackageSellSystemTrading {
                 String 목표청산가격   = t0424Vo.targClearPrc.Replace(",", ""); //목표청산가격    - 감시제외 일때 사용
                 String 추가진입가격   = t0424Vo.secEntPrc.Replace(",", "");   //2차진입가격     - 감시제외 일때 사용 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
                 String 추가진입금액   = t0424Vo.secEntAmt.Replace(",", "");   //2차진입비중가격 - 감시제외 일때 사용
-                String 제외손절가격       = t0424Vo.stopPrc.Replace(",", "");   //손절가격 - 감시제외 일때 사용
+                String 감시제외손절 = t0424Vo.stopPrc.Replace(",", "");   //손절가격 - 감시제외 일때 사용
                 String 감시제외여부   = t0424Vo.exclWatchAt;                  //감시제외여부
                 String 현재가격 =t0424Vo.price.Replace(",", "");
                 Double.Parse(t0424Vo.price.Replace(",", ""));
@@ -515,39 +500,61 @@ namespace PackageSellSystemTrading {
                    
                 }
 
-                //손절
-                if (제외손절가격 != "" && 제외손절가격 != "0")
+                //감시제외손절
+                if (감시제외손절 != "" && 감시제외손절 != "0")
                 {
-                    if (Double.Parse(현재가격) <= Double.Parse(제외손절가격)) {
+                    if (Double.Parse(현재가격) <= Double.Parse(감시제외손절)) {
                         //손절매도.
                         //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                         if (mainForm.xing_CSPAT00600.completeAt){
                             //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
                             mainForm.xing_CSPAT00600.call_requestSell("손절매도", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
 
-                            Log.WriteLine("t0424 ::손절매도[" + infoStr);
-                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":손절매도.");
+                            Log.WriteLine("t0424 ::감시제외손절[" + infoStr);
+                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":감시제외손절.");
                             t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
                             return true;
                         }else{
-                            Log.WriteLine("t0424 ::주문스킵(손절매도)" + infoStr);
-                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":주문스킵(손절매도)");
+                            Log.WriteLine("t0424 ::주문스킵(감시제외손절)" + infoStr);
+                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":주문스킵(감시제외손절)");
                             return false;
                         }
 
                     }
 
-                }//손절 END
-
+                }//감시제외손절 END
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //여기서부터 감시제외
                 if (감시제외여부 == "Y"){
                     return false;
                 }
+
                 //2.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
                 String 현재수익율 = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
-                
-                if (Double.Parse(현재수익율) >= Double.Parse(목표수익율))//목표수익 달성시...
-                {
+
+                //손절
+                if (손절기능여부){
+                    if (Double.Parse(현재수익율) <= Double.Parse(손절값)){   
+                        //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
+                        if (mainForm.xing_CSPAT00600.completeAt){
+                           
+                            mainForm.xing_CSPAT00600.call_requestSell("손절", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+
+                            Log.WriteLine("t0424 ::손절[" + infoStr);
+                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":손절.");
+                            t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                            return true;
+                        }else{
+                            Log.WriteLine("t0424 ::주문스킵(손절)" + infoStr);
+                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":주문스킵(손절)");
+                            return false;
+                        }
+
+                    }
+                }
+
+                //목표수익 달성시...
+                if (Double.Parse(현재수익율) >= Double.Parse(목표수익율)){
                     Log.WriteLine("t0424 ::"+t0424Vo.hname+"/" + 현재수익율.ToString() + "목표:" + 목표수익율+"에러코드:"+ t0424Vo.errorcd);
                     /// <summary>
                     /// 현물정상주문

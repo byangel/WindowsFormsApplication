@@ -51,7 +51,7 @@ namespace PackageSellSystemTrading{
         {
           
         }
-
+        TradingHistoryVo dataLogVo = new TradingHistoryVo();
         /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
@@ -80,7 +80,7 @@ namespace PackageSellSystemTrading{
             String IsuNm      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm",      0);//종목명 -안넘어온다.
             //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
 
-            TradingHistoryVo dataLogVo = new TradingHistoryVo();
+            //TradingHistoryVo dataLogVo = new TradingHistoryVo();
 
             //주문 에러가 났을때 주문번호는 0번이 넘어오는것같다.
             if (OrdNo != "0")

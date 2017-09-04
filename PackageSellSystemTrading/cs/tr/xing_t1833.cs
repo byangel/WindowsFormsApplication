@@ -168,11 +168,9 @@ namespace PackageSellSystemTrading{
             }
         }
 
- 
         //진입검색에서 검색된 종목을 매수한다.
         private Boolean buyTest(String shcode,String hname, String close,int addIndex){
-            
-
+ 
             String time = mainForm.xing_t0167.time;
             //if (time == "" ) { time = "153000"; }//에러 안나게 기본값을 셋팅해준다.
             //현재 시간
