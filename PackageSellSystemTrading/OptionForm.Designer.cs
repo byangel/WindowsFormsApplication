@@ -55,6 +55,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.input_stopLoss = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.checkBox_exclStopLossAt = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btn_config_save
@@ -308,11 +309,22 @@
             this.label14.TabIndex = 121;
             this.label14.Text = "%이하 매도.";
             // 
+            // checkBox_exclStopLossAt
+            // 
+            this.checkBox_exclStopLossAt.AutoSize = true;
+            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(353, 10);
+            this.checkBox_exclStopLossAt.Name = "checkBox_exclStopLossAt";
+            this.checkBox_exclStopLossAt.Size = new System.Drawing.Size(120, 16);
+            this.checkBox_exclStopLossAt.TabIndex = 122;
+            this.checkBox_exclStopLossAt.Text = "매수금지종목손절";
+            this.checkBox_exclStopLossAt.UseVisualStyleBackColor = true;
+            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(481, 250);
+            this.Controls.Add(this.checkBox_exclStopLossAt);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.input_stopLoss);
             this.Controls.Add(this.label3);
@@ -376,5 +388,6 @@
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.TextBox input_stopLoss;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.CheckBox checkBox_exclStopLossAt;
     }
 }

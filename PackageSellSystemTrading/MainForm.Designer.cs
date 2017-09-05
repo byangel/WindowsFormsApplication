@@ -243,19 +243,20 @@
             this.grd_chart_sellCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label_sum_dtsunik = new System.Windows.Forms.Label();
             this.grd_t0424Excl = new System.Windows.Forms.DataGridView();
-            this.grd_t0424_excl_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.e_expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e_targClearPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e_secEntPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e_secEntAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e_stopPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.e_exclWatchAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_exclWatch = new System.Windows.Forms.Button();
             this.btn_exclWatchRollback = new System.Windows.Forms.Button();
             this.btn_Capture = new System.Windows.Forms.Button();
             this.btn_exclWatchSave = new System.Windows.Forms.Button();
             this.btn_exclWatchSync = new System.Windows.Forms.Button();
+            this.grd_t0424_excl_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.e_expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_targClearPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_secEntPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_secEntAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_stopPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.e_exclWatchAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
@@ -1918,6 +1919,7 @@
             this.grd_t0424_excl_check,
             this.e_expcode,
             this.e_hname,
+            this.e_price,
             this.e_targClearPrc,
             this.e_secEntPrc,
             this.e_secEntAmt,
@@ -1947,79 +1949,6 @@
             this.grd_t0424Excl.RowTemplate.Height = 23;
             this.grd_t0424Excl.Size = new System.Drawing.Size(509, 352);
             this.grd_t0424Excl.TabIndex = 116;
-            // 
-            // grd_t0424_excl_check
-            // 
-            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle48.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle48.NullValue = false;
-            this.grd_t0424_excl_check.DefaultCellStyle = dataGridViewCellStyle48;
-            this.grd_t0424_excl_check.HeaderText = "선택";
-            this.grd_t0424_excl_check.Name = "grd_t0424_excl_check";
-            this.grd_t0424_excl_check.Width = 30;
-            // 
-            // e_expcode
-            // 
-            this.e_expcode.DataPropertyName = "expcode";
-            dataGridViewCellStyle49.Font = new System.Drawing.Font("굴림", 8F);
-            this.e_expcode.DefaultCellStyle = dataGridViewCellStyle49;
-            this.e_expcode.HeaderText = "코드";
-            this.e_expcode.Name = "e_expcode";
-            this.e_expcode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.e_expcode.Width = 49;
-            // 
-            // e_hname
-            // 
-            this.e_hname.DataPropertyName = "hname";
-            dataGridViewCellStyle50.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.e_hname.DefaultCellStyle = dataGridViewCellStyle50;
-            this.e_hname.HeaderText = "종목명";
-            this.e_hname.Name = "e_hname";
-            this.e_hname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // e_targClearPrc
-            // 
-            this.e_targClearPrc.DataPropertyName = "targClearPrc";
-            dataGridViewCellStyle51.Font = new System.Drawing.Font("굴림", 8F);
-            this.e_targClearPrc.DefaultCellStyle = dataGridViewCellStyle51;
-            this.e_targClearPrc.HeaderText = "목표가격";
-            this.e_targClearPrc.Name = "e_targClearPrc";
-            this.e_targClearPrc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.e_targClearPrc.Width = 70;
-            // 
-            // e_secEntPrc
-            // 
-            this.e_secEntPrc.DataPropertyName = "secEntPrc";
-            this.e_secEntPrc.HeaderText = "2차매수";
-            this.e_secEntPrc.Name = "e_secEntPrc";
-            this.e_secEntPrc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.e_secEntPrc.Width = 70;
-            // 
-            // e_secEntAmt
-            // 
-            this.e_secEntAmt.DataPropertyName = "secEntAmt";
-            dataGridViewCellStyle52.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle52.Format = "###,##0";
-            dataGridViewCellStyle52.NullValue = null;
-            this.e_secEntAmt.DefaultCellStyle = dataGridViewCellStyle52;
-            this.e_secEntAmt.HeaderText = "2차매수금액";
-            this.e_secEntAmt.Name = "e_secEntAmt";
-            this.e_secEntAmt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.e_secEntAmt.Width = 70;
-            // 
-            // e_stopPrc
-            // 
-            this.e_stopPrc.DataPropertyName = "stopPrc";
-            this.e_stopPrc.HeaderText = "손절가격";
-            this.e_stopPrc.Name = "e_stopPrc";
-            this.e_stopPrc.Width = 70;
-            // 
-            // e_exclWatchAt
-            // 
-            this.e_exclWatchAt.DataPropertyName = "exclWatchAt";
-            this.e_exclWatchAt.HeaderText = "감시";
-            this.e_exclWatchAt.Name = "e_exclWatchAt";
-            this.e_exclWatchAt.Width = 40;
             // 
             // btn_exclWatch
             // 
@@ -2075,6 +2004,85 @@
             this.btn_exclWatchSync.Text = "동기화";
             this.btn_exclWatchSync.UseVisualStyleBackColor = true;
             this.btn_exclWatchSync.Click += new System.EventHandler(this.btn_exclWatchSync_Click);
+            // 
+            // grd_t0424_excl_check
+            // 
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle48.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle48.NullValue = false;
+            this.grd_t0424_excl_check.DefaultCellStyle = dataGridViewCellStyle48;
+            this.grd_t0424_excl_check.HeaderText = "선택";
+            this.grd_t0424_excl_check.Name = "grd_t0424_excl_check";
+            this.grd_t0424_excl_check.Width = 30;
+            // 
+            // e_expcode
+            // 
+            this.e_expcode.DataPropertyName = "expcode";
+            dataGridViewCellStyle49.Font = new System.Drawing.Font("굴림", 8F);
+            this.e_expcode.DefaultCellStyle = dataGridViewCellStyle49;
+            this.e_expcode.HeaderText = "코드";
+            this.e_expcode.Name = "e_expcode";
+            this.e_expcode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.e_expcode.Width = 49;
+            // 
+            // e_hname
+            // 
+            this.e_hname.DataPropertyName = "hname";
+            dataGridViewCellStyle50.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.e_hname.DefaultCellStyle = dataGridViewCellStyle50;
+            this.e_hname.HeaderText = "종목명";
+            this.e_hname.Name = "e_hname";
+            this.e_hname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // e_price
+            // 
+            this.e_price.DataPropertyName = "price";
+            this.e_price.HeaderText = "현제가";
+            this.e_price.Name = "e_price";
+            // 
+            // e_targClearPrc
+            // 
+            this.e_targClearPrc.DataPropertyName = "targClearPrc";
+            dataGridViewCellStyle51.Font = new System.Drawing.Font("굴림", 8F);
+            this.e_targClearPrc.DefaultCellStyle = dataGridViewCellStyle51;
+            this.e_targClearPrc.HeaderText = "목표가격";
+            this.e_targClearPrc.Name = "e_targClearPrc";
+            this.e_targClearPrc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.e_targClearPrc.Width = 70;
+            // 
+            // e_secEntPrc
+            // 
+            this.e_secEntPrc.DataPropertyName = "secEntPrc";
+            this.e_secEntPrc.HeaderText = "2차매수";
+            this.e_secEntPrc.Name = "e_secEntPrc";
+            this.e_secEntPrc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.e_secEntPrc.Width = 70;
+            // 
+            // e_secEntAmt
+            // 
+            this.e_secEntAmt.DataPropertyName = "secEntAmt";
+            dataGridViewCellStyle52.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle52.Format = "###,##0";
+            dataGridViewCellStyle52.NullValue = null;
+            this.e_secEntAmt.DefaultCellStyle = dataGridViewCellStyle52;
+            this.e_secEntAmt.HeaderText = "2차매수금액";
+            this.e_secEntAmt.Name = "e_secEntAmt";
+            this.e_secEntAmt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.e_secEntAmt.Width = 70;
+            // 
+            // e_stopPrc
+            // 
+            this.e_stopPrc.DataPropertyName = "stopPrc";
+            this.e_stopPrc.HeaderText = "손절가격";
+            this.e_stopPrc.Name = "e_stopPrc";
+            this.e_stopPrc.Width = 70;
+            // 
+            // e_exclWatchAt
+            // 
+            this.e_exclWatchAt.DataPropertyName = "exclWatchAt";
+            this.e_exclWatchAt.HeaderText = "감시";
+            this.e_exclWatchAt.Name = "e_exclWatchAt";
+            this.e_exclWatchAt.Width = 40;
             // 
             // MainForm
             // 
@@ -2324,15 +2332,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
         public System.Windows.Forms.Button btn_Capture;
         public System.Windows.Forms.Button btn_exclWatchSave;
+        public System.Windows.Forms.Button btn_exclWatchSync;
         private System.Windows.Forms.DataGridViewCheckBoxColumn grd_t0424_excl_check;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_expcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_hname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn e_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_targClearPrc;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_secEntPrc;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_secEntAmt;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_stopPrc;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_exclWatchAt;
-        public System.Windows.Forms.Button btn_exclWatchSync;
     }
 }
 

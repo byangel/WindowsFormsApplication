@@ -226,5 +226,17 @@ namespace PackageSellSystemTrading.Properties {
                 this["STOP_LOSS"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EXCL_STOP_LOSS_AT {
+            get {
+                return ((bool)(this["EXCL_STOP_LOSS_AT"]));
+            }
+            set {
+                this["EXCL_STOP_LOSS_AT"] = value;
+            }
+        }
     }
 }

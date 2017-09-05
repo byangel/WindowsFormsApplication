@@ -75,7 +75,7 @@ namespace PackageSellSystemTrading{
                                                   && item.useYN == "Y"
                                                select item;
             //매매이력이없으면 등록해줘야한다.
-            if(items.Count() >= 0){
+            if(items.Count() > 0){
                 String execqty;
                 foreach (TradingHistoryVo item in items){
                     //기존체결수량+체결수량
@@ -84,6 +84,7 @@ namespace PackageSellSystemTrading{
                     item.Isunm = realSc1Vo.Isunm;
                     item.execprc = realSc1Vo.execprc;//체결가격
                     item.sellOrdAt = "Y";
+                    //item.Isunm = realSc1Vo.Isunm;//하루확인후 필요하면 주석풀자.
                     mainForm.tradingHistory.update(item);//매도주문 여부 상태 업데이트
                                                          //mainForm.dataLog.getHistoryDataTable().Rows.Find(row);
                 }
@@ -104,7 +105,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.upExecprc     = "0";                              //상위체결가격
                 dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
                 dataLogVo.useYN         = "Y";                              //사용여부
-                dataLogVo.ordermtd      = "REAL SC1 HTS";                    //주문 매체
+                dataLogVo.ordermtd      = "HTS";                            //주문 매체
                 //상위 주문번호
                 dataLogVo.upOrdno = realSc1Vo.ordno;
 

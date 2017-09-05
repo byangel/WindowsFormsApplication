@@ -383,11 +383,11 @@ namespace PackageSellSystemTrading{
 
                             //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
                             expcode = this.xing_t0424.getT0424VoList().ElementAt(findIndex).expcode; //종목코드
-                            hname = this.xing_t0424.getT0424VoList().ElementAt(findIndex).hname;   //종목명
+                            hname   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).hname;   //종목명
                             sunikrt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).sunikrt; //수익율
                             mdposqt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).mdposqt; //주문가능수량수량
-                            price = this.xing_t0424.getT0424VoList().ElementAt(findIndex).price;   //현재가
-                            pamt2 = this.xing_t0424.getT0424VoList().ElementAt(findIndex).pamt2;     //평균단가2
+                            price   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).price;   //현재가
+                            pamt2   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).pamt2;     //평균단가2
 
                             /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산(선택매도,손절매)</param>
                             /// <param name="upOrdno">상위매수주문번호</param>

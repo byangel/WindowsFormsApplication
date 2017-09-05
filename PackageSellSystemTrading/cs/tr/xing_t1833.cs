@@ -184,7 +184,7 @@ namespace PackageSellSystemTrading{
             String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
             
             //매수금지목록
-            EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.t1833ExcludeVoList;
+            EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.getT1833ExcludeVoList();
 
             
             //시간 초과 손절 을 사용하면 금일 매수 제한 하지 않는다.

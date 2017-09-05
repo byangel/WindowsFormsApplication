@@ -17,8 +17,12 @@ namespace PackageSellSystemTrading{
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
-        public EBindingList<T1833Vo> t1833ExcludeVoList;
+        private EBindingList<T1833Vo> t1833ExcludeVoList;
 
+        public EBindingList<T1833Vo>  getT1833ExcludeVoList()
+        {
+            return this.t1833ExcludeVoList;
+        }
         public Boolean initAt = false;
 
         // 생성자
