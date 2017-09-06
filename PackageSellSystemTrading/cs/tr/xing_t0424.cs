@@ -10,6 +10,7 @@ using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
 using System.Data;
+using System.Drawing;
 
 namespace PackageSellSystemTrading {
     //주식 잔고2
@@ -222,7 +223,7 @@ namespace PackageSellSystemTrading {
                         //mainForm.dataLog.insertDataT0424(tmpT0424Vo, "init" + (mainForm.dataLog.getDataLogVoList().Count() + 1));
 
                         TradingHistoryVo dataLogVo    = new TradingHistoryVo();
-                        dataLogVo.ordno        = "init" + (mainForm.tradingHistory.getTradingHistoryVoList().Count + 1); //주문번호
+                        dataLogVo.ordno        = "init" + (mainForm.tradingHistory.getTradingHistoryDt().Rows.Count + 1); //주문번호
                         dataLogVo.dt           = DateTime.Now.ToString("yyyyMMddHHmmss");
                         dataLogVo.accno        = mainForm.account;                    //계좌번호
                         dataLogVo.ordptncode   = "02";                                //주문구분 01:매도|02:매수
@@ -242,7 +243,7 @@ namespace PackageSellSystemTrading {
                         
                         //2.DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
                         mainForm.tradingHistory.insert(dataLogVo); //쿼리 호출
-                        mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
+                        //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
                         //mainForm.dataLog.dbSync();
                         Log.WriteLine("t0424::최초 이력 등록" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ") . ");
                         //프로그램 최초에만 동작해야 하는데 신규매수 매도시 이력 등록이 잘 안된다는 뜻이다.
@@ -395,7 +396,7 @@ namespace PackageSellSystemTrading {
             for (int i = 0; i < this.t0424VoList.Count(); i++)
             {
                 //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
-                this.stopProFitTargetTest(t0424VoList.ElementAt(i));
+                this.stopProFitTargetTest(t0424VoList.ElementAt(i), i);
 
                 //3.팔린종목 삭제
                 //if (this.t0424VoList.ElementAt(i).deleteAt == "Y")
@@ -410,7 +411,7 @@ namespace PackageSellSystemTrading {
         }//stopProFitTarget end
 
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
-        public Boolean stopProFitTargetTest(T0424Vo t0424Vo){
+        public Boolean stopProFitTargetTest(T0424Vo t0424Vo, int index){
             try {
                 String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
                 String 투입비율      = mainForm.xing_t1833.getInputRate();
@@ -529,6 +530,7 @@ namespace PackageSellSystemTrading {
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //여기서부터 감시제외
                 if (감시제외여부 == "Y"){
+                    mainForm.grd_t0424.Rows[index].DefaultCellStyle.BackColor = Color.Gray;
                     return false;
                 }
 

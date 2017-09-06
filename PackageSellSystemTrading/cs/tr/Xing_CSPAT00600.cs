@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
+using System.Data;
 
 namespace PackageSellSystemTrading{
     //현물 정상주문
@@ -108,7 +109,7 @@ namespace PackageSellSystemTrading{
                 }
                 //주문정보를 주문이력 DB에 저장 - dataInsert호출
                 mainForm.tradingHistory.insert(dataLogVo);
-                mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
+                //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }
 
             completeAt = true;
@@ -136,15 +137,15 @@ namespace PackageSellSystemTrading{
 
 
                         //상위주문번호 주문여부 Y로 업데이트
-                        var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
-                                    where item.ordno == this.upOrdno
-                                        && item.accno == mainForm.account
+                        var items =  from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
+                                    where item["ordno"].ToString() == this.upOrdno
+                                        && item["accno"].ToString() == mainForm.account
                                     select item;
 
-                        foreach (TradingHistoryVo item in items)
+                        foreach (DataRow item in items)
                         {
-                            item.sellOrdAt = "";
-                            mainForm.tradingHistory.update(item);//매도주문 여부 상태 업데이트
+                            item["sellOrdAt"] = "";
+                            mainForm.tradingHistory.sellOrdAtUpdate(item);//매도주문 여부 상태 업데이트
                         }
                     }
 

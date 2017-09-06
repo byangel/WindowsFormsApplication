@@ -823,7 +823,7 @@ namespace PackageSellSystemTrading{
 
         private void btn_history_pop_Click(object sender, EventArgs e)
         {
-            historyForm.grd_history.DataSource = tradingHistory.getTradingHistoryVoList();
+            historyForm.grd_history.DataSource = tradingHistory.getTradingHistoryDt();
             historyForm.ShowDialog();
             
         }
