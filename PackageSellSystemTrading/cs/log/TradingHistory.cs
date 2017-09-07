@@ -358,7 +358,7 @@ namespace PackageSellSystemTrading
 
             return result;
         }
-        //체결수량업데이트
+        //체결수량업데이트 --체셜가격도같이 수정
         public int execqtyUpdate(DataRow dataLogVo)
         {
             int result = 0;
@@ -367,7 +367,8 @@ namespace PackageSellSystemTrading
                 conn.Open();
 
                 StringBuilder sb = new StringBuilder();
-                sb.Append("UPDATE trading SET   execqty  = '" + dataLogVo["execqty"].ToString() + "'  "); //체결수량 
+                sb.Append("UPDATE trading SET  execqty  = '" + dataLogVo["execqty"].ToString() + "'  "); //체결수량 
+                sb.Append("                   ,execprc  = '" + dataLogVo["execprc"].ToString() + "'  "); //체결가격
                 sb.Append("WHERE ordno = '" + dataLogVo["ordno"].ToString() + "'                "); //주문번호
                 sb.Append("AND   Isuno = '" + dataLogVo["Isuno"].ToString() + "'                "); //종목코드
                 sb.Append("AND   accno = '" + mainForm.account              + "'                "); //계좌번호
@@ -606,7 +607,7 @@ namespace PackageSellSystemTrading
             double 중간매도손익 = 0;
             int 매도횟수 = 0;
             int 매수횟수 = 0;
-            if (Isuno == "001275")
+            if (Isuno == "196450")
             {
                 int test = 0;
             }
@@ -622,6 +623,8 @@ namespace PackageSellSystemTrading
             {
                 if (item["ordptncode"].ToString() == "02" && item["useYN"].ToString() == "Y")//매수그룹
                 {   //총매수금액 + 체결수량+체결가격
+                    Double test = Double.Parse(item["execqty"].ToString());
+                    Double t2 = Double.Parse(item["execprc"].ToString());
                     총매수금액 = 총매수금액 + (Double.Parse(item["execqty"].ToString()) * Double.Parse(item["execprc"].ToString()));
                     //매도가능수량 = 매도가능수량 + Double.Parse(item.execqty);
                     총매수체결수량 = 총매수체결수량 + Double.Parse(item["execqty"].ToString());

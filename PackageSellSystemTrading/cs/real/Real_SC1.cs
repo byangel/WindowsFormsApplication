@@ -86,8 +86,8 @@ namespace PackageSellSystemTrading{
             if (items.Count() > 0){
                 //기존체결수량+체결수량
                 items.First()["execqty"] = (int.Parse(items.First()["execqty"].ToString()) + int.Parse(realSc1Vo.execqty)).ToString();
-                items.First()["Isunm"] = realSc1Vo.Isunm;
                 items.First()["execprc"] = realSc1Vo.execprc;//체결가격
+                //items.First()["Isunm"] = realSc1Vo.Isunm;
                 //dataLogVo.sellOrdAt = "Y";
                 //item.Isunm = realSc1Vo.Isunm;//하루확인후 필요하면 주석풀자.
                 mainForm.tradingHistory.execqtyUpdate(items.First());//매도주문 여부 상태 업데이트

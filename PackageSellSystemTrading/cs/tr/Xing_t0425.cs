@@ -130,27 +130,23 @@ namespace PackageSellSystemTrading {
                       
                     }
 
-                    //var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
-                    //            where item.accno == mainForm.account
-                    //               && item.Isuno == tmpT0425Vo.expcode
-                    //               && item.ordno == tmpT0425Vo.ordno
-                    //            select item;
-                    
-                    //int tmpindex = mainForm.tradingHistory.getTradingHistoryVoList().Find("ordno", realSc1Vo.ordno);
+                    //체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
                     var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
                                 where item["accno"].ToString() == mainForm.account
                                    && item["Isuno"].ToString() == tmpT0425Vo.expcode.Replace("A", "")
                                    && item["ordno"].ToString() == tmpT0425Vo.ordno
                                 select item;
-                    //2.DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
+                    
                     //foreach (TradingHistoryVo item in items){
                     foreach (DataRow item in items)
                     {
                         /////////프로그램 재시작하는동안 체결된 정보는 DB에 저장이 안되기 때문에 체결수량이 DB정보와 다르면 DB정보를 수정해준다.///////////
-                        if (tmpT0425Vo.cheqty != item["execqty"].ToString())//체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
+                        //체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
+                        if (tmpT0425Vo.cheqty != item["execqty"].ToString())
                         {
                             item["execqty"] = tmpT0425Vo.cheqty;
-                           
+                            item["execprc"] = tmpT0425Vo.cheprice;
+
                             //item.Isunm   = tmpT0425Vo.hname//tr에서 종목 이름이 넘어오지 않는다.
                             mainForm.tradingHistory.execqtyUpdate(item);//수량 업데이트
 
