@@ -1095,7 +1095,17 @@ namespace PackageSellSystemTrading{
         
         private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if(e.RowIndex >= 0)
+            {
+                //MessageBox.Show(e.ColumnIndex.ToString());
+                int priceIndex = grd_t0424.Rows[e.RowIndex].Cells["price"].ColumnIndex;
+                if (e.ColumnIndex == priceIndex)
+                {
+                    MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                }
+                
+            }
+
         }
     }//end class
 }//end namespace
