@@ -345,7 +345,7 @@ namespace PackageSellSystemTrading
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE trading SET cancelOrdAt = '" + dataLogVo["cancelOrdAt"].ToString() + "'  "); //체결수량
-                sb.Append("WHERE  Isuno = '" + dataLogVo["Isuno"].ToString()                        + "'   "); //종목코드
+                sb.Append("WHERE  ordno = '" + dataLogVo["ordno"].ToString()                        + "'   "); //종목코드
                 sb.Append("AND    accno = '" + mainForm.account                                     + "'   "); //계좌번호
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
                 //Log.WriteLine(sb.ToString());
@@ -517,7 +517,32 @@ namespace PackageSellSystemTrading
             dbSync();
             return result;
         }
+        //종목코드 기준으로 일괄삭제.
+        public int isunoDelete(String isuno)
+        {
+            //select * from trading where dt not like '20170727%' and useYN='N'
+            //select * from trading where dt  not like'20170807%' and useYN='N'
+            String date = DateTime.Now.ToString("yyyyMMdd");
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM trading                  ");
+                sb.Append(" WHERE Isuno       = '" + isuno + "' "); //종목코드
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                result = sqlCmd.ExecuteNonQuery();
+
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            dbSync();
+            return result;
+        }
+
         
+
         //목록 리턴
         //public DataTable list()
         //{
@@ -566,32 +591,7 @@ namespace PackageSellSystemTrading
             adpt.Fill(dt);
             return dt;
         }
-
-
-        //사용여부 수정
-        //Isuno : 종목코드
-        //public int updateUseYN(String Isuno, String useYN)
-        //{
-        //    int result = 0;
-        //    using (var conn = new SQLiteConnection(connStr))
-        //    {
-        //        conn.Open();
-
-        //        StringBuilder sb = new StringBuilder();
-        //        sb.Append("UPDATE trading_history SET                                               ");
-        //        sb.Append("                             useYN 			  = '" + useYN.Replace("A","") + "'         "); //사용여부 
-        //        sb.Append("WHERE Isuno = '" + Isuno + "'                                            "); //주문번호
-        //        sb.Append("AND   accno = '" + mainForm.account + "'                                 "); //계좌번호
-        //        SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
-        //        result = sqlCmd.ExecuteNonQuery();
-
-        //        //Log.WriteLine(sb.ToString());
-        //        sqlCmd.Dispose();
-        //        conn.Close();
-        //        conn.Dispose();
-        //    }
-        //    return result;
-        //}
+        
         public SummaryVo getSummaryVo(String Isuno)
         {
             SummaryVo summaryVo = new SummaryVo();
@@ -607,7 +607,7 @@ namespace PackageSellSystemTrading
             double 중간매도손익 = 0;
             int 매도횟수 = 0;
             int 매수횟수 = 0;
-            if (Isuno == "196450")
+            if (Isuno == "000080")
             {
                 int test = 0;
             }
@@ -618,7 +618,12 @@ namespace PackageSellSystemTrading
                            && item["Isuno"].ToString() == Isuno.Replace("A", "")
                            && item["useYN"].ToString() == "Y"
                        select item;
-            //foreach (DataRow dr in dt.Rows){
+
+            if (items.Count() <= 0)
+            {
+                return null;
+            }
+           
             foreach (DataRow item in items)
             {
                 if (item["ordptncode"].ToString() == "02" && item["useYN"].ToString() == "Y")//매수그룹
@@ -649,13 +654,6 @@ namespace PackageSellSystemTrading
             매입금액     = 총매수금액 - 총매도금액;
             매도가능수량 = 총매수체결수량 - 총매도체결수량;
            
-            //if (Isuno.Replace("A", "") == "001000")
-            //{
-            //    int test = 0;
-            //}
-
-            if (매수횟수 == 0) { return null; }
-
             double 평균단가         = (매입금액 / 매도가능수량);
 
             summaryVo.pamt2         = 평균단가.ToString(); //평균단가

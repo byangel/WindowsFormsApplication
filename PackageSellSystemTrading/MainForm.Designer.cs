@@ -243,11 +243,6 @@
             this.grd_chart_sellCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label_sum_dtsunik = new System.Windows.Forms.Label();
             this.grd_t0424Excl = new System.Windows.Forms.DataGridView();
-            this.btn_exclWatch = new System.Windows.Forms.Button();
-            this.btn_exclWatchRollback = new System.Windows.Forms.Button();
-            this.btn_Capture = new System.Windows.Forms.Button();
-            this.btn_exclWatchSave = new System.Windows.Forms.Button();
-            this.btn_exclWatchSync = new System.Windows.Forms.Button();
             this.grd_t0424_excl_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.e_expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.e_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -257,6 +252,12 @@
             this.e_secEntAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.e_stopPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.e_exclWatchAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_exclWatch = new System.Windows.Forms.Button();
+            this.btn_exclWatchRollback = new System.Windows.Forms.Button();
+            this.btn_Capture = new System.Windows.Forms.Button();
+            this.btn_exclWatchSave = new System.Windows.Forms.Button();
+            this.btn_exclWatchSync = new System.Windows.Forms.Button();
+            this.btn_sync = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
@@ -513,6 +514,7 @@
             this.grd_t0424.TabIndex = 49;
             this.grd_t0424.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellContentClick);
             this.grd_t0424.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_t0424_CellFormatting);
+            this.grd_t0424.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellValueChanged);
             this.grd_t0424.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0424_RowPostPaint);
             // 
             // grd_t0424_check
@@ -1950,61 +1952,6 @@
             this.grd_t0424Excl.Size = new System.Drawing.Size(509, 352);
             this.grd_t0424Excl.TabIndex = 116;
             // 
-            // btn_exclWatch
-            // 
-            this.btn_exclWatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_exclWatch.Location = new System.Drawing.Point(477, 30);
-            this.btn_exclWatch.Name = "btn_exclWatch";
-            this.btn_exclWatch.Size = new System.Drawing.Size(62, 20);
-            this.btn_exclWatch.TabIndex = 117;
-            this.btn_exclWatch.Text = "감시제외";
-            this.btn_exclWatch.UseVisualStyleBackColor = true;
-            this.btn_exclWatch.Click += new System.EventHandler(this.btn_exclWatch_Click);
-            // 
-            // btn_exclWatchRollback
-            // 
-            this.btn_exclWatchRollback.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_exclWatchRollback.Location = new System.Drawing.Point(1338, 28);
-            this.btn_exclWatchRollback.Name = "btn_exclWatchRollback";
-            this.btn_exclWatchRollback.Size = new System.Drawing.Size(41, 22);
-            this.btn_exclWatchRollback.TabIndex = 118;
-            this.btn_exclWatchRollback.Text = "감시";
-            this.btn_exclWatchRollback.UseVisualStyleBackColor = true;
-            this.btn_exclWatchRollback.Click += new System.EventHandler(this.btn_exclWatchRollback_Click);
-            // 
-            // btn_Capture
-            // 
-            this.btn_Capture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Capture.Location = new System.Drawing.Point(1366, 434);
-            this.btn_Capture.Name = "btn_Capture";
-            this.btn_Capture.Size = new System.Drawing.Size(61, 20);
-            this.btn_Capture.TabIndex = 119;
-            this.btn_Capture.Text = "수동캡쳐";
-            this.btn_Capture.UseVisualStyleBackColor = true;
-            this.btn_Capture.Click += new System.EventHandler(this.btn_Capture_Click);
-            // 
-            // btn_exclWatchSave
-            // 
-            this.btn_exclWatchSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_exclWatchSave.Location = new System.Drawing.Point(1385, 28);
-            this.btn_exclWatchSave.Name = "btn_exclWatchSave";
-            this.btn_exclWatchSave.Size = new System.Drawing.Size(41, 22);
-            this.btn_exclWatchSave.TabIndex = 120;
-            this.btn_exclWatchSave.Text = "저장";
-            this.btn_exclWatchSave.UseVisualStyleBackColor = true;
-            this.btn_exclWatchSave.Click += new System.EventHandler(this.btn_exclWatchSave_Click);
-            // 
-            // btn_exclWatchSync
-            // 
-            this.btn_exclWatchSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_exclWatchSync.Location = new System.Drawing.Point(1282, 28);
-            this.btn_exclWatchSync.Name = "btn_exclWatchSync";
-            this.btn_exclWatchSync.Size = new System.Drawing.Size(49, 22);
-            this.btn_exclWatchSync.TabIndex = 121;
-            this.btn_exclWatchSync.Text = "동기화";
-            this.btn_exclWatchSync.UseVisualStyleBackColor = true;
-            this.btn_exclWatchSync.Click += new System.EventHandler(this.btn_exclWatchSync_Click);
-            // 
             // grd_t0424_excl_check
             // 
             dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -2084,11 +2031,78 @@
             this.e_exclWatchAt.Name = "e_exclWatchAt";
             this.e_exclWatchAt.Width = 40;
             // 
+            // btn_exclWatch
+            // 
+            this.btn_exclWatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_exclWatch.Location = new System.Drawing.Point(477, 30);
+            this.btn_exclWatch.Name = "btn_exclWatch";
+            this.btn_exclWatch.Size = new System.Drawing.Size(62, 20);
+            this.btn_exclWatch.TabIndex = 117;
+            this.btn_exclWatch.Text = "감시제외";
+            this.btn_exclWatch.UseVisualStyleBackColor = true;
+            this.btn_exclWatch.Click += new System.EventHandler(this.btn_exclWatch_Click);
+            // 
+            // btn_exclWatchRollback
+            // 
+            this.btn_exclWatchRollback.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_exclWatchRollback.Location = new System.Drawing.Point(1338, 28);
+            this.btn_exclWatchRollback.Name = "btn_exclWatchRollback";
+            this.btn_exclWatchRollback.Size = new System.Drawing.Size(41, 22);
+            this.btn_exclWatchRollback.TabIndex = 118;
+            this.btn_exclWatchRollback.Text = "감시";
+            this.btn_exclWatchRollback.UseVisualStyleBackColor = true;
+            this.btn_exclWatchRollback.Click += new System.EventHandler(this.btn_exclWatchRollback_Click);
+            // 
+            // btn_Capture
+            // 
+            this.btn_Capture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Capture.Location = new System.Drawing.Point(1366, 434);
+            this.btn_Capture.Name = "btn_Capture";
+            this.btn_Capture.Size = new System.Drawing.Size(61, 20);
+            this.btn_Capture.TabIndex = 119;
+            this.btn_Capture.Text = "수동캡쳐";
+            this.btn_Capture.UseVisualStyleBackColor = true;
+            this.btn_Capture.Click += new System.EventHandler(this.btn_Capture_Click);
+            // 
+            // btn_exclWatchSave
+            // 
+            this.btn_exclWatchSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_exclWatchSave.Location = new System.Drawing.Point(1385, 28);
+            this.btn_exclWatchSave.Name = "btn_exclWatchSave";
+            this.btn_exclWatchSave.Size = new System.Drawing.Size(41, 22);
+            this.btn_exclWatchSave.TabIndex = 120;
+            this.btn_exclWatchSave.Text = "저장";
+            this.btn_exclWatchSave.UseVisualStyleBackColor = true;
+            this.btn_exclWatchSave.Click += new System.EventHandler(this.btn_exclWatchSave_Click);
+            // 
+            // btn_exclWatchSync
+            // 
+            this.btn_exclWatchSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_exclWatchSync.Location = new System.Drawing.Point(1282, 28);
+            this.btn_exclWatchSync.Name = "btn_exclWatchSync";
+            this.btn_exclWatchSync.Size = new System.Drawing.Size(49, 22);
+            this.btn_exclWatchSync.TabIndex = 121;
+            this.btn_exclWatchSync.Text = "동기화";
+            this.btn_exclWatchSync.UseVisualStyleBackColor = true;
+            this.btn_exclWatchSync.Click += new System.EventHandler(this.btn_exclWatchSync_Click);
+            // 
+            // btn_sync
+            // 
+            this.btn_sync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_sync.Location = new System.Drawing.Point(664, 30);
+            this.btn_sync.Name = "btn_sync";
+            this.btn_sync.Size = new System.Drawing.Size(47, 20);
+            this.btn_sync.TabIndex = 122;
+            this.btn_sync.Text = "동기화";
+            this.btn_sync.UseVisualStyleBackColor = true;
+            this.btn_sync.Click += new System.EventHandler(this.btn_sync_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1439, 770);
+            this.Controls.Add(this.btn_sync);
             this.Controls.Add(this.btn_exclWatchSync);
             this.Controls.Add(this.btn_exclWatchSave);
             this.Controls.Add(this.btn_Capture);
@@ -2342,6 +2356,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn e_secEntAmt;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_stopPrc;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_exclWatchAt;
+        public System.Windows.Forms.Button btn_sync;
     }
 }
 

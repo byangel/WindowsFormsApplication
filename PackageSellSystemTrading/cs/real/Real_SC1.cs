@@ -66,13 +66,6 @@ namespace PackageSellSystemTrading{
             //Log.WriteLine("realSc1 ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
             //Isuno +","+ shtnIsuno
 
-
-            //매매 체결수량 업데이트 -단건
-            //var items = from item in mainForm.tradingHistory.getTradingHistoryVoList()
-            //            where item.accno == mainForm.account
-            //               && item.Isuno == realSc1Vo.Isuno
-            //               && item.ordno == realSc1Vo.ordno
-            //            select item;
             
             //int tmpindex = mainForm.tradingHistory.getTradingHistoryVoList().Find("ordno", realSc1Vo.ordno);
             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
@@ -86,7 +79,7 @@ namespace PackageSellSystemTrading{
             if (items.Count() > 0){
                 //기존체결수량+체결수량
                 items.First()["execqty"] = (int.Parse(items.First()["execqty"].ToString()) + int.Parse(realSc1Vo.execqty)).ToString();
-                items.First()["execprc"] = realSc1Vo.execprc;//체결가격
+                items.First()["execprc"] = realSc1Vo.execprc.Replace(",", "");//체결가격
                 //items.First()["Isunm"] = realSc1Vo.Isunm;
                 //dataLogVo.sellOrdAt = "Y";
                 //item.Isunm = realSc1Vo.Isunm;//하루확인후 필요하면 주석풀자.
@@ -97,37 +90,33 @@ namespace PackageSellSystemTrading{
                 //데이타로그에 저장
                 //public class dataLogVo
                 TradingHistoryVo dataLogVo = new TradingHistoryVo();
-                //dataLogVo.ordno         = realSc1Vo.ordno;                  //주문번호
-                //dataLogVo.accno         = mainForm.account;                 //계좌번호
-                //dataLogVo.ordptncode    = realSc1Vo.ordptncode;             //주문구분 01:매도|02:매수 
-                //dataLogVo.Isuno         = realSc1Vo.Isuno.Replace("A", ""); //종목코드
-                //dataLogVo.ordqty        = realSc1Vo.ordqty;                 //주문수량
-                //dataLogVo.execqty       = realSc1Vo.execqty;                //체결수량
-                //dataLogVo.ordprc        = realSc1Vo.ordprc;                 //주문가격
-                //dataLogVo.execprc       = realSc1Vo.execprc;                //체결가격
-                //dataLogVo.Isunm         = realSc1Vo.Isunm;                  //종목명
-                //dataLogVo.ordptnDetail  = "수동매수";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
-                //dataLogVo.upExecprc     = "0";                              //상위체결가격
-                //dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-                //dataLogVo.useYN         = "Y";                              //사용여부
-                //dataLogVo.ordermtd      = "HTS";                            //주문 매체
-                ////상위 주문번호
-                //dataLogVo.upOrdno = realSc1Vo.ordno;
+                dataLogVo.ordno         = realSc1Vo.ordno;                  //주문번호
+                dataLogVo.accno         = mainForm.account;                 //계좌번호
+                dataLogVo.ordptncode    = realSc1Vo.ordptncode;             //주문구분 01:매도|02:매수 
+                dataLogVo.Isuno         = realSc1Vo.Isuno.Replace("A", ""); //종목코드
+                dataLogVo.ordqty        = realSc1Vo.ordqty;                 //주문수량
+                dataLogVo.execqty       = realSc1Vo.execqty;                //체결수량
+                dataLogVo.ordprc        = realSc1Vo.ordprc;                 //주문가격
+                dataLogVo.execprc       = realSc1Vo.execprc;                //체결가격
+                dataLogVo.Isunm         = realSc1Vo.Isunm;                  //종목명
+                dataLogVo.ordptnDetail  = "수동매수";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.upExecprc     = "0";                              //상위체결가격
+                dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+                dataLogVo.useYN         = "Y";                              //사용여부
+                dataLogVo.ordermtd      = "HTS";                            //주문 매체
+                dataLogVo.upOrdno       = realSc1Vo.ordno;                  //상위 주문번호
 
-                ////주문정보를 주문이력 DB에 저장 - dataInsert호출
-                //mainForm.tradingHistory.insert(dataLogVo);
+                //주문정보를 주문이력 DB에 저장 - dataInsert호출
+                mainForm.tradingHistory.insert(dataLogVo);
                 ////mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }
             
-
-
-
             //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", realSc1Vo.Isuno.Replace("A", ""));
             int 메도가능수 = 0;
             if (findIndex >= 0){
-                mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
+                //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
                 //매도 - 매도가능수량-체결수량
                 if (realSc1Vo.ordptncode == "01")  {
                     메도가능수 = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(realSc1Vo.execqty);     
@@ -140,10 +129,7 @@ namespace PackageSellSystemTrading{
                 //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
                 if (메도가능수 <= 0)
                 {
-
                     //2.청산된 종목 사용여부를 db 'N'으로 업데이트한다.
-                    //mainForm.dataLog.updateUseYN(realSc1Vo.Isuno, "N");
-                    
                     if (items.Count() > 0){
                         items.First()["useYN"] = "N";
                         mainForm.tradingHistory.useYnUpdate(items.First());//종목 일괄적용.

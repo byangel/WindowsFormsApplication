@@ -145,7 +145,7 @@ namespace PackageSellSystemTrading {
                         if (tmpT0425Vo.cheqty != item["execqty"].ToString())
                         {
                             item["execqty"] = tmpT0425Vo.cheqty;
-                            item["execprc"] = tmpT0425Vo.cheprice;
+                            item["execprc"] = tmpT0425Vo.cheprice.Replace(",", "");
 
                             //item.Isunm   = tmpT0425Vo.hname//tr에서 종목 이름이 넘어오지 않는다.
                             mainForm.tradingHistory.execqtyUpdate(item);//수량 업데이트
@@ -235,20 +235,16 @@ namespace PackageSellSystemTrading {
                     //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
                     mainForm.input_t0425_log2.Text = "[" + mainForm.label_time.Text + "]t0425 :: 채결/미채결 요청완료";
 
-                    ///////////////////////////////////////////////////////////////////////////////////////////
                     //1.금일매도 청산 각각 구분하여 출력해준다.  
                     mainForm.label_toDaysunik.Text = Util.GetNumberFormat(this.getToDayShSunik("금일매도"));
-                    mainForm.label_dtsunik2.Text = Util.GetNumberFormat(this.getToDayShSunik("청산"));
+                    mainForm.label_dtsunik2.Text   = Util.GetNumberFormat(this.getToDayShSunik("청산"));
 
-
-                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
+                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
                     {
                         //트레이딩 시작 여부.
-                        if (mainForm.tradingAt == "Y")
-                        {
+                        if (mainForm.tradingAt == "Y"){
                             //2.금일매도실행
                             this.toDaySellTest();
-
                             //3.주문취소
                             this.orderCancle();
                         }
@@ -345,12 +341,10 @@ namespace PackageSellSystemTrading {
                                     && item.cancelOrdAt != "Y"//주문취소 Y가 아닌거.
                                     && item.ordermtd == "XING API"
                                  select item;
-            int 주문시간;
-            for (int i = 0; i < varT0425VoList.Count(); i++)
-            {
-
+            
+            for (int i = 0; i < varT0425VoList.Count(); i++){
                 //미체결 시간이 5분 이상이면 취소주문 한다.
-                주문시간 = (int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(0, 2)) * 60) + int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(2, 2));//현재 시간
+                int 주문시간 = (int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(0, 2)) * 60) + int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(2, 2));//현재 시간
                 if ((cTime - 주문시간) >= 5)
                 {
                     종목명   = varT0425VoList.ElementAt(i).hname;
@@ -396,14 +390,12 @@ namespace PackageSellSystemTrading {
         //금일매도 - 반복매수 중에서 상승한종목을 매도한다.
         public void toDaySellTest()
         {
-
             String 투입비율   = mainForm.xing_t1833.getInputRate();
             String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
             String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
 
             //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
-            if (Double.Parse(투입비율) > (Double.Parse(제한비율) - 5))
-            {
+            if (Double.Parse(투입비율) > (Double.Parse(제한비율) - 5)){
                 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET2;
             }
 

@@ -56,5 +56,8 @@
     <Setting Name="EXCL_STOP_LOSS_AT" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TIME_PROFIT_TARGET_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -159,8 +159,7 @@ namespace PackageSellSystemTrading {
                         //실시간 현재가 종목  등록
                         jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
                         //코스피
-                        if (jonggb == "3")
-                        {
+                        if (jonggb == "3"){
                             //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
                             mainForm.real_S3.call_real(tmpT0424Vo.expcode);
                         }
@@ -172,10 +171,10 @@ namespace PackageSellSystemTrading {
 
                     }//else END
 
-                    //if (tmpT0424Vo.expcode.Replace("A", "") == "017680")
-                    //{
-                    //    int test = 0;
-                    //}
+                    if (tmpT0424Vo.expcode.Replace("A", "") == "017680")
+                    {
+                        int test = 0;
+                    }
 
                     //그리드에서 삭제여부
                     tmpT0424Vo.deleteAt = "N";
@@ -196,11 +195,7 @@ namespace PackageSellSystemTrading {
                         mainForm.grd_t0424.Rows[findIndex].Cells["c_secEntAmt"   ].Value = Util.GetNumberFormat(summaryVo.secEntAmt);     //2차진입비중가격
                         mainForm.grd_t0424.Rows[findIndex].Cells["c_stopPrc"     ].Value = Util.GetNumberFormat(summaryVo.stopPrc);       //손절가격
                         mainForm.grd_t0424.Rows[findIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt;   //감시제외여부
-
-                        //if (tmpT0424Vo.expcode == "006050")
-                        //{
-                        //    int test = 0;
-                        //}
+                        
                         //매도가능수량이 같지 않으면 에러표시 해주자.
                         if (tmpT0424Vo.mdposqt != summaryVo.sumMdposqt)
                         {
@@ -210,43 +205,14 @@ namespace PackageSellSystemTrading {
                             {
                                 tmpT0424Vo.errorcd = "";
                             }
-                           
                         }
-                        
-                    } else {//이력정보가 없으면 이력정보를 등록해준다.
-                        tmpT0424Vo.expcode.Replace("A", "");
-                        tmpT0424Vo.pamt2     = tmpT0424Vo.pamt;    //평균단가2
-                        tmpT0424Vo.sellCnt   = "0";  //매도 횟수.
-                        tmpT0424Vo.buyCnt    = "1";  //매수 횟수
-                        tmpT0424Vo.sellSunik = "0";//중간매도손익
-                        /////////////////////////DB 신규저장/////////////////////////////
-                        //mainForm.dataLog.insertDataT0424(tmpT0424Vo, "init" + (mainForm.dataLog.getDataLogVoList().Count() + 1));
-
-                        TradingHistoryVo dataLogVo    = new TradingHistoryVo();
-                        dataLogVo.ordno        = "init" + (mainForm.tradingHistory.getTradingHistoryDt().Rows.Count + 1); //주문번호
-                        dataLogVo.dt           = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        dataLogVo.accno        = mainForm.account;                    //계좌번호
-                        dataLogVo.ordptncode   = "02";                                //주문구분 01:매도|02:매수
-                        dataLogVo.Isuno        = tmpT0424Vo.expcode.Replace("A", "");  //종목코드
-                        dataLogVo.ordqty       = tmpT0424Vo.mdposqt;                   //주문수량 - 매도가능수량
-                        dataLogVo.execqty      = tmpT0424Vo.mdposqt;                   //체결수량 - 매도가능수량
-                        dataLogVo.ordprc       = tmpT0424Vo.pamt.Replace(",", "");      //주문가격 - 평균단가
-                        dataLogVo.execprc      = tmpT0424Vo.pamt.Replace(",", "");     //체결가격 - 평균단가
-                        dataLogVo.Isunm        = tmpT0424Vo.hname;                     //종목명
-                        dataLogVo.ordptnDetail = "신규매수";                            //상세 주문구분 신규매수|반복매수|금일매도|청산 
-                        dataLogVo.upOrdno      = dataLogVo.ordno;                       //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-                        dataLogVo.upExecprc    = "0";                                   //상위체결가격
-                        dataLogVo.sellOrdAt    = "N";                                   //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-                        dataLogVo.useYN        = "Y";                                   //사용여부
-
-                        dataLogVo.ordermtd = "XING API";
-                        
-                        //2.DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
-                        mainForm.tradingHistory.insert(dataLogVo); //쿼리 호출
-                        //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
-                        //mainForm.dataLog.dbSync();
-                        Log.WriteLine("t0424::최초 이력 등록" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ") . ");
-                        //프로그램 최초에만 동작해야 하는데 신규매수 매도시 이력 등록이 잘 안된다는 뜻이다.
+                        //확장정보 에러일경우 에러상태를 풀어준다.
+                        if(tmpT0424Vo.errorcd=="notHistory"){
+                            tmpT0424Vo.errorcd = "";
+                        }
+                    } else {
+                            //이력정보가 없으면 에러코드등록해준다.
+                            tmpT0424Vo.errorcd = "notHistory";
                     }//else END
                     //3.매매이력에 따른 손익율 재계산.
                     tmpT0424Vo.sunikrt2 = Util.getSunikrt2(tmpT0424Vo);
@@ -269,9 +235,7 @@ namespace PackageSellSystemTrading {
                 this.h_totalCount += blockCount;
 
                 //2.연속 데이타 정보가 남아있는지 구분
-                if (base.IsNext)
-                //if (cts_expcode != "")
-                {
+                if (base.IsNext){
                     //연속 데이타 정보를 호출.
                     base.SetFieldData("t0424InBlock", "cts_expcode", 0, cts_expcode);      // CTS종목번호 : 처음 조회시는 SPACE
                     base.Request(true); //연속조회일경우 true
@@ -285,7 +249,7 @@ namespace PackageSellSystemTrading {
 
                     //mainForm.input_sunamt.Text      = Util.GetNumberFormat((this.sunamt1 + this.tappamt).ToString()); // 추정순자산 - sunamt 값이 이상해서  추정순자산 = 평가금액 + D1예수금 
                     mainForm.label_dtsunik.Text = Util.GetNumberFormat(this.dtsunik);  // 실현손익
-                    mainForm.h_totalCount.Text = this.h_totalCount.ToString();       //종목수
+                    mainForm.h_totalCount.Text  = this.h_totalCount.ToString();       //종목수
 
                     //label 출력
                     mainForm.label_mamt.Text = Util.GetNumberFormat(this.mamt);    // 매입금액
@@ -295,7 +259,7 @@ namespace PackageSellSystemTrading {
 
 
                     //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
-                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 910 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520){
+                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520){
                         if (mainForm.tradingAt == "Y"){
                             this.stopProFitTarget();
                         }
@@ -303,6 +267,8 @@ namespace PackageSellSystemTrading {
 
                     //초기화 여부
                     if (initAt){
+                        //1.매매이력 동기화 --그냥 에러만 표시하는걸로 확인수 폼에서 클릭
+                        //this.t0424histoySync();
                         //2.감시제외종목 그리드 동기화
                         this.exclWatchSync();
                         this.initAt = false;
@@ -420,7 +386,8 @@ namespace PackageSellSystemTrading {
                 Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
                 String 손절값        = Properties.Settings.Default.STOP_LOSS;
                 Boolean 매수금지종목손절여부 = Properties.Settings.Default.EXCL_STOP_LOSS_AT;
-
+                Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
+             
                 //if (t0424Vo.expcode== "094170")
                 //{
                 //    int test = 0;
@@ -431,8 +398,14 @@ namespace PackageSellSystemTrading {
                 {
                     목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET2;
                 }
-                if (t0424Vo.errorcd != "" && t0424Vo.errorcd != null)
-                {
+                if (시간차목표수익율){
+                    int 나머지 = (int.Parse(mainForm.xing_t0167.minute) - ((int.Parse(mainForm.xing_t0167.minute) / 60) * 60));
+                    if (나머지 != 0){
+                        목표수익율 = "10";
+                    }
+                }
+                
+                if (t0424Vo.errorcd != "" && t0424Vo.errorcd != null){
                     //Log.WriteLine("t0424 :: 에러코드발새 " + infoStr);
                     return false;
                 }
@@ -557,8 +530,8 @@ namespace PackageSellSystemTrading {
 
                     }
                 }
-                //손절
-                if (매수금지종목손절여부)
+                //손절- 임시로API가 아닌 수동매매일경우 해당 조건을 실행하지 않는다. 매수 하자마자 매수금지에 걸려 매도주문이 나갈수도 있다.
+                if (매수금지종목손절여부 && t0424Vo.ordermtd == "XING API")
                 {
                     int findIndex = mainForm.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", t0424Vo.expcode.Replace("A",""));
                     if (findIndex >= 0)
@@ -604,22 +577,20 @@ namespace PackageSellSystemTrading {
                             return false;
                         }
 
-                        mainForm.xing_CSPAT00600.call_requestSell("청산", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
+                        mainForm.xing_CSPAT00600.call_requestSell("수익청산", "none", t0424Vo.pamt2, t0424Vo.hname, t0424Vo.expcode, t0424Vo.mdposqt, t0424Vo.price);
 
-                        Log.WriteLine("t0424 ::청산[" + infoStr);
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":청산.");
+                        Log.WriteLine("t0424 ::수익청산[" + infoStr);
+                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":수익청산.");
                         t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
                         return true;
                     }else{
-                        Log.WriteLine("t0424 ::주문스킵(청산)"+infoStr);
+                        Log.WriteLine("t0424 ::주문스킵(수익청산)" + infoStr);
                         mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":주문스킵(청산)");
                         return false;
                     }
                     
                 }
-
-               
-                
+  
             }
             catch (Exception ex)
             {
@@ -628,6 +599,68 @@ namespace PackageSellSystemTrading {
             }
             return false;
         }//stopProFitTarget end
+
+
+        //매매이력 DB와 동기화
+        public void t0424histoySync()
+        {
+
+            for (int i = 0; i < this.t0424VoList.Count(); i++)
+            {
+                //1.보유종목 이력 존재 여부확인
+                SummaryVo summaryVo = mainForm.tradingHistory.getSummaryVo(this.t0424VoList.ElementAt(i).expcode.Replace("A", ""));
+                if (summaryVo != null)
+                {
+                    //2.매도가능수량 같은지 확인
+                    if (this.t0424VoList.ElementAt(i).mdposqt != summaryVo.sumMdposqt)
+                    {
+                        //3.같지않으면 삭세후 새로 등록.
+                        mainForm.tradingHistory.isunoDelete(this.t0424VoList.ElementAt(i).expcode); //종목일괄삭제.
+                        this.t0424VoToHistoryInsert(this.t0424VoList.ElementAt(i), i.ToString());//이력등록
+                    }
+                }else{
+                    //이력정보가 없으면 이력정보를 등록해준다.
+                    this.t0424VoToHistoryInsert(this.t0424VoList.ElementAt(i), i.ToString());//이력등록
+                }//grd_t0424 for END
+            }
+        }//histoySync END
+        //종목매수 정보를 이력 DB에 저장 
+        public void t0424VoToHistoryInsert(T0424Vo t0424Vo,String index)
+        {
+            //이력정보가 없으면 이력정보를 등록해준다.
+            t0424Vo.expcode.Replace("A", "");
+            t0424Vo.pamt2 = t0424Vo.pamt;    //평균단가2
+            t0424Vo.sellCnt = "0";  //매도 횟수.
+            t0424Vo.buyCnt = "1";  //매수 횟수
+            t0424Vo.sellSunik = "0";//중간매도손익
+            /////////////////////////DB 신규저장/////////////////////////////
+           
+            TradingHistoryVo dataLogVo = new TradingHistoryVo();
+            dataLogVo.ordno         = "I" + DateTime.Now.ToString("yyMMddHHmmss")+ index; //주문번호
+            dataLogVo.dt            = DateTime.Now.ToString("yyyyMMddHHmmss");
+            dataLogVo.accno         = mainForm.account;                    //계좌번호
+            dataLogVo.ordptncode    = "02";                                //주문구분 01:매도|02:매수
+            dataLogVo.Isuno         = t0424Vo.expcode.Replace("A", "");  //종목코드
+            dataLogVo.ordqty        = t0424Vo.mdposqt;                   //주문수량 - 매도가능수량
+            dataLogVo.execqty       = t0424Vo.mdposqt;                   //체결수량 - 매도가능수량
+            dataLogVo.ordprc        = t0424Vo.pamt.Replace(",", "");      //주문가격 - 평균단가
+            dataLogVo.execprc       = t0424Vo.pamt.Replace(",", "");     //체결가격 - 평균단가
+            dataLogVo.Isunm         = t0424Vo.hname;                     //종목명
+            dataLogVo.ordptnDetail  = "동기화";                            //상세 주문구분 신규매수|반복매수|금일매도|청산 
+            dataLogVo.upOrdno       = dataLogVo.ordno;                       //상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
+            dataLogVo.upExecprc     = "0";                                   //상위체결가격
+            dataLogVo.sellOrdAt     = "N";                                   //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+            dataLogVo.useYN         = "Y";                                   //사용여부
+
+            dataLogVo.ordermtd = "XING API";
+
+            //2.DB에 해당 주문 정보가 없을때 처리해줘야한다. volist로 변경후 테스트한후에 필요하면 처리로직 추가해주자.
+            mainForm.tradingHistory.insert(dataLogVo); //쿼리 호출
+                                                        //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
+                                                        //mainForm.dataLog.dbSync();
+            Log.WriteLine("t0424::최초 이력 등록" + t0424Vo.hname + "(" + t0424Vo.expcode + ") . ");
+            //프로그램 최초에만 동작해야 하는데 신규매수 매도시 이력 등록이 잘 안된다는 뜻이다.
+         }
 
         private int callCnt = 0;
         /// <summary>

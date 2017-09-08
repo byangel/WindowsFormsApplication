@@ -238,5 +238,17 @@ namespace PackageSellSystemTrading.Properties {
                 this["EXCL_STOP_LOSS_AT"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TIME_PROFIT_TARGET_AT {
+            get {
+                return ((bool)(this["TIME_PROFIT_TARGET_AT"]));
+            }
+            set {
+                this["TIME_PROFIT_TARGET_AT"] = value;
+            }
+        }
     }
 }

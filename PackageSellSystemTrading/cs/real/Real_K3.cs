@@ -14,15 +14,11 @@ using System.Threading;
 namespace PackageSellSystemTrading{
     //코스닥 현재가 실시간
     public class Real_K3 : XARealClass{
-
-       
+        
         public MainForm    mainForm;
-
        
-
         // 생성자
-        public Real_K3()
-        {
+        public Real_K3(){
             base.ResFileName = "₩res₩K3_.res";
 
             base.ReceiveRealData  += new _IXARealEvents_ReceiveRealDataEventHandler(receiveDataEventHandler);
@@ -45,11 +41,8 @@ namespace PackageSellSystemTrading{
             String price  = base.GetFieldData("OutBlock", "price");     //현재가
           
             int findIndex = mainForm.xing_t0424.getT0424VoList().Find("ordno", expcode.Replace("A", ""));
-            if (findIndex >= 0)
-            {
-                mainForm.grd_t0424.Rows[findIndex].Cells["price"].Style.BackColor = Color.Gray;
+            if (findIndex >= 0){ 
                 mainForm.grd_t0425.Rows[findIndex].Cells["price"].Value = Util.GetNumberFormat(price);
-                mainForm.grd_t0424.Rows[findIndex].Cells["price"].Style.BackColor = Color.White;
             }
 
         }
@@ -58,11 +51,9 @@ namespace PackageSellSystemTrading{
         /// 종목 실시간 체결 등록
         /// </summary>
         /// <param name="IsuNo">종목번호</param>
-        public void call_real(String shcode)
-        {
+        public void call_real(String shcode){
             base.SetFieldData("InBlock", "shcode", shcode);         // 종목번호
             base.AdviseRealData();
-
         }	// end function
 
     } //end class 

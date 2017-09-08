@@ -56,6 +56,7 @@
             this.input_stopLoss = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.checkBox_exclStopLossAt = new System.Windows.Forms.CheckBox();
+            this.checkBox_time_profit_target = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btn_config_save
@@ -276,9 +277,9 @@
             this.checkBox_stopLoss.AutoSize = true;
             this.checkBox_stopLoss.Location = new System.Drawing.Point(252, 10);
             this.checkBox_stopLoss.Name = "checkBox_stopLoss";
-            this.checkBox_stopLoss.Size = new System.Drawing.Size(96, 16);
+            this.checkBox_stopLoss.Size = new System.Drawing.Size(72, 16);
             this.checkBox_stopLoss.TabIndex = 118;
-            this.checkBox_stopLoss.Text = "손절기능사용";
+            this.checkBox_stopLoss.Text = "손절기능";
             this.checkBox_stopLoss.UseVisualStyleBackColor = true;
             this.checkBox_stopLoss.CheckedChanged += new System.EventHandler(this.checkBox_stopLoss_CheckedChanged);
             // 
@@ -312,18 +313,29 @@
             // checkBox_exclStopLossAt
             // 
             this.checkBox_exclStopLossAt.AutoSize = true;
-            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(353, 10);
+            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(333, 10);
             this.checkBox_exclStopLossAt.Name = "checkBox_exclStopLossAt";
             this.checkBox_exclStopLossAt.Size = new System.Drawing.Size(120, 16);
             this.checkBox_exclStopLossAt.TabIndex = 122;
             this.checkBox_exclStopLossAt.Text = "매수금지종목손절";
             this.checkBox_exclStopLossAt.UseVisualStyleBackColor = true;
             // 
+            // checkBox_time_profit_target
+            // 
+            this.checkBox_time_profit_target.AutoSize = true;
+            this.checkBox_time_profit_target.Location = new System.Drawing.Point(15, 32);
+            this.checkBox_time_profit_target.Name = "checkBox_time_profit_target";
+            this.checkBox_time_profit_target.Size = new System.Drawing.Size(108, 16);
+            this.checkBox_time_profit_target.TabIndex = 123;
+            this.checkBox_time_profit_target.Text = "시간차목표수익";
+            this.checkBox_time_profit_target.UseVisualStyleBackColor = true;
+            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(481, 250);
+            this.Controls.Add(this.checkBox_time_profit_target);
             this.Controls.Add(this.checkBox_exclStopLossAt);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.input_stopLoss);
@@ -389,5 +401,6 @@
         public System.Windows.Forms.TextBox input_stopLoss;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.CheckBox checkBox_exclStopLossAt;
+        private System.Windows.Forms.CheckBox checkBox_time_profit_target;
     }
 }

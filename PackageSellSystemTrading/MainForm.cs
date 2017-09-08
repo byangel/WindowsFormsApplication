@@ -1086,6 +1086,17 @@ namespace PackageSellSystemTrading{
         {
 
         }
+        //잔고목록과 DB 동기화
+        private void btn_sync_Click(object sender, EventArgs e)
+        {
+            xing_t0424.t0424histoySync();
+        }
+
+        
+        private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
     }//end class
 }//end namespace
 
