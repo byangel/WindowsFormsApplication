@@ -1092,7 +1092,7 @@ namespace PackageSellSystemTrading{
             xing_t0424.t0424histoySync();
         }
 
-        
+        //
         private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex >= 0)
