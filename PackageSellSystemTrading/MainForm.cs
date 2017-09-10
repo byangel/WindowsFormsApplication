@@ -1101,7 +1101,7 @@ namespace PackageSellSystemTrading{
                 int priceIndex = grd_t0424.Rows[e.RowIndex].Cells["price"].ColumnIndex;
                 if (e.ColumnIndex == priceIndex)
                 {
-                    MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                    //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
                 }
                 
             }
