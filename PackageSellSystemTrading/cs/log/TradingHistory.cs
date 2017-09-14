@@ -663,8 +663,15 @@ namespace PackageSellSystemTrading
             summaryVo.firstBuyDt    = 최초진입;
             summaryVo.sumMdposqt = 매도가능수량.ToString();
 
-        
-            summaryVo.ordermtd      = items.First()["ordermtd"      ].ToString();       //주문매체 - 감시제외 일때 사용
+            if (items.First()["ordermtd"].ToString().Equals(""))
+            {
+                summaryVo.ordermtd = "XING API";
+            }
+            else
+            {
+                summaryVo.ordermtd = items.First()["ordermtd"].ToString();       //주문매체 - 감시제외 일때 사용
+            }
+            //summaryVo.ordermtd      = items.First()["ordermtd"      ].ToString();       //주문매체 - 감시제외 일때 사용
             summaryVo.targClearPrc  = items.First()["targClearPrc"  ].ToString();   //목표청산가격    - 감시제외 일때 사용
             summaryVo.secEntPrc     = items.First()["secEntPrc"     ].ToString();      //2차진입가격     - 감시제외 일때 사용 - 이값이 설정되어있지않으면 2차진입이 실행 되었거나 설정을 안한 케이스.
             summaryVo.secEntAmt     = items.First()["secEntAmt"     ].ToString();      //2차진입비중가격 - 감시제외 일때 사용
