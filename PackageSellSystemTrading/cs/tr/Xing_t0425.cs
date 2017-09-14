@@ -17,6 +17,7 @@ namespace PackageSellSystemTrading {
     public class Xing_t0425 : XAQueryClass {
 
         private EBindingList<T0425Vo> t0425VoList;
+        
         public EBindingList<T0425Vo> getT0425VoList()
         {
             return this.t0425VoList;
@@ -125,7 +126,7 @@ namespace PackageSellSystemTrading {
                         tmpT0425Vo.ordermtd = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
 
                         //목록추가
-                        this.t0425VoList.Add(tmpT0425Vo);
+                        this.t0425VoList.Insert(0,tmpT0425Vo);
                         //findIndex = this.t0425VoList.Count()-1;
                       
                     }
@@ -156,11 +157,11 @@ namespace PackageSellSystemTrading {
                         if (findIndex>=0)
                         {
                             mainForm.grd_t0425.Rows[findIndex].Cells["ordptnDetail"].Value = item["ordptnDetail"].ToString();//매매상세구분
-                            mainForm.grd_t0425.Rows[findIndex].Cells["t0425_hname" ].Value = item["Isunm"       ].ToString();       //종목명
-                            mainForm.grd_t0425.Rows[findIndex].Cells["sellOrdAt"   ].Value = item["sellOrdAt"   ].ToString();   //금일매도여부
-                            mainForm.grd_t0425.Rows[findIndex].Cells["cancelOrdAt" ].Value = item["cancelOrdAt" ].ToString(); //주문취소여부
-                            mainForm.grd_t0425.Rows[findIndex].Cells["useYN"       ].Value = item["useYN"       ].ToString();       //사용여부
-                            mainForm.grd_t0425.Rows[findIndex].Cells["upOrdno"     ].Value = item["upOrdno"     ].ToString();     //상위 매수 주문번호
+                            mainForm.grd_t0425.Rows[findIndex].Cells["t0425_hname" ].Value = item["Isunm"       ].ToString();//종목명
+                            mainForm.grd_t0425.Rows[findIndex].Cells["sellOrdAt"   ].Value = item["sellOrdAt"   ].ToString();//금일매도여부
+                            mainForm.grd_t0425.Rows[findIndex].Cells["cancelOrdAt" ].Value = item["cancelOrdAt" ].ToString();//주문취소여부
+                            mainForm.grd_t0425.Rows[findIndex].Cells["useYN"       ].Value = item["useYN"       ].ToString();//사용여부
+                            mainForm.grd_t0425.Rows[findIndex].Cells["upOrdno"     ].Value = item["upOrdno"     ].ToString();//상위 매수 주문번호
                             mainForm.grd_t0425.Rows[findIndex].Cells["upExecprc"   ].Value = Util.GetNumberFormat(item["upExecprc"].ToString());   //상위체결금액
                             //mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"    ].Value = item.ordermtd;     //주문매체
                             //실현손익: (당일매도금액 - 매도수수료 - 매도제세금) - (매입금액 + 추정매입수수료) - 신용이자
@@ -356,9 +357,11 @@ namespace PackageSellSystemTrading {
                     /// <param name="OrgOrdNo">원주문번호</param>
                     /// <param name="IsuNo">종목번호</param>
                     /// <param name="OrdQty">주문수량</param>
-                    if (mainForm.xing_CSPAT00800.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
-                    {
-                        mainForm.xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
+                    //if (mainForm.xing_CSPAT00800.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
+                    //{
+                        Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(mainForm);
+                        mainForm.xing_CSPAT00800List.Add(xing_CSPAT00800);
+                        xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
                         //회색으로
                         varT0425VoList.ElementAt(i).cancelOrdAt = "Y";
                         //주문번호 주문취소여부 Y로 업데이트
@@ -379,10 +382,10 @@ namespace PackageSellSystemTrading {
                         }
                         else
                         {
-                            Log.WriteLine("t0425 ::주문스킵(취소)");
+                           Log.WriteLine("t0425 ::주문스킵(취소)");
                             mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425:" + 종목명 + ":주문스킵(취소)");
                         }
-                    }
+                   // }
                 }
             }
         }
@@ -390,7 +393,7 @@ namespace PackageSellSystemTrading {
         //금일매도 - 반복매수 중에서 상승한종목을 매도한다.
         public void toDaySellTest()
         {
-            String 투입비율   = mainForm.xing_t1833.getInputRate();
+           String 투입비율   = mainForm.xing_t1833.getInputRate();
             String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
             String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
 
@@ -438,7 +441,7 @@ namespace PackageSellSystemTrading {
                     if (Properties.Settings.Default.TODAY_SELL_AT && 매매상세구분 == "반복매수" && 주문수량 == 체결수량)
                     {
                         if (Double.Parse(varT0425VoList.ElementAt(i).toDaysunikrt) >= double.Parse(목표수익율)) {
-                                
+
                             //MessageBox.Show(hname);
                             /// <summary>
                             /// 현물정상주문
@@ -450,9 +453,11 @@ namespace PackageSellSystemTrading {
                             /// <param name="IsuNo">종목코드</param>
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
-                            if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
-                            {
-                                mainForm.xing_CSPAT00600.call_requestSell("금일매도", 주문번호, cheprice.Replace(",", ""), hname, expcode, cheqty, price0424);
+                            //if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
+                            //{
+                                Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
+                                mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                                xing_CSPAT00600.call_requestSell("금일매도", 주문번호, cheprice.Replace(",", ""), hname, expcode, cheqty, price0424);
 
                                 //매수건에대해서 금일매도를 해주었으므로 매수건에 금일매도여부를 Y로 업데이트 해준다.
                                 varT0425VoList.ElementAt(i).sellOrdAt="Y";  
@@ -472,16 +477,13 @@ namespace PackageSellSystemTrading {
 
                                 Log.WriteLine("t0425::금일매도:" + hname + "(" + expcode + "): [주문가격:" + price0424.ToString() + "|주문수량:" + cheqty + "|금일수익율:" + 금일수익율 + " | 주문번호:" + 주문번호 + "]");
                                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425::" + hname + ":금일 매도.");
-                            } else {
-                                Log.WriteLine("t0425::주문스킵(금일매도):" + hname + "(" + expcode + "):[주문가격:" + price0424.ToString() + "|주문수량:" + cheqty + "|금일수익율:" + 금일수익율 + " | 주문번호:" + 주문번호 + "]");
-                                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425::" + hname + ":주문 스킵.");
-                            }
+                            //} else {
+                            //    Log.WriteLine("t0425::주문스킵(금일매도):" + hname + "(" + expcode + "):[주문가격:" + price0424.ToString() + "|주문수량:" + cheqty + "|금일수익율:" + 금일수익율 + " | 주문번호:" + 주문번호 + "]");
+                            //    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425::" + hname + ":주문 스킵.");
+                            //}
 
                         }
 
-                            
-                        
-                        
                     }//t0424 index if end
 
                 }

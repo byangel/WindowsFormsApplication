@@ -281,17 +281,18 @@ namespace PackageSellSystemTrading{
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
-                if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
-                {
-                    mainForm.xing_CSPAT00600.call_requestBuy(ordptnDetail, shcode, hname, Quantity.ToString(), close);
+                Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
+                mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
+                //if (mainForm.xing_CSPAT00600.completeAt){
+                    xing_CSPAT00600.call_requestBuy(ordptnDetail, shcode, hname, Quantity.ToString(), close);
 
                     Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
                     mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::검색주문" + hname + ":" + ordptnDetail);
-                }else
-                {
-                    Log.WriteLine("t1833::주문스킵(검색주문)" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
+                //}else {
+                //    Log.WriteLine("t1833::주문스킵(검색주문)" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
                     mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::주문스킵(검색주문)" + hname + ":" + ordptnDetail);
-                }
+                //}
             }
             else{
                 Log.WriteLine("t1833::비정규장 제어:" + hname + "(" + shcode + ") [주문가격:" + close + "|주문수량:" + Quantity + "]");

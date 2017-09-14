@@ -18,12 +18,16 @@ namespace PackageSellSystemTrading{
         private String  upOrdno;//주문번호
         public Boolean completeAt = true;//완료여부.
         // 생성자
-        public Xing_CSPAT00800()
+        public Xing_CSPAT00800(MainForm mainForm)
         {
             base.ResFileName = "₩res₩CSPAT00800.res";
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
+
+
+            completeAt = false;
+            this.mainForm = mainForm;
         }   // end function
 
         // 소멸자

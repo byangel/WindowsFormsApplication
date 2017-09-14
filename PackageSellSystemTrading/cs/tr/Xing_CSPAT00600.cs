@@ -18,7 +18,7 @@ namespace PackageSellSystemTrading{
         public MainForm mainForm;
 
         //종목코드,수량,가격,주문구분|상세주문구분,상위매수주문번호(금일매도일때만),상위체결금액,매도주문여부
-        public String shcode;        // 종목번호
+        public String shcode;       // 종목번호
         public String quantity;      // 주문수량
         public String price;         // 주문가
         public String ordptnDetail;  //상세주문구분
@@ -40,11 +40,14 @@ namespace PackageSellSystemTrading{
 
 
         // 생성자
-        public Xing_CSPAT00600() {
+        public Xing_CSPAT00600(MainForm mainForm) {
             base.ResFileName = "₩res₩CSPAT00600.res";
 
             base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
+
+            completeAt = false;
+            this.mainForm = mainForm;
         }   // end function
 
         // 소멸자
@@ -228,7 +231,7 @@ namespace PackageSellSystemTrading{
             else
             {           
                 base.Request(false);  //연속조회일경우 true
-                this.completeAt = false;
+                //this.completeAt = false;
             }
             
         }   // end function

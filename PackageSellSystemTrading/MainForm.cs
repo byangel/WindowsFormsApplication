@@ -27,8 +27,8 @@ namespace PackageSellSystemTrading{
 
         public Xing_t0425 xing_t0425;        //체결/미체결
         public Xing_t0167 xing_t0167;        //시간조회
-        public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
-        public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
+        //public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
+        //public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
         public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
 
         public AccountForm accountForm;       //계좌 선택
@@ -51,6 +51,9 @@ namespace PackageSellSystemTrading{
         //public String account { get; set; }
         //public String accountPw { get; set; }
         //public String[] users = new {["dasdf", "sdfsfsd"]};
+
+        public EBindingList<Xing_CSPAT00600> xing_CSPAT00600List;
+        public EBindingList<Xing_CSPAT00800> xing_CSPAT00800List;
         //생성자
         public MainForm(){
             InitializeComponent();
@@ -63,6 +66,9 @@ namespace PackageSellSystemTrading{
         {
             //폼 초기화
             initForm();
+
+            this.xing_CSPAT00600List = new EBindingList<Xing_CSPAT00600>();
+            this.xing_CSPAT00800List = new EBindingList<Xing_CSPAT00800>();
         }
 
         //프로그램시작시 폼 초기화
@@ -84,10 +90,10 @@ namespace PackageSellSystemTrading{
                 this.xing_t0425.mainForm = this;
                 this.xing_t0167 = new Xing_t0167();//서버시간조회
                 this.xing_t0167.mainForm = this;
-                this.xing_CSPAT00600 = new Xing_CSPAT00600();//정상주문
-                this.xing_CSPAT00600.mainForm = this;
-                this.xing_CSPAT00800 = new Xing_CSPAT00800();//현물취소주문
-                this.xing_CSPAT00800.mainForm = this;
+                //this.xing_CSPAT00600 = new Xing_CSPAT00600();//정상주문
+                //this.xing_CSPAT00600.mainForm = this;
+                //this.xing_CSPAT00800 = new Xing_CSPAT00800();//현물취소주문
+                //this.xing_CSPAT00800.mainForm = this;
                 this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
                 this.xing_CSPAQ12200.mainForm = this;
 
@@ -148,8 +154,9 @@ namespace PackageSellSystemTrading{
                 //    optionForm.rollBack();
                 //    optionForm.btn_config_save_Click(new object(), new EventArgs());
                 //}
-            }
-            catch (Exception ex)
+
+                
+            } catch (Exception ex)
             {
                 Log.WriteLine("t0424 : " + ex.Message);
                 Log.WriteLine("t0424 : " + ex.StackTrace);
@@ -396,7 +403,8 @@ namespace PackageSellSystemTrading{
                             /// <param name="IsuNo">종목번호</param>
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
-
+                            Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
+                            this.xing_CSPAT00600List.Add(xing_CSPAT00600);
                             xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
 
 
@@ -424,15 +432,46 @@ namespace PackageSellSystemTrading{
         {
             try
             {
+                for (int i=0;i<100;i++)
+                {
+                    Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
+                    this.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                }
+
+                //foreach (Xing_CSPAT00600 item in this.xing_CSPAT00600List)
+                //{
+                //    int testcnt = xing_CSPAT00600List.Find("shcode", item.shcode);
+                //    xing_CSPAT00600List.RemoveAt(testcnt);
+                //}
+                //주문 객체 널처리
+                for (int i=0;i< xing_CSPAT00600List.Count();i++)
+                {
+                    Xing_CSPAT00600 xing_CSPAT00600 = xing_CSPAT00600List.ElementAt(i);
+                    xing_CSPAT00600 = null;
+                        xing_CSPAT00600List.RemoveAt(0);
+                   i--;
+                }
+                GC.Collect();
+
+                //}
+                //취소 객체
+                //for (int i = xing_CSPAT00600List.Count(); i > 0 ; i--)
+                //{
+                //    if (xing_CSPAT00600List.ElementAt(i).completeAt == true)
+                //    {
+                //        xing_CSPAT00600List.RemoveAt(i);
+                //    }
+
+                //}
 
                 //시간 초과 손절 을 사용하면 금일 매수 제한 하지 않는다.
                 //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
-                var dtsunik = from item in this.chartData.getChartVoList()
-                                              //where item.expcode == shcode && item.medosu == "매수"
-                              select item.dtsunik;
-                List<double> listval = this.chartData.getChartVoList().Select(row => double.Parse(row.dtsunik)).ToList();
-                String 누적수익 = Util.GetNumberFormat(listval.Sum().ToString());
-                this.label_sum_dtsunik.Text = 누적수익;
+                //var dtsunik = from item in this.chartData.getChartVoList()
+                //                              //where item.expcode == shcode && item.medosu == "매수"
+                //              select item.dtsunik;
+                //List<double> listval = this.chartData.getChartVoList().Select(row => double.Parse(row.dtsunik)).ToList();
+                //String 누적수익 = Util.GetNumberFormat(listval.Sum().ToString());
+                //this.label_sum_dtsunik.Text = 누적수익;
             }
             catch (Exception ex){
                 Log.WriteLine("main : " + ex.Message);
@@ -446,6 +485,8 @@ namespace PackageSellSystemTrading{
         //취소
         private void button3_Click(object sender, EventArgs e)
         {
+            Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(this);
+            this.xing_CSPAT00800List.Add(xing_CSPAT00800);
             xing_CSPAT00800.call_request(this.account, this.accountPw, "14074", "030270", "");
         }
 
@@ -684,7 +725,7 @@ namespace PackageSellSystemTrading{
 
 
                 //재계산 손익율
-                손익률2 = Util.getSunikrt2(t0424VoList.ElementAt(findIndex));
+                손익률2 = xing_t0424.getSunikrt2(t0424VoList.ElementAt(findIndex));
                 grd_t0424.Rows[findIndex].Cells["sunikrt2"].Value = 손익률2;
 
                 //매도테스트 - 해당 보유종목 정보를 인자로 넘겨주어 매도가능인지 테스트한다.
