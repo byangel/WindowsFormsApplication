@@ -156,6 +156,9 @@ namespace PackageSellSystemTrading {
                         this.t0424VoList.Add(tmpT0424Vo);
                         findIndex = this.t0424VoList.Count() - 1;
 
+                        //최초실행시 수익률2가 나오지 않아서 추가해줬다.
+                        mainForm.priceChangedProcess(findIndex);
+
                         //실시간 현재가 종목  등록
                         jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
                         //코스피
@@ -180,50 +183,7 @@ namespace PackageSellSystemTrading {
                     tmpT0424Vo.deleteAt = "N";
 
                  
-                    SummaryVo summaryVo = mainForm.tradingHistory.getSummaryVo(tmpT0424Vo.expcode.Replace("A", ""));
-                    if (summaryVo != null){
-                       
-                        mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"         ].Value = Util.GetNumberFormat(summaryVo.pamt2);    //평균단가2
-                        mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;  //매도 횟수.
-                        mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;   //매수 횟수
-                        mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"     ].Value = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
-                        mainForm.grd_t0424.Rows[findIndex].Cells["firstBuyDt"    ].Value = String.Format("{0:yyyy-MM-dd}", summaryVo.firstBuyDt);//최초진입일시
-                        
-                        mainForm.grd_t0424.Rows[findIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;      //주문매체
-                        mainForm.grd_t0424.Rows[findIndex].Cells["c_targClearPrc"].Value = Util.GetNumberFormat(summaryVo.targClearPrc);   //목표청산가격
-                        mainForm.grd_t0424.Rows[findIndex].Cells["c_secEntPrc"   ].Value = Util.GetNumberFormat(summaryVo.secEntPrc);     //2차진입가격
-                        mainForm.grd_t0424.Rows[findIndex].Cells["c_secEntAmt"   ].Value = Util.GetNumberFormat(summaryVo.secEntAmt);     //2차진입비중가격
-                        mainForm.grd_t0424.Rows[findIndex].Cells["c_stopPrc"     ].Value = Util.GetNumberFormat(summaryVo.stopPrc);       //손절가격
-                        mainForm.grd_t0424.Rows[findIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt;   //감시제외여부
-                        
-                        //매도가능수량이 같지 않으면 에러표시 해주자.
-                        if (tmpT0424Vo.mdposqt != summaryVo.sumMdposqt)
-                        {
-                            tmpT0424Vo.errorcd = "mdposqt not equals";
-                        }else if(tmpT0424Vo.mdposqt == summaryVo.sumMdposqt) {
-                            if (tmpT0424Vo.errorcd == "mdposqt not equals")//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
-                            {
-                                tmpT0424Vo.errorcd = "";
-                            }
-                        }
-                        //확장정보 에러일경우 에러상태를 풀어준다.
-                        if(tmpT0424Vo.errorcd=="notHistory"){
-                            tmpT0424Vo.errorcd = "";
-                        }
-                    } else {
-                            //이력정보가 없으면 에러코드등록해준다.
-                            tmpT0424Vo.errorcd = "notHistory";
-                    }//else END
-                    //3.매매이력에 따른 손익율 재계산.
-                    tmpT0424Vo.sunikrt2 = this.getSunikrt2(tmpT0424Vo);
-
-                    //손익률 체크 - 원인 찾으면 나주에 지워주자.
-                    //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
-                    if ((Double.Parse(tmpT0424Vo.sunikrt)+1) < (Double.Parse(tmpT0424Vo.sunikrt2) ))
-                    {
-                        //Log.WriteLine("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2+"/" + (Double.Parse(tmpT0424Vo.sunikrt) + 101).ToString()+"/"+ (Double.Parse(tmpT0424Vo.sunikrt2) + 100).ToString());
-                        //MessageBox.Show("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2);
-                    }
+                   
 
                 }//for end
 
@@ -372,6 +332,8 @@ namespace PackageSellSystemTrading {
                         t0424Vo.exclWatchAt     = t0424VoList.ElementAt(i).exclWatchAt;
                         t0424Vo.price           = t0424VoList.ElementAt(i).price;
                         this.t0424VoExclList.Add(t0424Vo);
+
+                       
                     }
                 }
 

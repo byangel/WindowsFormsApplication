@@ -83,7 +83,13 @@ namespace PackageSellSystemTrading
             //배팅금액설정
             if (Properties.Settings.Default.BATTING_ATM == "")
             {
-                mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(this.DpsastTotamt));
+                //이런날이 올까?
+                if (double.Parse(this.DpsastTotamt) > double.Parse(Properties.Settings.Default.MAX_AMT_LIMIT)){
+                    mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(Properties.Settings.Default.MAX_AMT_LIMIT));
+                }else{
+                    mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(this.DpsastTotamt));
+                }
+                
             }else
             {
                 mainForm.label_battingAtm.Text = Util.GetNumberFormat(Properties.Settings.Default.BATTING_ATM);

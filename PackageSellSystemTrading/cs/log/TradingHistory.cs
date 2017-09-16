@@ -663,12 +663,9 @@ namespace PackageSellSystemTrading
             summaryVo.firstBuyDt    = 최초진입;
             summaryVo.sumMdposqt = 매도가능수량.ToString();
 
-            if (items.First()["ordermtd"].ToString().Equals(""))
-            {
+            if (items.First()["ordermtd"].ToString().Equals("")){
                 summaryVo.ordermtd = "XING API";
-            }
-            else
-            {
+            }else{
                 summaryVo.ordermtd = items.First()["ordermtd"].ToString();       //주문매체 - 감시제외 일때 사용
             }
             //summaryVo.ordermtd      = items.First()["ordermtd"      ].ToString();       //주문매체 - 감시제외 일때 사용
