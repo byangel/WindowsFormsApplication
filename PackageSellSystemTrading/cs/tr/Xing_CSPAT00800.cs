@@ -74,6 +74,9 @@ namespace PackageSellSystemTrading{
                 if (findIndex >= 0){
                     mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "C";//데이타를 새로 수신 받을때 다시 N상태로 해야함.
                 }
+                //history 에 등록된 주문이력도 같이 삭제 하는데 이때 체결수량이 0인경우에만 삭제한다.
+                mainForm.tradingHistory.execqtyDelete(IsuNo);
+                
             }
 
             completeAt = true;

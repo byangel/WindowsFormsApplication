@@ -64,7 +64,7 @@ namespace PackageSellSystemTrading
             //mainForm.input_PnlRat.Text       = Util.GetNumberFormat(this.PnlRat);   // 손익률
 
             //label 출력
-            mainForm.label_Dps.Text = Util.GetNumberFormat(this.Dps);          // 예수금
+            mainForm.label_Dps.Text          = Util.GetNumberFormat(this.Dps);          // 예수금
             mainForm.label_Dps.Text          = Util.GetNumberFormat(this.Dps);          // 예수금
             mainForm.label_D2Dps.Text        = Util.GetNumberFormat(this.D2Dps);        // D2예수금
             mainForm.label_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액           
@@ -84,14 +84,14 @@ namespace PackageSellSystemTrading
             if (Properties.Settings.Default.BATTING_ATM == "")
             {
                 //이런날이 올까?
+                this.DpsastTotamt = this.DpsastTotamt == "" ? "0" : this.DpsastTotamt;
                 if (double.Parse(this.DpsastTotamt) > double.Parse(Properties.Settings.Default.MAX_AMT_LIMIT)){
                     mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(Properties.Settings.Default.MAX_AMT_LIMIT));
                 }else{
                     mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(this.DpsastTotamt));
                 }
                 
-            }else
-            {
+            }else {
                 mainForm.label_battingAtm.Text = Util.GetNumberFormat(Properties.Settings.Default.BATTING_ATM);
             }
             

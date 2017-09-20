@@ -383,7 +383,7 @@ namespace PackageSellSystemTrading
 
             return result;
         }
-        //매도주문 업데이트 sellOrdAt
+        //금일 매도 관련 매도주문 업데이트 sellOrdAt
         public int sellOrdAtUpdate(DataRow dataLogVo)
         {
             int result = 0;
@@ -394,7 +394,7 @@ namespace PackageSellSystemTrading
                 StringBuilder sb = new StringBuilder();
                 sb.Append("UPDATE trading  SET sellOrdAt = '" + dataLogVo["sellOrdAt"].ToString() + "'  "); //매도주문여부
                 sb.Append(" WHERE accno = '" + mainForm.account                                   + "'  "); //계좌번호
-                sb.Append("   AND Isuno = '" + dataLogVo["Isuno"].ToString()                      + "'  "); //주문번호
+                sb.Append("   AND ordno = '" + dataLogVo["ordno"].ToString()                      + "'  "); //주문번호
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
                 //Log.WriteLine(sb.ToString());
                 result = sqlCmd.ExecuteNonQuery();
@@ -517,12 +517,35 @@ namespace PackageSellSystemTrading
             dbSync();
             return result;
         }
+        
+        //주문취소중 체결수가 0인것을 삭제하는 함수
+        public int execqtyDelete(String isuno)
+        {
+            //select * from trading where dt not like '20170727%' and useYN='N'
+            //select * from trading where dt  not like'20170807%' and useYN='N'
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM trading                  ");
+                sb.Append(" WHERE Isuno       = '" + isuno + "' "); //종목코드
+                sb.Append("   AND execqty     = '0'             ");
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                result = sqlCmd.ExecuteNonQuery();
+
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            dbSync();
+            return result;
+        }
         //종목코드 기준으로 일괄삭제.
         public int isunoDelete(String isuno)
         {
             //select * from trading where dt not like '20170727%' and useYN='N'
             //select * from trading where dt  not like'20170807%' and useYN='N'
-            String date = DateTime.Now.ToString("yyyyMMdd");
             int result = 0;
             using (var conn = new SQLiteConnection(connStr))
             {
@@ -540,8 +563,30 @@ namespace PackageSellSystemTrading
             dbSync();
             return result;
         }
+        //주문번호 단건 삭제.
+        public int ordnoByDelete(String ordno)
+        {
+            //select * from trading where dt not like '20170727%' and useYN='N'
+            //select * from trading where dt  not like'20170807%' and useYN='N'
+            int result = 0;
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("DELETE FROM trading                  ");
+                sb.Append(" WHERE ordno       = '" + ordno + "' "); //종목코드
+                SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+                result = sqlCmd.ExecuteNonQuery();
 
-        
+                sqlCmd.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+            dbSync();
+            return result;
+        }
+
+
 
         //목록 리턴
         //public DataTable list()
@@ -607,7 +652,7 @@ namespace PackageSellSystemTrading
             double 중간매도손익 = 0;
             int 매도횟수 = 0;
             int 매수횟수 = 0;
-            if (Isuno == "000080")
+            if (Isuno == "095700")
             {
                 int test = 0;
             }
@@ -721,7 +766,7 @@ namespace PackageSellSystemTrading
         public String sellCnt   { set; get; } //매도횟수
         public String sellSunik { set; get; } //중간매도손익
         public String firstBuyDt{ set; get; } //최초진입일시
-        public String sumMdposqt   { set; get; } //매도가능수량
+        public String sumMdposqt{ set; get; } //매도가능수량
 
         public String ordermtd { set; get; }//주문매체 - 감시제외 일때 사용
         public String targClearPrc { set; get; }//목표청산가격    - 감시제외 일때 사용

@@ -281,8 +281,9 @@ namespace PackageSellSystemTrading
             if (dpsastTotamt!="")
             {
                 double paseVal = double.Parse(dpsastTotamt);
-                double simpleAmt = Math.Floor(paseVal / 10000000)+1;
-                
+                double simpleAmt = Math.Floor(paseVal / 10000000);
+                simpleAmt = simpleAmt < 1 ? 1 : simpleAmt;
+
                 if (simpleAmt < 200) //20억 이하
                 {
                     resultBattingAmt = Math.Floor((simpleAmt * 10000000) * (((400 - simpleAmt) / 40) * 0.0001));

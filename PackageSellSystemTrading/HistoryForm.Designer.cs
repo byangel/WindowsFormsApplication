@@ -33,7 +33,8 @@
             this.btn_search = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.flag = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btn_delete = new System.Windows.Forms.Button();
+            this.check_flag = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grd_history)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,31 +45,29 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grd_history.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd_history.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.flag});
-            this.grd_history.Location = new System.Drawing.Point(14, 41);
-            this.grd_history.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_flag});
+            this.grd_history.Location = new System.Drawing.Point(12, 33);
             this.grd_history.Name = "grd_history";
             this.grd_history.RowTemplate.Height = 23;
-            this.grd_history.Size = new System.Drawing.Size(793, 550);
+            this.grd_history.Size = new System.Drawing.Size(694, 440);
             this.grd_history.TabIndex = 0;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 22);
+            this.label5.Location = new System.Drawing.Point(12, 18);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 15);
+            this.label5.Size = new System.Drawing.Size(57, 12);
             this.label5.TabIndex = 17;
             this.label5.Text = "매매이력:";
             // 
             // btn_search
             // 
             this.btn_search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_search.Font = new System.Drawing.Font("Gulim", 9.25F);
-            this.btn_search.Location = new System.Drawing.Point(762, 13);
-            this.btn_search.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_search.Font = new System.Drawing.Font("굴림", 9.25F);
+            this.btn_search.Location = new System.Drawing.Point(667, 10);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(47, 25);
+            this.btn_search.Size = new System.Drawing.Size(41, 20);
             this.btn_search.TabIndex = 18;
             this.btn_search.Text = "조회";
             this.btn_search.UseVisualStyleBackColor = true;
@@ -77,10 +76,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(375, 12);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button1.Location = new System.Drawing.Point(328, 10);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(58, 25);
+            this.button1.Size = new System.Drawing.Size(51, 20);
             this.button1.TabIndex = 19;
             this.button1.Text = "test";
             this.button1.UseVisualStyleBackColor = true;
@@ -88,29 +86,41 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(547, 12);
+            this.textBox1.Location = new System.Drawing.Point(479, 10);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(209, 25);
+            this.textBox1.Size = new System.Drawing.Size(183, 21);
             this.textBox1.TabIndex = 22;
             // 
-            // flag
+            // btn_delete
             // 
-            this.flag.FillWeight = 50F;
-            this.flag.HeaderText = "선택";
-            this.flag.Name = "flag";
-            this.flag.Width = 50;
+            this.btn_delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_delete.Location = new System.Drawing.Point(271, 9);
+            this.btn_delete.Name = "btn_delete";
+            this.btn_delete.Size = new System.Drawing.Size(51, 20);
+            this.btn_delete.TabIndex = 23;
+            this.btn_delete.Text = "삭제";
+            this.btn_delete.UseVisualStyleBackColor = true;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
+            // 
+            // check_flag
+            // 
+            this.check_flag.FillWeight = 50F;
+            this.check_flag.HeaderText = "선택";
+            this.check_flag.Name = "check_flag";
+            this.check_flag.Width = 50;
             // 
             // HistoryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(821, 606);
+            this.ClientSize = new System.Drawing.Size(718, 485);
+            this.Controls.Add(this.btn_delete);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btn_search);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.grd_history);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "HistoryForm";
             this.Text = "매매이력";
             ((System.ComponentModel.ISupportInitialize)(this.grd_history)).EndInit();
@@ -125,6 +135,7 @@
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.DataGridView grd_history;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn flag;
+        private System.Windows.Forms.Button btn_delete;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn check_flag;
     }
 }

@@ -121,15 +121,17 @@ namespace PackageSellSystemTrading{
   
                 //계좌잔고 그리드 초기화
                 grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
-                grd_t0424Excl.DataSource = this.xing_t0424.getT0424VoExclList();//감시제외종목 바인딩
+                grd_t0424Excl.DataSource = this.xing_t0424.getExcludeT0424VoList();//감시제외종목 바인딩
                 
-                //진입검색 그리드.
+                //진입검색 그리드.바인딩
                 grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); 
                 //체결미체결 그리드 DataSource 설정
                 grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
-                //챠트(스냅샷) 그리드 초기화
+                //챠트(스냅샷) 그리드 바인딩
                 grd_chart.DataSource = this.chartData.getChartVoList();
-            
+                //이력폼 데이타 바인딩--로그인후 바인딩이 끊긴다 나중에 이유를 찾아봐야한다.
+                //historyForm.grd_history.DataSource = tradingHistory.getTradingHistoryDt();
+
                 //누적수익율 출력
                 this.label_sum_dtsunik.Text = Util.GetNumberFormat(this.chartData.getSumDtsunik());
 
@@ -405,8 +407,15 @@ namespace PackageSellSystemTrading{
                             /// <param name="Price">가격</param>
                             Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
                             this.xing_CSPAT00600List.Add(xing_CSPAT00600);
-                            xing_CSPAT00600.call_requestSell("선택매도", "none", pamt2, hname, expcode, mdposqt, price);
-
+                            xing_CSPAT00600.ordptnDetail    = "선택매도";      //상세 매매 구분.
+                            xing_CSPAT00600.shcode          = expcode; //종목코드
+                            xing_CSPAT00600.hname           = hname;   //종목명
+                            xing_CSPAT00600.quantity        = mdposqt; //수량
+                            xing_CSPAT00600.price           = price;   //가격
+                            xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
+                            xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
+                            xing_CSPAT00600.upExecprc       = pamt2;   //상위체결금액  
+                            xing_CSPAT00600.call_request();
 
                             this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = "Y";//일괄 매도시 주문여부를 true로 설정
 
@@ -420,6 +429,7 @@ namespace PackageSellSystemTrading{
                         //이미 매도주문 실행 종목
                         MessageBox.Show(hname + "이미 매도주문이 이루어 졌습니다.");
                     }
+                    //선택체크해제
                     this.grd_t0424.Rows[i].Cells["grd_t0424_check"].Value = false;
 
                 }
@@ -432,26 +442,35 @@ namespace PackageSellSystemTrading{
         {
             try
             {
-                for (int i=0;i<100;i++)
-                {
-                    Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
-                    this.xing_CSPAT00600List.Add(xing_CSPAT00600);
-                }
+                Xing_LinkToHTS xing_LinkToHTS = new Xing_LinkToHTS();
+                //bool test = xing_LinkToHTS.call_request("112610");
+                xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", "112610", "");
 
-                //foreach (Xing_CSPAT00600 item in this.xing_CSPAT00600List)
+
+                String tesss = "";
+                //RequestLinkToHTS fdf = new RequestLinkToHTS();
+
+                //SummaryVo vo = this.tradingHistory.getSummaryVo("205500");
+                //for (int i=0;i<100;i++)
                 //{
-                //    int testcnt = xing_CSPAT00600List.Find("shcode", item.shcode);
-                //    xing_CSPAT00600List.RemoveAt(testcnt);
+                //    Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
+                //    this.xing_CSPAT00600List.Add(xing_CSPAT00600);
                 //}
-                //주문 객체 널처리
-                for (int i=0;i< xing_CSPAT00600List.Count();i++)
-                {
-                    Xing_CSPAT00600 xing_CSPAT00600 = xing_CSPAT00600List.ElementAt(i);
-                    xing_CSPAT00600 = null;
-                        xing_CSPAT00600List.RemoveAt(0);
-                   i--;
-                }
-                GC.Collect();
+
+                ////foreach (Xing_CSPAT00600 item in this.xing_CSPAT00600List)
+                ////{
+                ////    int testcnt = xing_CSPAT00600List.Find("shcode", item.shcode);
+                ////    xing_CSPAT00600List.RemoveAt(testcnt);
+                ////}
+                ////주문 객체 널처리
+                //for (int i=0;i< xing_CSPAT00600List.Count();i++)
+                //{
+                //    Xing_CSPAT00600 xing_CSPAT00600 = xing_CSPAT00600List.ElementAt(i);
+                //    xing_CSPAT00600 = null;
+                //        xing_CSPAT00600List.RemoveAt(0);
+                //   i--;
+                //}
+                //GC.Collect();
 
                 //}
                 //취소 객체
@@ -1089,16 +1108,28 @@ namespace PackageSellSystemTrading{
             xing_t0424.exclWatchSync();
         }
 
-        private void grd_t0424_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        
         //잔고목록과 DB 동기화
         private void btn_sync_Click(object sender, EventArgs e)
         {
             xing_t0424.t0424histoySync();
         }
 
+        //감시제외 그리드 현재가 변경 이벤트
+        private void grd_t0424Excl_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                //MessageBox.Show(e.ColumnIndex.ToString());
+                int priceIndex = grd_t0424Excl.Rows[e.RowIndex].Cells["e_price"].ColumnIndex;
+                if (e.ColumnIndex == priceIndex)
+                {
+                    //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                    t0424ExclPriceChangedProcess(e.RowIndex);
+                }
+
+            }
+        }
         //그리드 현재가 변경 이벤트
         private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -1116,16 +1147,56 @@ namespace PackageSellSystemTrading{
 
         }//grd_t0424_CellValueChanged END
 
+
+        //감시제외 그리드 현재가 변경 이벤트
+        public void t0424ExclPriceChangedProcess(int rowIndex)
+        {
+            String 종목코드 = this.grd_t0424Excl.Rows[rowIndex].Cells["e_expcode"].Value.ToString();
+            int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", 종목코드);
+            String 수익율 = this.xing_t0424.getT0424VoList().ElementAt(findIndex).sunikrt;
+
+            Color color = 수익율.IndexOf("-") >= 0 ? Color.Blue : Color.Red;
+
+            grd_t0424Excl.Rows[rowIndex].Cells["e_price"].Style.ForeColor = color;
+        }
+
+        //그리드 현재가 변경 이벤트
         public void priceChangedProcess(int rowIndex)
         {
-            String expcode = this.grd_t0424.Rows[rowIndex].Cells["c_expcode"].Value.ToString();
-            SummaryVo summaryVo = this.tradingHistory.getSummaryVo(expcode.Replace("A", ""));
+            String 종목코드 = this.grd_t0424.Rows[rowIndex].Cells["c_expcode"].Value.ToString();
+
+
+            //여기서부터 감시제외
+            var test = this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt"].Value;
+            String 감시제외여부 = test == null ? "" : test.ToString(); ;
+
+           
+            if (감시제외여부 == "Y"){
+                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Gray;
+               
+            }
+
+            //매수금지이고 t0424에 빨간색으로 표시해주자.
+            int t1833ExcludeVoListFindIndex = this.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", 종목코드);
+            if (t1833ExcludeVoListFindIndex >= 0)
+            {
+                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+            }
+            if (t1833ExcludeVoListFindIndex >= 0 && 감시제외여부 == "Y")
+            {
+                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.DarkOrange;
+            }
+
+
+
+            //매매이력정보 호출
+            SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드.Replace("A", ""));
             if (summaryVo != null){
                 this.grd_t0424.Rows[rowIndex].Cells["pamt2"          ].Value = Util.GetNumberFormat(summaryVo.pamt2);    //평균단가2
                 this.grd_t0424.Rows[rowIndex].Cells["sellCnt"        ].Value = summaryVo.sellCnt;  //매도 횟수.
                 this.grd_t0424.Rows[rowIndex].Cells["buyCnt"         ].Value = summaryVo.buyCnt;   //매수 횟수
                 this.grd_t0424.Rows[rowIndex].Cells["sellSunik"      ].Value = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
-                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"     ].Value = String.Format("yyyy-MM-dd", summaryVo.firstBuyDt);//최초진입일시
+                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"     ].Value =  summaryVo.firstBuyDt;//최초진입일시
 
                 this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"     ].Value = summaryVo.ordermtd;      //주문매체
                 this.grd_t0424.Rows[rowIndex].Cells["c_targClearPrc" ].Value = Util.GetNumberFormat(summaryVo.targClearPrc);   //목표청산가격
@@ -1157,26 +1228,25 @@ namespace PackageSellSystemTrading{
                 
                 String 수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString().Replace(",", "");
                 //그리드 수익에따라  폰트색 지정
-                if (수익율.IndexOf("-") >= 0){
-                    grd_t0424.Rows[rowIndex].Cells["price"].Style.ForeColor          = Color.Blue;
-                    //grd_t0424.Rows[rowIndex].Cells["price"].Style.SelectionForeColor = Color.Blue;
-                    grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Style.ForeColor = Color.Blue;
-                    grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Style.ForeColor = Color.Blue;
-                    grd_t0424.Rows[rowIndex].Cells["dtsunik"].Style.ForeColor = Color.Blue;
-                    grd_t0424.Rows[rowIndex].Cells["appamt"].Style.ForeColor = Color.Blue;
-
-                }
-                else{
-                    grd_t0424.Rows[rowIndex].Cells["price"].Style.ForeColor          = Color.Red;
-                    //grd_t0424.Rows[rowIndex].Cells["price"].Style.SelectionForeColor = Color.Red;
-                    grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Style.ForeColor = Color.Red;
-                    grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Style.ForeColor = Color.Red;
-                    grd_t0424.Rows[rowIndex].Cells["dtsunik"].Style.ForeColor = Color.Red;
-                    grd_t0424.Rows[rowIndex].Cells["appamt"].Style.ForeColor = Color.Red;
-                }
-
+                Color color = 수익율.IndexOf("-") >= 0 ? Color.Blue : Color.Red;
                 
-            }else{
+                grd_t0424.Rows[rowIndex].Cells["price"].Style.ForeColor = color;
+                //grd_t0424.Rows[rowIndex].Cells["price"].Style.SelectionForeColor = Color.Red;
+                grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Style.ForeColor = color;
+                grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Style.ForeColor = color;
+                grd_t0424.Rows[rowIndex].Cells["dtsunik"].Style.ForeColor = color;
+                grd_t0424.Rows[rowIndex].Cells["appamt"].Style.ForeColor = color;
+
+                //제외종목 가격도 같이 수정해주자.
+                int findIndex = this.xing_t0424.getExcludeT0424VoList().Find("expcode", 종목코드);
+                if (findIndex >= 0){
+                    grd_t0424Excl.Rows[findIndex].Cells["e_price"].Value = Util.GetNumberFormat(grd_t0424.Rows[rowIndex].Cells["price"].Value.ToString());
+                    //grd_t0424Excl.Rows[findIndex].Cells["e_price"].Style.ForeColor = color;
+                }
+
+
+            }
+            else{
                 //이력정보가 없으면 에러코드등록해준다.
                 this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "notHistory";
             }//else END
@@ -1192,7 +1262,14 @@ namespace PackageSellSystemTrading{
             ////    //MessageBox.Show("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2);
             ////}
         }
+        
+       
+        private void grd_t0424_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            historyForm.ShowDialog();
+        }
 
+        
     }//end class
 }//end namespace
 

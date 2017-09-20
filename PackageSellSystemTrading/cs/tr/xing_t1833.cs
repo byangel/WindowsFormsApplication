@@ -13,16 +13,13 @@ using System.Drawing;
 using System.Threading;
 namespace PackageSellSystemTrading{
     public class Xing_t1833 : XAQueryClass{
-
-
-
+        
         private EBindingList<T1833Vo> t1833VoList;
         public EBindingList<T1833Vo> getT1833VoList()
         {
             return this.t1833VoList;
         }
-
-
+        
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
         //투자 비율
@@ -38,8 +35,7 @@ namespace PackageSellSystemTrading{
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
-
-
+            
             this.t1833VoList = new EBindingList<T1833Vo>();
         }   // end function
 
@@ -47,8 +43,7 @@ namespace PackageSellSystemTrading{
         ~Xing_t1833(){
           
         }
-
-
+        
         /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
@@ -82,8 +77,7 @@ namespace PackageSellSystemTrading{
                     }else{
                         tmpT1833Vo = new T1833Vo();
                     }
-
-
+                    
                     tmpT1833Vo.shcode = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
                     tmpT1833Vo.hname  = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
                     tmpT1833Vo.close  = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
@@ -115,11 +109,9 @@ namespace PackageSellSystemTrading{
                     }
                     tmpT1833Vo.deleteAt = true;
                 }
-
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "]조건검색 응답 완료";
 
                 completeAt = true;//중복호출 여부
-
             }
             catch (Exception ex)
             {
@@ -231,7 +223,7 @@ namespace PackageSellSystemTrading{
                 {
                     mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
                 }
-                 return false;
+                return false;
             }
            
             //5.보유종목 반복매수여부 테스트
@@ -260,7 +252,6 @@ namespace PackageSellSystemTrading{
                 }      
             }
 
-
             //4.매수
             int battingAtm = int.Parse(mainForm.label_battingAtm.Text.Replace(",",""));
             //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
@@ -283,16 +274,22 @@ namespace PackageSellSystemTrading{
                 /// <param name="Price">가격</param>
                 Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
                 mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
-                //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
-                //if (mainForm.xing_CSPAT00600.completeAt){
-                    xing_CSPAT00600.call_requestBuy(ordptnDetail, shcode, hname, Quantity.ToString(), close);
+                
+                xing_CSPAT00600.ordptnDetail = ordptnDetail;        //상세 매매 구분.
+                xing_CSPAT00600.shcode       = shcode;              //종목코드
+                xing_CSPAT00600.hname        = hname;               //종목명
+                xing_CSPAT00600.quantity     = Quantity.ToString(); //수량
+                xing_CSPAT00600.price        = close;               //가격
+                xing_CSPAT00600.divideBuySell= "2";                 // 매매구분: 1-매도, 2-매수
+                xing_CSPAT00600.upOrdno      = "";                  //상위매수주문 - 금일매도매수일때만 값이 있다.
+                xing_CSPAT00600.upExecprc    = "";                  //상위체결금액  
 
-                    Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
-                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::검색주문" + hname + ":" + ordptnDetail);
-                //}else {
-                //    Log.WriteLine("t1833::주문스킵(검색주문)" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
-                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::주문스킵(검색주문)" + hname + ":" + ordptnDetail);
-                //}
+                xing_CSPAT00600.call_request();
+
+                Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "] ");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::검색주문" + hname + ":" + ordptnDetail);
+                
+                   
             }
             else{
                 Log.WriteLine("t1833::비정규장 제어:" + hname + "(" + shcode + ") [주문가격:" + close + "|주문수량:" + Quantity + "]");

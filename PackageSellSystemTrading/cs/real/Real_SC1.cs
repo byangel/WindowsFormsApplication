@@ -16,10 +16,7 @@ namespace PackageSellSystemTrading{
     //현물계좌 예수금/주문가능금액/총평가 조회(API)
     public class Real_SC1 : XARealClass{
 
-       
         public MainForm    mainForm;
-
-       
 
         // 생성자
         public Real_SC1()
@@ -31,10 +28,7 @@ namespace PackageSellSystemTrading{
         }   // end function
 
         // 소멸자
-        ~Real_SC1()
-        {
-          
-        }
+        ~Real_SC1() {}
 
         private RealSc1Vo realSc1Vo = new RealSc1Vo();
         /// <summary>
