@@ -360,8 +360,7 @@ namespace PackageSellSystemTrading {
                     /// <param name="OrdQty">주문수량</param>
                     //if (mainForm.xing_CSPAT00800.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                     //{
-                        Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(mainForm);
-                        mainForm.xing_CSPAT00800List.Add(xing_CSPAT00800);
+                        Xing_CSPAT00800 xing_CSPAT00800 = mainForm.CSPAT00600Mng.get800();
                         xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
                         //회색으로
                         varT0425VoList.ElementAt(i).cancelOrdAt = "Y";
@@ -456,8 +455,7 @@ namespace PackageSellSystemTrading {
                             /// <param name="Price">가격</param>
                             //if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                             //{
-                                Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                                mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                                Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                                 xing_CSPAT00600.ordptnDetail    = "금일매도";   //상세 매매 구분.
                                 xing_CSPAT00600.shcode          = expcode;      //종목코드
                                 xing_CSPAT00600.hname           = hname;        //종목명

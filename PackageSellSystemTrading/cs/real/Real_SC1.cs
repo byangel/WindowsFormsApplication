@@ -93,7 +93,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.ordprc        = realSc1Vo.ordprc;                 //주문가격
                 dataLogVo.execprc       = realSc1Vo.execprc;                //체결가격
                 dataLogVo.Isunm         = realSc1Vo.Isunm;                  //종목명
-                dataLogVo.ordptnDetail  = "수동매수";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.ordptnDetail  = "실시간동기화";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
                 dataLogVo.upExecprc     = "0";                              //상위체결가격
                 dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
                 dataLogVo.useYN         = "Y";                              //사용여부

@@ -272,9 +272,8 @@ namespace PackageSellSystemTrading{
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
-                Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
-                
+                Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+
                 xing_CSPAT00600.ordptnDetail = ordptnDetail;        //상세 매매 구분.
                 xing_CSPAT00600.shcode       = shcode;              //종목코드
                 xing_CSPAT00600.hname        = hname;               //종목명

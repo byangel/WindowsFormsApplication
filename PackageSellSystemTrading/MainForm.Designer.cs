@@ -671,7 +671,6 @@
             this.orderAt.Name = "orderAt";
             this.orderAt.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.orderAt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.orderAt.Visible = false;
             this.orderAt.Width = 59;
             // 
             // deleteAt
@@ -927,6 +926,7 @@
             this.grd_t0425.RowTemplate.Height = 23;
             this.grd_t0425.Size = new System.Drawing.Size(434, 268);
             this.grd_t0425.TabIndex = 68;
+            this.grd_t0425.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellContentClick);
             this.grd_t0425.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_t0425_chegb1_CellFormatting);
             this.grd_t0425.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0425_chegb1_RowPostPaint);
             // 

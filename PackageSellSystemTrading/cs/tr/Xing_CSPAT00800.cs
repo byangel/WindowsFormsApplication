@@ -78,18 +78,16 @@ namespace PackageSellSystemTrading{
                 mainForm.tradingHistory.execqtyDelete(IsuNo);
                 
             }
-
-            completeAt = true;
+            
         }
 
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
 
             if (nMessageCode == "00000"){
                 ;
-            }
-            else{
+            }else{
                 Log.WriteLine("CSPAT00800 :: " + nMessageCode + " :: " + szMessage);
-                this.completeAt = true;
+                
 
                 //02714 :: 주문수량이 매매가능수량을 초과했습니다 .
                 if (nMessageCode== "02714")
@@ -120,10 +118,10 @@ namespace PackageSellSystemTrading{
 
                 //    }
                 //}
-
+                
 
             }
-            
+            completeAt = true;
 
         }
 
@@ -134,45 +132,33 @@ namespace PackageSellSystemTrading{
 		/// <param name="OrgOrdNo">원주문번호</param>
 		/// <param name="IsuNo">종목번호</param>
 		/// <param name="OrdQty">주문수량</param>
-		public void call_request(String account, String accountPw, string OrgOrdNo, string shcode, string OrdQty)
+		public void call_request(String account, String accountPw, string upOrdNo, string paramShcode, string OrdQty)
         {
-           
-            if (this.completeAt)
+            this.completeAt = false;//중복호출 방지
+
+            this.shcode = paramShcode;
+            this.upOrdno = upOrdNo;
+            //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
+            if (mainForm.combox_targetServer.SelectedIndex == 0)
             {
-                this.completeAt = false;//중복호출 방지
-
-                this.shcode = shcode;
-                this.upOrdno = OrgOrdNo;
-                //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
-                if (mainForm.combox_targetServer.SelectedIndex == 0)
-                {
-                    shcode = "A" + shcode;
-                }
-
-                //2.실시간 체결 정보요청 취소.
-                //mainForm.real_SC1.UnadviseRealDataWithKey(shcode);
-
-                //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
-                //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
-
-                base.SetFieldData("CSPAT00800InBlock1", "AcntNo", 0, account);  // 계좌번호
-                base.SetFieldData("CSPAT00800InBlock1", "InptPwd", 0, accountPw);// 입력비밀번호
-                base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo", 0, OrgOrdNo); // 원주문번호
-                base.SetFieldData("CSPAT00800InBlock1", "IsuNo", 0, shcode);    // 종목번호
-                base.SetFieldData("CSPAT00800InBlock1", "OrdQty", 0, OrdQty);   // 주문수량
-
-                base.Request(false);
-
-            } else {
-                mainForm.input_t0424_log.Text = "[" + mainForm.label_time.Text + "][중복]CSpaT00800::주문취소";
-
-                this.callCnt++;
-                if (this.callCnt == 5)
-                {
-                    this.completeAt = true;
-                    this.callCnt = 0;
-                }
+                paramShcode = "A" + paramShcode;
             }
+
+            //2.실시간 체결 정보요청 취소.
+            //mainForm.real_SC1.UnadviseRealDataWithKey(shcode);
+
+            //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
+            //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
+
+            base.SetFieldData("CSPAT00800InBlock1", "AcntNo"    , 0, account);  // 계좌번호
+            base.SetFieldData("CSPAT00800InBlock1", "InptPwd"   , 0, accountPw);// 입력비밀번호
+            base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo"  , 0, upOrdNo); // 원주문번호
+            base.SetFieldData("CSPAT00800InBlock1", "IsuNo"     , 0, paramShcode);    // 종목번호
+            base.SetFieldData("CSPAT00800InBlock1", "OrdQty"    , 0, OrdQty);   // 주문수량
+
+            base.Request(false);
+
+            
             
         }
 

@@ -26,8 +26,8 @@ namespace PackageSellSystemTrading{
         public String ordptnDetail  = "";  //상세주문구분
         public String upOrdno       = "";  //상위매수주문 - 금일매도매수일때만 값이 있다.
         public String upExecprc     = "";  //상위체결금액  
-        
-        
+
+
 
         //public String 종목코드;
         //public String 수량;
@@ -38,7 +38,7 @@ namespace PackageSellSystemTrading{
         //public String 상위체결금액;
         //public String 매도주문여부;
 
-        public Boolean completeAt = true;//완료여부.
+        public Boolean completeAt;//완료여부.
 
 
         // 생성자
@@ -117,7 +117,7 @@ namespace PackageSellSystemTrading{
                 //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }
 
-            completeAt = true;
+            
             
         }
 
@@ -125,7 +125,8 @@ namespace PackageSellSystemTrading{
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage)
         {
             
-            if (nMessageCode == "00000"){
+            if (nMessageCode == "00000" || nMessageCode == "00040"||nMessageCode == "00039")
+            {
                 ;
             }else{
                 String msg = "CSPAT00600::" + this.hname + "(" + this.shcode + ") " + szMessage + "(" + nMessageCode + ")- [수량:" + this.quantity + "]";
@@ -133,23 +134,15 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine(msg);
                 //에러 리턴 받았을때
                 this.completeAt = true;
-                //주문여부를 N으로 해주고 얼럿창 
+                //금일매도매수일때만 값이 있다.
                 if (upOrdno!="")
                 {
-                    int findIndex;
-                    //0424 주문안한 상탱로 초기화
-                    findIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", this.shcode.Replace("A",""));
-                    if (findIndex >=0)
-                    {
-                        mainForm.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = "N";//주문상태 초기화
-                    }
-                    
                     //주문이 잘못되었을경우 매도여부를 초기화 해준다.
-                    findIndex = mainForm.xing_t0425.getT0425VoList().Find("ordno", this.upOrdno);//upOrdno
-                    if (findIndex >= 0)
+                    int findIndexT0425 = mainForm.xing_t0425.getT0425VoList().Find("ordno", this.upOrdno);//upOrdno
+                    if (findIndexT0425 >= 0)
                     {
                         //금일매도여부 상관없이 그냥 N해준다..
-                        mainForm.grd_t0425.Rows[findIndex].Cells["sellOrdAt"].Value = "N"; //매도주문여부 초기화
+                        mainForm.grd_t0425.Rows[findIndexT0425].Cells["sellOrdAt"].Value = "N"; //매도주문여부 초기화
 
 
                         //상위주문번호 주문여부 Y로 업데이트
@@ -164,14 +157,19 @@ namespace PackageSellSystemTrading{
                             mainForm.tradingHistory.sellOrdAtUpdate(item);//매도주문 여부 상태 업데이트
                         }
                     }
+                    
+                }//receiveMessageEventHandler END
 
+                
+                //0424 주문안한 상탱로 초기화
+                int findIndexT0424 = mainForm.xing_t0424.getT0424VoList().Find("expcode", this.shcode.Replace("A", ""));
+                //주문여부를 다시 N으로 설정한다.
+                if (findIndexT0424 >= 0)
+                {
+                    mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
                 }
-
-
-
-
-
-
+                
+                //t0424Vo.orderAt
                 //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
                 // 01222 :: 모의투자 매도잔고가 부족합니다  
                 // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
@@ -179,8 +177,7 @@ namespace PackageSellSystemTrading{
                 // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                 // 01219 :: 모의투자 매매금지 종목
                 // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.   
-
-
+                
                 //정규매매장이 종료되었습니다.
                 if (nMessageCode=="03563"){
                     ;
@@ -192,19 +189,11 @@ namespace PackageSellSystemTrading{
                 //거래정지 종목으로 주문이 불가능합니다.
                 if (nMessageCode == "01069")
                 {
-                    //잔고그리드 종목찾아서 에러상태 로 만들어서 매도 주문이 안나가도록 조치 하자. 
-                    EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-                    int findIndex = t0424VoList.Find("expcode", this.shcode.Replace("A", ""));
-                    if (findIndex >= 0 )
-                    {
-                       mainForm.grd_t0424.Rows[findIndex].Cells["errorcd"].Value = "거래정지"; //에러코드
-                    }
-                   
+                   mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = "거래정지"; //에러코드
                 }
                 
-
             }
-           
+            completeAt = true;
         }
         
         /// <summary>
@@ -230,7 +219,6 @@ namespace PackageSellSystemTrading{
             base.SetFieldData("CSPAT00600Inblock1", "MgntrnCode"   ,0, "000");                      // 신용거래코드: 000-보통
             base.SetFieldData("CSPAT00600Inblock1", "LoanDt"       ,0, "");                         // 대출일 : 신용주문이 아닐 경우 SPACE
             base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode",0, "0");                        // 주문조건구분 : 0-없음
-
             
             if (mainForm.accountPw == "" || mainForm.account == "")
             {

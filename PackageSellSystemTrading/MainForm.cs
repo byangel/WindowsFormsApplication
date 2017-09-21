@@ -48,12 +48,10 @@ namespace PackageSellSystemTrading{
 
         public String account; //계좌번호
         public String accountPw;//계좌 비밀번호
-        //public String account { get; set; }
-        //public String accountPw { get; set; }
-        //public String[] users = new {["dasdf", "sdfsfsd"]};
 
-        public EBindingList<Xing_CSPAT00600> xing_CSPAT00600List;
-        public EBindingList<Xing_CSPAT00800> xing_CSPAT00800List;
+
+
+        public CSPAT00600Mng CSPAT00600Mng;
         //생성자
         public MainForm(){
             InitializeComponent();
@@ -66,9 +64,7 @@ namespace PackageSellSystemTrading{
         {
             //폼 초기화
             initForm();
-
-            this.xing_CSPAT00600List = new EBindingList<Xing_CSPAT00600>();
-            this.xing_CSPAT00800List = new EBindingList<Xing_CSPAT00800>();
+            
         }
 
         //프로그램시작시 폼 초기화
@@ -90,10 +86,7 @@ namespace PackageSellSystemTrading{
                 this.xing_t0425.mainForm = this;
                 this.xing_t0167 = new Xing_t0167();//서버시간조회
                 this.xing_t0167.mainForm = this;
-                //this.xing_CSPAT00600 = new Xing_CSPAT00600();//정상주문
-                //this.xing_CSPAT00600.mainForm = this;
-                //this.xing_CSPAT00800 = new Xing_CSPAT00800();//현물취소주문
-                //this.xing_CSPAT00800.mainForm = this;
+              
                 this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
                 this.xing_CSPAQ12200.mainForm = this;
 
@@ -118,7 +111,8 @@ namespace PackageSellSystemTrading{
                 this.real_K3.mainForm = this;
                 this.real_jif = new Real_jif();    //장정보
                 this.real_jif.mainForm = this;
-  
+                this.CSPAT00600Mng = new CSPAT00600Mng(this);
+
                 //계좌잔고 그리드 초기화
                 grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
                 grd_t0424Excl.DataSource = this.xing_t0424.getExcludeT0424VoList();//감시제외종목 바인딩
@@ -405,8 +399,7 @@ namespace PackageSellSystemTrading{
                             /// <param name="IsuNo">종목번호</param>
                             /// <param name="Quantity">수량</param>
                             /// <param name="Price">가격</param>
-                            Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
-                            this.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                            Xing_CSPAT00600 xing_CSPAT00600 = CSPAT00600Mng.get600();
                             xing_CSPAT00600.ordptnDetail    = "선택매도";      //상세 매매 구분.
                             xing_CSPAT00600.shcode          = expcode; //종목코드
                             xing_CSPAT00600.hname           = hname;   //종목명
@@ -441,12 +434,15 @@ namespace PackageSellSystemTrading{
         private void test_Click(object sender, EventArgs e)
         {
             try
-            {
-                Xing_LinkToHTS xing_LinkToHTS = new Xing_LinkToHTS();
-                //bool test = xing_LinkToHTS.call_request("112610");
-                xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", "112610", "");
+            {   //HTS연동
+                //Xing_LinkToHTS xing_LinkToHTS = new Xing_LinkToHTS();
+                ////bool test = xing_LinkToHTS.call_request("112610");
+                //xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", "112610", "");
 
-
+                //주문취소
+                //Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(this);
+                //mainForm.xing_CSPAT00800List.Add(xing_CSPAT00800);
+                //xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, "064550", "");
                 String tesss = "";
                 //RequestLinkToHTS fdf = new RequestLinkToHTS();
 
@@ -504,8 +500,7 @@ namespace PackageSellSystemTrading{
         //취소
         private void button3_Click(object sender, EventArgs e)
         {
-            Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(this);
-            this.xing_CSPAT00800List.Add(xing_CSPAT00800);
+            Xing_CSPAT00800 xing_CSPAT00800 = CSPAT00600Mng.get800();
             xing_CSPAT00800.call_request(this.account, this.accountPw, "14074", "030270", "");
         }
 
@@ -1112,6 +1107,72 @@ namespace PackageSellSystemTrading{
         //잔고목록과 DB 동기화
         private void btn_sync_Click(object sender, EventArgs e)
         {
+            ////1.t0425부터 동기화를 해주자.
+            //for (int i = 0; i < this.xing_t0425.getT0425VoList().Count(); i++)
+            //{
+                
+            //    T0425Vo t0425Vo = this.xing_t0425.getT0425VoList().ElementAt(i);
+            //    if (t0425Vo.ordno == "16457")
+            //    {
+            //        int test = 0;
+            //    }
+            //    var items = from item in this.tradingHistory.getTradingHistoryDt().AsEnumerable()
+            //                where item["accno"].ToString() == this.account
+            //                   && item["Isuno"].ToString() == t0425Vo.expcode.Replace("A", "")
+            //                   && item["ordno"].ToString() == t0425Vo.ordno
+            //                select item;
+            //    //수량 동기와
+            //    if (items.Count() > 0)
+            //    {
+            //        /////////프로그램 재시작하는동안 체결된 정보는 DB에 저장이 안되기 때문에 체결수량이 DB정보와 다르면 DB정보를 수정해준다.///////////
+            //        //체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
+            //        if (t0425Vo.cheqty != items.First()["execqty"].ToString())
+            //        {
+            //            items.First()["execqty"] = t0425Vo.cheqty;
+            //            items.First()["execprc"] = t0425Vo.cheprice.Replace(",", "");
+
+            //            //item.Isunm   = tmpT0425Vo.hname//tr에서 종목 이름이 넘어오지 않는다.
+            //            this.tradingHistory.execqtyUpdate(items.First());//수량 업데이트
+            //        }
+            //    }else{
+            //        //데이타로그에 저장
+            //        //public class dataLogVo
+            //        TradingHistoryVo dataLogVo = new TradingHistoryVo();
+            //        dataLogVo.ordno         = t0425Vo.ordno;                  //주문번호
+            //        dataLogVo.accno         = this.account;                 //계좌번호
+            //        dataLogVo.ordptncode    = t0425Vo.medosu == "매도" ? "01":"02";             //주문구분 01:매도|02:매수 
+            //        dataLogVo.Isuno         = t0425Vo.expcode.Replace("A", ""); //종목코드
+            //        dataLogVo.ordqty        = t0425Vo.qty;                 //주문수량
+            //        dataLogVo.execqty       = t0425Vo.cheqty;                //체결수량
+            //        dataLogVo.ordprc        = t0425Vo.price;                 //주문가격
+            //        dataLogVo.execprc       = t0425Vo.cheprice;                //체결가격
+            //        dataLogVo.Isunm         = t0425Vo.hname;                  //종목명
+            //        dataLogVo.ordptnDetail  = "동기화";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
+            //        dataLogVo.upExecprc     = "0";                              //상위체결가격
+            //        dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+            //        dataLogVo.useYN         = "Y";                              //사용여부
+            //        dataLogVo.ordermtd      = "XING API";                            //주문 매체
+            //        dataLogVo.upOrdno       = t0425Vo.ordno;                  //상위 주문번호
+
+            //        //주문정보를 주문이력 DB에 저장 - dataInsert호출
+            //        this.tradingHistory.insert(dataLogVo);
+
+            //    }
+            //}
+            ////DB 정보가 잔고그리드에 있는지 여부에따라 삭제 해준다.
+            //DataTable dt = this.tradingHistory.getTradingHistoryDt().Copy();
+            //foreach (DataRow item in dt.AsEnumerable())
+            //{
+            //    int findIndex = xing_t0424.getT0424VoList().Find("expcode", item["Isuno"].ToString());
+            //    if (findIndex < 0 )
+            //    {
+            //        //Log.WriteLine("동기화 ::삭제[" + item["Isuno"].ToString());
+            //        this.tradingHistory.isunoDelete(item["Isuno"].ToString());//DB삭제.
+            //    }
+            //}
+            //dt = null;
+          
+            //잔고 동기화.
             xing_t0424.t0424histoySync();
         }
 
@@ -1173,22 +1234,15 @@ namespace PackageSellSystemTrading{
            
             if (감시제외여부 == "Y"){
                 this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Gray;
-               
             }
 
             //매수금지이고 t0424에 빨간색으로 표시해주자.
             int t1833ExcludeVoListFindIndex = this.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", 종목코드);
             if (t1833ExcludeVoListFindIndex >= 0)
             {
-                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+                this.grd_t0424.Rows[rowIndex].Cells["grd_t0424_check"].Style.BackColor = Color.Red;
             }
-            if (t1833ExcludeVoListFindIndex >= 0 && 감시제외여부 == "Y")
-            {
-                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.DarkOrange;
-            }
-
-
-
+            
             //매매이력정보 호출
             SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드.Replace("A", ""));
             if (summaryVo != null){
@@ -1269,7 +1323,10 @@ namespace PackageSellSystemTrading{
             historyForm.ShowDialog();
         }
 
-        
+        private void grd_t0425_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }//end class
 }//end namespace
 

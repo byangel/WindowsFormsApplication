@@ -413,8 +413,7 @@ namespace PackageSellSystemTrading {
                     if (Double.Parse(현재가격) >= Double.Parse(목표청산가격))
                     {
                         //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
-                        Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                        mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                         xing_CSPAT00600.ordptnDetail    = "목표청산";      //상세 매매 구분.
                         xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
                         xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
@@ -439,8 +438,7 @@ namespace PackageSellSystemTrading {
                 if (추가진입가격 != "" && 추가진입가격 != "0" && int.Parse(t0424Vo.buyCnt) < 2)
                 {
                     if (Double.Parse(현재가격) <= Double.Parse(추가진입가격)){
-                        Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                        mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                         //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                         int 수량 = int.Parse(추가진입금액) / int.Parse(현재가격);
 
@@ -468,8 +466,7 @@ namespace PackageSellSystemTrading {
                 {
                     if (Double.Parse(현재가격) <= Double.Parse(감시제외손절가격)) {
                         //손절매도.
-                        Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                        mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
 
                         xing_CSPAT00600.ordptnDetail  = "제외손절";       //상세 매매 구분.
                         xing_CSPAT00600.shcode        = t0424Vo.expcode; //종목코드
@@ -504,8 +501,7 @@ namespace PackageSellSystemTrading {
                 //손절
                 if (손절기능여부){
                     if (Double.Parse(현재수익율) <= Double.Parse(손절값)){
-                        Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                        mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                         xing_CSPAT00600.ordptnDetail    = "손절";          //상세 매매 구분.
                         xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
                         xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
@@ -530,8 +526,7 @@ namespace PackageSellSystemTrading {
                     int findIndex = mainForm.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", t0424Vo.expcode.Replace("A",""));
                     if (findIndex >= 0)
                     {
-                        Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                        mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                         xing_CSPAT00600.ordptnDetail    = "매수금지손절";          //상세 매매 구분.
                         xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
                         xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
@@ -572,8 +567,7 @@ namespace PackageSellSystemTrading {
                         t0424Vo.errorcd = "sunikrt error";
                         return false;
                     }
-                    Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(mainForm);
-                    mainForm.xing_CSPAT00600List.Add(xing_CSPAT00600);
+                    Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                     xing_CSPAT00600.ordptnDetail  = "수익청산";      //상세 매매 구분.
                     xing_CSPAT00600.shcode        = t0424Vo.expcode; //종목코드
                     xing_CSPAT00600.hname         = t0424Vo.hname;   //종목명
@@ -604,13 +598,7 @@ namespace PackageSellSystemTrading {
         //매매이력 DB와 동기화
         public void t0424histoySync()
         {
-            //1.t0425부터 동기화를 해주자.
-            for (int i = 0; i < mainForm.xing_t0425.getT0425VoList().Count(); i++)
-            {
-                mainForm.xing_t0425.t0425Sync(i);
-                
-            }
-
+            
             for (int i = 0; i < this.t0424VoList.Count(); i++)
             {
                 //1.보유종목 이력 존재 여부확인

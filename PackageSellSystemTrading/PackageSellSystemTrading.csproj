@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cs\log\ChartData.cs" />
+    <Compile Include="cs\tr\CSPAT00600Mng.cs" />
     <Compile Include="cs\tr\Xing_LinkToHTS.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>Form</SubType>
