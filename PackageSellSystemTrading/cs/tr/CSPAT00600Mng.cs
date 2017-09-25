@@ -39,10 +39,12 @@ namespace PackageSellSystemTrading{
             {
                 if(this.xing_CSPAT00600List.ElementAt(i).completeAt)
                 {
+                    this.xing_CSPAT00600List.ElementAt(i).completeAt = false;
                     return this.xing_CSPAT00600List.ElementAt(i);
                 }
             }
             Xing_CSPAT00600 item600 = new Xing_CSPAT00600(mainForm);
+            item600.completeAt = false;
             this.xing_CSPAT00600List.Add(item600);
             return item600;
         }
@@ -53,10 +55,12 @@ namespace PackageSellSystemTrading{
             {
                 if (this.xing_CSPAT00800List.ElementAt(i).completeAt)
                 {
+                    this.xing_CSPAT00800List.ElementAt(i).completeAt = false;
                     return this.xing_CSPAT00800List.ElementAt(i);
                 }
             }
             Xing_CSPAT00800 item800 = new Xing_CSPAT00800(mainForm);
+            item800.completeAt = false;
             this.xing_CSPAT00800List.Add(item800);
             return item800;
         }
@@ -65,8 +69,6 @@ namespace PackageSellSystemTrading{
         {
           
         }
-        
-       
 
     } //end class 
    

@@ -503,84 +503,7 @@ namespace PackageSellSystemTrading{
             Xing_CSPAT00800 xing_CSPAT00800 = CSPAT00600Mng.get800();
             xing_CSPAT00800.call_request(this.account, this.accountPw, "14074", "030270", "");
         }
-
-
-
         
-        //폰트색 지정
-        private void grd_t0425_chegb1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.ColumnIndex == 1 )
-            {
-                if (e.Value != null)
-                {
-                    if (e.Value.ToString().IndexOf("매도") >= 0)
-                    {
-                        e.CellStyle.ForeColor = Color.Blue;
-                        e.CellStyle.SelectionForeColor = Color.Blue;
-                    }else{
-                        e.CellStyle.ForeColor = Color.Red;
-                        e.CellStyle.SelectionForeColor = Color.Red;
-                    }
-                }
-            }
-
-            if (e.ColumnIndex == 11)
-            {
-                if (e.Value != null)
-                {
-                    //if (e.Value.ToString().IndexOf("신규매수") >= 0)
-                    if (e.Value.ToString() == "신규매수" || e.Value.ToString() == "반복매수")
-                    {
-                        e.CellStyle.ForeColor = Color.Red;
-                        e.CellStyle.SelectionForeColor = Color.Red;  
-                    }
-                    else
-                    {
-                        e.CellStyle.ForeColor = Color.Blue;
-                        e.CellStyle.SelectionForeColor = Color.Blue;
-                    }
-                }
-            }
-            //삭제예정
-            if (e.ColumnIndex == 6 || e.ColumnIndex == 8)
-            {
-                if (e.Value != null)
-                {
-
-                    e.Value = Util.GetNumberFormat(e.Value.ToString());
-                }
-            }
-            //폰트색 지정
-            if (e.ColumnIndex == 17)
-            {
-                if (e.Value != null)
-                {
-
-                    if (e.Value.ToString().IndexOf("-") >= 0)
-                    {
-                        e.CellStyle.ForeColor = Color.Blue;
-                        e.CellStyle.SelectionForeColor = Color.Blue;
-                    }
-                    else
-                    {
-                        e.CellStyle.ForeColor = Color.Red;
-                        e.CellStyle.SelectionForeColor = Color.Red;
-
-                    }
-                }
-            }
-            //주문시간 :: 0 / 09094942
-            //구분     :: 1 / 매도
-            //상태     :: 9 / 체결
-            //상세구분 :: 11 / 청산
-            //종목코드 :: 2 / 057540
-            //종목명   :: 3 / 옴니시스템
-            //주문수량 :: 4 / 18
-            //주문가격 :: 5 / 2840
-            //제결수량 :: 6 / 18
-            //Log.WriteLine(e.ColumnIndex.ToString()+"/"+ e.Value);
-        }
 
         //조건검색 그리드
         private void grd_t1833_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -1323,10 +1246,7 @@ namespace PackageSellSystemTrading{
             historyForm.ShowDialog();
         }
 
-        private void grd_t0425_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        
     }//end class
 }//end namespace
 

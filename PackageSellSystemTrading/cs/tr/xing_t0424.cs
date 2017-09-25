@@ -382,8 +382,17 @@ namespace PackageSellSystemTrading {
                     목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET2;
                 }
                 if (시간차목표수익율){
-                    int 나머지 = (int.Parse(mainForm.xing_t0167.minute) - ((int.Parse(mainForm.xing_t0167.minute) / 60) * 60));
-                    if (나머지 != 0){
+                    //int 나머지 = (int.Parse(mainForm.xing_t0167.minute) - ((int.Parse(mainForm.xing_t0167.minute) / 60) * 60));
+                    int 나머지 = int.Parse(mainForm.xing_t0167.minute);
+                    //if (나머지 != 0){
+                    //    목표수익율 = "10";
+                    //}
+                    if (나머지 == 0 || 나머지 == 30)
+                    {
+                       
+                    }
+                    else
+                    {
                         목표수익율 = "10";
                     }
                 }
@@ -548,7 +557,7 @@ namespace PackageSellSystemTrading {
 
                 //목표수익 달성시...
                 if (Double.Parse(현재수익율) >= Double.Parse(목표수익율)){
-                    Log.WriteLine("t0424 ::"+t0424Vo.hname+"/" + 현재수익율.ToString() + "목표:" + 목표수익율+"에러코드:"+ t0424Vo.errorcd);
+                    Log.WriteLine("t0424 ::"+t0424Vo.hname+"/" + 현재수익율.ToString() + "목표:" + 목표수익율);
                     /// <summary>
                     /// 현물정상주문
                     /// </summary>

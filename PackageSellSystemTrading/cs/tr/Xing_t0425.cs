@@ -73,13 +73,10 @@ namespace PackageSellSystemTrading {
                 String status; //상태 체결|미체결
                 String qty;    //주문수량
                 String cheqty; //체결수량
-                Double 체결가격;//금일체결가격
-                Double 현재가;//0424 현재가
-                Double todayLate;
-                int    t0424FindIndex;
+               
+              
                 int    findIndex;
-                Double 매입금액;
-                Double 매도금액;
+                
                 T0425Vo tmpT0425Vo;
                 String medosu;//매매구분
                 var blockData = base.GetBlockData("t0425OutBlock1");
@@ -135,6 +132,7 @@ namespace PackageSellSystemTrading {
                     }
                     //확장 정보및 싱크
                     this.t0425Sync(findIndex);
+                    
 
                 }//for end
 
@@ -185,6 +183,7 @@ namespace PackageSellSystemTrading {
         public void t0425Sync(int rowIndex)
         {
             T0425Vo tmpT0425Vo = t0425VoList.ElementAt(rowIndex);
+            
             //체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
                         where item["accno"].ToString() == mainForm.account
@@ -255,7 +254,19 @@ namespace PackageSellSystemTrading {
                 if (items.First()["cancelOrdAt"].ToString() == "Y"){
                     mainForm.grd_t0425.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Gray;
                 }
+
+                //폰트색변경
+                String 매매구분 = mainForm.grd_t0425.Rows[rowIndex].Cells["medosu"].Value.ToString();
+                Color color = 매매구분.IndexOf("매도") >= 0 ? Color.Blue : Color.Red;
+                mainForm.grd_t0425.Rows[rowIndex].Cells["medosu"].Style.ForeColor = color;//매매구분
+                mainForm.grd_t0425.Rows[rowIndex].Cells["ordptnDetail"].Style.ForeColor = color;//매매상세구분
+                var 금일수익율 = mainForm.grd_t0425.Rows[rowIndex].Cells["toDaysunikrt"].Value;
+                금일수익율 = 금일수익율 == null ? "0" : 금일수익율;
                 
+                color = 금일수익율.ToString().IndexOf("-") >= 0 ? Color.Blue : Color.Red;
+                mainForm.grd_t0425.Rows[rowIndex].Cells["toDaysunikrt"].Style.ForeColor = color;//금일수익율
+
+
             } else { //DB에 매매 이력 정보가 없을때
 
             }
@@ -301,7 +312,7 @@ namespace PackageSellSystemTrading {
                 base.SetFieldData("t0425InBlock", "expcode"  , 0, "");         // 종목번호
                 base.SetFieldData("t0425InBlock", "chegb"    , 0, "0");        // 체결구분 - 0:전체|1:체결|2|미체결
                 base.SetFieldData("t0425InBlock", "medosu"   , 0, "0");        // 매매구분 - 0:전체|1:매수|2:매도  
-                base.SetFieldData("t0425InBlock", "sortgb"   , 0, "1");        // 정렬순서
+                base.SetFieldData("t0425InBlock", "sortgb"   , 0, "2");        // 정렬순서
                 base.SetFieldData("t0425InBlock", "cts_ordno", 0, "");         // 주문번호
 
                 // 계좌잔고 그리드 초기화

@@ -223,86 +223,14 @@ namespace PackageSellSystemTrading{
             if (mainForm.accountPw == "" || mainForm.account == "")
             {
                 MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
-            }
-            else
-            {           
+            }else{           
                 base.Request(false);  //연속조회일경우 true
                 //this.completeAt = false;
             }
             
         }   // end function
-
-
         
-        /// <summary>
-        /// 현물정상주문
-        /// </summary>
-        /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
-        /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-        /// <param name="upExecprc">상위체결금액</param>
-        /// <param name="hname">종목명</param>
-        /// <param name="IsuNo">종목코드</param>
-        /// <param name="Quantity">수량</param>
-        /// <param name="Price">가격</param>
-        //public void call_requestSell(String ordptnDetail, String upOrdno, String upExecprc, String hname, String shcode, String quantity, String price)
-        //{
-        //    //변수초기화 여기는 굳이 안해줘도 될듯.
-
-        //    //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
-        //    if (mainForm.combox_targetServer.SelectedIndex == 0)
-        //    {
-        //        shcode = "A" + shcode;
-        //    }
-        //    this.shcode       = shcode;      //종목번호
-        //    this.hname        = hname;       //종목명
-        //    this.quantity     = quantity;    //주문수량
-        //    this.price        = price.Replace(",", "");       //주문가
-        //    this.ordptnDetail = ordptnDetail;//상세주문구분
-        //    this.upOrdno      = upOrdno;     //상위매수주문번호  
-        //    this.upExecprc    = upExecprc.Replace(",", "");   //상위체결가격
-        //    this.sellOrdAt    = "N";         //매도주문여부-상위매도주문에 설정해야한다.
-        //    this.call_request(shcode, quantity, this.price, "1");
-
-        //}   // end function
-
         
-        ///// <summary>
-        ///// 현물정상주문
-        ///// </summary>
-        ///// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
-        ///// <param name="IsuNo">종목번호</param>
-        ///// <param name="Quantity">수량</param>
-        ///// <param name="Price">가격</param>
-        //public void call_requestBuy(String ordptnDetail,  String shcode,String hname, String quantity, String price)
-        //{
-        //    //변수초기화
-        //    //this.shcode       = "";        // 종목번호
-        //    //this.quantity     = "";      // 주문수량
-        //    //this.price        = "";         // 주문가
-        //    //this.ordptnDetail = "";  //상세주문구분
-        //    //this.upOrdno      = "";       //상위매수주문 - 금일매도매수일때만 값이 있다.
-        //    //this.upExecprc    = "";     //상위체결금액  
-        //    //this.hname        = "";
-        //    //this.sellOrdAt    = "";
-        //    //1.모의투자 여부 구분하여 모의투자이면 A+종목번호
-        //    if (mainForm.combox_targetServer.SelectedIndex == 0)
-        //    {
-        //        shcode = "A" + shcode;
-        //    }
-        //    this.shcode        = shcode;      // 종목번호
-        //    this.hname         = hname;
-        //    this.quantity      = quantity;    // 주문수량
-        //    this.price         = price.Replace(",", "");       // 주문가
-        //    this.ordptnDetail  = ordptnDetail;//상세주문구분
-        //    this.upOrdno       = "";          //상위매수주문번호  
-        //    this.upExecprc     = "0";         //상위체결가격
-        //    this.sellOrdAt     = "N";
-        //    this.call_request(shcode, quantity, this.price, "2");
-
-
-
-
-        //}	// end function
 
 
     } //end class 

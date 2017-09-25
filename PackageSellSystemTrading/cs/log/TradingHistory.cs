@@ -698,8 +698,9 @@ namespace PackageSellSystemTrading
             }
             매입금액     = 총매수금액 - 총매도금액;
             매도가능수량 = 총매수체결수량 - 총매도체결수량;
-           
-            double 평균단가         = (매입금액 / 매도가능수량);
+
+            //double 평균단가         = (매입금액 / 매도가능수량);
+            double 평균단가 = (총매수금액 / 총매수체결수량);
 
             summaryVo.pamt2         = 평균단가.ToString(); //평균단가
             summaryVo.buyCnt        = 매수횟수.ToString(); //매수횟수
