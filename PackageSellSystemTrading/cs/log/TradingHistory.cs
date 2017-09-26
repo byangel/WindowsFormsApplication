@@ -671,10 +671,10 @@ namespace PackageSellSystemTrading
            
             foreach (DataRow item in items)
             {
-                if (item["ordptncode"].ToString() == "02" && item["useYN"].ToString() == "Y")//매수그룹
+                
+                if (item["ordptncode"].ToString() == "02" && item["useYN"].ToString() == "Y" && int.Parse(item["execqty"].ToString()) > 0)//매수그룹
                 {   //총매수금액 + 체결수량+체결가격
-                    Double test = Double.Parse(item["execqty"].ToString());
-                    Double t2 = Double.Parse(item["execprc"].ToString());
+                    
                     총매수금액 = 총매수금액 + (Double.Parse(item["execqty"].ToString()) * Double.Parse(item["execprc"].ToString()));
                     //매도가능수량 = 매도가능수량 + Double.Parse(item.execqty);
                     총매수체결수량 = 총매수체결수량 + Double.Parse(item["execqty"].ToString());
@@ -684,10 +684,10 @@ namespace PackageSellSystemTrading
                         최초진입 = item["dt"].ToString();
                     }
                 }
-                else if (item["ordptncode"].ToString() == "01" && item["useYN"].ToString() == "Y")
+                else if (item["ordptncode"].ToString() == "01" && item["useYN"].ToString() == "Y" && int.Parse(item["execqty"].ToString()) > 0)
                 {//매도그룹
-                    
-                    총매도금액 = 총매도금액 + (Double.Parse(item["execqty"].ToString()) * Double.Parse(item["execprc"].ToString()));
+                    //총매도금액 =총매도금액+ 체결수량 * 상위체결금액(현재오른값으로 계산하면 1줄일때 반만 매도됬을경우 계산 안맞는다.)
+                    총매도금액 = 총매도금액 + (Double.Parse(item["execqty"].ToString()) * Double.Parse(item["upExecprc"].ToString()));
 
                     //매도가능수량 = 매도가능수량 - Double.Parse(item.execqty);
                     총매도체결수량 = 총매도체결수량 + Double.Parse(item["execqty"].ToString());
@@ -699,8 +699,8 @@ namespace PackageSellSystemTrading
             매입금액     = 총매수금액 - 총매도금액;
             매도가능수량 = 총매수체결수량 - 총매도체결수량;
 
-            //double 평균단가         = (매입금액 / 매도가능수량);
-            double 평균단가 = (총매수금액 / 총매수체결수량);
+            double 평균단가         = (매입금액 / 매도가능수량);
+            //double 평균단가 = (총매수금액 / 총매수체결수량);
 
             summaryVo.pamt2         = 평균단가.ToString(); //평균단가
             summaryVo.buyCnt        = 매수횟수.ToString(); //매수횟수
