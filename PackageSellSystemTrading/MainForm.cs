@@ -43,6 +43,8 @@ namespace PackageSellSystemTrading{
         public TradingHistory tradingHistory; //데이타로그
         public ChartData chartData;//차트데이타
 
+        Xing_LinkToHTS xing_LinkToHTS;
+
         public String tradingAt;//매매 여부 Y|N
 
 
@@ -113,10 +115,11 @@ namespace PackageSellSystemTrading{
                 this.real_jif.mainForm = this;
                 this.CSPAT00600Mng = new CSPAT00600Mng(this);
 
+                this.xing_LinkToHTS = new Xing_LinkToHTS();
                 //계좌잔고 그리드 초기화
                 grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
                 grd_t0424Excl.DataSource = this.xing_t0424.getExcludeT0424VoList();//감시제외종목 바인딩
-                
+
                 //진입검색 그리드.바인딩
                 grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); 
                 //체결미체결 그리드 DataSource 설정
@@ -435,9 +438,9 @@ namespace PackageSellSystemTrading{
         {
             try
             {   //HTS연동
-                //Xing_LinkToHTS xing_LinkToHTS = new Xing_LinkToHTS();
-                ////bool test = xing_LinkToHTS.call_request("112610");
-                //xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", "112610", "");
+                Xing_LinkToHTS xing_LinkToHTS = new Xing_LinkToHTS();
+                //bool test = xing_LinkToHTS.call_request("112610");
+                xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", "112610", "");
 
                 //주문취소
                 //Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(this);
@@ -1191,7 +1194,6 @@ namespace PackageSellSystemTrading{
                 }
                 else if (c_mdposqt == summaryVo.sumMdposqt)
                 {
-
                     if (errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
                     {
                         this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "";
@@ -1201,7 +1203,6 @@ namespace PackageSellSystemTrading{
                 if (errorcd != null && errorcd.Equals("notHistory")){
                     this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "";
                 }
-
                 
                 String 수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString().Replace(",", "");
                 //그리드 수익에따라  폰트색 지정
@@ -1220,33 +1221,66 @@ namespace PackageSellSystemTrading{
                     grd_t0424Excl.Rows[findIndex].Cells["e_price"].Value = Util.GetNumberFormat(grd_t0424.Rows[rowIndex].Cells["price"].Value.ToString());
                     //grd_t0424Excl.Rows[findIndex].Cells["e_price"].Style.ForeColor = color;
                 }
-
-
-            }
-            else{
+            }else{
                 //이력정보가 없으면 에러코드등록해준다.
                 this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "notHistory";
             }//else END
-
             
-
 
             //3.매매이력에 따른 손익율 재계산.
             this.grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Value = this.xing_t0424.getSunikrt2(this.xing_t0424.getT0424VoList().ElementAt(rowIndex));
-            ////if ((Double.Parse(tmpT0424Vo.sunikrt)+1) < (Double.Parse(tmpT0424Vo.sunikrt2) ))
-            ////{
-            ////    //Log.WriteLine("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2+"/" + (Double.Parse(tmpT0424Vo.sunikrt) + 101).ToString()+"/"+ (Double.Parse(tmpT0424Vo.sunikrt2) + 100).ToString());
-            ////    //MessageBox.Show("t0424 :: 수익률 이상함 dataLog 확인해보자.[" + tmpT0424Vo.hname + "(" + tmpT0424Vo.expcode + ")]  수익율:" + tmpT0424Vo.sunikrt + "%    수익율2:" + tmpT0424Vo.sunikrt2);
-            ////}
+           
         }
         
        
-        private void grd_t0424_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        //HTS연동
+        private void grd_t0424_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            historyForm.ShowDialog();
+            int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+            if (e.ColumnIndex == columnIndex)
+            {
+                var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+                종목코드 = 종목코드 == null ? "" : 종목코드;
+                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+            }
+        }
+        //HTS연동
+        private void grd_t0425_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
+            if (e.ColumnIndex == columnIndex)
+            {
+                var 종목코드 = this.grd_t0425.Rows[e.RowIndex].Cells["expcode"].Value;
+                종목코드 = 종목코드 == null ? "" : 종목코드;
+                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+            }
+        }
+        //HTS연동
+        private void grd_t1833_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int columnIndex = grd_t1833.Rows[e.RowIndex].Cells["hname"].ColumnIndex;
+            if (e.ColumnIndex == columnIndex)
+            {
+                var 종목코드 = this.grd_t1833.Rows[e.RowIndex].Cells["shcode"].Value;
+                종목코드 = 종목코드 == null ? "" : 종목코드;
+                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                //this.xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", 종목코드, "");
+            }
         }
 
+        //더블클릭 이력 정보
         
+        private void grd_t0424_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+            if (e.ColumnIndex == columnIndex)
+            {
+                var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+                종목코드 = 종목코드 == null ? "" : 종목코드;
+                historyForm.Search(종목코드.ToString());
+                historyForm.ShowDialog();
+            }
+        }
     }//end class
 }//end namespace
 

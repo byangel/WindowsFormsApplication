@@ -124,74 +124,66 @@ namespace PackageSellSystemTrading{
         //현물정상주문 메세지 처리
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage)
         {
-            
-            if (nMessageCode == "00000" || nMessageCode == "00040"||nMessageCode == "00039")
+
+            if (nMessageCode == "00000" || nMessageCode == "00040" || nMessageCode == "00039")
             {
                 ;
-            }else{
+            }
+            else
+            {
                 String msg = "CSPAT00600::" + this.hname + "(" + this.shcode + ") " + szMessage + "(" + nMessageCode + ")- [수량:" + this.quantity + "]";
-                MessageBox.Show(msg);
+
                 Log.WriteLine(msg);
-                //에러 리턴 받았을때
-                this.completeAt = true;
-                //금일매도매수일때만 값이 있다.
-                if (upOrdno!="")
+                //에러 리턴 받았을때 매수 일때와 매도일때 구분해서 구현하자.
+
+                //매수일때는 에러코드를 출력할곳이 없으므로 안내창을 호출 해준다.
+                if (this.divideBuySell == "1")
                 {
-                    //주문이 잘못되었을경우 매도여부를 초기화 해준다.
-                    int findIndexT0425 = mainForm.xing_t0425.getT0425VoList().Find("ordno", this.upOrdno);//upOrdno
-                    if (findIndexT0425 >= 0)
+                    MessageBox.Show(msg);
+                } else {
+                    //금일매도매수일때만 값이 있다.--이게 필요한지 모르겠다...매도취소일때만 매도주문 초기화를 해줘도 될듯한데...
+                    if (upOrdno != "")
                     {
-                        //금일매도여부 상관없이 그냥 N해준다..
-                        mainForm.grd_t0425.Rows[findIndexT0425].Cells["sellOrdAt"].Value = "N"; //매도주문여부 초기화
-
-
-                        //상위주문번호 주문여부 Y로 업데이트
-                        var items =  from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
-                                    where item["ordno"].ToString() == this.upOrdno
-                                        && item["accno"].ToString() == mainForm.account
-                                    select item;
-
-                        foreach (DataRow item in items)
+                        //주문이 잘못되었을경우 매도여부를 초기화 해준다.
+                        int findIndexT0425 = mainForm.xing_t0425.getT0425VoList().Find("ordno", this.upOrdno);//upOrdno
+                        if (findIndexT0425 >= 0)
                         {
-                            item["sellOrdAt"] = "N";
-                            mainForm.tradingHistory.sellOrdAtUpdate(item);//매도주문 여부 상태 업데이트
+                            //금일매도여부 상관없이 그냥 N해준다..
+                            mainForm.grd_t0425.Rows[findIndexT0425].Cells["sellOrdAt"].Value = "N"; //매도주문여부 초기화
+                            
+                            //상위주문번호 주문여부 Y로 업데이트
+                            var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
+                                        where item["ordno"].ToString() == this.upOrdno
+                                            && item["accno"].ToString() == mainForm.account
+                                        select item;
+                            if (items.Count() > 0){
+                                items.First()["sellOrdAt"] = "N";
+                                mainForm.tradingHistory.sellOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
+                            }
                         }
+
+                    }//receiveMessageEventHandler END
+
+
+                    //0424 주문안한 상탱로 초기화
+                    int findIndexT0424 = mainForm.xing_t0424.getT0424VoList().Find("expcode", this.shcode.Replace("A", ""));
+                    //주문여부를 다시 N으로 설정한다.
+                    if (findIndexT0424 >= 0)
+                    {
+                        mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
+                        mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = szMessage; //에러코드
                     }
+
+                    //t0424Vo.orderAt
+                    //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
+                    // 01222 :: 모의투자 매도잔고가 부족합니다  
+                    // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
+                    // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
+                    // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
+                    // 01219 :: 모의투자 매매금지 종목
+                    // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.   
                     
-                }//receiveMessageEventHandler END
-
-                
-                //0424 주문안한 상탱로 초기화
-                int findIndexT0424 = mainForm.xing_t0424.getT0424VoList().Find("expcode", this.shcode.Replace("A", ""));
-                //주문여부를 다시 N으로 설정한다.
-                if (findIndexT0424 >= 0)
-                {
-                    mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
                 }
-                
-                //t0424Vo.orderAt
-                //mainForm.input_t0424_log.Text = nMessageCode + " :: " + szMessage;
-                // 01222 :: 모의투자 매도잔고가 부족합니다  
-                // 00040 :: 모의투자 매수주문 입력이 완료되었습니다.
-                // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
-                // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
-                // 01219 :: 모의투자 매매금지 종목
-                // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.   
-                
-                //정규매매장이 종료되었습니다.
-                if (nMessageCode=="03563"){
-                    ;
-                }
-                if (nMessageCode == "02705"){
-                    MessageBox.Show("600:: 모의투자 주문가격을 잘못 입력하셨습니다." + price);
-                }
-
-                //거래정지 종목으로 주문이 불가능합니다.
-                if (nMessageCode == "01069")
-                {
-                   mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = "거래정지"; //에러코드
-                }
-                
             }
             completeAt = true;
         }

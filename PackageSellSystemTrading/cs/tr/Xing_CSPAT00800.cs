@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using XA_SESSIONLib;
 using XA_DATASETLib;
+using System.Data;
 
 namespace PackageSellSystemTrading{
     //현물 취소주문
@@ -74,9 +75,34 @@ namespace PackageSellSystemTrading{
                 if (findIndex >= 0){
                     mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "C";//데이타를 새로 수신 받을때 다시 N상태로 해야함.
                 }
-                //history 에 등록된 주문이력도 같이 삭제 하는데 이때 체결수량이 0인경우에만 삭제한다.
-                mainForm.tradingHistory.execqtyDelete(IsuNo);
-                
+
+
+                //금일매도 주문이 취소되었을경우이다.
+                if (upOrdno != "")
+                {
+                    //주문이 잘못되었을경우 매도여부를 초기화 해준다.
+                    int findIndexT0425 = mainForm.xing_t0425.getT0425VoList().Find("ordno", this.upOrdno);//upOrdno
+                    if (findIndexT0425 >= 0)
+                    {
+                        //금일매도여부 상관없이 그냥 N해준다..
+                        mainForm.grd_t0425.Rows[findIndexT0425].Cells["sellOrdAt"].Value = "N"; //매도주문여부 초기화
+
+                        //상위주문번호 주문여부 Y로 업데이트
+                        var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
+                                    where item["ordno"].ToString() == this.upOrdno
+                                        && item["accno"].ToString() == mainForm.account
+                                    select item;
+                        if (items.Count() > 0)
+                        {
+                            items.First()["sellOrdAt"] = "N";
+                            mainForm.tradingHistory.sellOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
+                        }
+                    }
+
+                }//receiveMessageEventHandler END
+                 //history 에 등록된 주문이력도 같이 삭제 하는데 이때 체결수량이 0인경우에만 삭제한다.
+                 //mainForm.tradingHistory.execqtyDelete(IsuNo);굳이 삭제 하지말자.
+
             }
             
         }
@@ -150,11 +176,11 @@ namespace PackageSellSystemTrading{
             //String account = mainForm.comBox_account.Text; //메인폼 계좌번호 참조
             //String accountPw = mainForm.input_accountPw.Text; //메인폼 비빌번호 참조
 
-            base.SetFieldData("CSPAT00800InBlock1", "AcntNo"    , 0, account);  // 계좌번호
-            base.SetFieldData("CSPAT00800InBlock1", "InptPwd"   , 0, accountPw);// 입력비밀번호
-            base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo"  , 0, upOrdNo); // 원주문번호
-            base.SetFieldData("CSPAT00800InBlock1", "IsuNo"     , 0, paramShcode);    // 종목번호
-            base.SetFieldData("CSPAT00800InBlock1", "OrdQty"    , 0, OrdQty);   // 주문수량
+            base.SetFieldData("CSPAT00800InBlock1", "AcntNo"    , 0, account    );// 계좌번호
+            base.SetFieldData("CSPAT00800InBlock1", "InptPwd"   , 0, accountPw  );// 입력비밀번호
+            base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo"  , 0, upOrdNo    );// 원주문번호
+            base.SetFieldData("CSPAT00800InBlock1", "IsuNo"     , 0, paramShcode);// 종목번호
+            base.SetFieldData("CSPAT00800InBlock1", "OrdQty"    , 0, OrdQty     );// 주문수량
 
             base.Request(false);
 

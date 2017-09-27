@@ -370,11 +370,11 @@ namespace PackageSellSystemTrading {
                 String 손절값        = Properties.Settings.Default.STOP_LOSS;
                 Boolean 매수금지종목손절여부 = Properties.Settings.Default.EXCL_STOP_LOSS_AT;
                 Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
-             
-                //if (t0424Vo.expcode== "094170")
-                //{
-                //    int test = 0;
-                //}
+
+                if (t0424Vo.expcode == "001020")
+                {
+                    int test = 0;
+                }
 
                 //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
                 if (Double.Parse(투입비율) > (Double.Parse(제한비율) -5)  )
@@ -499,10 +499,10 @@ namespace PackageSellSystemTrading {
                 }//감시제외손절 END
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ////여기서부터 감시제외
-                //if (감시제외여부 == "Y"){
-                //    mainForm.grd_t0424.Rows[index].DefaultCellStyle.BackColor = Color.Gray;
-                //    return false;
-                //}
+                if (감시제외여부 == "Y"){
+                    //mainForm.grd_t0424.Rows[index].DefaultCellStyle.BackColor = Color.Gray;
+                    return false;
+                }
 
                 //2.매도 가능 &&  수익율 2% 이상 매도 Properties.Settings.Default.SELL_RATE
                 String 현재수익율 = t0424Vo.sunikrt2 == null ? t0424Vo.sunikrt : t0424Vo.sunikrt2;
