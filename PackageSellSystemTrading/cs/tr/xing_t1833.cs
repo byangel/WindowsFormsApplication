@@ -13,13 +13,14 @@ using System.Drawing;
 using System.Threading;
 namespace PackageSellSystemTrading{
     public class Xing_t1833 : XAQueryClass{
-        
-        private EBindingList<T1833Vo> t1833VoList;
+
+        private EBindingList<T1833Vo> t1833VoList       = new EBindingList<T1833Vo>();
         public EBindingList<T1833Vo> getT1833VoList()
         {
             return this.t1833VoList;
         }
         
+
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
         //투자 비율
@@ -27,8 +28,12 @@ namespace PackageSellSystemTrading{
 
         public Boolean initAt = false;
 
+        private int conditionTotalCnt  = 3;
+        private int conditionCallIndex = 0;
+        private String[] conditionNm   = { "역정피봇", "삼선전환", "스윙매수" };
         // 생성자
         public Xing_t1833(){
+            
             //String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
             //base.ResFileName = startupPath+"₩Resources₩t1833.res";
             base.ResFileName = "₩res₩t1833.res";
@@ -36,7 +41,6 @@ namespace PackageSellSystemTrading{
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
             
-            this.t1833VoList = new EBindingList<T1833Vo>();
         }   // end function
 
         // 소멸자
@@ -78,13 +82,14 @@ namespace PackageSellSystemTrading{
                         tmpT1833Vo = new T1833Vo();
                     }
                     
-                    tmpT1833Vo.shcode = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
-                    tmpT1833Vo.hname  = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
-                    tmpT1833Vo.close  = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
-                    tmpT1833Vo.sign   = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
-                    tmpT1833Vo.change = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
-                    tmpT1833Vo.diff   = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
-                    tmpT1833Vo.volume = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+                    tmpT1833Vo.shcode    = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
+                    tmpT1833Vo.hname     =  base.GetFieldData("t1833OutBlock1", "hname" ,i); //종목명
+                    tmpT1833Vo.close     = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
+                    tmpT1833Vo.sign      = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
+                    tmpT1833Vo.change    = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
+                    tmpT1833Vo.diff      = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
+                    tmpT1833Vo.volume    = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+                    tmpT1833Vo.searchMod = conditionNm[conditionCallIndex];                  //검색조건명
 
                     tmpT1833Vo.deleteAt = false; //삭제여부 -나중에 true 인거는 다 삭제해준다.
 
@@ -109,9 +114,15 @@ namespace PackageSellSystemTrading{
                     }
                     tmpT1833Vo.deleteAt = true;
                 }
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "]조건검색 응답 완료";
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "][" + conditionNm[conditionCallIndex] + "]조건검색 응답 완료";
+
+
+                //정상호출시 처리
+                this.conditionCallIndex = this.conditionCallIndex + 1;
+                this.conditionCallIndex = this.conditionCallIndex < this.conditionTotalCnt ? this.conditionCallIndex : 0;
 
                 completeAt = true;//중복호출 여부
+
             }
             catch (Exception ex)
             {
@@ -122,13 +133,14 @@ namespace PackageSellSystemTrading{
 
 
         //메세지 이벤트 핸들러
-            void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
+        void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
           
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
+               
             } else { 
                 //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "]t1833 :: " + nMessageCode + " :: " + szMessage;
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1833:" + nMessageCode + ":" + szMessage;
             }
             //중복호출 방지
             this.completeAt = true;
@@ -146,10 +158,10 @@ namespace PackageSellSystemTrading{
                 
                 //Thread.Sleep(1000);
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\"+mainForm.optionForm.CONDITION_NM);
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "]조건검색 요청.";
+                base.RequestService("t1833", startupPath + "\\Resources\\Condition"+ conditionCallIndex + ".ADF");
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" +this.conditionNm[conditionCallIndex]+ "]조건검색 요청.";
             } else {
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "[중복]조건검색 요청.";
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex]+ "][중복]조건검색 요청.";
 
                 callCnt++;
                 if (callCnt == 5)
@@ -339,13 +351,14 @@ namespace PackageSellSystemTrading{
 
     public class T1833Vo
     {
-        public String  shcode   { set; get; } //종목코드
-        public String  hname    { set; get; } //종목명
-        public String  close    { set; get; } //현재가
-        public String  sign     { set; get; } //전일대비구분 
-        public String  change   { set; get; } //전일대비
-        public String  diff     { set; get; } //등락율
-        public String  volume   { set; get; } //거래량
-        public Boolean deleteAt { set; get; } //삭제여부
+        public String  shcode    { set; get; } //종목코드
+        public String  hname     { set; get; } //종목명
+        public String  close     { set; get; } //현재가
+        public String  sign      { set; get; } //전일대비구분 
+        public String  change    { set; get; } //전일대비
+        public String  diff      { set; get; } //등락율
+        public String  volume    { set; get; } //거래량
+        public Boolean deleteAt  { set; get; } //삭제여부
+        public String  searchMod { set; get; } //검색조건명
     }
 }   // end namespace

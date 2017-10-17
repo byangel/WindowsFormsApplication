@@ -406,13 +406,8 @@ namespace PackageSellSystemTrading {
         {
            String 투입비율   = mainForm.xing_t1833.getInputRate();
             String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
-            String 목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET;
-
-            //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
-            if (Double.Parse(투입비율) > (Double.Parse(제한비율) - 5)){
-                목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET2;
-            }
-
+            String 목표수익율 = mainForm.getStopProfitTarget();
+            
             String price0424;//0424 현재가
             //String pamt20424;//0424 평균단가
             String 주문번호;//주문번호

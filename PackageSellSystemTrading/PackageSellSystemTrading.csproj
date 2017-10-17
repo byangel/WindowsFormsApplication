@@ -140,7 +140,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Resources\Condition.ADF" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -151,7 +150,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Exclude.ADF" />
+    <None Include="Resources\Condition0.ADF" />
+    <None Include="Resources\Condition1.ADF" />
+    <None Include="Resources\Condition2.ADF" />
+    <None Include="Resources\Exclude0.ADF" />
+    <None Include="Resources\Exclude1.ADF" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

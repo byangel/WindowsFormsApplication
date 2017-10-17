@@ -344,11 +344,13 @@ namespace PackageSellSystemTrading {
         }//fn END
 
 
-        
+        private String 목표수익율;
+        //param1 자본금 투입 비율
+       
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출 2.팔린종목 삭제,3.손절
         public void stopProFitTarget()
         {
-
+            this.목표수익율 = mainForm.getStopProfitTarget();
             for (int i = 0; i < this.t0424VoList.Count(); i++)
             {
                 //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
@@ -359,42 +361,19 @@ namespace PackageSellSystemTrading {
 
         }//stopProFitTarget end
 
+        
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
         public Boolean stopProFitTargetTest(T0424Vo t0424Vo, int index){
             try {
                 String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
-                String 투입비율      = mainForm.xing_t1833.getInputRate();
-                String 제한비율      = Properties.Settings.Default.BUY_STOP_RATE;//투자 비중 제한
-                String 목표수익율    = Properties.Settings.Default.STOP_PROFIT_TARGET;
+ 
                 Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
-                String 손절값        = Properties.Settings.Default.STOP_LOSS;
+                String  손절값        = Properties.Settings.Default.STOP_LOSS;
                 Boolean 매수금지종목손절여부 = Properties.Settings.Default.EXCL_STOP_LOSS_AT;
                 Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
 
-                if (t0424Vo.expcode == "001020")
-                {
+                if (t0424Vo.expcode == "001020"){
                     int test = 0;
-                }
-
-                //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
-                if (Double.Parse(투입비율) > (Double.Parse(제한비율) -5)  )
-                {
-                    목표수익율 = Properties.Settings.Default.STOP_PROFIT_TARGET2;
-                }
-                if (시간차목표수익율){
-                    //int 나머지 = (int.Parse(mainForm.xing_t0167.minute) - ((int.Parse(mainForm.xing_t0167.minute) / 60) * 60));
-                    int 나머지 = int.Parse(mainForm.xing_t0167.minute);
-                    //if (나머지 != 0){
-                    //    목표수익율 = "10";
-                    //}
-                    if (나머지 == 0 || 나머지 == 30)
-                    {
-                       
-                    }
-                    else
-                    {
-                        목표수익율 = "10";
-                    }
                 }
                 
                 if (t0424Vo.errorcd != "" && t0424Vo.errorcd != null){
@@ -529,6 +508,7 @@ namespace PackageSellSystemTrading {
                         
                     }
                 }
+               
                 //손절- 임시로API가 아닌 수동매매일경우 해당 조건을 실행하지 않는다. 매수 하자마자 매수금지에 걸려 매도주문이 나갈수도 있다.
                 if (매수금지종목손절여부 && t0424Vo.ordermtd == "XING API")
                 {
@@ -553,7 +533,28 @@ namespace PackageSellSystemTrading {
                         
                     }
                 }
-                
+                //기본 감시제외 목록이면 무조건 삭제해준다.
+                int t1833excludeVoBasicListFindIndex = mainForm.xing_t1833Exclude.getT1833excludeVoBasicList().Find("shcode", t0424Vo.expcode);
+                if (t1833excludeVoBasicListFindIndex >= 0)
+                {
+                    Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+                    xing_CSPAT00600.ordptnDetail    = "정리매매";      //상세 매매 구분.
+                    xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
+                    xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
+                    xing_CSPAT00600.quantity        = t0424Vo.mdposqt; //수량
+                    xing_CSPAT00600.price           = t0424Vo.price;   //가격
+                    xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
+                    xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
+                    xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
+
+                    xing_CSPAT00600.call_request();
+
+                    Log.WriteLine("t0424 ::정리매매[" + infoStr);
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":정리매매");
+                    t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                    return true;
+                }
+
 
                 //목표수익 달성시...
                 if (Double.Parse(현재수익율) >= Double.Parse(목표수익율)){

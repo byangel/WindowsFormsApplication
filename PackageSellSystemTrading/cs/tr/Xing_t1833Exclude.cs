@@ -17,18 +17,24 @@ namespace PackageSellSystemTrading{
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
-        private EBindingList<T1833Vo> t1833ExcludeVoList;
-
+        private EBindingList<T1833Vo> t1833ExcludeVoList        = new EBindingList<T1833Vo>();
+        private EBindingList<T1833Vo> t1833excludeVoBasicList   = new EBindingList<T1833Vo>();
         public EBindingList<T1833Vo>  getT1833ExcludeVoList()
         {
             return this.t1833ExcludeVoList;
         }
+        public EBindingList<T1833Vo> getT1833excludeVoBasicList()
+        {
+            return this.t1833excludeVoBasicList;
+        }
+        private int conditionTotalCnt = 2;
+        private int conditionCallIndex = 0;
+        private String[] conditionNm = { "매수금지", "기본매수금지"};
+
         public Boolean initAt = false;
 
         // 생성자
         public Xing_t1833Exclude(){
-            this.t1833ExcludeVoList = new EBindingList<T1833Vo>();
-
             base.ResFileName = "₩res₩t1833.res";
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
@@ -49,10 +55,7 @@ namespace PackageSellSystemTrading{
 
             int blockCount = base.GetBlockCount("t1833OutBlock1");
 
-            //매수종목 검색 그리드 초기화
-            //mainForm.grd_t1833.Rows.Clear();
-
-            this.t1833ExcludeVoList.Clear();
+            
             EBindingList<T1833Vo> tmpList =  new EBindingList<T1833Vo>();
 
             //String sunikrt;//수익률
@@ -69,12 +72,22 @@ namespace PackageSellSystemTrading{
                 tmpList.Add(t1833Vo);
             }
             //혹시몰라서 1833에서 금지종목을 참조할때 로스가 생길거같아서 이런방식을 써보았다.
-            this.t1833ExcludeVoList = tmpList;
-            //MessageBox.Show(blockCount.ToString());
-            mainForm.exCnt.Text = blockCount.ToString();
+            //매수금지종목 검색 그리드 초기화
+            if (conditionCallIndex == 0){
+                this.t1833ExcludeVoList.Clear();
+                this.t1833ExcludeVoList = tmpList;
+                mainForm.exCnt.Text = blockCount.ToString();
+            }else if (conditionCallIndex == 1){
+                this.t1833excludeVoBasicList.Clear();
+                this.t1833excludeVoBasicList = tmpList;
+            }
 
-            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]EXCLUDE 매수금지종목 조회 완료.";
-            //Log.WriteLine("t1833 ::매수금지종목 조회 완료");
+            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1833_Exclude: 매수금지종목 조회 완료.";
+
+            //Exclude Condition Index Update 
+            this.conditionCallIndex = this.conditionCallIndex + 1;
+            this.conditionCallIndex = this.conditionCallIndex < this.conditionTotalCnt ? this.conditionCallIndex : 0;
+
             completeAt = true;//중복호출 여부
         }
 
@@ -83,9 +96,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
             } else { 
-                //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]t1833_Exclude :: " + nMessageCode + " :: " + szMessage;
-                
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1833_Exclude:" + nMessageCode + ":" + szMessage;
             }
             completeAt = true;//중복호출 방지
            
@@ -102,11 +113,17 @@ namespace PackageSellSystemTrading{
                 completeAt = false;//중복호출 방지
 
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\"+mainForm.optionForm.EXCLUDE_NM);
+                base.RequestService("t1833", startupPath + "\\Resources\\Exclude" + conditionCallIndex + ".ADF");
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]조건검색 요청.";
+
+                //String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
+                //base.RequestService("t1833", startupPath + "\\Resources\\"+mainForm.optionForm.EXCLUDE_NM);
 
                 mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]exclude 조건검색 요청.";
             } else {
-                mainForm.input_t1833_log2.Text = "[중복]EXCLUDE 조건검색 요청.";
+                //mainForm.input_t1833_log2.Text = "[중복]EXCLUDE 조건검색 요청.";
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "][중복]조건검색 요청.";
+
                 //mainForm.input_t1833_log2.Text = "대기";
                 callCnt++;
                 if (callCnt == 5)

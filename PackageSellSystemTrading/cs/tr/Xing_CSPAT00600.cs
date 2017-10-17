@@ -139,8 +139,6 @@ namespace PackageSellSystemTrading{
                 //매수일때는 에러코드를 출력할곳이 없으므로 안내창을 호출 해준다.
                 if (this.divideBuySell == "1")
                 {
-                    MessageBox.Show(msg);
-                } else {
                     //금일매도매수일때만 값이 있다.--이게 필요한지 모르겠다...매도취소일때만 매도주문 초기화를 해줘도 될듯한데...
                     if (upOrdno != "")
                     {
@@ -150,19 +148,21 @@ namespace PackageSellSystemTrading{
                         {
                             //금일매도여부 상관없이 그냥 N해준다..
                             mainForm.grd_t0425.Rows[findIndexT0425].Cells["sellOrdAt"].Value = "N"; //매도주문여부 초기화
-                            
+
                             //상위주문번호 주문여부 Y로 업데이트
                             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
                                         where item["ordno"].ToString() == this.upOrdno
                                             && item["accno"].ToString() == mainForm.account
                                         select item;
-                            if (items.Count() > 0){
+                            if (items.Count() > 0)
+                            {
                                 items.First()["sellOrdAt"] = "N";
                                 mainForm.tradingHistory.sellOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
                             }
                         }
+                       
 
-                    }//receiveMessageEventHandler END
+                    }
 
 
                     //0424 주문안한 상탱로 초기화
@@ -181,9 +181,20 @@ namespace PackageSellSystemTrading{
                     // 00039 :: 모의투자 매도주문 입력이 완료되었습니다. 
                     // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                     // 01219 :: 모의투자 매매금지 종목
-                    // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.   
-                    
-                }
+                    // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.  
+                    if (nMessageCode.Equals("01219"))
+                    {
+                        if (findIndexT0424 >= 0)
+                        {
+                            mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
+                            mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = "매매금지"; //에러코드
+                        }
+                    }
+
+
+                } else {
+                    MessageBox.Show(msg);
+                }//receiveMessageEventHandler END
             }
             completeAt = true;
         }

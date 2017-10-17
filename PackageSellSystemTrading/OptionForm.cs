@@ -28,8 +28,8 @@ namespace PackageSellSystemTrading
          
         public String CONDITION_NM       = "Condition.ADF";
         public String EXCLUDE_NM         = "Exclude.ADF";
-        public String STOP_PROFIT_TARGET = "2.5";      //목표 이익율
-        public String STOP_PROFIT_TARGET2 = "2";       //투자율 95%이상 목표 이익율2
+        public String STOP_PROFIT_TARGET = "2";      //목표 이익율
+        public String STOP_PROFIT_TARGET2 = "1.5";       //투자율 95%이상 목표 이익율2
 
         //생성자
         public OptionForm()
