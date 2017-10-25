@@ -18,25 +18,15 @@ namespace PackageSellSystemTrading{
         public MainForm mainForm;
 
         //종목코드,수량,가격,주문구분|상세주문구분,상위매수주문번호(금일매도일때만),상위체결금액,매도주문여부
-        public String shcode;        // 종목번호
-        public String price;         // 가격
-        public String quantity;      // 주문수량
-        public String divideBuySell; // 매매구분: 1-매도, 2-매수
-        public String hname         = "";   //종목명
+        public String shcode;              // 종목번호
+        public String price;               // 가격
+        public String quantity;            // 주문수량
+        public String divideBuySell;       // 매매구분: 1-매도, 2-매수
+        public String hname         = "";  //종목명
         public String ordptnDetail  = "";  //상세주문구분
         public String upOrdno       = "";  //상위매수주문 - 금일매도매수일때만 값이 있다.
         public String upExecprc     = "";  //상위체결금액  
-
-
-
-        //public String 종목코드;
-        //public String 수량;
-        //public String 가격;
-        //public String 주문구분;
-        //public String 상세주문구분;
-        //public String 상위매수주문번호;//(금일매도일때만)
-        //public String 상위체결금액;
-        //public String 매도주문여부;
+        public String eventNm   = "";  //검색조건 이름
 
         public Boolean completeAt;//완료여부.
 
@@ -106,6 +96,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.sellOrdAt     = "N";                      //금일 매도 주문 여부
                 dataLogVo.useYN         = "Y";                      //사용여부
                 dataLogVo.ordermtd      = "XING API";               //주문 매체
+                dataLogVo.eventNm       = this.eventNm;         //검색조건 이름
                 //상위 주문번호
                 if (this.upOrdno == ""){
                     dataLogVo.upOrdno = OrdNo;//상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.

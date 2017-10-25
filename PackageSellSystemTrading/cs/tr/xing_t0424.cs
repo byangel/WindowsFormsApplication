@@ -410,7 +410,7 @@ namespace PackageSellSystemTrading {
                         xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
                         xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                         xing_CSPAT00600.upExecprc       = t0424Vo.pamt2.Replace(",", ""); //상위체결금액  
-                        
+                        xing_CSPAT00600.eventNm         = t0424Vo.eventNm; //매수전략명
                         xing_CSPAT00600.call_request();
 
                         Log.WriteLine("t0424 ::목표청산[" + infoStr);
@@ -438,7 +438,7 @@ namespace PackageSellSystemTrading {
                         xing_CSPAT00600.divideBuySell = "2";            // 매매구분: 1-매도, 2-매수
                         xing_CSPAT00600.upOrdno      = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                         xing_CSPAT00600.upExecprc    = "";              //상위체결금액  
-                        
+                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
                         xing_CSPAT00600.call_request();
 
                         Log.WriteLine("t1833::2차매수" + t0424Vo.hname + "(" + t0424Vo.expcode + ")2차매수   [주문가격:" + 현재가격 + "|주문수량:" + 수량.ToString() + "] ");
@@ -464,7 +464,7 @@ namespace PackageSellSystemTrading {
                         xing_CSPAT00600.divideBuySell = "1";            // 매매구분: 1-매도, 2-매수
                         xing_CSPAT00600.upOrdno       = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                         xing_CSPAT00600.upExecprc     = t0424Vo.pamt2;              //상위체결금액  
-
+                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
                         //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
                         xing_CSPAT00600.call_request();
 
@@ -498,7 +498,7 @@ namespace PackageSellSystemTrading {
                         xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
                         xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                         xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
-
+                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
                         xing_CSPAT00600.call_request();
 
                         Log.WriteLine("t0424 ::손절[" + infoStr);
@@ -525,7 +525,7 @@ namespace PackageSellSystemTrading {
                         xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                         xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
                         xing_CSPAT00600.call_request();
-
+                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
                         Log.WriteLine("t0424 ::매수금지손절[" + infoStr);
                         mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":매수금지손절.");
                         t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
@@ -546,7 +546,7 @@ namespace PackageSellSystemTrading {
                     xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
                     xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                     xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
-
+                    xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
                     xing_CSPAT00600.call_request();
 
                     Log.WriteLine("t0424 ::정리매매[" + infoStr);
@@ -587,7 +587,7 @@ namespace PackageSellSystemTrading {
                     xing_CSPAT00600.upOrdno       = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
                     xing_CSPAT00600.upExecprc     = t0424Vo.pamt2;   //상위체결금액  
                     xing_CSPAT00600.call_request();
-
+                    xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
                     Log.WriteLine("t0424 ::수익청산[" + infoStr);
                     mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":수익청산.");
                     t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
@@ -741,6 +741,9 @@ namespace PackageSellSystemTrading {
         public String deleteAt   { set; get; } //삭제 여부
         public String sunikrt2 { set; get; } //손익율2 --계산값
 
+        public String eventNm { set; get; }//검색조건 이름
+        public String maxHisRt { set; get; }//최대도달 수익율
+        public String minHisRt { set; get; }//최소도달 수익율
         //public String pamt2 { set; get; } //평균단가2
         //public String buyCnt     { set; get; } //매수 횟수
         //public String sellCnt    { set; get; } //매도 횟수   

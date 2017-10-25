@@ -53,12 +53,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -84,6 +78,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -146,25 +146,6 @@
             this.timer_common = new System.Windows.Forms.Timer(this.components);
             this.input_t0425_log2 = new System.Windows.Forms.TextBox();
             this.grd_t0425 = new System.Windows.Forms.DataGridView();
-            this.ordtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.medosu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordptnDetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.t0425_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.t0425_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cheqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cheprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordrem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.upOrdno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sellOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toDaysunikrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cancelOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.upExecprc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.useYn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label21 = new System.Windows.Forms.Label();
             this.btn_logout = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
@@ -217,7 +198,6 @@
             this.label_date = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label_jif = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label25 = new System.Windows.Forms.Label();
             this.label_buyCnt = new System.Windows.Forms.Label();
@@ -260,6 +240,27 @@
             this.btn_exclWatchSave = new System.Windows.Forms.Button();
             this.btn_exclWatchSync = new System.Windows.Forms.Button();
             this.btn_sync = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.ordtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.medosu = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordptnDetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.t0425_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.t0425_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cheqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cheprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordrem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.upOrdno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toDaysunikrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cancelOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.upExecprc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.useYn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.eventNm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t1833)).BeginInit();
@@ -375,7 +376,6 @@
             // 
             // btn_account_search
             // 
-            this.btn_account_search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_account_search.Location = new System.Drawing.Point(849, 30);
             this.btn_account_search.Name = "btn_account_search";
             this.btn_account_search.Size = new System.Drawing.Size(62, 20);
@@ -422,9 +422,9 @@
             // 
             // input_t0424_log
             // 
-            this.input_t0424_log.Location = new System.Drawing.Point(240, 407);
+            this.input_t0424_log.Location = new System.Drawing.Point(240, 428);
             this.input_t0424_log.Name = "input_t0424_log";
-            this.input_t0424_log.Size = new System.Drawing.Size(275, 20);
+            this.input_t0424_log.Size = new System.Drawing.Size(310, 20);
             this.input_t0424_log.TabIndex = 39;
             // 
             // label15
@@ -513,7 +513,7 @@
             this.grd_t0424.RowHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.grd_t0424.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.grd_t0424.RowTemplate.Height = 23;
-            this.grd_t0424.Size = new System.Drawing.Size(671, 352);
+            this.grd_t0424.Size = new System.Drawing.Size(671, 375);
             this.grd_t0424.TabIndex = 49;
             this.grd_t0424.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellClick);
             this.grd_t0424.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellDoubleClick);
@@ -825,16 +825,16 @@
             // 
             // input_t0425_log
             // 
-            this.input_t0425_log.Location = new System.Drawing.Point(477, 726);
+            this.input_t0425_log.Location = new System.Drawing.Point(345, 726);
             this.input_t0425_log.Name = "input_t0425_log";
-            this.input_t0425_log.Size = new System.Drawing.Size(130, 20);
+            this.input_t0425_log.Size = new System.Drawing.Size(262, 20);
             this.input_t0425_log.TabIndex = 54;
             // 
             // btn_start
             // 
-            this.btn_start.Location = new System.Drawing.Point(137, 431);
+            this.btn_start.Location = new System.Drawing.Point(137, 428);
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(46, 20);
+            this.btn_start.Size = new System.Drawing.Size(46, 19);
             this.btn_start.TabIndex = 56;
             this.btn_start.Text = "시작";
             this.btn_start.UseVisualStyleBackColor = true;
@@ -842,9 +842,9 @@
             // 
             // btn_stop
             // 
-            this.btn_stop.Location = new System.Drawing.Point(187, 431);
+            this.btn_stop.Location = new System.Drawing.Point(187, 428);
             this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new System.Drawing.Size(46, 20);
+            this.btn_stop.Size = new System.Drawing.Size(46, 19);
             this.btn_stop.TabIndex = 57;
             this.btn_stop.Text = "종료";
             this.btn_stop.UseVisualStyleBackColor = true;
@@ -865,9 +865,9 @@
             // 
             // input_t0424_log2
             // 
-            this.input_t0424_log2.Location = new System.Drawing.Point(521, 407);
+            this.input_t0424_log2.Location = new System.Drawing.Point(556, 428);
             this.input_t0424_log2.Name = "input_t0424_log2";
-            this.input_t0424_log2.Size = new System.Drawing.Size(390, 20);
+            this.input_t0424_log2.Size = new System.Drawing.Size(355, 20);
             this.input_t0424_log2.TabIndex = 62;
             // 
             // timer_common
@@ -877,15 +877,13 @@
             // 
             // input_t0425_log2
             // 
-            this.input_t0425_log2.Location = new System.Drawing.Point(609, 726);
+            this.input_t0425_log2.Location = new System.Drawing.Point(613, 726);
             this.input_t0425_log2.Name = "input_t0425_log2";
-            this.input_t0425_log2.Size = new System.Drawing.Size(302, 20);
+            this.input_t0425_log2.Size = new System.Drawing.Size(298, 20);
             this.input_t0425_log2.TabIndex = 67;
             // 
             // grd_t0425
             // 
-            this.grd_t0425.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.ActiveCaption;
             dataGridViewCellStyle22.Font = new System.Drawing.Font("굴림", 8F);
@@ -914,7 +912,8 @@
             this.cancelOrdAt,
             this.upExecprc,
             this.useYn,
-            this.ordermtd});
+            this.ordermtd,
+            this.eventNm});
             dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle29.Font = new System.Drawing.Font("굴림", 8F);
@@ -925,165 +924,21 @@
             dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grd_t0425.DefaultCellStyle = dataGridViewCellStyle29;
-            this.grd_t0425.Location = new System.Drawing.Point(477, 456);
+            this.grd_t0425.Location = new System.Drawing.Point(345, 477);
             this.grd_t0425.Name = "grd_t0425";
             dataGridViewCellStyle30.NullValue = null;
             this.grd_t0425.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.grd_t0425.RowTemplate.Height = 23;
-            this.grd_t0425.Size = new System.Drawing.Size(434, 268);
+            this.grd_t0425.Size = new System.Drawing.Size(566, 247);
             this.grd_t0425.TabIndex = 68;
             this.grd_t0425.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellClick);
             this.grd_t0425.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellDoubleClick);
             this.grd_t0425.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0425_chegb1_RowPostPaint);
             // 
-            // ordtime
-            // 
-            this.ordtime.DataPropertyName = "ordtime";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ordtime.DefaultCellStyle = dataGridViewCellStyle23;
-            this.ordtime.HeaderText = "주문시간";
-            this.ordtime.Name = "ordtime";
-            this.ordtime.Width = 74;
-            // 
-            // medosu
-            // 
-            this.medosu.DataPropertyName = "medosu";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.medosu.DefaultCellStyle = dataGridViewCellStyle24;
-            this.medosu.HeaderText = "구분";
-            this.medosu.Name = "medosu";
-            this.medosu.Width = 40;
-            // 
-            // status
-            // 
-            this.status.DataPropertyName = "status";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.status.DefaultCellStyle = dataGridViewCellStyle25;
-            this.status.HeaderText = "상태";
-            this.status.Name = "status";
-            this.status.Width = 40;
-            // 
-            // ordptnDetail
-            // 
-            this.ordptnDetail.DataPropertyName = "ordptnDetail";
-            this.ordptnDetail.HeaderText = "구분상세";
-            this.ordptnDetail.Name = "ordptnDetail";
-            this.ordptnDetail.Width = 58;
-            // 
-            // expcode
-            // 
-            this.expcode.DataPropertyName = "expcode";
-            this.expcode.HeaderText = "종목번호";
-            this.expcode.Name = "expcode";
-            this.expcode.Width = 60;
-            // 
-            // t0425_hname
-            // 
-            this.t0425_hname.DataPropertyName = "hname";
-            this.t0425_hname.HeaderText = "종목명";
-            this.t0425_hname.Name = "t0425_hname";
-            // 
-            // qty
-            // 
-            this.qty.DataPropertyName = "qty";
-            this.qty.HeaderText = "주문수량";
-            this.qty.Name = "qty";
-            this.qty.Width = 40;
-            // 
-            // t0425_price
-            // 
-            this.t0425_price.DataPropertyName = "price";
-            this.t0425_price.HeaderText = "주문가격";
-            this.t0425_price.Name = "t0425_price";
-            this.t0425_price.Width = 50;
-            // 
-            // cheqty
-            // 
-            this.cheqty.DataPropertyName = "cheqty";
-            this.cheqty.HeaderText = "체결수량";
-            this.cheqty.Name = "cheqty";
-            this.cheqty.Width = 40;
-            // 
-            // cheprice
-            // 
-            this.cheprice.DataPropertyName = "cheprice";
-            dataGridViewCellStyle26.Format = "C2";
-            dataGridViewCellStyle26.NullValue = null;
-            this.cheprice.DefaultCellStyle = dataGridViewCellStyle26;
-            this.cheprice.HeaderText = "제결가격";
-            this.cheprice.Name = "cheprice";
-            this.cheprice.Width = 50;
-            // 
-            // ordrem
-            // 
-            this.ordrem.DataPropertyName = "ordrem";
-            this.ordrem.HeaderText = "미체결잔량";
-            this.ordrem.Name = "ordrem";
-            this.ordrem.Width = 50;
-            // 
-            // ordno
-            // 
-            this.ordno.DataPropertyName = "ordno";
-            this.ordno.HeaderText = "주문번호";
-            this.ordno.Name = "ordno";
-            this.ordno.Width = 40;
-            // 
-            // upOrdno
-            // 
-            this.upOrdno.DataPropertyName = "upOrdno";
-            this.upOrdno.HeaderText = "상위주문번호";
-            this.upOrdno.Name = "upOrdno";
-            this.upOrdno.Width = 50;
-            // 
-            // sellOrdAt
-            // 
-            this.sellOrdAt.DataPropertyName = "sellOrdAt";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sellOrdAt.DefaultCellStyle = dataGridViewCellStyle27;
-            this.sellOrdAt.HeaderText = "금일매도";
-            this.sellOrdAt.Name = "sellOrdAt";
-            this.sellOrdAt.Width = 40;
-            // 
-            // toDaysunikrt
-            // 
-            this.toDaysunikrt.DataPropertyName = "toDaysunikrt";
-            this.toDaysunikrt.HeaderText = "금일수익률";
-            this.toDaysunikrt.Name = "toDaysunikrt";
-            this.toDaysunikrt.Width = 50;
-            // 
-            // cancelOrdAt
-            // 
-            this.cancelOrdAt.DataPropertyName = "cancelOrdAt";
-            this.cancelOrdAt.HeaderText = "주문취소";
-            this.cancelOrdAt.Name = "cancelOrdAt";
-            // 
-            // upExecprc
-            // 
-            this.upExecprc.DataPropertyName = "upExecprc";
-            this.upExecprc.HeaderText = "상위체결금액";
-            this.upExecprc.Name = "upExecprc";
-            this.upExecprc.Width = 50;
-            // 
-            // useYn
-            // 
-            this.useYn.DataPropertyName = "useYn";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.useYn.DefaultCellStyle = dataGridViewCellStyle28;
-            this.useYn.HeaderText = "사용여부";
-            this.useYn.Name = "useYn";
-            this.useYn.Width = 40;
-            // 
-            // ordermtd
-            // 
-            this.ordermtd.DataPropertyName = "ordermtd";
-            this.ordermtd.HeaderText = "주문매체";
-            this.ordermtd.Name = "ordermtd";
-            this.ordermtd.Width = 60;
-            // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(479, 443);
+            this.label21.Location = new System.Drawing.Point(342, 464);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(52, 11);
             this.label21.TabIndex = 69;
@@ -1120,7 +975,7 @@
             // grd_t0425_chegb1_cnt
             // 
             this.grd_t0425_chegb1_cnt.AutoSize = true;
-            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(531, 442);
+            this.grd_t0425_chegb1_cnt.Location = new System.Drawing.Point(394, 463);
             this.grd_t0425_chegb1_cnt.Name = "grd_t0425_chegb1_cnt";
             this.grd_t0425_chegb1_cnt.Size = new System.Drawing.Size(11, 11);
             this.grd_t0425_chegb1_cnt.TabIndex = 78;
@@ -1128,22 +983,22 @@
             // 
             // input_t1833_log2
             // 
-            this.input_t1833_log2.Location = new System.Drawing.Point(240, 726);
+            this.input_t1833_log2.Location = new System.Drawing.Point(13, 725);
             this.input_t1833_log2.Name = "input_t1833_log2";
-            this.input_t1833_log2.Size = new System.Drawing.Size(231, 20);
+            this.input_t1833_log2.Size = new System.Drawing.Size(326, 20);
             this.input_t1833_log2.TabIndex = 86;
             // 
             // input_t1833_log1
             // 
-            this.input_t1833_log1.Location = new System.Drawing.Point(240, 705);
+            this.input_t1833_log1.Location = new System.Drawing.Point(13, 704);
             this.input_t1833_log1.Name = "input_t1833_log1";
-            this.input_t1833_log1.Size = new System.Drawing.Size(231, 20);
+            this.input_t1833_log1.Size = new System.Drawing.Size(326, 20);
             this.input_t1833_log1.TabIndex = 82;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(240, 443);
+            this.label4.Location = new System.Drawing.Point(15, 465);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 11);
             this.label4.TabIndex = 81;
@@ -1151,7 +1006,7 @@
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(412, 433);
+            this.btn_search.Location = new System.Drawing.Point(278, 457);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(59, 20);
             this.btn_search.TabIndex = 80;
@@ -1180,10 +1035,10 @@
             this.diff,
             this.volume,
             this.t0118DeleteAt});
-            this.grd_t1833.Location = new System.Drawing.Point(240, 456);
+            this.grd_t1833.Location = new System.Drawing.Point(12, 477);
             this.grd_t1833.Name = "grd_t1833";
             this.grd_t1833.RowTemplate.Height = 23;
-            this.grd_t1833.Size = new System.Drawing.Size(231, 245);
+            this.grd_t1833.Size = new System.Drawing.Size(327, 224);
             this.grd_t1833.TabIndex = 79;
             this.grd_t1833.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t1833_CellClick);
             this.grd_t1833.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_t1833_CellFormatting);
@@ -1266,8 +1121,7 @@
             // 
             // btn_t0425
             // 
-            this.btn_t0425.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_t0425.Location = new System.Drawing.Point(910, 435);
+            this.btn_t0425.Location = new System.Drawing.Point(836, 457);
             this.btn_t0425.Name = "btn_t0425";
             this.btn_t0425.Size = new System.Drawing.Size(75, 19);
             this.btn_t0425.TabIndex = 85;
@@ -1277,9 +1131,9 @@
             // 
             // btn_option_config
             // 
-            this.btn_option_config.Location = new System.Drawing.Point(45, 431);
+            this.btn_option_config.Location = new System.Drawing.Point(45, 428);
             this.btn_option_config.Name = "btn_option_config";
-            this.btn_option_config.Size = new System.Drawing.Size(86, 20);
+            this.btn_option_config.Size = new System.Drawing.Size(86, 19);
             this.btn_option_config.TabIndex = 87;
             this.btn_option_config.Text = "프로그램설정";
             this.btn_option_config.UseVisualStyleBackColor = true;
@@ -1287,7 +1141,6 @@
             // 
             // btn_checkSell
             // 
-            this.btn_checkSell.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_checkSell.Location = new System.Drawing.Point(783, 30);
             this.btn_checkSell.Name = "btn_checkSell";
             this.btn_checkSell.Size = new System.Drawing.Size(62, 20);
@@ -1298,7 +1151,6 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(717, 30);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 20);
@@ -1309,11 +1161,13 @@
             // 
             // listBox_log
             // 
+            this.listBox_log.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox_log.FormattingEnabled = true;
             this.listBox_log.ItemHeight = 11;
-            this.listBox_log.Location = new System.Drawing.Point(13, 455);
+            this.listBox_log.Location = new System.Drawing.Point(917, 258);
             this.listBox_log.Name = "listBox_log";
-            this.listBox_log.Size = new System.Drawing.Size(221, 224);
+            this.listBox_log.Size = new System.Drawing.Size(509, 191);
             this.listBox_log.TabIndex = 90;
             // 
             // tableLayoutPanel1
@@ -1350,10 +1204,11 @@
             this.tableLayoutPanel1.Font = new System.Drawing.Font("맑은 고딕", 8F, System.Drawing.FontStyle.Bold);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 171);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 12;
+            this.tableLayoutPanel1.RowCount = 13;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -1547,7 +1402,7 @@
             // exCnt
             // 
             this.exCnt.AutoSize = true;
-            this.exCnt.Location = new System.Drawing.Point(378, 442);
+            this.exCnt.Location = new System.Drawing.Point(153, 465);
             this.exCnt.Name = "exCnt";
             this.exCnt.Size = new System.Drawing.Size(11, 11);
             this.exCnt.TabIndex = 95;
@@ -1556,7 +1411,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(295, 442);
+            this.label14.Location = new System.Drawing.Point(70, 465);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(85, 11);
             this.label14.TabIndex = 96;
@@ -1621,18 +1476,10 @@
             this.label_jif.TabIndex = 103;
             this.label_jif.Text = "...";
             // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(11, 443);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(27, 11);
-            this.label20.TabIndex = 104;
-            this.label20.Text = "로그";
-            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(184, 705);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(1377, 451);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(49, 20);
             this.button2.TabIndex = 105;
@@ -1643,7 +1490,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(635, 442);
+            this.label25.Location = new System.Drawing.Point(498, 464);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(52, 11);
             this.label25.TabIndex = 108;
@@ -1652,7 +1499,7 @@
             // label_buyCnt
             // 
             this.label_buyCnt.AutoSize = true;
-            this.label_buyCnt.Location = new System.Drawing.Point(607, 443);
+            this.label_buyCnt.Location = new System.Drawing.Point(470, 465);
             this.label_buyCnt.Name = "label_buyCnt";
             this.label_buyCnt.Size = new System.Drawing.Size(11, 11);
             this.label_buyCnt.TabIndex = 110;
@@ -1661,7 +1508,7 @@
             // label_sellCnt
             // 
             this.label_sellCnt.AutoSize = true;
-            this.label_sellCnt.Location = new System.Drawing.Point(691, 443);
+            this.label_sellCnt.Location = new System.Drawing.Point(554, 464);
             this.label_sellCnt.Name = "label_sellCnt";
             this.label_sellCnt.Size = new System.Drawing.Size(11, 11);
             this.label_sellCnt.TabIndex = 109;
@@ -1670,7 +1517,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(555, 442);
+            this.label24.Location = new System.Drawing.Point(418, 464);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(52, 11);
             this.label24.TabIndex = 107;
@@ -1683,8 +1530,7 @@
             // 
             // btn_history_pop
             // 
-            this.btn_history_pop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_history_pop.Location = new System.Drawing.Point(843, 434);
+            this.btn_history_pop.Location = new System.Drawing.Point(769, 456);
             this.btn_history_pop.Name = "btn_history_pop";
             this.btn_history_pop.Size = new System.Drawing.Size(61, 20);
             this.btn_history_pop.TabIndex = 111;
@@ -1704,8 +1550,7 @@
             // grd_chart
             // 
             this.grd_chart.AllowUserToOrderColumns = true;
-            this.grd_chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.grd_chart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -1743,7 +1588,7 @@
             dataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grd_chart.DefaultCellStyle = dataGridViewCellStyle46;
-            this.grd_chart.Location = new System.Drawing.Point(916, 455);
+            this.grd_chart.Location = new System.Drawing.Point(918, 477);
             this.grd_chart.Name = "grd_chart";
             dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle47.BackColor = System.Drawing.SystemColors.Control;
@@ -1755,7 +1600,7 @@
             this.grd_chart.RowHeadersDefaultCellStyle = dataGridViewCellStyle47;
             this.grd_chart.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.grd_chart.RowTemplate.Height = 23;
-            this.grd_chart.Size = new System.Drawing.Size(510, 269);
+            this.grd_chart.Size = new System.Drawing.Size(510, 266);
             this.grd_chart.TabIndex = 113;
             this.grd_chart.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grd_chart_CellFormatting);
             // 
@@ -1967,7 +1812,7 @@
             this.grd_t0424Excl.RowHeadersDefaultCellStyle = dataGridViewCellStyle55;
             this.grd_t0424Excl.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.grd_t0424Excl.RowTemplate.Height = 23;
-            this.grd_t0424Excl.Size = new System.Drawing.Size(509, 352);
+            this.grd_t0424Excl.Size = new System.Drawing.Size(509, 199);
             this.grd_t0424Excl.TabIndex = 116;
             this.grd_t0424Excl.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424Excl_CellValueChanged);
             // 
@@ -2054,7 +1899,6 @@
             // 
             // btn_exclWatch
             // 
-            this.btn_exclWatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_exclWatch.Location = new System.Drawing.Point(477, 30);
             this.btn_exclWatch.Name = "btn_exclWatch";
             this.btn_exclWatch.Size = new System.Drawing.Size(62, 20);
@@ -2077,7 +1921,7 @@
             // btn_Capture
             // 
             this.btn_Capture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Capture.Location = new System.Drawing.Point(1366, 434);
+            this.btn_Capture.Location = new System.Drawing.Point(1196, 29);
             this.btn_Capture.Name = "btn_Capture";
             this.btn_Capture.Size = new System.Drawing.Size(61, 20);
             this.btn_Capture.TabIndex = 119;
@@ -2109,7 +1953,6 @@
             // 
             // btn_sync
             // 
-            this.btn_sync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_sync.Location = new System.Drawing.Point(664, 30);
             this.btn_sync.Name = "btn_sync";
             this.btn_sync.Size = new System.Drawing.Size(47, 20);
@@ -2118,11 +1961,173 @@
             this.btn_sync.UseVisualStyleBackColor = true;
             this.btn_sync.Click += new System.EventHandler(this.btn_sync_Click);
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(917, 466);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(53, 11);
+            this.label20.TabIndex = 123;
+            this.label20.Text = "일별 상태";
+            // 
+            // ordtime
+            // 
+            this.ordtime.DataPropertyName = "ordtime";
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ordtime.DefaultCellStyle = dataGridViewCellStyle23;
+            this.ordtime.HeaderText = "주문시간";
+            this.ordtime.Name = "ordtime";
+            this.ordtime.Width = 74;
+            // 
+            // medosu
+            // 
+            this.medosu.DataPropertyName = "medosu";
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.medosu.DefaultCellStyle = dataGridViewCellStyle24;
+            this.medosu.HeaderText = "구분";
+            this.medosu.Name = "medosu";
+            this.medosu.Width = 40;
+            // 
+            // status
+            // 
+            this.status.DataPropertyName = "status";
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.status.DefaultCellStyle = dataGridViewCellStyle25;
+            this.status.HeaderText = "상태";
+            this.status.Name = "status";
+            this.status.Width = 40;
+            // 
+            // ordptnDetail
+            // 
+            this.ordptnDetail.DataPropertyName = "ordptnDetail";
+            this.ordptnDetail.HeaderText = "구분상세";
+            this.ordptnDetail.Name = "ordptnDetail";
+            this.ordptnDetail.Width = 58;
+            // 
+            // expcode
+            // 
+            this.expcode.DataPropertyName = "expcode";
+            this.expcode.HeaderText = "종목번호";
+            this.expcode.Name = "expcode";
+            this.expcode.Width = 60;
+            // 
+            // t0425_hname
+            // 
+            this.t0425_hname.DataPropertyName = "hname";
+            this.t0425_hname.HeaderText = "종목명";
+            this.t0425_hname.Name = "t0425_hname";
+            // 
+            // qty
+            // 
+            this.qty.DataPropertyName = "qty";
+            this.qty.HeaderText = "주문수량";
+            this.qty.Name = "qty";
+            this.qty.Width = 40;
+            // 
+            // t0425_price
+            // 
+            this.t0425_price.DataPropertyName = "price";
+            this.t0425_price.HeaderText = "주문가격";
+            this.t0425_price.Name = "t0425_price";
+            this.t0425_price.Width = 50;
+            // 
+            // cheqty
+            // 
+            this.cheqty.DataPropertyName = "cheqty";
+            this.cheqty.HeaderText = "체결수량";
+            this.cheqty.Name = "cheqty";
+            this.cheqty.Width = 40;
+            // 
+            // cheprice
+            // 
+            this.cheprice.DataPropertyName = "cheprice";
+            dataGridViewCellStyle26.Format = "C2";
+            dataGridViewCellStyle26.NullValue = null;
+            this.cheprice.DefaultCellStyle = dataGridViewCellStyle26;
+            this.cheprice.HeaderText = "제결가격";
+            this.cheprice.Name = "cheprice";
+            this.cheprice.Width = 50;
+            // 
+            // ordrem
+            // 
+            this.ordrem.DataPropertyName = "ordrem";
+            this.ordrem.HeaderText = "미체결잔량";
+            this.ordrem.Name = "ordrem";
+            this.ordrem.Width = 50;
+            // 
+            // ordno
+            // 
+            this.ordno.DataPropertyName = "ordno";
+            this.ordno.HeaderText = "주문번호";
+            this.ordno.Name = "ordno";
+            this.ordno.Width = 40;
+            // 
+            // upOrdno
+            // 
+            this.upOrdno.DataPropertyName = "upOrdno";
+            this.upOrdno.HeaderText = "상위주문번호";
+            this.upOrdno.Name = "upOrdno";
+            this.upOrdno.Width = 50;
+            // 
+            // sellOrdAt
+            // 
+            this.sellOrdAt.DataPropertyName = "sellOrdAt";
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sellOrdAt.DefaultCellStyle = dataGridViewCellStyle27;
+            this.sellOrdAt.HeaderText = "금일매도";
+            this.sellOrdAt.Name = "sellOrdAt";
+            this.sellOrdAt.Width = 40;
+            // 
+            // toDaysunikrt
+            // 
+            this.toDaysunikrt.DataPropertyName = "toDaysunikrt";
+            this.toDaysunikrt.HeaderText = "금일수익률";
+            this.toDaysunikrt.Name = "toDaysunikrt";
+            this.toDaysunikrt.Width = 50;
+            // 
+            // cancelOrdAt
+            // 
+            this.cancelOrdAt.DataPropertyName = "cancelOrdAt";
+            this.cancelOrdAt.HeaderText = "주문취소";
+            this.cancelOrdAt.Name = "cancelOrdAt";
+            this.cancelOrdAt.Width = 40;
+            // 
+            // upExecprc
+            // 
+            this.upExecprc.DataPropertyName = "upExecprc";
+            this.upExecprc.HeaderText = "상위체결금액";
+            this.upExecprc.Name = "upExecprc";
+            this.upExecprc.Width = 50;
+            // 
+            // useYn
+            // 
+            this.useYn.DataPropertyName = "useYn";
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.useYn.DefaultCellStyle = dataGridViewCellStyle28;
+            this.useYn.HeaderText = "사용여부";
+            this.useYn.Name = "useYn";
+            this.useYn.Width = 40;
+            // 
+            // ordermtd
+            // 
+            this.ordermtd.DataPropertyName = "ordermtd";
+            this.ordermtd.HeaderText = "주문매체";
+            this.ordermtd.Name = "ordermtd";
+            this.ordermtd.Width = 60;
+            // 
+            // eventNm
+            // 
+            this.eventNm.DataPropertyName = "eventNm";
+            this.eventNm.HeaderText = "검색조건";
+            this.eventNm.Name = "eventNm";
+            this.eventNm.Width = 60;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1439, 770);
+            this.Controls.Add(this.label20);
             this.Controls.Add(this.btn_sync);
             this.Controls.Add(this.btn_exclWatchSync);
             this.Controls.Add(this.btn_exclWatchSave);
@@ -2139,7 +2144,6 @@
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.label20);
             this.Controls.Add(this.label_jif);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.날자);
@@ -2270,7 +2274,6 @@
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label22;
         public System.Windows.Forms.Label label_dtsunik2;
-        private System.Windows.Forms.Label label20;
         public System.Windows.Forms.ListBox listBox_log;
         private System.Windows.Forms.Button button2;
         public System.Windows.Forms.Label label_InvestmentRatio;
@@ -2314,25 +2317,6 @@
         public System.Windows.Forms.DataGridView grd_t0424Excl;
         public System.Windows.Forms.Button btn_exclWatch;
         public System.Windows.Forms.Button btn_exclWatchRollback;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordptnDetail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn expcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_hname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cheqty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cheprice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordrem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn upOrdno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sellOrdAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn toDaysunikrt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cancelOrdAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn upExecprc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
         public System.Windows.Forms.Button btn_Capture;
         public System.Windows.Forms.Button btn_exclWatchSave;
         public System.Windows.Forms.Button btn_exclWatchSync;
@@ -2379,6 +2363,27 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn mdat;
         private System.Windows.Forms.DataGridViewTextBoxColumn mpmd;
         private System.Windows.Forms.DataGridViewTextBoxColumn sumMdposqt;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordptnDetail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn expcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_hname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cheqty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cheprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordrem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn upOrdno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellOrdAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn toDaysunikrt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cancelOrdAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn upExecprc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn eventNm;
     }
 }
 

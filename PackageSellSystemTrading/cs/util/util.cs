@@ -338,6 +338,12 @@ namespace PackageSellSystemTrading
             return Math.Round(손익률, 2).ToString();
 
         }
+        public static String nvl(String val,String tmpVal)
+        {
+            val = val == null ? tmpVal : val;
+            val = val == ""   ? tmpVal : val;
+            return val;
+        }
        
     }	// end class
 }	// end namespace

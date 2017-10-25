@@ -212,8 +212,9 @@ namespace PackageSellSystemTrading {
                 mainForm.grd_t0425.Rows[rowIndex].Cells["cancelOrdAt"   ].Value = items.First()["cancelOrdAt"].ToString();//주문취소여부
                 mainForm.grd_t0425.Rows[rowIndex].Cells["useYN"         ].Value = items.First()["useYN"].ToString();//사용여부
                 mainForm.grd_t0425.Rows[rowIndex].Cells["upOrdno"       ].Value = items.First()["upOrdno"].ToString();//상위 매수 주문번호
-                mainForm.grd_t0425.Rows[rowIndex].Cells["upExecprc"     ].Value = Util.GetNumberFormat(items.First()["upExecprc"].ToString());   //상위체결금액
-
+                mainForm.grd_t0425.Rows[rowIndex].Cells["upExecprc"     ].Value = Util.GetNumberFormat(items.First()["upExecprc"].ToString());
+                mainForm.grd_t0425.Rows[rowIndex].Cells["eventNm"       ].Value = items.First()["eventNm"].ToString();//검색조건 이름
+                //상위체결금액
                 Double 재비용율 = mainForm.combox_targetServer.SelectedIndex == 0 ? 0.0099 : 0.0033;
 
                 //mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"    ].Value = item.ordermtd;     //주문매체
@@ -542,10 +543,13 @@ namespace PackageSellSystemTrading {
         public String upOrdno      { set; get; }//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
         public String upExecprc    { set; get; }//상위체결금액
         public String sellOrdAt    { set; get; }//매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-        public String cancelOrdAt { set; get; }//매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+        public String cancelOrdAt  { set; get; }//매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
         public String useYN        { set; get; }//사용여부
         public String toDaysunikrt { set; get; }//금일 수익률
         public String shSunik      { set; get; }//실현손익
+        public String eventNm      { set; get; }//검색조건이름
+
+        
     }
 
 

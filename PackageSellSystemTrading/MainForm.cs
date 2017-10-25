@@ -1090,7 +1090,7 @@ namespace PackageSellSystemTrading{
         //감시제외 그리드 현재가 변경 이벤트
         public void t0424ExclPriceChangedProcess(int rowIndex)
         {
-            String 종목코드 = this.grd_t0424Excl.Rows[rowIndex].Cells["e_expcode"].Value.ToString();
+            String 종목코드 = this.grd_t0424Excl.Rows[rowIndex].Cells["e_expcode"].Value.ToString().Replace("A", "");
             int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", 종목코드);
             String 수익율 = this.xing_t0424.getT0424VoList().ElementAt(findIndex).sunikrt2;
 
@@ -1107,7 +1107,7 @@ namespace PackageSellSystemTrading{
 
             //여기서부터 감시제외
             var test = this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt"].Value;
-            String 감시제외여부 = test == null ? "" : test.ToString(); ;
+            String 감시제외여부 = test == null ? "" : test.ToString();
 
 
             if (감시제외여부 == "Y") {
@@ -1122,21 +1122,28 @@ namespace PackageSellSystemTrading{
             }
 
             //매매이력정보 호출
-            SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드.Replace("A", ""));
+            SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드);
             if (summaryVo != null) {
-                this.grd_t0424.Rows[rowIndex].Cells["pamt2"].Value          = Util.GetNumberFormat(summaryVo.pamt2);    //평균단가2
-                this.grd_t0424.Rows[rowIndex].Cells["sellCnt"].Value        = summaryVo.sellCnt;  //매도 횟수.
-                this.grd_t0424.Rows[rowIndex].Cells["buyCnt"].Value         = summaryVo.buyCnt;   //매수 횟수
-                this.grd_t0424.Rows[rowIndex].Cells["sellSunik"].Value      = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
-                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"].Value     = summaryVo.firstBuyDt;//최초진입일시
+                String 최대수익율 = Util.nvl(summaryVo.maxHisRt, "0");
+                String 최소수익율 = Util.nvl(summaryVo.minHisRt, "0");
+               
+                Util.nvl(summaryVo.maxHisRt,"0");
+                this.grd_t0424.Rows[rowIndex].Cells["pamt2"         ].Value = Util.GetNumberFormat(summaryVo.pamt2);    //평균단가2
+                this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;  //매도 횟수.
+                this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;   //매수 횟수
+                this.grd_t0424.Rows[rowIndex].Cells["sellSunik"     ].Value = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
+                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt;//최초진입일시
 
-                this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"].Value     = summaryVo.ordermtd;      //주문매체
+                this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;      //주문매체
                 this.grd_t0424.Rows[rowIndex].Cells["c_targClearPrc"].Value = Util.GetNumberFormat(summaryVo.targClearPrc);   //목표청산가격
-                this.grd_t0424.Rows[rowIndex].Cells["c_secEntPrc"].Value    = Util.GetNumberFormat(summaryVo.secEntPrc);     //2차진입가격
-                this.grd_t0424.Rows[rowIndex].Cells["c_secEntAmt"].Value    = Util.GetNumberFormat(summaryVo.secEntAmt);     //2차진입비중가격
-                this.grd_t0424.Rows[rowIndex].Cells["c_stopPrc"].Value      = Util.GetNumberFormat(summaryVo.stopPrc);       //손절가격
-                this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt"].Value  = summaryVo.exclWatchAt;   //감시제외여부
-
+                this.grd_t0424.Rows[rowIndex].Cells["c_secEntPrc"   ].Value = Util.GetNumberFormat(summaryVo.secEntPrc);     //2차진입가격
+                this.grd_t0424.Rows[rowIndex].Cells["c_secEntAmt"   ].Value = Util.GetNumberFormat(summaryVo.secEntAmt);     //2차진입비중가격
+                this.grd_t0424.Rows[rowIndex].Cells["c_stopPrc"     ].Value = Util.GetNumberFormat(summaryVo.stopPrc);       //손절가격
+                this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt;   //감시제외여부
+                this.grd_t0424.Rows[rowIndex].Cells["eventNm"       ].Value = summaryVo.eventNm;   //검색조건 이름
+                this.grd_t0424.Rows[rowIndex].Cells["maxHisRt"      ].Value = 최대수익율;   //최대도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["minHisRt"      ].Value = 최소수익율;   //최소도달 수익율
+              
                 //매도가능수량이 같지 않으면 에러표시 해주자.
                 String errorcd = this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value == null ? "" : this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value.ToString();
                 String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
@@ -1173,10 +1180,24 @@ namespace PackageSellSystemTrading{
                     grd_t0424Excl.Rows[findIndex].Cells["e_price"].Value = Util.GetNumberFormat(grd_t0424.Rows[rowIndex].Cells["price"].Value.ToString());
                     //grd_t0424Excl.Rows[findIndex].Cells["e_price"].Style.ForeColor = color;
                 }
+
+                //수익율 최소 최대 업데이트
+                String 현재수익율 = this.grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Value == null ? this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString(): this.grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Value.ToString();
+                double d현재수익 = double.Parse(현재수익율.Trim());
+                double d최대수익율 = double.Parse(최대수익율.Trim());
+
+                if (double.Parse(현재수익율.Trim()) > double.Parse(최대수익율)){
+                    this.tradingHistory.maxHisRtUpdate(종목코드, 현재수익율);
+                    this.grd_t0424.Rows[rowIndex].Cells["maxHisRt"].Value = 현재수익율;   //최대도달 수익율
+                }
+                if (double.Parse(현재수익율.Trim()) < double.Parse(최소수익율)){
+                    this.tradingHistory.minHisRtUpdate(종목코드, 현재수익율);
+                    this.grd_t0424.Rows[rowIndex].Cells["minHisRt"].Value = 현재수익율;   //최소도달 수익율
+                }
             } else {
                 //이력정보가 없으면 에러코드등록해준다.
                 this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "notHistory";
-            }//else END
+            }
             
             //3.매매이력에 따른 손익율 재계산.
             this.grd_t0424.Rows[rowIndex].Cells["sunikrt2"].Value = this.xing_t0424.getSunikrt2(this.xing_t0424.getT0424VoList().ElementAt(rowIndex));
