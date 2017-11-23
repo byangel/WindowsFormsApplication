@@ -9,6 +9,7 @@ using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
 using System.Data;
+using System.Drawing;
 
 namespace PackageSellSystemTrading{
     //현물 정상주문
@@ -163,6 +164,12 @@ namespace PackageSellSystemTrading{
                     {
                         mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
                         mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = szMessage; //에러코드
+                        
+                        if (nMessageCode.Equals("01219")){
+                            mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
+                            mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = "매매금지"; //에러코드
+                        }
+                        mainForm.grd_t0424.Rows[findIndexT0424].DefaultCellStyle.BackColor = Color.Red;
                     }
 
                     //t0424Vo.orderAt
@@ -173,14 +180,7 @@ namespace PackageSellSystemTrading{
                     // 01221 :: 모의투자 증거금부족으로 주문이 불가능합니다
                     // 01219 :: 모의투자 매매금지 종목
                     // 02705 :: 모의투자 주문가격을 잘못 입력하셨습니다.  
-                    if (nMessageCode.Equals("01219"))
-                    {
-                        if (findIndexT0424 >= 0)
-                        {
-                            mainForm.xing_t0424.getT0424VoList().ElementAt(findIndexT0424).orderAt = "N";//주문상태 초기화
-                            mainForm.grd_t0424.Rows[findIndexT0424].Cells["errorcd"].Value = "매매금지"; //에러코드
-                        }
-                    }
+                    
 
 
                 } else {

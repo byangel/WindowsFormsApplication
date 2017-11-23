@@ -93,13 +93,14 @@ namespace PackageSellSystemTrading{
                 dataLogVo.ordprc        = realSc1Vo.ordprc;                 //주문가격
                 dataLogVo.execprc       = realSc1Vo.execprc;                //체결가격
                 dataLogVo.Isunm         = realSc1Vo.Isunm;                  //종목명
-                dataLogVo.ordptnDetail  = "실시간동기화";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.ordptnDetail  = "수동매수";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
                 dataLogVo.upExecprc     = "0";                              //상위체결가격
                 dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
                 dataLogVo.useYN         = "Y";                              //사용여부
                 dataLogVo.ordermtd      = "HTS";                            //주문 매체
                 dataLogVo.upOrdno       = realSc1Vo.ordno;                  //상위 주문번호
-
+                dataLogVo.exclWatchAt   = "Y";         //감시제외여부 : 자동매수가 아닌것은 기본으로 감시제외시킨다.                      
+                
                 //주문정보를 주문이력 DB에 저장 - dataInsert호출
                 mainForm.tradingHistory.insert(dataLogVo);
                 ////mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);

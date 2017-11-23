@@ -78,5 +78,38 @@ namespace PackageSellSystemTrading
             }
            
         }
+
+        private void grd_history_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                //MessageBox.Show(e.ColumnIndex.ToString());
+                int useYnIndex = grd_history.Rows[e.RowIndex].Cells["useYn"].ColumnIndex;
+                MessageBox.Show(useYnIndex.ToString());
+                if (e.ColumnIndex == useYnIndex)
+                {
+                    //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                    //priceChangedProcess(e.RowIndex);
+                }
+
+            }
+        }
+
+        private void grd_history_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            //if (e.RowIndex >= 0)
+            //{
+            //    var useYn = grd_history.Rows[e.RowIndex].Cells["useYn"].Value;
+            //    useYn = useYn == null ? "" : useYn;
+            //    MessageBox.Show(useYn.ToString());
+            //    if (useYn.ToString() == "N")
+            //    {
+            //        this.grd_history.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Gray;
+            //    }
+                
+
+            //}
+        }
+
     }//class end
 }//name end

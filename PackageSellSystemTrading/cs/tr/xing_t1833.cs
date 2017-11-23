@@ -28,9 +28,9 @@ namespace PackageSellSystemTrading{
 
         public Boolean initAt = false;
 
-        private int conditionTotalCnt  = 5;
+        private int conditionTotalCnt  = 6;
         private int conditionCallIndex = 0;
-        private String[] conditionNm   = { "밀집정배열","역정배", "삼선전환", "스윙매수", "5일반등" };
+        private String[] conditionNm   = { "밀집정배열","역정배", "당일고가", "스윙매수", "5일반등", "단타급등" };
         // 생성자
         public Xing_t1833(){
             
@@ -83,7 +83,7 @@ namespace PackageSellSystemTrading{
                     }
                     
                     tmpT1833Vo.shcode    = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
-                    tmpT1833Vo.hname     =  base.GetFieldData("t1833OutBlock1", "hname" ,i); //종목명
+                    tmpT1833Vo.hname     = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
                     tmpT1833Vo.close     = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
                     tmpT1833Vo.sign      = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
                     tmpT1833Vo.change    = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
@@ -200,7 +200,7 @@ namespace PackageSellSystemTrading{
             if (toDayBuyT0425VoList.Count() > 0 )
             {
                 Log.WriteLine("t1833::금일 1회 매수 제한:" + hname + "(" + shcode + ")["+ searchMod + "] ");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ": 금일 1회 매수 제한.[" + searchMod + "] ");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]: 금일 1회 매수 제한.[" + searchMod + "] ");
                 return false;
             }
 
@@ -229,7 +229,7 @@ namespace PackageSellSystemTrading{
             if (t1833ExcludeVoListFindIndex >= 0 )//매수금지종목이면 무조건 패스
             {
                 Log.WriteLine("t1833::매수금지 종목:" + hname + "(" + shcode + ")");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":매수금지 종목["+ searchMod + "]");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]:매수금지 종목["+ searchMod + "]");
                 mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
                 //만약에 보유종목일경우 보유종목도 색으로 표현해주자.
                 if (t0424VoListFindIndex >= 0)
@@ -251,7 +251,7 @@ namespace PackageSellSystemTrading{
                 //-수익율이 -5% 이하이면 반복매수 해주자.
                 if (double.Parse(sunikrt) > double.Parse(Properties.Settings.Default.REPEAT_RATE)){
                     Log.WriteLine("t1833::반복매수 제한:" + hname + "(" + shcode + ")[수익률:" + sunikrt + "%|설정수익률:" + Properties.Settings.Default.REPEAT_RATE + "%][" + searchMod + "]");
-                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":반복매수 제한.[" + searchMod + "]");
+                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]:반복매수 제한.[" + searchMod + "]");
                     return false;
                 }
 
@@ -269,7 +269,7 @@ namespace PackageSellSystemTrading{
             int battingAtm = int.Parse(mainForm.label_battingAtm.Text.Replace(",",""));
             //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
             if (close == "0"){
-                Log.WriteLine("t1833::" + hname + "(" + shcode + ") [현제가:" + close+ "][" + searchMod + "]");
+                Log.WriteLine("t1833::" + hname + "[ " + shcode + " ] [현제가:" + close+ "][" + searchMod + "]");
                 return false;
             }
 
@@ -300,14 +300,14 @@ namespace PackageSellSystemTrading{
                 xing_CSPAT00600.call_request();
 
                 Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "][" + searchMod + "] ");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::검색주문" + hname + ":" + ordptnDetail+ "[" + searchMod + "]");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]:" + ordptnDetail+ "[" + searchMod + "]");
 
 
 
             }
             else{
                 Log.WriteLine("t1833::비정규장 제어:" + hname + "(" + shcode + ") [주문가격:" + close + "|주문수량:" + Quantity + "][" + searchMod + "]");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ": 비정규장 제어.[" + searchMod + "]");
+                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]: 비정규장 제어.[" + searchMod + "]");
             }
           
             return true;

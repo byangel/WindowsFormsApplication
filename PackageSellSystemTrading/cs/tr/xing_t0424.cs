@@ -368,7 +368,7 @@ namespace PackageSellSystemTrading {
                 String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
  
                 Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
-                String  손절값        = Properties.Settings.Default.STOP_LOSS;
+                String  손절율        = Properties.Settings.Default.STOP_LOSS;
                 Boolean 매수금지종목손절여부 = Properties.Settings.Default.EXCL_STOP_LOSS_AT;
                 Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
 
@@ -385,8 +385,14 @@ namespace PackageSellSystemTrading {
                 if (t0424Vo.orderAt == "Y"){
                     return false;
                 }
-                
-                //1.감시제외엽와 목표가격 설정여부를 확인하여 처리한다.
+
+                //SING API 자동매매가 아니면 무조건 매매를 하지 않는다.
+                //if (t0424Vo.ordermtd != "XING API")
+                //{
+                //    return false;
+                //}
+
+                //1.감시제외여부와 목표가격 설정여부를 확인하여 처리한다.
 
                 String 주문매체           = t0424Vo.ordermtd;                       //주문매체 - 감시제외 일때 사용
                 String 목표청산가격       = t0424Vo.targClearPrc.Replace(",", ""); //목표청산가격    - 감시제외 일때 사용
@@ -400,22 +406,8 @@ namespace PackageSellSystemTrading {
                 {
                     if (Double.Parse(현재가격) >= Double.Parse(목표청산가격))
                     {
-                        //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
-                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-                        xing_CSPAT00600.ordptnDetail    = "목표청산";      //상세 매매 구분.
-                        xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
-                        xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
-                        xing_CSPAT00600.quantity        = t0424Vo.mdposqt; //수량
-                        xing_CSPAT00600.price           = t0424Vo.price.Replace(",", "");   //가격
-                        xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
-                        xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                        xing_CSPAT00600.upExecprc       = t0424Vo.pamt2.Replace(",", ""); //상위체결금액  
-                        xing_CSPAT00600.eventNm         = t0424Vo.eventNm; //매수전략명
-                        xing_CSPAT00600.call_request();
-
-                        Log.WriteLine("t0424 ::목표청산[" + infoStr);
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":목표청산.");
-                        t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                        this.t0424Order(t0424Vo, "1", "목표청산");
+                       
                         return true;
                         
                     }
@@ -425,52 +417,25 @@ namespace PackageSellSystemTrading {
                 //2차매수 - 손절검사하기전에 추가매수부터해준다.매수카운트 >= 2 면 2차매수 완료로 본다.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 if (추가진입가격 != "" && 추가진입가격 != "0" && int.Parse(t0424Vo.buyCnt) < 2)
                 {
-                    if (Double.Parse(현재가격) <= Double.Parse(추가진입가격)){
+                    if (Double.Parse(현재가격) <= Double.Parse(추가진입가격))
+                    {
                         Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                         //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                         int 수량 = int.Parse(추가진입금액) / int.Parse(현재가격);
-
-                        xing_CSPAT00600.ordptnDetail = "2차매수";       //상세 매매 구분.
-                        xing_CSPAT00600.shcode       = t0424Vo.expcode; //종목코드
-                        xing_CSPAT00600.hname        = t0424Vo.hname;   //종목명
-                        xing_CSPAT00600.quantity     = 수량.ToString(); //수량
-                        xing_CSPAT00600.price        = 현재가격.Replace(",", "");   //가격
-                        xing_CSPAT00600.divideBuySell = "2";            // 매매구분: 1-매도, 2-매수
-                        xing_CSPAT00600.upOrdno      = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                        xing_CSPAT00600.upExecprc    = "";              //상위체결금액  
-                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
-                        xing_CSPAT00600.call_request();
-
-                        Log.WriteLine("t1833::2차매수" + t0424Vo.hname + "(" + t0424Vo.expcode + ")2차매수   [주문가격:" + 현재가격 + "|주문수량:" + 수량.ToString() + "] ");
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t1833::검색주문" + t0424Vo.hname + ":2차매수");
-                        t0424Vo.orderAt = "Y";// 주문여부를 true로 설정   
+                        this.t0424Order(t0424Vo, "2", "2차매수", 수량.ToString());
+                        
                         return true;
                     }
-                   
+
                 }
 
                 //감시제외손절
                 if (감시제외손절가격 != "" && Double.Parse(감시제외손절가격) > 0)
                 {
                     if (Double.Parse(현재가격) <= Double.Parse(감시제외손절가격)) {
-                        //손절매도.
-                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
 
-                        xing_CSPAT00600.ordptnDetail  = "제외손절";       //상세 매매 구분.
-                        xing_CSPAT00600.shcode        = t0424Vo.expcode; //종목코드
-                        xing_CSPAT00600.hname         = t0424Vo.hname;   //종목명
-                        xing_CSPAT00600.quantity      = t0424Vo.mdposqt; //수량
-                        xing_CSPAT00600.price         = t0424Vo.price;   //가격
-                        xing_CSPAT00600.divideBuySell = "1";            // 매매구분: 1-매도, 2-매수
-                        xing_CSPAT00600.upOrdno       = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                        xing_CSPAT00600.upExecprc     = t0424Vo.pamt2;              //상위체결금액  
-                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
-                        //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
-                        xing_CSPAT00600.call_request();
-
-                        Log.WriteLine("t0424 ::감시제외손절[" + infoStr);
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":감시제외손절.");
-                        t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                        this.t0424Order(t0424Vo, "1", "감시제외손절");
+                        
                         return true;
                        
                     }
@@ -488,47 +453,22 @@ namespace PackageSellSystemTrading {
 
                 //손절
                 if (손절기능여부){
-                    if (Double.Parse(현재수익율) <= Double.Parse(손절값)){
-                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-                        xing_CSPAT00600.ordptnDetail    = "손절";          //상세 매매 구분.
-                        xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
-                        xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
-                        xing_CSPAT00600.quantity        = t0424Vo.mdposqt; //수량
-                        xing_CSPAT00600.price           = t0424Vo.price;   //가격
-                        xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
-                        xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                        xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
-                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
-                        xing_CSPAT00600.call_request();
-
-                        Log.WriteLine("t0424 ::손절[" + infoStr);
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":손절.");
-                        t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                    if (Double.Parse(현재수익율) <= Double.Parse(손절율)){
+                        this.t0424Order(t0424Vo, "1", "손절");
+                       
                         return true;
                         
                     }
                 }
-               
+                
                 //손절- 임시로API가 아닌 수동매매일경우 해당 조건을 실행하지 않는다. 매수 하자마자 매수금지에 걸려 매도주문이 나갈수도 있다.
                 if (매수금지종목손절여부 && t0424Vo.ordermtd == "XING API")
                 {
                     int findIndex = mainForm.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", t0424Vo.expcode.Replace("A",""));
                     if (findIndex >= 0)
                     {
-                        Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-                        xing_CSPAT00600.ordptnDetail    = "매수금지손절";          //상세 매매 구분.
-                        xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
-                        xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
-                        xing_CSPAT00600.quantity        = t0424Vo.mdposqt; //수량
-                        xing_CSPAT00600.price           = t0424Vo.price;   //가격
-                        xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
-                        xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                        xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
-                        xing_CSPAT00600.call_request();
-                        xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
-                        Log.WriteLine("t0424 ::매수금지손절[" + infoStr);
-                        mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":매수금지손절.");
-                        t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                        this.t0424Order(t0424Vo, "1", "매수금지손절");
+                       
                         return true;
                         
                     }
@@ -537,21 +477,8 @@ namespace PackageSellSystemTrading {
                 int t1833excludeVoBasicListFindIndex = mainForm.xing_t1833Exclude.getT1833excludeVoBasicList().Find("shcode", t0424Vo.expcode);
                 if (t1833excludeVoBasicListFindIndex >= 0)
                 {
-                    Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-                    xing_CSPAT00600.ordptnDetail    = "정리매매";      //상세 매매 구분.
-                    xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
-                    xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
-                    xing_CSPAT00600.quantity        = t0424Vo.mdposqt; //수량
-                    xing_CSPAT00600.price           = t0424Vo.price;   //가격
-                    xing_CSPAT00600.divideBuySell   = "1";             // 매매구분: 1-매도, 2-매수
-                    xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                    xing_CSPAT00600.upExecprc       = t0424Vo.pamt2;   //상위체결금액  
-                    xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
-                    xing_CSPAT00600.call_request();
-
-                    Log.WriteLine("t0424 ::정리매매[" + infoStr);
-                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:" + t0424Vo.hname + ":정리매매");
-                    t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+                    this.t0424Order(t0424Vo, "1", "정리매매");
+                   
                     return true;
                 }
 
@@ -577,20 +504,9 @@ namespace PackageSellSystemTrading {
                         t0424Vo.errorcd = "sunikrt error";
                         return false;
                     }
-                    Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-                    xing_CSPAT00600.ordptnDetail  = "수익청산";      //상세 매매 구분.
-                    xing_CSPAT00600.shcode        = t0424Vo.expcode; //종목코드
-                    xing_CSPAT00600.hname         = t0424Vo.hname;   //종목명
-                    xing_CSPAT00600.quantity      = t0424Vo.mdposqt; //수량
-                    xing_CSPAT00600.price         = t0424Vo.price;   //가격
-                    xing_CSPAT00600.divideBuySell = "1";             // 매매구분: 1-매도, 2-매수
-                    xing_CSPAT00600.upOrdno       = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
-                    xing_CSPAT00600.upExecprc     = t0424Vo.pamt2;   //상위체결금액  
-                    xing_CSPAT00600.call_request();
-                    xing_CSPAT00600.eventNm = t0424Vo.eventNm; //매수전략명
-                    Log.WriteLine("t0424 ::수익청산[" + infoStr);
-                    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t0424:" + t0424Vo.hname + ":수익청산.");
-                    t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정    
+
+                    this.t0424Order(t0424Vo, "1", "수익청산");
+                    
                     return true;
                    
                 }
@@ -604,6 +520,34 @@ namespace PackageSellSystemTrading {
             return false;
         }//stopProFitTarget end
 
+        //param divideBuySell:매매구분, ordptnDetail:상세매매구분 ,mdposqt : 수량
+        public void t0424Order(T0424Vo t0424Vo, String divideBuySell, String ordptnDetail)
+        {
+            String mdposqt = t0424Vo.mdposqt;
+            this.t0424Order(t0424Vo, divideBuySell, ordptnDetail, mdposqt);
+        }
+            //param divideBuySell:매매구분, ordptnDetail:상세매매구분 ,mdposqt : 수량
+        public void t0424Order(T0424Vo t0424Vo, String divideBuySell, String ordptnDetail, String mdposqt)
+        {
+            String 상위체결금액 = divideBuySell == "1" ? t0424Vo.pamt2.Replace(",", ""):"";
+            //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
+            Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+            xing_CSPAT00600.ordptnDetail    = ordptnDetail;      //상세 매매 구분.
+            xing_CSPAT00600.shcode          = t0424Vo.expcode; //종목코드
+            xing_CSPAT00600.hname           = t0424Vo.hname;   //종목명
+            xing_CSPAT00600.quantity        = mdposqt; //수량
+            xing_CSPAT00600.price           = t0424Vo.price.Replace(",", "");   //가격
+            xing_CSPAT00600.divideBuySell   = divideBuySell;             // 매매구분: 1-매도, 2-매수
+            xing_CSPAT00600.upOrdno         = "";              //상위매수주문 - 금일매도매수일때만 값이 있다.
+            xing_CSPAT00600.upExecprc       = 상위체결금액;
+            xing_CSPAT00600.eventNm         = t0424Vo.eventNm; //매수전략명
+            xing_CSPAT00600.call_request();
+
+            //String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
+            Log.WriteLine("t0424 ::목표청산[" + t0424Vo.hname + "]");
+            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:[ " + t0424Vo.hname + " ]:목표청산.");
+            t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정  
+        }
 
         //매매이력 DB와 동기화
         public void t0424histoySync()

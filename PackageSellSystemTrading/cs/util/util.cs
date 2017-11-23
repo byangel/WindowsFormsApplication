@@ -2,7 +2,8 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-
+using Microsoft.Win32;
+using System.Windows.Forms;
 namespace PackageSellSystemTrading
 {
     class Util
@@ -344,6 +345,40 @@ namespace PackageSellSystemTrading
             val = val == ""   ? tmpVal : val;
             return val;
         }
-       
+
+
+        public static String getRegValue(String keyName)
+        {
+            String keyValue = null;
+            try{
+                RegistryKey subkey = Registry.LocalMachine.OpenSubKey("Software\\AngelSystem");
+
+                keyValue = subkey.GetValue(keyName).ToString();
+                Single fsize = Convert.ToSingle(subkey.GetValue("FontName"));
+                
+            }
+            catch
+            {
+                MessageBox.Show("레지스트리 불러오기 실패");
+            }
+            return keyValue;
+        }
+
+        public static void setRegValue(String key, String value)
+        {
+            try
+            {
+                RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software", true);
+                RegistryKey newkey = rk.CreateSubKey("AngelSystem");
+
+                newkey.SetValue(key, value);
+            }
+            catch
+            {
+                MessageBox.Show("레지스트리 저장 실패");
+            }
+        }
+
+
     }	// end class
 }	// end namespace

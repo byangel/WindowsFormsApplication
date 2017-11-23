@@ -36,6 +36,7 @@
             this.btn_delete = new System.Windows.Forms.Button();
             this.check_flag = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.useYn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grd_history)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,12 +48,16 @@
             this.grd_history.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd_history.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.check_flag,
-            this.ordno});
+            this.ordno,
+            this.useYn});
             this.grd_history.Location = new System.Drawing.Point(12, 33);
             this.grd_history.Name = "grd_history";
             this.grd_history.RowTemplate.Height = 23;
             this.grd_history.Size = new System.Drawing.Size(694, 440);
             this.grd_history.TabIndex = 0;
+            
+            this.grd_history.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_history_CellValueChanged);
+            this.grd_history.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.grd_history_RowsAdded);
             // 
             // label5
             // 
@@ -119,6 +124,12 @@
             this.ordno.HeaderText = "주문번호";
             this.ordno.Name = "ordno";
             // 
+            // useYn
+            // 
+            this.useYn.DataPropertyName = "useYn";
+            this.useYn.HeaderText = "사용여부";
+            this.useYn.Name = "useYn";
+            // 
             // HistoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -147,5 +158,6 @@
         private System.Windows.Forms.Button btn_delete;
         private System.Windows.Forms.DataGridViewCheckBoxColumn check_flag;
         private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
     }
 }

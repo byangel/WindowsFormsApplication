@@ -216,27 +216,6 @@ namespace PackageSellSystemTrading{
             exXASessionClass.fnLogin();
         }
 
-        //주식 잔고2
-        private void btn_accountSearch_Click(object sender, EventArgs e) {
-
-            if (this.account == "" || this.accountPw == ""){
-                MessageBox.Show("계좌 정보가 없습니다.");
-            }else{
-                xing_t0424.call_request(this.account, this.accountPw);
-            }
-
-            //setRowNumber(grd_t0424);
-
-        }
-
-
-
-        //미체결내역
-        private void btn_t0425_Click(object sender, EventArgs e)
-        {
-            xing_t0425.call_request(this.account, this.accountPw);
-        }
-
         //시작버튼 클릭 이벤트
         private void btn_start_Click(object sender, EventArgs e)
         {
@@ -276,6 +255,7 @@ namespace PackageSellSystemTrading{
 
             btn_start.Enabled = false;//시작버튼 비활성
             btn_stop.Enabled = true;//종료버튼 활성
+            MessageBox.Show("자동매매가 시작 되었습니다.");
             Log.WriteLine("Trading Start..!!");
         }
 
@@ -292,6 +272,7 @@ namespace PackageSellSystemTrading{
 
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
+            MessageBox.Show("자동매매가 중지 되었습니다.");
             Log.WriteLine("Trading Stop..!!");
         }
 
@@ -433,77 +414,7 @@ namespace PackageSellSystemTrading{
             }
         }//btn_checkSell_Click END
 
-        //테스트 버튼 클릭 이벤트
-        private void test_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int test = 20171117;
-                //MessageBox.Show(String.Format("{0:####-##-##}", "{20171117}"));
-                MessageBox.Show(test.ToString("yyyy-MM-dd"));
-                //HTS연동
-                //Xing_LinkToHTS xing_LinkToHTS = new Xing_LinkToHTS();
-                ////bool test = xing_LinkToHTS.call_request("112610");
-                //xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", "112610", "");
-
-                //주문취소
-                //Xing_CSPAT00800 xing_CSPAT00800 = new Xing_CSPAT00800(this);
-                //mainForm.xing_CSPAT00800List.Add(xing_CSPAT00800);
-                //xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, "064550", "");
-                String tesss = "";
-                //RequestLinkToHTS fdf = new RequestLinkToHTS();
-
-                //SummaryVo vo = this.tradingHistory.getSummaryVo("205500");
-                //for (int i=0;i<100;i++)
-                //{
-                //    Xing_CSPAT00600 xing_CSPAT00600 = new Xing_CSPAT00600(this);
-                //    this.xing_CSPAT00600List.Add(xing_CSPAT00600);
-                //}
-
-                ////foreach (Xing_CSPAT00600 item in this.xing_CSPAT00600List)
-                ////{
-                ////    int testcnt = xing_CSPAT00600List.Find("shcode", item.shcode);
-                ////    xing_CSPAT00600List.RemoveAt(testcnt);
-                ////}
-                ////주문 객체 널처리
-                //for (int i=0;i< xing_CSPAT00600List.Count();i++)
-                //{
-                //    Xing_CSPAT00600 xing_CSPAT00600 = xing_CSPAT00600List.ElementAt(i);
-                //    xing_CSPAT00600 = null;
-                //        xing_CSPAT00600List.RemoveAt(0);
-                //   i--;
-                //}
-                //GC.Collect();
-
-                //}
-                //취소 객체
-                //for (int i = xing_CSPAT00600List.Count(); i > 0 ; i--)
-                //{
-                //    if (xing_CSPAT00600List.ElementAt(i).completeAt == true)
-                //    {
-                //        xing_CSPAT00600List.RemoveAt(i);
-                //    }
-
-                //}
-
-                //시간 초과 손절 을 사용하면 금일 매수 제한 하지 않는다.
-                //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
-                //var dtsunik = from item in this.chartData.getChartVoList()
-                //                              //where item.expcode == shcode && item.medosu == "매수"
-                //              select item.dtsunik;
-                //List<double> listval = this.chartData.getChartVoList().Select(row => double.Parse(row.dtsunik)).ToList();
-                //String 누적수익 = Util.GetNumberFormat(listval.Sum().ToString());
-                //this.label_sum_dtsunik.Text = 누적수익;
-            }
-            catch (Exception ex){
-                Log.WriteLine("main : " + ex.Message);
-                Log.WriteLine("main : " + ex.StackTrace);
-            }
-
-        }
-
-
-
+       
         //취소
         private void button3_Click(object sender, EventArgs e)
         {
@@ -645,32 +556,6 @@ namespace PackageSellSystemTrading{
             }
         }//priceCallBack
 
-        
-
-        //실시간 체결(SC1) > 매도가능수량이 0이면 호출 
-        //public void deleteCallBack(String Isuno)
-        //{
-        //    //dataLog 도 제거해준다.
-        //    this.dataLog.deleteData(Isuno); //이상하게 반복매수에서 보유종목으로 통과되어서 에러난다. 그래서 아래 0424와 순서를 바꿔줘본다.1833에서 에러남
-
-        //    //그리드삭제
-        //    //this.grd_t0424.Rows.Remove(this.grd_t0424.Rows[findIndex]);//그리드에서 삭제하면 바인딩객체도 같이 삭제 되는지 잘모르겠어서 그냥 바인딩객체를 삭제로 바꿔준다.
-        //    int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", Isuno.Replace("A", ""));
-        //    if (findIndex>=0)
-        //    {
-        //        this.xing_t0424.getT0424VoList().RemoveAt(findIndex);
-        //    }
-
-        //}
-
-
-        //조건검색 버튼 이벤트
-        private void btn_search_Click_1(object sender, EventArgs e)
-        {
-            xing_t1833.call_request();
-        }
-
-    
         //로그 클린
         private void button2_Click(object sender, EventArgs e)
         {
@@ -956,7 +841,6 @@ namespace PackageSellSystemTrading{
         //목표 설정및 손절 청산 저장
         private void btn_exclWatchSave_Click(object sender, EventArgs e)
         {
-
             for (int i = 0; i < this.grd_t0424Excl.RowCount; i++)
             {
                 //감시제외 상태 업데이트.
@@ -980,76 +864,10 @@ namespace PackageSellSystemTrading{
             //감시제외종목 동기화
             xing_t0424.exclWatchSync();
         }
-
         
         //잔고목록과 DB 동기화
         private void btn_sync_Click(object sender, EventArgs e)
         {
-            ////1.t0425부터 동기화를 해주자.
-            //for (int i = 0; i < this.xing_t0425.getT0425VoList().Count(); i++)
-            //{
-                
-            //    T0425Vo t0425Vo = this.xing_t0425.getT0425VoList().ElementAt(i);
-            //    if (t0425Vo.ordno == "16457")
-            //    {
-            //        int test = 0;
-            //    }
-            //    var items = from item in this.tradingHistory.getTradingHistoryDt().AsEnumerable()
-            //                where item["accno"].ToString() == this.account
-            //                   && item["Isuno"].ToString() == t0425Vo.expcode.Replace("A", "")
-            //                   && item["ordno"].ToString() == t0425Vo.ordno
-            //                select item;
-            //    //수량 동기와
-            //    if (items.Count() > 0)
-            //    {
-            //        /////////프로그램 재시작하는동안 체결된 정보는 DB에 저장이 안되기 때문에 체결수량이 DB정보와 다르면 DB정보를 수정해준다.///////////
-            //        //체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
-            //        if (t0425Vo.cheqty != items.First()["execqty"].ToString())
-            //        {
-            //            items.First()["execqty"] = t0425Vo.cheqty;
-            //            items.First()["execprc"] = t0425Vo.cheprice.Replace(",", "");
-
-            //            //item.Isunm   = tmpT0425Vo.hname//tr에서 종목 이름이 넘어오지 않는다.
-            //            this.tradingHistory.execqtyUpdate(items.First());//수량 업데이트
-            //        }
-            //    }else{
-            //        //데이타로그에 저장
-            //        //public class dataLogVo
-            //        TradingHistoryVo dataLogVo = new TradingHistoryVo();
-            //        dataLogVo.ordno         = t0425Vo.ordno;                  //주문번호
-            //        dataLogVo.accno         = this.account;                 //계좌번호
-            //        dataLogVo.ordptncode    = t0425Vo.medosu == "매도" ? "01":"02";             //주문구분 01:매도|02:매수 
-            //        dataLogVo.Isuno         = t0425Vo.expcode.Replace("A", ""); //종목코드
-            //        dataLogVo.ordqty        = t0425Vo.qty;                 //주문수량
-            //        dataLogVo.execqty       = t0425Vo.cheqty;                //체결수량
-            //        dataLogVo.ordprc        = t0425Vo.price;                 //주문가격
-            //        dataLogVo.execprc       = t0425Vo.cheprice;                //체결가격
-            //        dataLogVo.Isunm         = t0425Vo.hname;                  //종목명
-            //        dataLogVo.ordptnDetail  = "동기화";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
-            //        dataLogVo.upExecprc     = "0";                              //상위체결가격
-            //        dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-            //        dataLogVo.useYN         = "Y";                              //사용여부
-            //        dataLogVo.ordermtd      = "XING API";                            //주문 매체
-            //        dataLogVo.upOrdno       = t0425Vo.ordno;                  //상위 주문번호
-
-            //        //주문정보를 주문이력 DB에 저장 - dataInsert호출
-            //        this.tradingHistory.insert(dataLogVo);
-
-            //    }
-            //}
-            ////DB 정보가 잔고그리드에 있는지 여부에따라 삭제 해준다.
-            //DataTable dt = this.tradingHistory.getTradingHistoryDt().Copy();
-            //foreach (DataRow item in dt.AsEnumerable())
-            //{
-            //    int findIndex = xing_t0424.getT0424VoList().Find("expcode", item["Isuno"].ToString());
-            //    if (findIndex < 0 )
-            //    {
-            //        //Log.WriteLine("동기화 ::삭제[" + item["Isuno"].ToString());
-            //        this.tradingHistory.isunoDelete(item["Isuno"].ToString());//DB삭제.
-            //    }
-            //}
-            //dt = null;
-          
             //잔고 동기화.
             xing_t0424.t0424histoySync();
         }
@@ -1150,17 +968,20 @@ namespace PackageSellSystemTrading{
                 if (c_mdposqt != summaryVo.sumMdposqt)
                 {
                     this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "mdposqt not equals";
+                    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
                 }
                 else if (c_mdposqt == summaryVo.sumMdposqt)
                 {
                     if (errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
                     {
                         this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "";
+                        this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
                     }
                 }
                 //확장정보 에러일경우 에러상태를 풀어준다.
                 if (errorcd != null && errorcd.Equals("notHistory")) {
                     this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "";
+                    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
                 }
 
                 String 수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString().Replace(",", "");
@@ -1197,6 +1018,7 @@ namespace PackageSellSystemTrading{
             } else {
                 //이력정보가 없으면 에러코드등록해준다.
                 this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "notHistory";
+                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
             }
             
             //3.매매이력에 따른 손익율 재계산.
@@ -1295,13 +1117,13 @@ namespace PackageSellSystemTrading{
                 //if (나머지 != 0){
                 //    목표수익율 = "10";
                 //}
-                if (나머지 == 0 || 나머지 == 30)
+                if (나머지 == 19 || 나머지 == 39 || 나머지 == 59)
                 {
 
                 }
                 else
                 {
-                    returnVal = "10";
+                    returnVal = "5";
                 }
             }
             return returnVal;
