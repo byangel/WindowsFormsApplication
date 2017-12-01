@@ -46,7 +46,8 @@ namespace PackageSellSystemTrading{
         Xing_LinkToHTS xing_LinkToHTS;
 
         public String tradingAt;//매매 여부 Y|N
-
+        public Boolean buyAt;
+        public Boolean sellAt;
 
         public String account; //계좌번호
         public String accountPw;//계좌 비밀번호
@@ -630,13 +631,10 @@ namespace PackageSellSystemTrading{
 
                 //2.금일주문 이력
                 this.xing_t0425.call_request(this.account, this.accountPw);
-
-              
-
+                
                 //3.현물계좌예수금/주문가능금액/총평가 조회
                 this.xing_CSPAQ12200.call_request(this.account, this.accountPw);
-
-
+                
                 //4.매도/매수 카운트
                 var varT0425VoList = from item in this.xing_t0425.getT0425VoList()
                                      where item.medosu == "매도" && item.cancelOrdAt != "Y"
@@ -1127,6 +1125,59 @@ namespace PackageSellSystemTrading{
                 }
             }
             return returnVal;
+        }
+
+        private void btn_buyAt_Click(object sender, EventArgs e)
+        {
+            if (this.buyAt){
+                buyAtUpate(false);
+                MessageBox.Show("매수가 종료되었습니다.");
+            }
+            else{
+                buyAtUpate(true);
+                MessageBox.Show("매수가 시작되었습니다.");
+            }
+        }
+        private void btn_sellAt_Click(object sender, EventArgs e)
+        {
+            if (this.sellAt){
+                sellAtUpate(false);
+                MessageBox.Show("매도 감시가 종료되었습니다.");
+            }
+            else{
+                sellAtUpate(true);
+                MessageBox.Show("매도 감시가 시작되었습니다.");
+            }
+        }
+        private void buyAtUpate(Boolean flag)
+        {
+            if (flag){
+                this.buyAt = flag;
+                this.btn_buyAt.Text = "매수종료";
+
+              
+            }
+            else{
+                this.buyAt = flag;
+                this.btn_buyAt.Text = "매수시작";
+            }
+        }
+        private void sellAtUpate(Boolean flag)
+        {
+            if (flag)
+            {
+                this.sellAt = flag;
+                this.btn_sellAt.Text = "매도종료";
+
+                this.timer_common.Start();//계좌 및 미체결 검색 타이머
+                this.Timer0167.Start();//시간검색
+            }else
+            {
+                this.sellAt = flag;
+                this.btn_sellAt.Text = "매도시작";
+
+                this.timer_common.Stop();
+            }
         }
     }//end class
 }//end namespace

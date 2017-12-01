@@ -65,7 +65,6 @@ namespace PackageSellSystemTrading
 
             //label 출력
             mainForm.label_Dps.Text          = Util.GetNumberFormat(this.Dps);          // 예수금
-            mainForm.label_Dps.Text          = Util.GetNumberFormat(this.Dps);          // 예수금
             mainForm.label_D2Dps.Text        = Util.GetNumberFormat(this.D2Dps);        // D2예수금
             mainForm.label_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액           
             mainForm.label_BalEvalAmt.Text   = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액

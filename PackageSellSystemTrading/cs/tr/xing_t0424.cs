@@ -621,22 +621,22 @@ namespace PackageSellSystemTrading {
             {
                 this.completeAt = false;//중복호출 방지
 
-                base.SetFieldData("t0424InBlock", "accno", 0, account);    // 계좌번호
-                base.SetFieldData("t0424InBlock", "passwd", 0, accountPw);  // 비밀번호
-                base.SetFieldData("t0424InBlock", "prcgb", 0, "1");        // 단가구분 : 1-평균단가, 2:BEP단가
-                base.SetFieldData("t0424InBlock", "chegb", 0, "2");        // 체결구분 : 0-결제기준, 2-체결기준
-                base.SetFieldData("t0424InBlock", "dangb", 0, "0");        // 단일가구분 : 0-정규장, 1-시간외단일가 
-                base.SetFieldData("t0424InBlock", "charge", 0, "1");        // 제비용포함여부 : 0-미포함, 1-포함
-                base.SetFieldData("t0424InBlock", "cts_expcode", 0, "");      // CTS종목번호 : 처음 조회시는 SPACE
+                base.SetFieldData("t0424InBlock", "accno"       , 0, account);    // 계좌번호
+                base.SetFieldData("t0424InBlock", "passwd"      , 0, accountPw);  // 비밀번호
+                base.SetFieldData("t0424InBlock", "prcgb"       , 0, "1");        // 단가구분 : 1-평균단가, 2:BEP단가
+                base.SetFieldData("t0424InBlock", "chegb"       , 0, "2");        // 체결구분 : 0-결제기준, 2-체결기준
+                base.SetFieldData("t0424InBlock", "dangb"       , 0, "0");        // 단일가구분 : 0-정규장, 1-시간외단일가 
+                base.SetFieldData("t0424InBlock", "charge"      , 0, "1");        // 제비용포함여부 : 0-미포함, 1-포함
+                base.SetFieldData("t0424InBlock", "cts_expcode" , 0, "");         // CTS종목번호 : 처음 조회시는 SPACE
 
                 // 계좌잔고 그리드 초기화
                 //mainForm.grd_t0424.Rows.Clear();
                 //mainForm.dataTable_t0424.Clear();
 
                 //멤버변수 초기화
-                this.tmpMamt = 0; //매입금액
-                this.tmpTappamt = 0; //평가금액
-                this.tmpTdtsunik = 0; //평가손익
+                this.tmpMamt      = 0; //매입금액
+                this.tmpTappamt   = 0; //평가금액
+                this.tmpTdtsunik  = 0; //평가손익
                 this.h_totalCount = 0; //보유종목수
 
                 base.Request(false);  //연속조회일경우 true
