@@ -93,7 +93,7 @@ namespace PackageSellSystemTrading{
                 dataLogVo.execprc       = "0";                      //체결가격
                 dataLogVo.Isunm         = this.hname;               //종목명
                 dataLogVo.ordptnDetail  = this.ordptnDetail;        //상세 주문구분 신규매수|반복매수|금일매도|청산
-                dataLogVo.upExecprc     = this.upExecprc.Replace(",", "");//상위 체결가격
+                dataLogVo.upExecprc     = this.upExecprc == "" ? "0":this.upExecprc.Replace(",", "");//상위 체결가격
                 dataLogVo.sellOrdAt     = "N";                      //금일 매도 주문 여부
                 dataLogVo.useYN         = "Y";                      //사용여부
                 dataLogVo.ordermtd      = "XING API";               //주문 매체

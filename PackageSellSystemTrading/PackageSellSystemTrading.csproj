@@ -155,7 +155,6 @@
     <None Include="Resources\Condition2.ADF" />
     <None Include="Resources\Condition3.ADF" />
     <None Include="Resources\Condition4.ADF" />
-    <None Include="Resources\Condition5.ADF" />
     <None Include="Resources\Exclude0.ADF" />
     <None Include="Resources\Exclude1.ADF" />
   </ItemGroup>

@@ -196,32 +196,34 @@ namespace PackageSellSystemTrading
                 sb.Append("                             ,sellOrdAt                                      "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
                 sb.Append("                             ,cancelOrdAt                                    "); //취소주문 여부 YN
                 sb.Append("                             ,ordermtd                                       "); //주문매체
-                sb.Append("                             ,eventNm                                       "); //검색조건 이름
+                sb.Append("                             ,eventNm                                        "); //검색조건 이름
                 sb.Append("                             ,maxHisRt                                       "); //최대도달 수익율
                 sb.Append("                             ,minHisRt                                       "); //최소도달 수익율
+                sb.Append("                             ,exclWatchAt                                    "); //감시제외여부
                 sb.Append("                             ,useYN ) VALUES(                                "); //사용여부 
-
-                sb.Append("                                         '"  + dataLogVo.ordno + "'           "); //주문번호
-                sb.Append("                                         ,'" + DateTime.Now.ToString("yyyyMMddHHmmss") + "'              "); //일시
-                sb.Append("                                         ,'" + dataLogVo.accno + "'           "); //계좌번호
-                sb.Append("                                         ,'" + dataLogVo.Isuno + "'           ");//종목코드
-                sb.Append("                                         ,'" + dataLogVo.Isunm + "'           ");//종목명
-                sb.Append("                                         ,'" + dataLogVo.ordptncode + "'      ");//주문구분 01:매도|02:매수 
-                sb.Append("                                         ,'" + dataLogVo.ordqty + "'          ");//주문수량  
-                sb.Append("                                         ,'" + dataLogVo.execqty + "'         ");//체결수량 
-                sb.Append("                                         ,'" + dataLogVo.ordprc + "'          ");//주문가격
-                sb.Append("                                         ,'" + dataLogVo.execprc + "'         ");//체결가격
-                sb.Append("                                         ,'" + dataLogVo.ordptnDetail + "'    ");//상세 주문구분 신규매수|반복매수|금일매도|청산|
-                sb.Append("                                         ,'" + dataLogVo.upOrdno + "'         ");//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-                sb.Append("                                         ,'" + dataLogVo.upExecprc + "'       ");//상위체결금액
-                sb.Append("                                         ,'" + dataLogVo.sellOrdAt + "'       ");//매도주문 여부 YN default:N 금일매도일때 의미있다.
-                sb.Append("                                         ,'" + dataLogVo.cancelOrdAt + "'     ");//매도주문 여부 YN
-                sb.Append("                                         ,'" + dataLogVo.ordermtd + "'        ");//주문매체
-                sb.Append("                                         ,'" + dataLogVo.eventNm + "'     ");//검색조건 이름
-                sb.Append("                                         ,'0'                                 ");//최대도달 수익율
-                sb.Append("                                         ,'0'                                 ");//최소도달 수익율
-                sb.Append("                                         ,'" + dataLogVo.useYN + "' )         ");//사용여부 
-
+                
+                sb.Append("                                         '"  + dataLogVo.ordno           + "'  "); //주문번호
+                sb.Append("                                         ,'" + DateTime.Now.ToString("yyyyMMddHHmmss") + "'  "); //일시
+                sb.Append("                                         ,'" + dataLogVo.accno           + "'  "); //계좌번호
+                sb.Append("                                         ,'" + dataLogVo.Isuno           + "'  ");//종목코드
+                sb.Append("                                         ,'" + dataLogVo.Isunm           + "'  ");//종목명
+                sb.Append("                                         ,'" + dataLogVo.ordptncode      + "'  ");//주문구분 01:매도|02:매수 
+                sb.Append("                                         ,'" + dataLogVo.ordqty          + "'  ");//주문수량  
+                sb.Append("                                         ,'" + dataLogVo.execqty         + "'  ");//체결수량 
+                sb.Append("                                         ,'" + dataLogVo.ordprc          + "'  ");//주문가격
+                sb.Append("                                         ,'" + dataLogVo.execprc         + "'  ");//체결가격
+                sb.Append("                                         ,'" + dataLogVo.ordptnDetail    + "'  ");//상세 주문구분 신규매수|반복매수|금일매도|청산|
+                sb.Append("                                         ,'" + dataLogVo.upOrdno         + "'  ");//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
+                sb.Append("                                         ,'" + dataLogVo.upExecprc       + "'  ");//상위체결금액
+                sb.Append("                                         ,'" + dataLogVo.sellOrdAt       + "'  ");//매도주문 여부 YN default:N 금일매도일때 의미있다.
+                sb.Append("                                         ,'" + dataLogVo.cancelOrdAt     + "'  ");//매도주문 여부 YN
+                sb.Append("                                         ,'" + dataLogVo.ordermtd        + "'  ");//주문매체
+                sb.Append("                                         ,'" + dataLogVo.eventNm         + "'  ");//검색조건 이름
+                sb.Append("                                         ,'0'                                  ");//최대도달 수익율
+                sb.Append("                                         ,'0'                                  ");//최소도달 수익율
+                sb.Append("                                         ,'" + dataLogVo.exclWatchAt     + "'  ");//감시여부
+                sb.Append("                                         ,'" + dataLogVo.useYN           + "' )");//사용여부 
+               
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
                 result = sqlCmd.ExecuteNonQuery();
 
