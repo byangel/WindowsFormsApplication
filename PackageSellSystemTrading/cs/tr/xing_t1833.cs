@@ -28,9 +28,9 @@ namespace PackageSellSystemTrading{
 
         public Boolean initAt = false;
 
-        private int conditionTotalCnt  = 6;
+        private int conditionTotalCnt  = 5;
         private int conditionCallIndex = 0;
-        private String[] conditionNm   = { "밀집정배열","역정배", "당일고가", "스윙매수", "5일반등", "단타급등" };
+        private String[] conditionNm   = {"역정배", "당일고가", "스윙매수", "5일반등", "단타급등" };
         // 생성자
         public Xing_t1833(){
             

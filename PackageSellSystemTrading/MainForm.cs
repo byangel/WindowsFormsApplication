@@ -256,7 +256,7 @@ namespace PackageSellSystemTrading{
 
             btn_start.Enabled = false;//시작버튼 비활성
             btn_stop.Enabled = true;//종료버튼 활성
-            MessageBox.Show("자동매매가 시작 되었습니다.");
+            
             Log.WriteLine("Trading Start..!!");
         }
 
@@ -273,7 +273,7 @@ namespace PackageSellSystemTrading{
 
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
-            MessageBox.Show("자동매매가 중지 되었습니다.");
+           
             Log.WriteLine("Trading Stop..!!");
         }
 
