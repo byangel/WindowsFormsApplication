@@ -1,16 +1,13 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Windows.Forms;
-using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Data;
 using System.Drawing;
-using System.Threading;
+
+
+
 namespace PackageSellSystemTrading{
     public class Xing_t1833 : XAQueryClass{
 
@@ -19,7 +16,14 @@ namespace PackageSellSystemTrading{
         {
             return this.t1833VoList;
         }
-        
+
+        private DataTable t1833Dt = new DataTable();
+        public DataTable gett1833Dt()
+        {
+            return this.t1833Dt;
+        }
+
+
 
         private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
@@ -28,9 +32,12 @@ namespace PackageSellSystemTrading{
 
         public Boolean initAt = false;
 
-        private int conditionTotalCnt  = 5;
+        private int conditionTotalCnt  = 2;
         private int conditionCallIndex = 0;
-        private String[] conditionNm   = {"역정배", "당일고가", "스윙매수", "5일반등", "단타급등" };
+        //private String[] conditionNm   = {"역정배", "당일고가", "스윙매수", "5일반등", "단타급등","당일눌림목" };
+        private String[] conditionNm = { "RSI검색","RSI_RE"};
+        //private String[] conditionNm = { "RSI검색"};
+
         // 생성자
         public Xing_t1833(){
             
@@ -40,7 +47,18 @@ namespace PackageSellSystemTrading{
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
-            
+
+            t1833Dt.Columns.Add("종목코드"     , typeof(string));
+            t1833Dt.Columns.Add("종목명"       , typeof(string));
+            t1833Dt.Columns.Add("현재가"       , typeof(string));
+            t1833Dt.Columns.Add("전일대비구분" , typeof(string));
+            t1833Dt.Columns.Add("전일대비"     , typeof(string));
+            t1833Dt.Columns.Add("등락율"       , typeof(string));
+            t1833Dt.Columns.Add("거래량"       , typeof(double));
+            t1833Dt.Columns.Add("검색조건"     , typeof(string));
+            t1833Dt.Columns.Add("삭제여부"     , typeof(string));
+            t1833Dt.Columns.Add("설명"         , typeof(string));
+
         }   // end function
 
         // 소멸자
@@ -56,7 +74,7 @@ namespace PackageSellSystemTrading{
             try
             {
                 //투자율 설정
-                this.investmentRatio = this.getInputRate();
+                this.investmentRatio = Util.getInputRate(mainForm);
                 mainForm.label_InvestmentRatio.Text = this.investmentRatio;
 
                 int iCount = base.GetBlockCount("t1833OutBlock1");
@@ -64,56 +82,126 @@ namespace PackageSellSystemTrading{
                 //매수종목 검색 그리드 초기화
                 //mainForm.grd_t1833.Rows.Clear();
 
-                EBindingList<T1833Vo> t1833VoList = (EBindingList<T1833Vo>)mainForm.grd_t1833.DataSource;
+                //this.t1833Dt  = (DataTable)mainForm.grd_t1833_dt.DataSource;
 
-                String shcode;//종목코드
+                //String shcode;//종목코드
                 T1833Vo tmpT1833Vo;
+                DataRow tmpRow;
+                //DataRow[] foundRows;
                 //String sunikrt;//수익률
                 for (int i = 0; i < iCount; i++) {
 
-                    shcode = base.GetFieldData("t1833OutBlock1", "shcode", i);//종목코드
-                    var result = from   item in t1833VoList
-                                 where  item.shcode == shcode
-                                 select item;
-                    if (result.Count() > 0) {
-                        tmpT1833Vo = result.ElementAt(0);       
+                    String shcode = base.GetFieldData("t1833OutBlock1", "shcode", i);//종목코드
+                    //var result = from   item in t1833VoList
+                    //             where  
+                    //             item.shcode == shcode
+                    //             select item;
+                    //if (result.Count() > 0) {
+                    //    tmpT1833Vo = result.ElementAt(0);       
                     
-                    }else{
-                        tmpT1833Vo = new T1833Vo();
-                    }
-                    
-                    tmpT1833Vo.shcode    = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
-                    tmpT1833Vo.hname     = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
-                    tmpT1833Vo.close     = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
-                    tmpT1833Vo.sign      = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
-                    tmpT1833Vo.change    = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
-                    tmpT1833Vo.diff      = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
-                    tmpT1833Vo.volume    = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
-                    tmpT1833Vo.searchMod = conditionNm[conditionCallIndex];                  //검색조건명
+                    //}else{
+                    //    tmpT1833Vo = new T1833Vo();
+                    //}
 
-                    tmpT1833Vo.deleteAt = false; //삭제여부 -나중에 true 인거는 다 삭제해준다.
+                    /////////////////////////////////// t1833Dt
+                    //DataRow foundRow = t1833Dt.Rows.Find(shcode);
+                    //DataRow foundRow = t1833Dt.FindBy(shcode); 
 
-                    if (result.Count() == 0)
+                    DataRow[] foundRows = t1833Dt.Select("종목코드 Like '"+shcode+"'");
+                    if (foundRows.Count()>0)
                     {
-                       t1833VoList.Add(tmpT1833Vo);
-                        //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
+                        tmpRow = foundRows[0];
+                    }
+                    else
+                    {
+                        tmpRow = t1833Dt.NewRow();
+                    }
+
+                    //var items = from item in t1833Dt.AsEnumerable()
+                    //            where item["종목코드"].ToString() == shcode
+                    //            select item;
+                    //if (items.Count() > 0)
+                    //{
+                    //    tmpRow = items.ElementAt(0);
+                    //}else{
+                    //    tmpRow = t1833Dt.NewRow();
+                    //}
+                    ///////////////////////////////////
+
+
+                    //tmpT1833Vo.shcode    = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
+                    //tmpT1833Vo.hname     = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
+                    //tmpT1833Vo.close     = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
+                    //tmpT1833Vo.sign      = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
+                    //tmpT1833Vo.change    = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
+                    //tmpT1833Vo.diff      = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
+                    //tmpT1833Vo.volume    = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+                    //tmpT1833Vo.searchMod = conditionNm[conditionCallIndex];                  //검색조건
+                    //tmpT1833Vo.deleteAt = false; //삭제여부 -나중에 true 인거는 다 삭제해준다.
+                    
+                    ////////////////////////////////////////////
+                    tmpRow["종목코드"     ] = base.GetFieldData("t1833OutBlock1", "shcode", i); //종목코드
+                    tmpRow["종목명"       ] = base.GetFieldData("t1833OutBlock1", "hname" , i); //종목명
+                    tmpRow["현재가"       ] = base.GetFieldData("t1833OutBlock1", "close" , i); //현재가
+                    tmpRow["전일대비구분" ] = base.GetFieldData("t1833OutBlock1", "sign"  , i); //전일대비구분 
+                    tmpRow["전일대비"     ] = base.GetFieldData("t1833OutBlock1", "change", i); //전일대비
+                    tmpRow["등락율"       ] = base.GetFieldData("t1833OutBlock1", "diff"  , i); //등락율
+                    tmpRow["거래량"       ] = base.GetFieldData("t1833OutBlock1", "volume", i); //거래량
+                    tmpRow["검색조건"     ] = conditionNm[conditionCallIndex];                  //검색조건
+                    tmpRow["삭제여부"     ] = "new";                                            //삭제여부 [new|old]
+                   
+
+                    if (foundRows.Count() == 0)
+                    {
+                        t1833Dt.Rows.Add(tmpRow);
                         if (mainForm.tradingAt == "Y")
                         {
-                            this.buyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1, tmpT1833Vo.searchMod);
-                        }                 
-                    }          
+                            this.BuyTest(tmpRow["종목코드"].ToString(), tmpRow["종목명"].ToString(), tmpRow["현재가"].ToString(), t1833Dt.Rows.Count - 1, tmpRow["검색조건"].ToString());
+                        }
+                    }
+                    ///////////////////////////////////////////////////////////////
+                    //if (result.Count() == 0)
+                    //{
+                       
+                    //   t1833VoList.Add(tmpT1833Vo);
+                    //    //매수 -- 그리드에 새로 추가 될때만 매수 호출하여 중복 호출을 막는다.
+                    //    if (mainForm.tradingAt == "Y")
+                    //    {
+                    //        this.BuyTest(tmpT1833Vo.shcode, tmpT1833Vo.hname, tmpT1833Vo.close, t1833VoList.Count - 1, tmpT1833Vo.searchMod);
+                    //    }                 
+                    //}          
                 }
+
+
 
                 //목록에 없는 종목 그리드에서 삭제.
-                for (int i = 0; i < t1833VoList.Count; i++) {
-                    tmpT1833Vo = t1833VoList.ElementAt(i);
+                ///////////////////////////////////////
+                //foundRows = t1833Dt.Select("삭제여부 Like 'old'");
+                //if (foundRows.Count()>0)
+                //{
 
-                    if (tmpT1833Vo.deleteAt == true) {
-                        t1833VoList.RemoveAt(i);
-                        i--;
+                //}
+                
+                foreach (DataRow dr in t1833Dt.Select())
+                {
+                    if (dr["삭제여부"].ToString() == "old"){
+                        dr.Delete();
+                    }else{
+                        dr["삭제여부"] = "old";
                     }
-                    tmpT1833Vo.deleteAt = true;
+
                 }
+                
+                /////////////////////////////////////////
+                //for (int i = 0; i < t1833VoList.Count; i++) {
+                //    tmpT1833Vo = t1833VoList.ElementAt(i);
+
+                //    if (tmpT1833Vo.deleteAt == true) {
+                //        t1833VoList.RemoveAt(i);
+                //        i--;
+                //    }
+                //    tmpT1833Vo.deleteAt = true;
+                //}
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "][" + conditionNm[conditionCallIndex] + "]조건검색 응답 완료";
 
 
@@ -134,10 +222,13 @@ namespace PackageSellSystemTrading{
 
         //메세지 이벤트 핸들러
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
-          
+            
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
                
+            }else if (nMessageCode == "03563"){
+                mainForm.input_t1833_log1.Text = "정규장 시간이 아닙니다. 트레이딩 종료";
+                mainForm.tradingAt = "N";
             } else { 
                 //Log.WriteLine("t1833 :: " + nMessageCode + " :: " + szMessage);
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1833:" + nMessageCode + ":" + szMessage;
@@ -146,34 +237,10 @@ namespace PackageSellSystemTrading{
             this.completeAt = true;
         }
 
-        private int callCnt = 0;
-        /// <summary>
-        /// 종목검색 호출
-        /// </summary>
-        public void call_request(){
-
-            if (completeAt) {
-                //폼 메세지.
-                completeAt = false;//중복호출 방지
-                
-                //Thread.Sleep(1000);
-                String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-                base.RequestService("t1833", startupPath + "\\Resources\\Condition"+ conditionCallIndex + ".ADF");
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" +this.conditionNm[conditionCallIndex]+ "]조건검색 요청.";
-            } else {
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex]+ "][중복]조건검색 요청.";
-
-                callCnt++;
-                if (callCnt == 5)
-                {
-                    this.completeAt = true;
-                    callCnt = 0;
-                }
-            }
-        }
+        
 
         //진입검색에서 검색된 종목을 매수한다.
-        private Boolean buyTest(String shcode,String hname, String close,int addIndex, String searchMod)
+        private Boolean BuyTest(String shcode,String hname, String close,int addIndex, String searchMod)
         {
  
             String time = mainForm.xing_t0167.time;
@@ -230,7 +297,7 @@ namespace PackageSellSystemTrading{
             {
                 Log.WriteLine("t1833::매수금지 종목:" + hname + "(" + shcode + ")");
                 mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]:매수금지 종목["+ searchMod + "]");
-                mainForm.grd_t1833.Rows[addIndex].Cells["hname"].Style.BackColor = Color.Red;
+                mainForm.grd_t1833_dt.Rows[addIndex].Cells["종목명"].Style.BackColor = Color.Red;
                 //만약에 보유종목일경우 보유종목도 색으로 표현해주자.
                 if (t0424VoListFindIndex >= 0)
                 {
@@ -238,8 +305,8 @@ namespace PackageSellSystemTrading{
                 }
                 return false;
             }
-           
-            //5.보유종목 반복매수여부 테스트
+
+            //5.보유종목 반복매수여부 테스트 -두번째 컨디션일 경우 보유종목일경우에만 중복 매수한다.
             if (t0424VoListFindIndex >= 0){
                 ordptnDetail = "반복매수";
                 //보유종목이면..하이라키...
@@ -262,9 +329,14 @@ namespace PackageSellSystemTrading{
                     Log.WriteLine("t1833::투자율 제한:" + hname + "(" + shcode + ")[투자율:"+ investmentRatio + "%|설정비율:" + Properties.Settings.Default.BUY_STOP_RATE + "%][" + searchMod + "]");
                     mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::" + hname + ":투자율 제한.[" + searchMod + "]");
                     return false;
-                }      
+                }
+                if (conditionCallIndex == 1) //검색조건이 두번째일경우 신규매수하지 않는다.
+                {
+                    return false;
+                }
             }
 
+            
             //4.매수
             int battingAtm = int.Parse(mainForm.label_battingAtm.Text.Replace(",",""));
             //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
@@ -272,85 +344,89 @@ namespace PackageSellSystemTrading{
                 Log.WriteLine("t1833::" + hname + "[ " + shcode + " ] [현제가:" + close+ "][" + searchMod + "]");
                 return false;
             }
-
+            
             //-매수수량 계산.
             int Quantity = battingAtm / int.Parse(close);
             //int Quantity = 20000;
             //-정규장에만 주문실행.
-            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520){
-                /// <summary>
-                /// 현물정상주문
-                /// </summary>
-                /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
-                /// <param name="IsuNo">종목번호</param>
-                /// <param name="Quantity">수량</param>
-                /// <param name="Price">가격</param>
-                Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+            //if ((int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 1500 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1509) ||  (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 1510 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519))
+            //{
+            /// <summary>
+            /// 현물정상주문
+            /// </summary>
+            /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+            /// <param name="IsuNo">종목번호</param>
+            /// <param name="Quantity">수량</param>
+            /// <param name="Price">가격</param>
+            Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
 
-                xing_CSPAT00600.ordptnDetail = ordptnDetail;        //상세 매매 구분.
-                xing_CSPAT00600.shcode       = shcode;              //종목코드
-                xing_CSPAT00600.hname        = hname;               //종목명
-                xing_CSPAT00600.quantity     = Quantity.ToString(); //수량
-                xing_CSPAT00600.price        = close;               //가격
-                xing_CSPAT00600.divideBuySell= "2";                 // 매매구분: 1-매도, 2-매수
-                xing_CSPAT00600.upOrdno      = "";                  //상위매수주문 - 금일매도매수일때만 값이 있다.
-                xing_CSPAT00600.upExecprc    = "";                  //상위체결금액 
-                xing_CSPAT00600.eventNm      = searchMod;           //이벤트명(검색조건명이나 매도이유가 들어간다.)
+            xing_CSPAT00600.ordptnDetail = ordptnDetail;        //상세 매매 구분.
+            xing_CSPAT00600.shcode       = shcode;              //종목코드
+            xing_CSPAT00600.hname        = hname;               //종목명
+            xing_CSPAT00600.quantity     = Quantity.ToString(); //수량
+            xing_CSPAT00600.price        = close;               //가격
+            xing_CSPAT00600.divideBuySell= "2";                 // 매매구분: 1-매도, 2-매수
+            xing_CSPAT00600.upOrdno      = "";                  //상위매수주문 - 금일매도매수일때만 값이 있다.
+            xing_CSPAT00600.upExecprc    = "";                  //상위체결금액 
+            xing_CSPAT00600.eventNm      = searchMod;           //이벤트명(검색조건명이나 매도이유가 들어간다.)
 
-                xing_CSPAT00600.call_request();
+            xing_CSPAT00600.call_request();
 
-                Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "][" + searchMod + "] ");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]:" + ordptnDetail+ "[" + searchMod + "]");
+            Log.WriteLine("t1833::검색주문" + hname + "(" + shcode + ") " + ordptnDetail + "   [주문가격:" + close + "|주문수량:" + Quantity + "][" + searchMod + "] ");
+            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]:" + ordptnDetail+ "[" + searchMod + "]");
 
-
-
-            }
-            else{
-                Log.WriteLine("t1833::비정규장 제어:" + hname + "(" + shcode + ") [주문가격:" + close + "|주문수량:" + Quantity + "][" + searchMod + "]");
-                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]: 비정규장 제어.[" + searchMod + "]");
-            }
-          
             return true;
+
+            //}
+            //else{
+            //    Log.WriteLine("t1833::비정규장 제어:" + hname + "(" + shcode + ") [주문가격:" + close + "|주문수량:" + Quantity + "][" + searchMod + "]");
+            //    mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0,5) + "]t1833::[ " + hname + " ]: 비정규장 제어.[" + searchMod + "]");
+            //    return false;
+            //}
+          
+            //return true;
         }//buyTest END
 
-        //총자산대비 투자 비율을 리턴한다.
-        public String getInputRate()
+        private int callCnt = 0;
+        /// <summary>
+        /// 종목검색 호출
+        /// </summary>
+        public void call_request()
         {
-            String returnValue = "0"; ;
-            try
-            {
-                //자본금 투자 비율
-                //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
-                String D2예수금 = mainForm.xing_CSPAQ12200.D2Dps;
-                Double 매입금액 = mainForm.xing_t0424.mamt;
-                Double 자본금 = 매입금액 + double.Parse(D2예수금);
-                //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
-                if (Properties.Settings.Default.LIMITED_AT)
-                {
-                    //이런날이 올까?
-                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
-                    {
-                        자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
-                    }
-                }
 
-                //-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
-                //-매입금액 기초자산의 90% 이상 매입을 할수 없다.
-                //-매입금액 / 자본금 * 100 =자본금 대비 투자율
-                //Double enterRate = (this.xing_t0424.mamt / 자본금) * 100;
-                returnValue = Math.Round(((mainForm.xing_t0424.mamt / 자본금) * 100), 2).ToString();
-            }
-            catch (Exception ex)
+            //if (completeAt) {
+            //폼 메세지.
+            completeAt = false;//중복호출 방지
+
+            String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
+
+            if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 1500 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519)
             {
-                Log.WriteLine("t1833 : " + ex.Message);
-                Log.WriteLine("t1833 : " + ex.StackTrace);
+                //this.conditionCallIndex = 5;
+                //base.RequestService("t1833", startupPath + "\\Resources\\Condition5.ADF");
+                //mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][당일눌림목]조건검색 요청.";
+
+                base.RequestService("t1833", startupPath + "\\Resources\\Condition" + conditionCallIndex + ".ADF");
+                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]조건검색 요청.";
+
             }
-            return returnValue;
+
+            //} else {
+            //    mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex]+ "][중복]조건검색 요청.";
+
+            //    callCnt++;
+            //    if (callCnt == 5)
+            //  {
+            //       this.completeAt = true;
+            //      callCnt = 0;
+            //    }
+            //}
         }
 
 
-
     } //end class 
+
+
 
     public class T1833Vo
     {

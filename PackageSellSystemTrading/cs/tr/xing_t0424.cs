@@ -60,7 +60,7 @@ namespace PackageSellSystemTrading {
         {
 
         }
-
+        
         public EBindingList<T0424Vo> getT0424VoList()
         {
             return this.t0424VoList;
@@ -150,6 +150,7 @@ namespace PackageSellSystemTrading {
                         tmpT0424Vo.fee      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
                         tmpT0424Vo.tax      = Util.GetNumberFormat(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금
                         tmpT0424Vo.sininter = base.GetFieldData("t0424OutBlock1", "sininter", i); //신용이자
+                        tmpT0424Vo.jonggb   = base.GetFieldData("t0424OutBlock1", "jonggb", i);//시장 구분[코스피|코스닥]
                         //System.String.Format("{0:N0}",value);System.String.Format("{0:#,##0}",value);
                         tmpT0424Vo.orderAt = "N";
                         //1.그리드에 없던 새로 매수된 종목이면 테이블에 추가해준다.
@@ -160,17 +161,19 @@ namespace PackageSellSystemTrading {
                         //mainForm.priceChangedProcess(findIndex);
 
                         //실시간 현재가 종목  등록
-                        jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
-                        //코스피
-                        if (jonggb == "3"){
-                            //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
-                            mainForm.real_S3.call_real(tmpT0424Vo.expcode);
-                        }
-                        //코스닥
-                        if (jonggb == "2")
-                        {
-                            mainForm.real_K3.call_real(tmpT0424Vo.expcode);
-                        }
+                        //jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
+                        
+                        //if (!initAt){
+                            //코스피
+                            if (tmpT0424Vo.jonggb == "3"){
+                                //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
+                                mainForm.real_S3.call_real(tmpT0424Vo.expcode);
+                            }
+                            //코스닥
+                            if (tmpT0424Vo.jonggb == "2"){
+                                mainForm.real_K3.call_real(tmpT0424Vo.expcode);
+                            }
+                        //}
 
                     }//else END
 
@@ -220,7 +223,7 @@ namespace PackageSellSystemTrading {
 
 
                     //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
-                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520){
+                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519){
                         if (mainForm.tradingAt == "Y"){
                             this.stopProFitTarget();
                         }
@@ -233,6 +236,23 @@ namespace PackageSellSystemTrading {
                         //2.감시제외종목 그리드 동기화
                         this.exclWatchSync();
                         this.initAt = false;
+
+                        //foreach (T0424Vo t0424Vo in t0424VoList)
+                        //{
+                        //    //실시간 현재가 종목  등록
+
+                        //    //코스피
+                        //    if (t0424Vo.jonggb == "3")
+                        //    {
+                        //        mainForm.real_S3.call_real(t0424Vo.expcode);
+                        //    }
+                        //    //코스닥
+                        //    if (t0424Vo.jonggb == "2")
+                        //    {
+                        //        mainForm.real_K3.call_real(t0424Vo.expcode);
+                        //    }
+
+                        //}
                     }
                     //응답처리 완료
                     completeAt = true;
@@ -372,7 +392,7 @@ namespace PackageSellSystemTrading {
                 Boolean 매수금지종목손절여부 = Properties.Settings.Default.EXCL_STOP_LOSS_AT;
                 Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
 
-                if (t0424Vo.expcode == "001020"){
+                if (t0424Vo.expcode == "001250"){
                     int test = 0;
                 }
                 
@@ -510,7 +530,16 @@ namespace PackageSellSystemTrading {
                     return true;
                    
                 }
-  
+                //목표수익 달성수 하락한종목도 같이 매도 한다. -추후 옵션으로 제어하자
+              
+                if (Double.Parse(t0424Vo.maxHisRt) >= Double.Parse(목표수익율) && Double.Parse(현재수익율) > 3  )//최대도달 수익율
+                {
+                    Log.WriteLine("t0424 ::" + t0424Vo.hname + "/" + 현재수익율.ToString() + "추적청산");                
+                    this.t0424Order(t0424Vo, "1", "추적청산");
+                    return true;
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -688,6 +717,8 @@ namespace PackageSellSystemTrading {
         public String eventNm { set; get; }//검색조건 이름
         public String maxHisRt { set; get; }//최대도달 수익율
         public String minHisRt { set; get; }//최소도달 수익율
+        public String jonggb { set; get; }//종목구분[코스닥|코스피]
+        
         //public String pamt2 { set; get; } //평균단가2
         //public String buyCnt     { set; get; } //매수 횟수
         //public String sellCnt    { set; get; } //매도 횟수   

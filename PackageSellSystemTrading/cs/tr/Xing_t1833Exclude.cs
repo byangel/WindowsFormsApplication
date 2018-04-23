@@ -29,7 +29,7 @@ namespace PackageSellSystemTrading{
         }
         private int conditionTotalCnt = 2;
         private int conditionCallIndex = 0;
-        private String[] conditionNm = { "매수금지", "기본매수금지"};
+        private String[] conditionNm = { "매수금지", "손절종목"};
 
         public Boolean initAt = false;
 

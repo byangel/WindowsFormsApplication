@@ -159,7 +159,7 @@ namespace PackageSellSystemTrading {
                     mainForm.label_toDaysunik.Text = Util.GetNumberFormat(this.getToDayShSunik("금일매도"));
                     mainForm.label_dtsunik2.Text   = Util.GetNumberFormat(this.getToDayShSunik("청산"));
 
-                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1520)
+                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519)
                     {
                         //트레이딩 시작 여부.
                         if (mainForm.tradingAt == "Y"){
@@ -405,7 +405,7 @@ namespace PackageSellSystemTrading {
         //금일매도 - 반복매수 중에서 상승한종목을 매도한다.
         public void toDaySellTest()
         {
-           String 투입비율   = mainForm.xing_t1833.getInputRate();
+           String 투입비율   = Util.getInputRate(mainForm);
             String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
             String 목표수익율 = mainForm.getStopProfitTarget();
             

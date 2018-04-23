@@ -122,7 +122,8 @@ namespace PackageSellSystemTrading{
                 grd_t0424Excl.DataSource = this.xing_t0424.getExcludeT0424VoList();//감시제외종목 바인딩
 
                 //진입검색 그리드.바인딩
-                grd_t1833.DataSource = this.xing_t1833.getT1833VoList(); 
+                //grd_t1833.DataSource = this.xing_t1833.getT1833VoList();
+                grd_t1833_dt.DataSource = this.xing_t1833.gett1833Dt();
                 //체결미체결 그리드 DataSource 설정
                 grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
                 //챠트(스냅샷) 그리드 바인딩
@@ -612,6 +613,7 @@ namespace PackageSellSystemTrading{
                     flag1833 = 0;
                 }
                
+
             }
 
         }
@@ -897,7 +899,7 @@ namespace PackageSellSystemTrading{
                     //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
                     priceChangedProcess(e.RowIndex);
                 }
-
+         
             }
 
         }//grd_t0424_CellValueChanged END
@@ -1028,69 +1030,86 @@ namespace PackageSellSystemTrading{
         //HTS연동
         private void grd_t0424_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
-            if (e.ColumnIndex == columnIndex)
+            if (e.RowIndex >0)
             {
-                var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
-                종목코드 = 종목코드 == null ? "" : 종목코드;
-                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+                if (e.ColumnIndex == columnIndex)
+                {
+                    var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+                    종목코드 = 종목코드 == null ? "" : 종목코드;
+                    bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                }
             }
         }
         //HTS연동
         private void grd_t0425_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
-            if (e.ColumnIndex == columnIndex)
+            if (e.RowIndex > 0)
             {
-                var 종목코드 = this.grd_t0425.Rows[e.RowIndex].Cells["expcode"].Value;
-                종목코드 = 종목코드 == null ? "" : 종목코드;
-                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
+                if (e.ColumnIndex == columnIndex)
+                {
+                    var 종목코드 = this.grd_t0425.Rows[e.RowIndex].Cells["expcode"].Value;
+                    종목코드 = 종목코드 == null ? "" : 종목코드;
+                    bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                }
             }
         }
         //HTS연동
-        private void grd_t1833_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try{
-                int columnIndex = grd_t1833.Rows[e.RowIndex].Cells["hname"].ColumnIndex;
-                if (e.ColumnIndex == columnIndex)
-                {
-                    var 종목코드 = this.grd_t1833.Rows[e.RowIndex].Cells["shcode"].Value;
-                    종목코드 = 종목코드 == null ? "" : 종목코드;
-                    bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
-                    //this.xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", 종목코드, "");
-                }
-            }catch (ArgumentOutOfRangeException ex)
-            {
-                //Log.WriteLine("mainForm : " + ex.Message);
-            }
-               
-            
-            
-        }
+        //private void grd_t1833_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (e.RowIndex > 0)
+        //        {
+        //            int columnIndex = grd_t1833.Rows[e.RowIndex].Cells["hname"].ColumnIndex;
+        //            if (e.ColumnIndex == columnIndex)
+        //            {
+        //                var 종목코드 = this.grd_t1833.Rows[e.RowIndex].Cells["shcode"].Value;
+        //                종목코드 = 종목코드 == null ? "" : 종목코드;
+        //                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+        //                this.xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", 종목코드, "");
+        //            }
+        //        }
+        //    }
+        //    catch (ArgumentOutOfRangeException ex)
+        //    {
+        //        Log.WriteLine("mainForm : " + ex.Message);
+        //    }
+
+
+
+        //}
 
         //더블클릭 이력 정보
-        
+
         private void grd_t0424_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
-            if (e.ColumnIndex == columnIndex)
+            if (e.RowIndex > 0)
             {
-                var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
-                종목코드 = 종목코드 == null ? "" : 종목코드;
-                historyForm.Search(종목코드.ToString());
-                historyForm.ShowDialog();
+                int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+                if (e.ColumnIndex == columnIndex)
+                {
+                    var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+                    종목코드 = 종목코드 == null ? "" : 종목코드;
+                    historyForm.Search(종목코드.ToString());
+                    historyForm.ShowDialog();
+                }
             }
         }
 
         private void grd_t0425_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
-            if (e.ColumnIndex == columnIndex)
+            if (e.RowIndex > 0)
             {
-                var 종목코드 = this.grd_t0425.Rows[e.RowIndex].Cells["expcode"].Value;
-                종목코드 = 종목코드 == null ? "" : 종목코드;
-                historyForm.Search(종목코드.ToString());
-                historyForm.ShowDialog();
+                int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
+                if (e.ColumnIndex == columnIndex)
+                {
+                    var 종목코드 = this.grd_t0425.Rows[e.RowIndex].Cells["expcode"].Value;
+                    종목코드 = 종목코드 == null ? "" : 종목코드;
+                    historyForm.Search(종목코드.ToString());
+                    historyForm.ShowDialog();
+                }
             }
         }
 
@@ -1098,7 +1117,7 @@ namespace PackageSellSystemTrading{
         public String getStopProfitTarget()
         {
             String returnVal = Properties.Settings.Default.STOP_PROFIT_TARGET;
-            String 투입비율 = this.xing_t1833.getInputRate();
+            String 투입비율 = Util.getInputRate(this);
             String 제한비율 = Properties.Settings.Default.BUY_STOP_RATE;//투자 비중 제한
             Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
 
@@ -1119,9 +1138,13 @@ namespace PackageSellSystemTrading{
                 {
 
                 }
+                else if (int.Parse(this.xing_t0167.time.Substring(0, 4)) > 1500 && int.Parse(this.xing_t0167.time.Substring(0, 4)) < 1519)
+                {    //3시 이후부터 3% 이상인것은 판매 (대부문 다음날 올라가지 않고 하락하는 관계로)
+                    returnVal = "3";
+                }
                 else
                 {
-                    returnVal = "5";
+                    returnVal = "10";
                 }
             }
             return returnVal;
@@ -1178,6 +1201,33 @@ namespace PackageSellSystemTrading{
 
                 this.timer_common.Stop();
             }
+        }
+
+        private void grd_t1833_dt_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex > 0)
+                {
+                    int columnIndex = grd_t1833_dt.Rows[e.RowIndex].Cells["종목명"].ColumnIndex;
+                    if (e.ColumnIndex == columnIndex)
+                    {
+                        var 종목코드 = this.grd_t1833_dt.Rows[e.RowIndex].Cells["종목코드"].Value;
+                        종목코드 = 종목코드 == null ? "" : 종목코드;
+                        this.xing_LinkToHTS.call_request(종목코드.ToString());
+                        //this.xing_LinkToHTS.RequestLinkToHTS("STOCK_CODE", 종목코드, "");
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                //Log.WriteLine("mainForm : " + ex.Message);
+            }
+        }
+
+        private void grd_t1833_dt_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+        {
+            //MessageBox.Show("Dd");
         }
     }//end class
 }//end namespace

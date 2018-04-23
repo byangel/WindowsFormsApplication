@@ -379,6 +379,42 @@ namespace PackageSellSystemTrading
             }
         }
 
+        //총자산대비 투자 비율을 리턴한다.
+        public static String getInputRate(MainForm mainForm)
+        {
+            String returnValue = "0"; ;
+            try
+            {
+                //자본금 투자 비율
+                //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
+                String D2예수금 = mainForm.xing_CSPAQ12200.D2Dps;
+                Double 매입금액 = mainForm.xing_t0424.mamt;
+                Double 자본금 = 매입금액 + double.Parse(D2예수금);
+                //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
+                if (Properties.Settings.Default.LIMITED_AT)
+                {
+                    //이런날이 올까?
+                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
+                    {
+                        자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
+                    }
+                }
+
+                //-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
+                //-매입금액 기초자산의 90% 이상 매입을 할수 없다.
+                //-매입금액 / 자본금 * 100 =자본금 대비 투자율
+                //Double enterRate = (this.xing_t0424.mamt / 자본금) * 100;
+                returnValue = Math.Round(((mainForm.xing_t0424.mamt / 자본금) * 100), 2).ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine("t1833 : " + ex.Message);
+                Log.WriteLine("t1833 : " + ex.StackTrace);
+            }
+            return returnValue;
+        }
+
+
 
     }	// end class
 }	// end namespace

@@ -82,9 +82,9 @@ namespace PackageSellSystemTrading{
                     //접속이 귾겼다가 접속했을때...문제가 있어서 추가해준다. 잔고목록을 클리어 해준다.
                     //mainForm.xing_t0424.getT0424VoList().Clear();
 
-                    //필요없는 데이타 삭제.
-                    int deletedCnt= mainForm.tradingHistory.initDelete();
-                    mainForm.insertListBoxLog("CSPAQ12300:" + deletedCnt + ":삭제(초기화)");
+                    //필요없는 데이타 삭제.--2018-03-08 통계를 위해 주석처리한다.
+                    //int deletedCnt= mainForm.tradingHistory.initDelete();
+                    //mainForm.insertListBoxLog("CSPAQ12300:" + deletedCnt + ":삭제(초기화)");
 
                     //로그인 완료시(계좌선택후) 미리 호출할 필료가 있는것들
                     //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
@@ -116,6 +116,10 @@ namespace PackageSellSystemTrading{
                     mainForm.btn_config_save.Enabled = true;
                     // 로그인 버튼 비활성
                     mainForm.btn_login.Enabled = false;
+
+                    //그리드 초기화
+                    mainForm.xing_t0424.getT0424VoList().Clear();
+                    mainForm.xing_t1833.getT1833VoList().Clear();
 
                     //계좌번호와 페스워드가 인증되었으면 계좌번호선택폼을 닫아준다.
                     accountForm.Close();
