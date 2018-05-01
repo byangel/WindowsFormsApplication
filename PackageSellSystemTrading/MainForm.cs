@@ -58,6 +58,7 @@ namespace PackageSellSystemTrading{
         //생성자
         public MainForm(){
             InitializeComponent();
+            //initForm();
         }
       
 
@@ -283,11 +284,7 @@ namespace PackageSellSystemTrading{
         {
             this.tradingStop();
         }
-
-      
-
-
-
+        
         //체결 그리드 row 번호 출력
         private void grd_t0425_chegb1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
@@ -332,6 +329,7 @@ namespace PackageSellSystemTrading{
         private void btn_option_config_Click(object sender, EventArgs e)
         {
             optionForm.ShowDialog();
+            optionForm.init();
         }
         
         //선택 매도
@@ -1026,25 +1024,28 @@ namespace PackageSellSystemTrading{
 
         }
         
-       
         //HTS연동
-        private void grd_t0424_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >0)
-            {
-                int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
-                if (e.ColumnIndex == columnIndex)
-                {
-                    var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
-                    종목코드 = 종목코드 == null ? "" : 종목코드;
-                    bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+        private void grd_t0424_RowEnter(object sender, DataGridViewCellEventArgs e){
+            try{
+                if (e.RowIndex >= 0){
+                    //int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+                    //if (e.ColumnIndex == columnIndex)
+                    //{
+                        var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+                        종목코드 = 종목코드 == null ? "" : 종목코드;
+                        bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                    //}
                 }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                //Log.WriteLine("mainForm : " + ex.Message);
             }
         }
         //HTS연동
         private void grd_t0425_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > 0)
+            if (e.RowIndex >= 0)
             {
                 int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
                 if (e.ColumnIndex == columnIndex)
@@ -1085,7 +1086,7 @@ namespace PackageSellSystemTrading{
 
         private void grd_t0424_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > 0)
+            if (e.RowIndex >= 0)
             {
                 int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
                 if (e.ColumnIndex == columnIndex)
@@ -1100,7 +1101,7 @@ namespace PackageSellSystemTrading{
 
         private void grd_t0425_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > 0)
+            if (e.RowIndex >= 0)
             {
                 int columnIndex = grd_t0425.Rows[e.RowIndex].Cells["t0425_hname"].ColumnIndex;
                 if (e.ColumnIndex == columnIndex)
@@ -1229,6 +1230,72 @@ namespace PackageSellSystemTrading{
         {
             //MessageBox.Show("Dd");
         }
+
+        //예탁자산 총금액이 변경이 되면 호출리된다.
+        private void label_DpsastTotamt_TextChanged(object sender, EventArgs e)
+        {
+            double dpsastTotamt             = double.Parse(((Label)sender).Text.Replace(",", ""));//예탁자산총액
+            String dpsastTotAmtMax          = Properties.Settings.Default.DPSASTTOTAMT_MAX.ToString();//최대 예탁자산 총액
+            String dpsastTotamtGrowthRate   = Properties.Settings.Default.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 목표 증가율
+            
+            //1.최대 예탁자산 총금액이 메모리에 없다면 현재 예탁자산 값을 메모리에 설정한다.
+            if (dpsastTotAmtMax == "")
+            {
+                Properties.Settings.Default.DPSASTTOTAMT_MAX = dpsastTotamt.ToString();   //예탁자산 총액 
+                Properties.Settings.Default.Save();
+            }
+           
+            //최대예탁자산 대비 수익율을 구한다.
+            double growthRate = ((dpsastTotamt / double.Parse(dpsastTotAmtMax)) * 100) - 100;
+            //2.최대예탁자산 총금액이 줄면 메모리에 저장
+            if ((growthRate + double.Parse(dpsastTotamtGrowthRate)) <= double.Parse(dpsastTotamtGrowthRate))
+            {
+                Properties.Settings.Default.DPSASTTOTAMT_MAX = dpsastTotamt.ToString();   //예탁자산 총액 
+                Properties.Settings.Default.Save();
+            }
+
+            //3.예탁자산 총액 증가율 사용일경우 예탁자산 증가율 달성시 매수금지종목 매도 처리
+            if (Properties.Settings.Default.DPSASTTOTAMT_GROWTH_AT){
+                //설정 증가율 만큼 증가 했다면 매수금지종목을 찾아서 매도 처리 해주자.
+                if(growthRate >= double.Parse(dpsastTotamtGrowthRate))
+                {
+                    //1.매도 호출
+                    foreach (T0424Vo t0424Vo in this.xing_t0424.getT0424VoList())
+                    {
+                        //매수금지종목
+                        EBindingList<T1833Vo> t1833ExcludeVoList = this.xing_t1833Exclude.getT1833ExcludeVoList();
+                        int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", t0424Vo.expcode);
+
+                        //매수금지종 매도
+                        if (t1833ExcludeVoListFindIndex >= 0)
+                        {
+                            this.xing_t0424.t0424Order(t0424Vo, "1", "GROWTH_매도");
+                        }
+                    }
+
+                    //2.최대 예탁자산이 증가 하였음으로  메모리에 저장
+                    Properties.Settings.Default.DPSASTTOTAMT_MAX = dpsastTotamt.ToString();   //예탁자산 총액 증가율
+                    Properties.Settings.Default.Save();
+                }
+              
+            }
+
+            //배팅금액 화면 출력
+            String battingRate = Properties.Settings.Default.BATTING_RATE.ToString();          //예탁자산 대비 진입 비중
+            String maxAmtLimit = Properties.Settings.Default.MAX_AMT_LIMIT;//최대 운영 자금
+            if (double.Parse(dpsastTotAmtMax) > double.Parse(maxAmtLimit))
+            {
+                this.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(Properties.Settings.Default.MAX_AMT_LIMIT, battingRate));
+            }
+            else
+            {
+                this.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(dpsastTotAmtMax, battingRate));
+            }
+
+            
+        }
+
+        
     }//end class
 }//end namespace
 

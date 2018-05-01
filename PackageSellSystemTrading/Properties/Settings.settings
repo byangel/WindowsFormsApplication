@@ -38,7 +38,7 @@
     <Setting Name="TODAY_SELL_AT" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="BATTING_ATM" Type="System.String" Scope="User">
+    <Setting Name="BATTING_RATE" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="STOP_PROFIT_TARGET" Type="System.String" Scope="User">
@@ -58,6 +58,15 @@
     </Setting>
     <Setting Name="TIME_PROFIT_TARGET_AT" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DPSASTTOTAMT_MAX" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DPSASTTOTAMT_GROWTH_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DPSASTTOTAMT_GROWTH_RATE" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

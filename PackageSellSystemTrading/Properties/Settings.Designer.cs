@@ -170,12 +170,12 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BATTING_ATM {
+        public string BATTING_RATE {
             get {
-                return ((string)(this["BATTING_ATM"]));
+                return ((string)(this["BATTING_RATE"]));
             }
             set {
-                this["BATTING_ATM"] = value;
+                this["BATTING_RATE"] = value;
             }
         }
         
@@ -248,6 +248,42 @@ namespace PackageSellSystemTrading.Properties {
             }
             set {
                 this["TIME_PROFIT_TARGET_AT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DPSASTTOTAMT_MAX {
+            get {
+                return ((string)(this["DPSASTTOTAMT_MAX"]));
+            }
+            set {
+                this["DPSASTTOTAMT_MAX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DPSASTTOTAMT_GROWTH_AT {
+            get {
+                return ((bool)(this["DPSASTTOTAMT_GROWTH_AT"]));
+            }
+            set {
+                this["DPSASTTOTAMT_GROWTH_AT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DPSASTTOTAMT_GROWTH_RATE {
+            get {
+                return ((string)(this["DPSASTTOTAMT_GROWTH_RATE"]));
+            }
+            set {
+                this["DPSASTTOTAMT_GROWTH_RATE"] = value;
             }
         }
     }

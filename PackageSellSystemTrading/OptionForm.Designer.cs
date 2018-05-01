@@ -41,7 +41,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.input_battingAtm = new System.Windows.Forms.TextBox();
+            this.input_battingRate = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.input_repeat_rate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,11 +57,20 @@
             this.label14 = new System.Windows.Forms.Label();
             this.checkBox_exclStopLossAt = new System.Windows.Forms.CheckBox();
             this.checkBox_time_profit_target = new System.Windows.Forms.CheckBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label_dpsastTotAmt_max = new System.Windows.Forms.Label();
+            this.checkBox_dpsastTotAmt_growth_at = new System.Windows.Forms.CheckBox();
+            this.input_dpsastTotAmt_growth_rate = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label_battingAmt = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(301, 218);
+            this.btn_config_save.Location = new System.Drawing.Point(339, 290);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(63, 26);
             this.btn_config_save.TabIndex = 13;
@@ -71,7 +80,7 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(236, 218);
+            this.btn_rollback.Location = new System.Drawing.Point(274, 290);
             this.btn_rollback.Name = "btn_rollback";
             this.btn_rollback.Size = new System.Drawing.Size(59, 26);
             this.btn_rollback.TabIndex = 14;
@@ -82,7 +91,7 @@
             // checkBox_limited
             // 
             this.checkBox_limited.AutoSize = true;
-            this.checkBox_limited.Location = new System.Drawing.Point(15, 10);
+            this.checkBox_limited.Location = new System.Drawing.Point(28, 108);
             this.checkBox_limited.Name = "checkBox_limited";
             this.checkBox_limited.Size = new System.Drawing.Size(124, 16);
             this.checkBox_limited.TabIndex = 92;
@@ -92,7 +101,7 @@
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(370, 218);
+            this.close.Location = new System.Drawing.Point(408, 290);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(51, 26);
             this.close.TabIndex = 101;
@@ -103,7 +112,7 @@
             // checkBox_today_sell
             // 
             this.checkBox_today_sell.AutoSize = true;
-            this.checkBox_today_sell.Location = new System.Drawing.Point(144, 10);
+            this.checkBox_today_sell.Location = new System.Drawing.Point(124, 10);
             this.checkBox_today_sell.Name = "checkBox_today_sell";
             this.checkBox_today_sell.Size = new System.Drawing.Size(102, 16);
             this.checkBox_today_sell.TabIndex = 103;
@@ -113,7 +122,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(187, 111);
+            this.label9.Location = new System.Drawing.Point(237, 108);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(183, 12);
             this.label9.TabIndex = 98;
@@ -133,14 +142,14 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(13, 111);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 12);
+            this.label6.Size = new System.Drawing.Size(15, 12);
             this.label6.TabIndex = 91;
-            this.label6.Text = "3.최대운영자금";
+            this.label6.Text = "3.";
             // 
             // input_max_amt_limit
             // 
             this.input_max_amt_limit.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_max_amt_limit.Location = new System.Drawing.Point(103, 107);
+            this.input_max_amt_limit.Location = new System.Drawing.Point(153, 104);
             this.input_max_amt_limit.Name = "input_max_amt_limit";
             this.input_max_amt_limit.Size = new System.Drawing.Size(80, 20);
             this.input_max_amt_limit.TabIndex = 97;
@@ -149,7 +158,7 @@
             // input_buy_stop_rate
             // 
             this.input_buy_stop_rate.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_buy_stop_rate.Location = new System.Drawing.Point(96, 136);
+            this.input_buy_stop_rate.Location = new System.Drawing.Point(90, 135);
             this.input_buy_stop_rate.Name = "input_buy_stop_rate";
             this.input_buy_stop_rate.Size = new System.Drawing.Size(44, 20);
             this.input_buy_stop_rate.TabIndex = 95;
@@ -158,7 +167,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(139, 140);
+            this.label8.Location = new System.Drawing.Point(136, 139);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(241, 12);
             this.label8.TabIndex = 96;
@@ -167,34 +176,35 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(272, 197);
+            this.label13.Location = new System.Drawing.Point(185, 226);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(17, 12);
+            this.label13.Size = new System.Drawing.Size(43, 12);
             this.label13.TabIndex = 110;
-            this.label13.Text = "원";
+            this.label13.Text = "% 배팅";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(13, 197);
+            this.label12.Location = new System.Drawing.Point(13, 226);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(159, 12);
+            this.label12.Size = new System.Drawing.Size(119, 12);
             this.label12.TabIndex = 109;
-            this.label12.Text = "6. 배팅금액(default util use)";
+            this.label12.Text = "6. 예탁자산 총액대비";
             // 
-            // input_battingAtm
+            // input_battingRate
             // 
-            this.input_battingAtm.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_battingAtm.Location = new System.Drawing.Point(174, 195);
-            this.input_battingAtm.Name = "input_battingAtm";
-            this.input_battingAtm.Size = new System.Drawing.Size(92, 20);
-            this.input_battingAtm.TabIndex = 108;
-            this.input_battingAtm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.input_battingRate.Font = new System.Drawing.Font("굴림", 8F);
+            this.input_battingRate.Location = new System.Drawing.Point(133, 220);
+            this.input_battingRate.Name = "input_battingRate";
+            this.input_battingRate.Size = new System.Drawing.Size(48, 20);
+            this.input_battingRate.TabIndex = 108;
+            this.input_battingRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.input_battingRate.TextChanged += new System.EventHandler(this.input_battingRate_TextChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(182, 167);
+            this.label4.Location = new System.Drawing.Point(168, 168);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 12);
             this.label4.TabIndex = 89;
@@ -203,7 +213,7 @@
             // input_repeat_rate
             // 
             this.input_repeat_rate.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_repeat_rate.Location = new System.Drawing.Point(148, 163);
+            this.input_repeat_rate.Location = new System.Drawing.Point(133, 163);
             this.input_repeat_rate.Name = "input_repeat_rate";
             this.input_repeat_rate.Size = new System.Drawing.Size(34, 20);
             this.input_repeat_rate.TabIndex = 94;
@@ -275,7 +285,7 @@
             // checkBox_stopLoss
             // 
             this.checkBox_stopLoss.AutoSize = true;
-            this.checkBox_stopLoss.Location = new System.Drawing.Point(252, 10);
+            this.checkBox_stopLoss.Location = new System.Drawing.Point(28, 81);
             this.checkBox_stopLoss.Name = "checkBox_stopLoss";
             this.checkBox_stopLoss.Size = new System.Drawing.Size(72, 16);
             this.checkBox_stopLoss.TabIndex = 118;
@@ -288,14 +298,14 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 84);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 12);
+            this.label3.Size = new System.Drawing.Size(15, 12);
             this.label3.TabIndex = 119;
-            this.label3.Text = "2.손절";
+            this.label3.Text = "2.";
             // 
             // input_stopLoss
             // 
             this.input_stopLoss.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_stopLoss.Location = new System.Drawing.Point(56, 81);
+            this.input_stopLoss.Location = new System.Drawing.Point(99, 78);
             this.input_stopLoss.Name = "input_stopLoss";
             this.input_stopLoss.Size = new System.Drawing.Size(37, 20);
             this.input_stopLoss.TabIndex = 120;
@@ -304,16 +314,16 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(98, 86);
+            this.label14.Location = new System.Drawing.Point(139, 83);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(71, 12);
             this.label14.TabIndex = 121;
-            this.label14.Text = "%이하 매도.";
+            this.label14.Text = "%이하 손절.";
             // 
             // checkBox_exclStopLossAt
             // 
             this.checkBox_exclStopLossAt.AutoSize = true;
-            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(333, 10);
+            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(227, 10);
             this.checkBox_exclStopLossAt.Name = "checkBox_exclStopLossAt";
             this.checkBox_exclStopLossAt.Size = new System.Drawing.Size(120, 16);
             this.checkBox_exclStopLossAt.TabIndex = 122;
@@ -323,18 +333,110 @@
             // checkBox_time_profit_target
             // 
             this.checkBox_time_profit_target.AutoSize = true;
-            this.checkBox_time_profit_target.Location = new System.Drawing.Point(15, 32);
+            this.checkBox_time_profit_target.Location = new System.Drawing.Point(15, 10);
             this.checkBox_time_profit_target.Name = "checkBox_time_profit_target";
             this.checkBox_time_profit_target.Size = new System.Drawing.Size(108, 16);
             this.checkBox_time_profit_target.TabIndex = 123;
             this.checkBox_time_profit_target.Text = "시간차목표수익";
             this.checkBox_time_profit_target.UseVisualStyleBackColor = true;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(13, 196);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(131, 12);
+            this.label15.TabIndex = 124;
+            this.label15.Text = "5.최대 예탁자산 총금액";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(231, 196);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(17, 12);
+            this.label16.TabIndex = 126;
+            this.label16.Text = "원";
+            // 
+            // label_dpsastTotAmt_max
+            // 
+            this.label_dpsastTotAmt_max.AutoSize = true;
+            this.label_dpsastTotAmt_max.Location = new System.Drawing.Point(150, 196);
+            this.label_dpsastTotAmt_max.Name = "label_dpsastTotAmt_max";
+            this.label_dpsastTotAmt_max.Size = new System.Drawing.Size(11, 12);
+            this.label_dpsastTotAmt_max.TabIndex = 127;
+            this.label_dpsastTotAmt_max.Text = "0";
+            // 
+            // checkBox_dpsastTotAmt_growth_at
+            // 
+            this.checkBox_dpsastTotAmt_growth_at.AutoSize = true;
+            this.checkBox_dpsastTotAmt_growth_at.Location = new System.Drawing.Point(28, 249);
+            this.checkBox_dpsastTotAmt_growth_at.Name = "checkBox_dpsastTotAmt_growth_at";
+            this.checkBox_dpsastTotAmt_growth_at.Size = new System.Drawing.Size(172, 16);
+            this.checkBox_dpsastTotAmt_growth_at.TabIndex = 128;
+            this.checkBox_dpsastTotAmt_growth_at.Text = "최대 예탁자산 총금액 대비 ";
+            this.checkBox_dpsastTotAmt_growth_at.UseVisualStyleBackColor = true;
+            this.checkBox_dpsastTotAmt_growth_at.CheckedChanged += new System.EventHandler(this.checkBox_dpsastTotAmt_growth_at_CheckedChanged);
+            // 
+            // input_dpsastTotAmt_growth_rate
+            // 
+            this.input_dpsastTotAmt_growth_rate.Font = new System.Drawing.Font("굴림", 8F);
+            this.input_dpsastTotAmt_growth_rate.Location = new System.Drawing.Point(193, 245);
+            this.input_dpsastTotAmt_growth_rate.Name = "input_dpsastTotAmt_growth_rate";
+            this.input_dpsastTotAmt_growth_rate.Size = new System.Drawing.Size(34, 20);
+            this.input_dpsastTotAmt_growth_rate.TabIndex = 130;
+            this.input_dpsastTotAmt_growth_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(231, 250);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(219, 12);
+            this.label17.TabIndex = 129;
+            this.label17.Text = "% 이상 달성시 매수금지종목 삭제 사용.";
+            // 
+            // label_battingAmt
+            // 
+            this.label_battingAmt.AutoSize = true;
+            this.label_battingAmt.Location = new System.Drawing.Point(242, 226);
+            this.label_battingAmt.Name = "label_battingAmt";
+            this.label_battingAmt.Size = new System.Drawing.Size(11, 12);
+            this.label_battingAmt.TabIndex = 132;
+            this.label_battingAmt.Text = "0";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(286, 226);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(17, 12);
+            this.label19.TabIndex = 131;
+            this.label19.Text = "원";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(13, 253);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(15, 12);
+            this.label18.TabIndex = 133;
+            this.label18.Text = "3.";
+            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 250);
+            this.ClientSize = new System.Drawing.Size(481, 327);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label_battingAmt);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.input_dpsastTotAmt_growth_rate);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.checkBox_dpsastTotAmt_growth_at);
+            this.Controls.Add(this.label_dpsastTotAmt_max);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.checkBox_time_profit_target);
             this.Controls.Add(this.checkBox_exclStopLossAt);
             this.Controls.Add(this.label14);
@@ -346,7 +448,7 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.input_battingAtm);
+            this.Controls.Add(this.input_battingRate);
             this.Controls.Add(this.checkBox_today_sell);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.close);
@@ -386,7 +488,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        public System.Windows.Forms.TextBox input_battingAtm;
+        public System.Windows.Forms.TextBox input_battingRate;
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.TextBox input_repeat_rate;
         private System.Windows.Forms.Label label1;
@@ -402,5 +504,14 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.CheckBox checkBox_exclStopLossAt;
         private System.Windows.Forms.CheckBox checkBox_time_profit_target;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label_dpsastTotAmt_max;
+        private System.Windows.Forms.CheckBox checkBox_dpsastTotAmt_growth_at;
+        public System.Windows.Forms.TextBox input_dpsastTotAmt_growth_rate;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label_battingAmt;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
     }
 }

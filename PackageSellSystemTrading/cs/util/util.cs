@@ -9,8 +9,7 @@ namespace PackageSellSystemTrading
     class Util
     {
         static byte[] Skey = ASCIIEncoding.ASCII.GetBytes("11111111");                  // 암호화 키
-
-
+        
         /// <summary>
         /// 천단위 변환된 숫자 리턴 
         /// </summary>
@@ -271,43 +270,26 @@ namespace PackageSellSystemTrading
         //}
 
         //배팅금액을 리턴한다.
-        //dpsastTotamt 예탁자잔총액
-        public static String getBattingAmt(String dpsastTotamt)
+        //dpsastTotamt 예탁자잔총액 대비 진입비중 금액을 리턴한다.
+        //dpsastTotamtMax :최대예탁자산
+        //battingRate : 최대예탁자산 대비 배팅 비율
+        public static String getBattingAmt(String dpsastTotamtMax,String battingRate)
         {
-            //0.0005% 는 2000번의 배팅을 할수 있다. 
-            //1천만원(1000번)배팅수 부터 20억(2000번)배팅수 까지 늘어난다.
-            //(자본금*10000000) * (((400-자본금)/40)*0.0001) -> 20억까지  최대 100만원 까지 배팅금액이 순차적으로 커진다 
-            
-            double resultBattingAmt = 0; //배팅금액
-            if (dpsastTotamt!="")
-            {
-                double paseVal = double.Parse(dpsastTotamt);
-                double simpleAmt = Math.Floor(paseVal / 10000000);
-                simpleAmt = simpleAmt < 1 ? 1 : simpleAmt;
+            String returnVal="0";
+            if (isNaN(battingRate)) {
+                battingRate = nvl(battingRate, "0");
+                double resultBattingAmt = Math.Round((double.Parse(dpsastTotamtMax) * double.Parse(battingRate)), 0);
 
-                if (simpleAmt < 200) //20억 이하
-                {
-                    resultBattingAmt = Math.Floor((simpleAmt * 10000000) * (((400 - simpleAmt) / 40) * 0.0001));
-                }
-                else //20억 이상 배팅금액은 점점 증가한다.
-                {
-                    resultBattingAmt = Math.Floor((simpleAmt * 10000000) / 2000);
-                }
-
+                returnVal = resultBattingAmt.ToString(); //배팅금액 리턴
             }
+            return returnVal;
             
-            //소수점제거 후 배팅금액 구한다.
-           
-            return resultBattingAmt.ToString();
         }
 
 
         //손익률2를 vo에 설정한다.
         public static String getSunikrt2(T0424Vo t0424Vo)
         {
-            
-
-          
             /////////////////////////////////////////////////////////////////////
             Double 손익률 = 0;
             if (t0424Vo.pamt2 != null && t0424Vo.pamt2 != "") {

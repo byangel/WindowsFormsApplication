@@ -164,15 +164,15 @@ namespace PackageSellSystemTrading {
                         //jonggb = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목코드
                         
                         //if (!initAt){
-                            //코스피
-                            if (tmpT0424Vo.jonggb == "3"){
-                                //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
-                                mainForm.real_S3.call_real(tmpT0424Vo.expcode);
-                            }
-                            //코스닥
-                            if (tmpT0424Vo.jonggb == "2"){
-                                mainForm.real_K3.call_real(tmpT0424Vo.expcode);
-                            }
+                            ////코스피
+                            //if (tmpT0424Vo.jonggb == "3"){
+                            //    //Log.WriteLine("dddd" + tmpT0424Vo.expcode + "/" + jonggb);
+                            //    mainForm.real_S3.call_real(tmpT0424Vo.expcode);
+                            //}
+                            ////코스닥
+                            //if (tmpT0424Vo.jonggb == "2"){
+                            //    mainForm.real_K3.call_real(tmpT0424Vo.expcode);
+                            //}
                         //}
 
                     }//else END
@@ -237,22 +237,22 @@ namespace PackageSellSystemTrading {
                         this.exclWatchSync();
                         this.initAt = false;
 
-                        //foreach (T0424Vo t0424Vo in t0424VoList)
-                        //{
-                        //    //실시간 현재가 종목  등록
+                        foreach (T0424Vo t0424Vo in t0424VoList)
+                        {
+                            //실시간 현재가 종목  등록
 
-                        //    //코스피
-                        //    if (t0424Vo.jonggb == "3")
-                        //    {
-                        //        mainForm.real_S3.call_real(t0424Vo.expcode);
-                        //    }
-                        //    //코스닥
-                        //    if (t0424Vo.jonggb == "2")
-                        //    {
-                        //        mainForm.real_K3.call_real(t0424Vo.expcode);
-                        //    }
+                            //코스피
+                            if (t0424Vo.jonggb == "3")
+                            {
+                                mainForm.real_S3.call_real(t0424Vo.expcode);
+                            }
+                            //코스닥
+                            if (t0424Vo.jonggb == "2")
+                            {
+                                mainForm.real_K3.call_real(t0424Vo.expcode);
+                            }
 
-                        //}
+                        }
                     }
                     //응답처리 완료
                     completeAt = true;
@@ -490,7 +490,6 @@ namespace PackageSellSystemTrading {
                         this.t0424Order(t0424Vo, "1", "매수금지손절");
                        
                         return true;
-                        
                     }
                 }
                 //기본 감시제외 목록이면 무조건 삭제해준다.

@@ -74,27 +74,8 @@ namespace PackageSellSystemTrading
                 mainForm.label_tdtsunik.Text = Util.GetNumberFormat(double.Parse(this.BalEvalAmt) - mainForm.xing_t0424.mamt); //투자손익금액(잔고평가금액-매입금액 )
             }
             
-
             mainForm.label_PnlRat.Text = Util.GetNumberFormat(this.PnlRat);   // 손익률
-
-
-
-            //배팅금액설정
-            if (Properties.Settings.Default.BATTING_ATM == "")
-            {
-                //이런날이 올까?
-                this.DpsastTotamt = this.DpsastTotamt == "" ? "0" : this.DpsastTotamt;
-                if (double.Parse(this.DpsastTotamt) > double.Parse(Properties.Settings.Default.MAX_AMT_LIMIT)){
-                    mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(Properties.Settings.Default.MAX_AMT_LIMIT));
-                }else{
-                    mainForm.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(this.DpsastTotamt));
-                }
-                
-            }else {
-                mainForm.label_battingAtm.Text = Util.GetNumberFormat(Properties.Settings.Default.BATTING_ATM);
-            }
             
-
             completeAt = true;
 
         }

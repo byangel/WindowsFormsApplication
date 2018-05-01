@@ -261,6 +261,7 @@
             this.거래량 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.삭제여부 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.검색조건 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label_trading_condition = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -505,9 +506,9 @@
             this.grd_t0424.RowTemplate.Height = 23;
             this.grd_t0424.Size = new System.Drawing.Size(671, 375);
             this.grd_t0424.TabIndex = 49;
-            this.grd_t0424.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellClick);
             this.grd_t0424.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellDoubleClick);
             this.grd_t0424.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellValueChanged);
+            this.grd_t0424.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_RowEnter);
             this.grd_t0424.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0424_RowPostPaint);
             // 
             // grd_t0424_check
@@ -1255,6 +1256,7 @@
             this.label_DpsastTotamt.Size = new System.Drawing.Size(13, 13);
             this.label_DpsastTotamt.TabIndex = 93;
             this.label_DpsastTotamt.Text = "0";
+            this.label_DpsastTotamt.TextChanged += new System.EventHandler(this.label_DpsastTotamt_TextChanged);
             // 
             // label_mamt
             // 
@@ -2112,11 +2114,21 @@
             this.검색조건.Name = "검색조건";
             this.검색조건.Width = 74;
             // 
+            // label_trading_condition
+            // 
+            this.label_trading_condition.AutoSize = true;
+            this.label_trading_condition.Location = new System.Drawing.Point(554, 9);
+            this.label_trading_condition.Name = "label_trading_condition";
+            this.label_trading_condition.Size = new System.Drawing.Size(11, 11);
+            this.label_trading_condition.TabIndex = 127;
+            this.label_trading_condition.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1439, 770);
+            this.Controls.Add(this.label_trading_condition);
             this.Controls.Add(this.grd_t1833_dt);
             this.Controls.Add(this.btn_sellAt);
             this.Controls.Add(this.btn_buyAt);
@@ -2371,6 +2383,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 거래량;
         private System.Windows.Forms.DataGridViewTextBoxColumn 삭제여부;
         private System.Windows.Forms.DataGridViewTextBoxColumn 검색조건;
+        public System.Windows.Forms.Label label_trading_condition;
     }
 }
 
