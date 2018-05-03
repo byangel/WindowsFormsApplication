@@ -1025,21 +1025,35 @@ namespace PackageSellSystemTrading{
         }
         
         //HTS연동
-        private void grd_t0424_RowEnter(object sender, DataGridViewCellEventArgs e){
-            try{
-                if (e.RowIndex >= 0){
-                    //int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
-                    //if (e.ColumnIndex == columnIndex)
-                    //{
-                        var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
-                        종목코드 = 종목코드 == null ? "" : 종목코드;
-                        bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
-                    //}
-                }
-            }
-            catch (ArgumentOutOfRangeException ex)
+        //private void grd_t0424_RowEnter(object sender, DataGridViewCellEventArgs e){
+        //    try{
+        //        //if (e.RowIndex >= 0){
+        //        //    int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+        //            //if (e.ColumnIndex == columnIndex)
+        //            //{
+        //                var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+        //                종목코드 = 종목코드 == null ? "" : 종목코드;
+        //                bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+        //            //}
+        //        //}
+        //    }
+        //    catch (ArgumentOutOfRangeException ex)
+        //    {
+        //        //Log.WriteLine("mainForm : " + ex.Message);
+        //    }
+        //}
+        //HTS연동
+        private void grd_t0424_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > 0)
             {
-                //Log.WriteLine("mainForm : " + ex.Message);
+                int columnIndex = grd_t0424.Rows[e.RowIndex].Cells["c_hname"].ColumnIndex;
+                if (e.ColumnIndex == columnIndex)
+                {
+                    var 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value;
+                    종목코드 = 종목코드 == null ? "" : 종목코드;
+                    bool test = this.xing_LinkToHTS.call_request(종목코드.ToString());
+                }
             }
         }
         //HTS연동
@@ -1294,8 +1308,6 @@ namespace PackageSellSystemTrading{
 
             
         }
-
-        
     }//end class
 }//end namespace
 

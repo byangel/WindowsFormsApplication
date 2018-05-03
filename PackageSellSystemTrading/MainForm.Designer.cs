@@ -506,9 +506,9 @@
             this.grd_t0424.RowTemplate.Height = 23;
             this.grd_t0424.Size = new System.Drawing.Size(671, 375);
             this.grd_t0424.TabIndex = 49;
+            this.grd_t0424.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellClick);
             this.grd_t0424.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellDoubleClick);
             this.grd_t0424.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellValueChanged);
-            this.grd_t0424.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_RowEnter);
             this.grd_t0424.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0424_RowPostPaint);
             // 
             // grd_t0424_check
