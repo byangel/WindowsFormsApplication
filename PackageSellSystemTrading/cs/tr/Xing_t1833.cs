@@ -124,7 +124,7 @@ namespace PackageSellSystemTrading{
                     tmpRow["검색조건"     ] = conditionNm[conditionCallIndex];                  //검색조건
                     tmpRow["삭제여부"     ] = "new";                                            //삭제여부 [new|old]
 
-                    
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = 메도가능수.ToString();
                     if (foundRows.Count() == 0)
                     {
                         t1833Dt.Rows.Add(tmpRow);

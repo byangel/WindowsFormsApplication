@@ -181,7 +181,7 @@ namespace PackageSellSystemTrading {
                     //row추가시 값 변경 이벤트가 발생하지 않아서 추가해줬다.
                     mainForm.priceChangedProcess(findIndex);
 
-                    if (tmpT0424Vo.expcode.Replace("A", "") == "205500")
+                    if (tmpT0424Vo.expcode.Replace("A", "") == "102260")
                     {
                         int test = 0;
                     }
