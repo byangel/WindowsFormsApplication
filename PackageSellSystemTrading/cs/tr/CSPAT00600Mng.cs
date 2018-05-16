@@ -64,11 +64,7 @@ namespace PackageSellSystemTrading{
             this.xing_CSPAT00800List.Add(item800);
             return item800;
         }
-        // 소멸자
-        ~CSPAT00600Mng()
-        {
-          
-        }
+        
 
     } //end class 
    

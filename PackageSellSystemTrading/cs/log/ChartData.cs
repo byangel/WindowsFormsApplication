@@ -111,11 +111,7 @@ namespace PackageSellSystemTrading
             }
 
         }
-        // 소멸자
-        ~ChartData()
-        {
-
-        }
+     
 
         public void dbSync()
         {

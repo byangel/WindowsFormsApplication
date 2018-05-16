@@ -55,11 +55,7 @@ namespace PackageSellSystemTrading {
 
         }   // end function
 
-        // 소멸자
-        ~Xing_t0424()
-        {
-
-        }
+        
         
         public EBindingList<T0424Vo> getT0424VoList()
         {
@@ -484,7 +480,7 @@ namespace PackageSellSystemTrading {
                 //손절- 임시로API가 아닌 수동매매일경우 해당 조건을 실행하지 않는다. 매수 하자마자 매수금지에 걸려 매도주문이 나갈수도 있다.
                 if (매수금지종목손절여부 && t0424Vo.ordermtd == "XING API")
                 {
-                    int findIndex = mainForm.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", t0424Vo.expcode.Replace("A",""));
+                    int findIndex = mainForm.xing_t1857Exclude.getT1857ExcludeVoList().Find("shcode", t0424Vo.expcode.Replace("A",""));
                     if (findIndex >= 0)
                     {
                         this.t0424Order(t0424Vo, "1", "매수금지손절");
@@ -493,7 +489,7 @@ namespace PackageSellSystemTrading {
                     }
                 }
                 //기본 감시제외 목록이면 무조건 삭제해준다.
-                int t1833excludeVoBasicListFindIndex = mainForm.xing_t1833Exclude.getT1833excludeVoBasicList().Find("shcode", t0424Vo.expcode);
+                int t1833excludeVoBasicListFindIndex = mainForm.xing_t1857Exclude.getT1857excludeVoBasicList().Find("shcode", t0424Vo.expcode);
                 if (t1833excludeVoBasicListFindIndex >= 0)
                 {
                     this.t0424Order(t0424Vo, "1", "정리매매");

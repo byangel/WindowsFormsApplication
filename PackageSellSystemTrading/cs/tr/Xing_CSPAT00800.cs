@@ -31,12 +31,7 @@ namespace PackageSellSystemTrading{
             this.mainForm = mainForm;
         }   // end function
 
-        // 소멸자
-        ~Xing_CSPAT00800()
-        {
-          
-        }
-
+       
 
         /// <summary>
 		/// 데이터 응답 처리

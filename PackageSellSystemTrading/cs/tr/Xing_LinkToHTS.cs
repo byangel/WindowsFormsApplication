@@ -24,11 +24,7 @@ namespace PackageSellSystemTrading{
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
         }   // end function
 
-        // 소멸자
-        ~Xing_LinkToHTS(){
-          
-        }
-
+        
 
         /// <summary>
 		/// 데이터 응답 처리

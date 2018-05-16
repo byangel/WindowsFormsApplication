@@ -43,14 +43,6 @@ namespace PackageSellSystemTrading {
 
         }   // end function
 
-        // 소멸자
-        ~Xing_t0425()
-        {
-
-        }
-
-        
-
 
         /// <summary>
 		/// 주식 체결/미체결(T0425) 데이터 응답 처리

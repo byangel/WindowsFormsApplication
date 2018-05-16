@@ -41,10 +41,7 @@ namespace PackageSellSystemTrading{
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
         }   // end function
 
-        // 소멸자
-        ~Xing_t1833Exclude(){
-          
-        }
+        
 
 
         /// <summary>

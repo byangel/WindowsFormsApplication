@@ -33,13 +33,7 @@ namespace PackageSellSystemTrading{
             completeAt = true;
         }   // end function
 
-        // 소멸자
-        ~Xing_CSPAQ12300()
-        {
-          
-        }
-
-
+        
         /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
@@ -51,12 +45,14 @@ namespace PackageSellSystemTrading{
         //이벤트 메세지.
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
 
-        
+            try
+            {
                 //특정 오류없이 정상적으로 실행이 되었다면 화면 및 초기화를 해준다.
-                if (nMessageCode == "00136" || nMessageCode == "00133") {
-                   
+                if (nMessageCode == "00136" || nMessageCode == "00133")
+                {
+
                     //계좌정보가 정상 확인 되었으면 다른 프로그램에서 계좌번호와 비밀번호를 쓸수 있도록 메인폼 멤버변수에 저장한다.
-                    mainForm.account   = this.account;
+                    mainForm.account = this.account;
                     mainForm.accountPw = this.accountPw;
                     //////////////////////////////////////////////
                     // 자동로그인 타이머 멈춤
@@ -88,13 +84,13 @@ namespace PackageSellSystemTrading{
 
                     //로그인 완료시(계좌선택후) 미리 호출할 필료가 있는것들
                     //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
-                    mainForm.xing_t0424.initAt          = true;//초기화 여부
-                    mainForm.xing_t1833Exclude.initAt   = true;//초기화 여부
-                    mainForm.xing_t0425.initAt          = true;//초기화 여부
-                    mainForm.xing_CSPAQ12200.initAt     = true;//초기화 여부
-                    mainForm.xing_t0167.initAt          = true;//초기화 여부
+                    mainForm.xing_t0424.initAt = true;//초기화 여부
+                    mainForm.xing_t1857Exclude.initAt = true;//초기화 여부
+                    mainForm.xing_t0425.initAt = true;//초기화 여부
+                    mainForm.xing_CSPAQ12200.initAt = true;//초기화 여부
+                    mainForm.xing_t0167.initAt = true;//초기화 여부
                     //호출
-                    mainForm.xing_t1833Exclude.call_request();//매수금지 데이타
+                    mainForm.xing_t1857Exclude.call_request();//매수금지 데이타
                     mainForm.xing_t0424.call_request(this.account, this.accountPw);//잔고 데이타
                     mainForm.xing_t0425.call_request(this.account, this.accountPw);//매매이력 데이타
                     mainForm.xing_CSPAQ12200.call_request(this.account, this.accountPw);//계좌정보
@@ -119,22 +115,31 @@ namespace PackageSellSystemTrading{
 
                     //그리드 초기화
                     mainForm.xing_t0424.getT0424VoList().Clear();
-                    mainForm.xing_t1833.getT1833VoList().Clear();
+                    mainForm.xing_t1857.gett1857Dt().Clear();
 
                     //계좌번호와 페스워드가 인증되었으면 계좌번호선택폼을 닫아준다.
                     accountForm.Close();
-                   
+
                     //트레이딩 시작
                     mainForm.tradingRun();
 
                     Log.WriteLine("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
 
-                }else{
+                }
+                else
+                {
                     MessageBox.Show("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
                     Log.WriteLine("CSPAQ12300:: 예외 발생:" + nMessageCode + " :: " + szMessage);
                 }
-        
+                
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.StackTrace);
+            }
             completeAt = true;
+
 
         }
 

@@ -36,81 +36,86 @@ namespace PackageSellSystemTrading{
         public Xing_CSPAT00600(MainForm mainForm) {
             base.ResFileName = "₩res₩CSPAT00600.res";
 
-            base.ReceiveData += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
+            base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
 
             completeAt = false;
             this.mainForm = mainForm;
         }   // end function
 
-        // 소멸자
-        ~Xing_CSPAT00600()
-        {
-          
-        }
+        
         TradingHistoryVo dataLogVo = new TradingHistoryVo();
         /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-
-            String RecCnt     = base.GetFieldData("CSPAT00600OutBlock1", "RecCnt",    0);//레코드갯수
-            String AcntNo     = base.GetFieldData("CSPAT00600OutBlock1", "AcntNo",    0);//계좌번호
-            String IsuNo      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNo",     0);//종목번호
-            String OrdQty     = base.GetFieldData("CSPAT00600OutBlock1", "OrdQty",    0);//주문수량
-            String OrdPrc     = base.GetFieldData("CSPAT00600OutBlock1", "OrdPrc",    0);//주문가격
-            String BnsTpCode  = base.GetFieldData("CSPAT00600OutBlock1", "BnsTpCode", 0);//매매구분
-            //Log.WriteLine("CSPAT00600 block1:: [레코드:"+ RecCnt + "|계좌번호:" + AcntNo + "|종목번호:" + IsuNo + "|주문수량:" + OrdQty + "| 주문가격:" + OrdPrc + " | 매매구분:" + BnsTpCode + "]");
-
-            String RecCnt2    = base.GetFieldData("CSPAT00600OutBlock2", "RecCnt",     0);//레코드갯수
-            String OrdNo      = base.GetFieldData("CSPAT00600OutBlock2", "OrdNo",      0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
-            String OrdTime    = base.GetFieldData("CSPAT00600OutBlock2", "OrdTime",    0);//주문시각
-            String OrdMktCode = base.GetFieldData("CSPAT00600OutBlock2", "OrdMktCode", 0);//주문시장코드
-            String OrdPtnCode = base.GetFieldData("CSPAT00600OutBlock2", "OrdPtnCode", 0);//주문유형코드
-            String ShtnIsuNo  = base.GetFieldData("CSPAT00600OutBlock2", "ShtnIsuNo",  0);//단축종목번호
-            String MgempNo    = base.GetFieldData("CSPAT00600OutBlock2", "MgempNo",    0);//관리사원번호
-            String OrdAmt     = base.GetFieldData("CSPAT00600OutBlock2", "OrdAmt",     0);//주문금액
-            String SpotOrdQty = base.GetFieldData("CSPAT00600OutBlock1", "SpotOrdQty", 0);//실물주문수량  noData
-            String MnyOrdAmt  = base.GetFieldData("CSPAT00600OutBlock1", "MnyOrdAmt",  0);//현금주문금액  noData
-            String AcntNm     = base.GetFieldData("CSPAT00600OutBlock1", "AcntNm",     0);//계좌명
-            String IsuNm      = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm",      0);//종목명 -안넘어온다.
-            //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
-
-            //TradingHistoryVo dataLogVo = new TradingHistoryVo();
-            //주문 에러가 났을때 주문번호는 0번이 넘어오는것같다.
-            if (OrdNo != "0")
+            try
             {
-                //데이타로그에 저장
-                //public class dataLogVo
-                dataLogVo.ordno         = OrdNo;                    //주문번호
-                dataLogVo.accno         = AcntNo;                   //계좌번호
-                dataLogVo.ordptncode    = "0" + BnsTpCode;          //주문구분 01:매도|02:매수 
-                dataLogVo.Isuno         = IsuNo.Replace("A", "");   //종목코드
-                dataLogVo.ordqty        = OrdQty;                   //주문수량
-                dataLogVo.execqty       = "0";                      //체결수량 --막 주문을 넣었기때문에 체결수량은 0
-                dataLogVo.ordprc        = OrdPrc.Replace(",", "");  //주문가격
-                dataLogVo.execprc       = "0";                      //체결가격
-                dataLogVo.Isunm         = this.hname;               //종목명
-                dataLogVo.ordptnDetail  = this.ordptnDetail;        //상세 주문구분 신규매수|반복매수|금일매도|청산
-                dataLogVo.upExecprc     = this.upExecprc == "" ? "0":this.upExecprc.Replace(",", "");//상위 체결가격
-                dataLogVo.sellOrdAt     = "N";                      //금일 매도 주문 여부
-                dataLogVo.useYN         = "Y";                      //사용여부
-                dataLogVo.ordermtd      = "XING API";               //주문 매체
-                dataLogVo.eventNm       = this.eventNm;         //검색조건 이름
-                //상위 주문번호
-                if (this.upOrdno == ""){
-                    dataLogVo.upOrdno = OrdNo;//상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
-                }else{
-                    dataLogVo.upOrdno = this.upOrdno;
+                String RecCnt = base.GetFieldData("CSPAT00600OutBlock1", "RecCnt", 0);//레코드갯수
+                String AcntNo = base.GetFieldData("CSPAT00600OutBlock1", "AcntNo", 0);//계좌번호
+                String IsuNo = base.GetFieldData("CSPAT00600OutBlock1", "IsuNo", 0);//종목번호
+                String OrdQty = base.GetFieldData("CSPAT00600OutBlock1", "OrdQty", 0);//주문수량
+                String OrdPrc = base.GetFieldData("CSPAT00600OutBlock1", "OrdPrc", 0);//주문가격
+                String BnsTpCode = base.GetFieldData("CSPAT00600OutBlock1", "BnsTpCode", 0);//매매구분
+                                                                                            //Log.WriteLine("CSPAT00600 block1:: [레코드:"+ RecCnt + "|계좌번호:" + AcntNo + "|종목번호:" + IsuNo + "|주문수량:" + OrdQty + "| 주문가격:" + OrdPrc + " | 매매구분:" + BnsTpCode + "]");
+
+                String RecCnt2 = base.GetFieldData("CSPAT00600OutBlock2", "RecCnt", 0);//레코드갯수
+                String OrdNo = base.GetFieldData("CSPAT00600OutBlock2", "OrdNo", 0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
+                String OrdTime = base.GetFieldData("CSPAT00600OutBlock2", "OrdTime", 0);//주문시각
+                String OrdMktCode = base.GetFieldData("CSPAT00600OutBlock2", "OrdMktCode", 0);//주문시장코드
+                String OrdPtnCode = base.GetFieldData("CSPAT00600OutBlock2", "OrdPtnCode", 0);//주문유형코드
+                String ShtnIsuNo = base.GetFieldData("CSPAT00600OutBlock2", "ShtnIsuNo", 0);//단축종목번호
+                String MgempNo = base.GetFieldData("CSPAT00600OutBlock2", "MgempNo", 0);//관리사원번호
+                String OrdAmt = base.GetFieldData("CSPAT00600OutBlock2", "OrdAmt", 0);//주문금액
+                String SpotOrdQty = base.GetFieldData("CSPAT00600OutBlock1", "SpotOrdQty", 0);//실물주문수량  noData
+                String MnyOrdAmt = base.GetFieldData("CSPAT00600OutBlock1", "MnyOrdAmt", 0);//현금주문금액  noData
+                String AcntNm = base.GetFieldData("CSPAT00600OutBlock1", "AcntNm", 0);//계좌명
+                String IsuNm = base.GetFieldData("CSPAT00600OutBlock1", "IsuNm", 0);//종목명 -안넘어온다.
+                                                                                    //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
+
+                //TradingHistoryVo dataLogVo = new TradingHistoryVo();
+                //주문 에러가 났을때 주문번호는 0번이 넘어오는것같다.
+                if (OrdNo != "0")
+                {
+                    //데이타로그에 저장
+                    //public class dataLogVo
+                    dataLogVo.ordno = OrdNo;                    //주문번호
+                    dataLogVo.accno = AcntNo;                   //계좌번호
+                    dataLogVo.ordptncode = "0" + BnsTpCode;          //주문구분 01:매도|02:매수 
+                    dataLogVo.Isuno = IsuNo.Replace("A", "");   //종목코드
+                    dataLogVo.ordqty = OrdQty;                   //주문수량
+                    dataLogVo.execqty = "0";                      //체결수량 --막 주문을 넣었기때문에 체결수량은 0
+                    dataLogVo.ordprc = OrdPrc.Replace(",", "");  //주문가격
+                    dataLogVo.execprc = "0";                      //체결가격
+                    dataLogVo.Isunm = this.hname;               //종목명
+                    dataLogVo.ordptnDetail = this.ordptnDetail;        //상세 주문구분 신규매수|반복매수|금일매도|청산
+                    dataLogVo.upExecprc = this.upExecprc == "" ? "0" : this.upExecprc.Replace(",", "");//상위 체결가격
+                    dataLogVo.sellOrdAt = "N";                      //금일 매도 주문 여부
+                    dataLogVo.useYN = "Y";                      //사용여부
+                    dataLogVo.ordermtd = "XING API";               //주문 매체
+                    dataLogVo.eventNm = this.eventNm;         //검색조건 이름
+                                                              //상위 주문번호
+                    if (this.upOrdno == "")
+                    {
+                        dataLogVo.upOrdno = OrdNo;//상위 매수 주문번호 -01:금일매도일때 상위매수주문번호 그외에는 자신의 주문번호를 넣어준다.
+                    }
+                    else
+                    {
+                        dataLogVo.upOrdno = this.upOrdno;
+                    }
+                    //주문정보를 주문이력 DB에 저장 - dataInsert호출
+                    mainForm.tradingHistory.insert(dataLogVo);
+                    //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
                 }
-                //주문정보를 주문이력 DB에 저장 - dataInsert호출
-                mainForm.tradingHistory.insert(dataLogVo);
-                //mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.StackTrace);
             }
 
-            
-            
+
         }
 
         //현물정상주문 메세지 처리

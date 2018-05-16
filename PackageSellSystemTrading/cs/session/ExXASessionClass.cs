@@ -24,12 +24,6 @@ namespace PackageSellSystemTrading {
 
         }   // end function
 
-        // 소멸자
-        ~ExXASessionClass() {
-           
-        }
-
-        
 
         public Boolean fnLogin()
         {

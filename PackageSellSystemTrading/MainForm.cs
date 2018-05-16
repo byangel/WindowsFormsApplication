@@ -21,8 +21,10 @@ namespace PackageSellSystemTrading{
         public decimal battingAmt;
 
         public ExXASessionClass exXASessionClass;
-        public Xing_t1833 xing_t1833;        //조건검색
-        public Xing_t1833Exclude xing_t1833Exclude; //매수금지종목
+        //public Xing_t1833 xing_t1833;        //조건검색
+        public Xing_t1857 xing_t1857;        //조건검색
+        //public Xing_t1833Exclude xing_t1833Exclude; //매수금지종목
+        public Xing_t1857Exclude xing_t1857Exclude; //매수금지종목
         public Xing_t0424 xing_t0424;        //잔고2
 
         public Xing_t0425 xing_t0425;        //체결/미체결
@@ -80,10 +82,14 @@ namespace PackageSellSystemTrading{
                 exXASessionClass = new ExXASessionClass();//로그인
                 exXASessionClass.mainForm = this;
 
-                this.xing_t1833 = new Xing_t1833();//종목검색
-                this.xing_t1833.mainForm = this;
-                this.xing_t1833Exclude = new Xing_t1833Exclude();//매수금지종목검색
-                this.xing_t1833Exclude.mainForm = this;
+                //this.xing_t1833 = new Xing_t1833();//종목검색
+                //this.xing_t1833.mainForm = this;
+                this.xing_t1857 = new Xing_t1857();//종목검색
+                this.xing_t1857.mainForm = this;
+                //this.xing_t1833Exclude = new Xing_t1833Exclude();//매수금지종목검색
+                //this.xing_t1833Exclude.mainForm = this;
+                this.xing_t1857Exclude = new Xing_t1857Exclude();//매수금지종목검색
+                this.xing_t1857Exclude.mainForm = this;
                 this.xing_t0424 = new Xing_t0424();//주식잔고2
                 this.xing_t0424.mainForm = this;
                 this.xing_t0425 = new Xing_t0425();//체결/미체결
@@ -123,8 +129,7 @@ namespace PackageSellSystemTrading{
                 grd_t0424Excl.DataSource = this.xing_t0424.getExcludeT0424VoList();//감시제외종목 바인딩
 
                 //진입검색 그리드.바인딩
-                //grd_t1833.DataSource = this.xing_t1833.getT1833VoList();
-                grd_t1833_dt.DataSource = this.xing_t1833.gett1833Dt();
+                grd_t1833_dt.DataSource = this.xing_t1857.gett1857Dt();
                 //체결미체결 그리드 DataSource 설정
                 grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
                 //챠트(스냅샷) 그리드 바인딩
@@ -195,7 +200,7 @@ namespace PackageSellSystemTrading{
         //종목검색 버튼
         private void btn_search_Click(object sender, EventArgs e)
         {
-            xing_t1833.call_request();
+            xing_t1857.call_request();
         }
 
         //로그아웃 버튼
@@ -602,12 +607,13 @@ namespace PackageSellSystemTrading{
 
                 if (flag1833 == 0)
                 {
-                    xing_t1833Exclude.call_request();
+                    xing_t1857Exclude.call_request();
                     flag1833 = 1;
                 }
                 else
                 {
-                    xing_t1833.call_request();
+                    //xing_t1833.call_request();
+                    xing_t1857.call_request();
                     flag1833 = 0;
                 }
                
@@ -931,7 +937,7 @@ namespace PackageSellSystemTrading{
             }
 
             //매수금지이고 t0424에 빨간색으로 표시해주자.
-            int t1833ExcludeVoListFindIndex = this.xing_t1833Exclude.getT1833ExcludeVoList().Find("shcode", 종목코드);
+            int t1833ExcludeVoListFindIndex = this.xing_t1857Exclude.getT1857ExcludeVoList().Find("shcode", 종목코드);
             if (t1833ExcludeVoListFindIndex >= 0)
             {
                 this.grd_t0424.Rows[rowIndex].Cells["grd_t0424_check"].Style.BackColor = Color.Red;
@@ -1236,7 +1242,7 @@ namespace PackageSellSystemTrading{
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                //Log.WriteLine("mainForm : " + ex.Message);
+                Log.WriteLine("mainForm : " + ex.Message);
             }
         }
 
@@ -1277,11 +1283,11 @@ namespace PackageSellSystemTrading{
                     foreach (T0424Vo t0424Vo in this.xing_t0424.getT0424VoList())
                     {
                         //매수금지종목
-                        EBindingList<T1833Vo> t1833ExcludeVoList = this.xing_t1833Exclude.getT1833ExcludeVoList();
-                        int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", t0424Vo.expcode);
+                        EBindingList<T1857Vo> t1857ExcludeVoList = this.xing_t1857Exclude.getT1857ExcludeVoList();
+                        int t1857ExcludeVoListFindIndex = t1857ExcludeVoList.Find("shcode", t0424Vo.expcode);
 
                         //매수금지종 매도
-                        if (t1833ExcludeVoListFindIndex >= 0)
+                        if (t1857ExcludeVoListFindIndex >= 0)
                         {
                             this.xing_t0424.t0424Order(t0424Vo, "1", "GROWTH_매도");
                         }

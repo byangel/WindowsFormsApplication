@@ -27,8 +27,7 @@ namespace PackageSellSystemTrading{
             //base.ReceiveMessage   += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
         }   // end function
 
-        // 소멸자
-        ~Real_SC1() {}
+
 
         private RealSc1Vo realSc1Vo = new RealSc1Vo();
         /// <summary>
