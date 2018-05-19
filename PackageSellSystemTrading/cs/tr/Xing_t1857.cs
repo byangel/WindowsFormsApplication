@@ -14,12 +14,10 @@ namespace PackageSellSystemTrading{
       
 
         private DataTable t1857Dt;
-        public DataTable gett1857Dt()
-        {
+        public DataTable gett1857Dt(){
             return this.t1857Dt;
         }
         
-        private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
         //투자 비율
         public String investmentRatio;
@@ -138,7 +136,7 @@ namespace PackageSellSystemTrading{
                 this.conditionCallIndex = this.conditionCallIndex + 1;
                 this.conditionCallIndex = this.conditionCallIndex < this.conditionTotalCnt ? this.conditionCallIndex : 0;
 
-                completeAt = true;//중복호출 여부
+
             }
             catch (Exception ex)
             {
@@ -161,8 +159,7 @@ namespace PackageSellSystemTrading{
                 //Log.WriteLine("t1857 :: " + nMessageCode + " :: " + szMessage);
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1857:" + nMessageCode + ":" + szMessage;
             }
-            //중복호출 방지
-            this.completeAt = true;
+
         }
         
         //진입검색에서 검색된 종목을 매수한다.
@@ -314,22 +311,15 @@ namespace PackageSellSystemTrading{
         /// </summary>
         public void call_request()
         {
-            //if (completeAt) {
-            //폼 메세지.
-            completeAt = false;//중복호출 방지
+
 
             String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
-
-            //if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 1500 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519)
-            //{
-            //this.conditionCallIndex = 5;
-            //base.RequestService("t1857", startupPath + "\\Resources\\Condition5.ADF");
-            //mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text + "][당일눌림목]조건검색 요청.";
+            
             String conditionName = startupPath + "\\Resources\\Condition" + conditionCallIndex + ".ACF";
             base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");        // 실시간구분 : 0:조회, 1:실시간
             base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");         // 종목검색구분 : F:파일, S:서버
             base.SetFieldData("t1857InBlock", "query_index", 0, conditionName);         //
-            //base.Request(false);  //연속조회일경우 true
+
             int nSuccess = base.RequestService("t1857", "");
 
             if (nSuccess < 0)
@@ -340,7 +330,7 @@ namespace PackageSellSystemTrading{
                 }
                 mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]e조건검색 전송 에러.";
             }
-            //base.Request(false);  //연속조회일경우 true
+
             mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]조건검색 요청.";
 
            

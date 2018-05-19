@@ -85,7 +85,6 @@ namespace PackageSellSystemTrading{
                     //로그인 완료시(계좌선택후) 미리 호출할 필료가 있는것들
                     //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
                     mainForm.xing_t0424.initAt = true;//초기화 여부
-                    mainForm.xing_t1857Exclude.initAt = true;//초기화 여부
                     mainForm.xing_t0425.initAt = true;//초기화 여부
                     mainForm.xing_CSPAQ12200.initAt = true;//초기화 여부
                     mainForm.xing_t0167.initAt = true;//초기화 여부

@@ -14,24 +14,32 @@ using System.Threading;
 namespace PackageSellSystemTrading{
     public class Xing_t1857Exclude : XAQueryClass{
 
-        private Boolean completeAt = true;//완료여부.
         public MainForm mainForm;
 
         private EBindingList<T1857Vo> t1857ExcludeVoList        = new EBindingList<T1857Vo>();
         private EBindingList<T1857Vo> t1857excludeVoBasicList   = new EBindingList<T1857Vo>();
-        public EBindingList<T1857Vo>  getT1857ExcludeVoList()
-        {
+
+        public EBindingList<T1857Vo>  getT1857ExcludeVoList(){
             return this.t1857ExcludeVoList;
         }
-        public EBindingList<T1857Vo> getT1857excludeVoBasicList()
-        {
+        public EBindingList<T1857Vo> getT1857excludeVoBasicList(){
             return this.t1857excludeVoBasicList;
+        }
+        private DataTable tmpDt;
+        private DataTable t1857ExcludeDt0;
+        public DataTable getT1857ExcludeDt0()
+        {
+            return this.t1857ExcludeDt0;
+        }
+        private DataTable t1857ExcludeDt1;
+        public DataTable getT1857ExcludeDt1()
+        {
+            return this.t1857ExcludeDt1;
         }
         private int conditionTotalCnt = 2;
         private int conditionCallIndex = 0;
         private String[] conditionNm = { "매수금지", "손절종목"};
-
-        public Boolean initAt = false;
+        
 
         // 생성자
         public Xing_t1857Exclude(){
@@ -39,6 +47,20 @@ namespace PackageSellSystemTrading{
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
+
+            this.tmpDt = new DataTable();
+            tmpDt.Columns.Add("종목코드", typeof(string));
+            tmpDt.Columns.Add("종목명", typeof(string));
+            tmpDt.Columns.Add("현재가", typeof(string));
+            tmpDt.Columns.Add("전일대비구분", typeof(string));
+            tmpDt.Columns.Add("전일대비", typeof(string));
+            tmpDt.Columns.Add("등락율", typeof(string));
+            tmpDt.Columns.Add("거래량", typeof(double));
+            tmpDt.Columns.Add("연속봉수", typeof(string));
+            tmpDt.Columns.Add("검색조건", typeof(string));
+            tmpDt.Columns.Add("삭제여부", typeof(string));
+            tmpDt.Columns.Add("설명", typeof(string));
+
         }   // end function
 
         
@@ -56,7 +78,21 @@ namespace PackageSellSystemTrading{
             EBindingList<T1857Vo> tmpList =  new EBindingList<T1857Vo>();
 
             //String sunikrt;//수익률
+            tmpDt.Clear();
             for (int i = 0; i < blockCount; i++) {
+                DataRow tmpRow = tmpDt.NewRow();
+               
+                tmpRow["종목코드"     ] = base.GetFieldData("t1857OutBlock1", "shcode", i); //종목코드
+                tmpRow["종목명"       ] = base.GetFieldData("t1857OutBlock1", "hname", i); //종목명
+                tmpRow["현재가"       ] = base.GetFieldData("t1857OutBlock1", "price", i); //현재가
+                tmpRow["전일대비구분" ] = base.GetFieldData("t1857OutBlock1", "sign", i); //전일대비구분 
+                tmpRow["전일대비"     ] = base.GetFieldData("t1857OutBlock1", "change", i); //전일대비
+                tmpRow["등락율"       ] = base.GetFieldData("t1857OutBlock1", "diff", i); //등락율
+                tmpRow["거래량"       ] = base.GetFieldData("t1857OutBlock1", "volume", i); //거래량
+                tmpRow["연속봉수"     ] = base.GetFieldData("t1857OutBlock1", "jobFlag", i); //연속봉수
+                tmpDt.Rows.Add(tmpRow);
+
+
                 T1857Vo t1857Vo = new T1857Vo();
                 t1857Vo.shcode = base.GetFieldData("t1857OutBlock1", "shcode", i); //종목코드
                 t1857Vo.hname  = base.GetFieldData("t1857OutBlock1", "hname" , i); //종목명
@@ -71,10 +107,18 @@ namespace PackageSellSystemTrading{
             //혹시몰라서 1857에서 금지종목을 참조할때 로스가 생길거같아서 이런방식을 써보았다.
             //매수금지종목 검색 그리드 초기화
             if (conditionCallIndex == 0){
+                //복사
+                this.t1857ExcludeDt0 = tmpDt.Clone();
+                mainForm.exCnt.Text = blockCount.ToString();
+
                 this.t1857ExcludeVoList.Clear();
                 this.t1857ExcludeVoList = tmpList;
-                mainForm.exCnt.Text = blockCount.ToString();
+                
             }else if (conditionCallIndex == 1){
+                //복사
+                this.t1857ExcludeDt1 = tmpDt.Clone();
+                mainForm.exCnt1.Text = blockCount.ToString();
+
                 this.t1857excludeVoBasicList.Clear();
                 this.t1857excludeVoBasicList = tmpList;
             }
@@ -84,8 +128,7 @@ namespace PackageSellSystemTrading{
             //Exclude Condition Index Update 
             this.conditionCallIndex = this.conditionCallIndex + 1;
             this.conditionCallIndex = this.conditionCallIndex < this.conditionTotalCnt ? this.conditionCallIndex : 0;
-
-            completeAt = true;//중복호출 여부
+            
         }
 
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
@@ -95,23 +138,19 @@ namespace PackageSellSystemTrading{
             } else { 
                 mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1857_Exclude:" + nMessageCode + ":" + szMessage;
             }
-            completeAt = true;//중복호출 방지
-           
+            
         }
 
-        private int callCnt = 0;
+
         /// <summary>
 		/// 종목검색 호출
 		/// </summary>
 		public void call_request(){
-           
-            if (completeAt) {
-                //폼 메세지.
-                completeAt = false;//중복호출 방지
-
+      
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");            
                 String conditionName = startupPath + "\\Resources\\Exclude" + conditionCallIndex + ".ACF";
-                base.SetFieldData("t1857InBlock", "sRealFlag", 0, "0");           // 실시간구분 : 0:조회, 1:실시간
+                //String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
+                base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");           // 실시간구분 : 0:조회, 1:실시간
                 base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");         // 종목검색구분 : F:파일, S:서버
                 base.SetFieldData("t1857InBlock", "query_index", 0, conditionName); 
                                                                                             
@@ -123,24 +162,12 @@ namespace PackageSellSystemTrading{
                     {
                         MessageBox.Show("TR정보를 찾을수 없습니다.");
                     }
-                    mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]e매수 금지 전송 에러.";
+                    mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]e매수 금지 전송 에러.";
                 }
                 mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]e매수 금지 검색 요청.";
                
 
-            }
-            else {
-                //mainForm.input_t1857_log2.Text = "[중복]EXCLUDE 조건검색 요청.";
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "][중복]e매수금지.";
-
-                //mainForm.input_t1857_log2.Text = "대기";
-                callCnt++;
-                if (callCnt == 5)
-                {
-                    this.completeAt = true;
-                    callCnt = 0;
-                }
-            }
+           
         }
 
       

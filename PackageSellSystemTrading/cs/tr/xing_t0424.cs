@@ -709,9 +709,9 @@ namespace PackageSellSystemTrading {
         public String deleteAt   { set; get; } //삭제 여부
         public String sunikrt2 { set; get; } //손익율2 --계산값
 
-        public String eventNm { set; get; }//검색조건 이름
-        public String maxHisRt { set; get; }//최대도달 수익율
-        public String minHisRt { set; get; }//최소도달 수익율
+        //public String eventNm { set; get; }//검색조건 이름
+        //public String maxHisRt { set; get; }//최대도달 수익율
+        //public String minHisRt { set; get; }//최소도달 수익율
         public String jonggb { set; get; }//종목구분[코스닥|코스피]
         
         //public String pamt2 { set; get; } //평균단가2

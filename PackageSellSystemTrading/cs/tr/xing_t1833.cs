@@ -59,10 +59,6 @@ namespace PackageSellSystemTrading{
 
         }   // end function
 
-        // 소멸자
-        ~Xing_t1833(){
-          
-        }
         
         /// <summary>
 		/// 데이터 응답 처리
@@ -124,7 +120,7 @@ namespace PackageSellSystemTrading{
                     tmpRow["검색조건"     ] = conditionNm[conditionCallIndex];                  //검색조건
                     tmpRow["삭제여부"     ] = "new";                                            //삭제여부 [new|old]
 
-                    
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = 메도가능수.ToString();
                     if (foundRows.Count() == 0)
                     {
                         t1833Dt.Rows.Add(tmpRow);
@@ -190,8 +186,8 @@ namespace PackageSellSystemTrading{
         private Boolean BuyTest(String shcode,String hname, String close,int addIndex, String searchMod)
         {
             //매수금지목록
-            EBindingList<T1833Vo> t1833ExcludeVoList = mainForm.xing_t1833Exclude.getT1833ExcludeVoList();
-            int t1833ExcludeVoListFindIndex = t1833ExcludeVoList.Find("shcode", shcode);
+            EBindingList<T1857Vo> t1857ExcludeVoList = mainForm.xing_t1857Exclude.getT1857ExcludeVoList();
+            int t1833ExcludeVoListFindIndex = t1857ExcludeVoList.Find("shcode", shcode);
             int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
             //매수금지종목페인팅
             if (t1833ExcludeVoListFindIndex >= 0)

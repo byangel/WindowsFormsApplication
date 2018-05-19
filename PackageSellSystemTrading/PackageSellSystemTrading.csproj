@@ -153,17 +153,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\Condition0.ACF" />
-    <None Include="Resources\Condition0.ADF" />
     <None Include="Resources\Condition1.ACF" />
-    <None Include="Resources\Condition1.ADF" />
-    <None Include="Resources\Condition2.ADF" />
-    <None Include="Resources\Condition3.ADF" />
-    <None Include="Resources\Condition4.ADF" />
-    <None Include="Resources\Condition5.ADF" />
     <None Include="Resources\Exclude0.ACF" />
-    <None Include="Resources\Exclude0.ADF" />
     <None Include="Resources\Exclude1.ACF" />
-    <None Include="Resources\Exclude1.ADF" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

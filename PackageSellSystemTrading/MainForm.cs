@@ -140,9 +140,13 @@ namespace PackageSellSystemTrading{
                 //누적수익율 출력
                 this.label_sum_dtsunik.Text = Util.GetNumberFormat(this.chartData.getSumDtsunik());
 
-                input_loginId.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
-                input_loginPw.Text  = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
-                input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
+                if (Properties.Settings.Default.LOGIN_ID != "")
+                {
+                    input_loginId.Text = Util.Decrypt(Properties.Settings.Default.LOGIN_ID);
+                    input_loginPw.Text = Util.Decrypt(Properties.Settings.Default.LOGIN_PW);
+                    input_publicPw.Text = Util.Decrypt(Properties.Settings.Default.PUBLIC_PW);
+                }
+                
 
                 //서버 선택 콤보 초기화
                 //combox_condition.SelectedIndex = 0;
@@ -612,7 +616,6 @@ namespace PackageSellSystemTrading{
                 }
                 else
                 {
-                    //xing_t1833.call_request();
                     xing_t1857.call_request();
                     flag1833 = 0;
                 }
@@ -954,7 +957,7 @@ namespace PackageSellSystemTrading{
                 this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;  //매도 횟수.
                 this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;   //매수 횟수
                 this.grd_t0424.Rows[rowIndex].Cells["sellSunik"     ].Value = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
-                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt;//최초진입일시
+                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"].Value = summaryVo.firstBuyDt.Substring(0,8);//최초진입일시
 
                 this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;      //주문매체
                 this.grd_t0424.Rows[rowIndex].Cells["c_targClearPrc"].Value = Util.GetNumberFormat(summaryVo.targClearPrc);   //목표청산가격
@@ -963,8 +966,8 @@ namespace PackageSellSystemTrading{
                 this.grd_t0424.Rows[rowIndex].Cells["c_stopPrc"     ].Value = Util.GetNumberFormat(summaryVo.stopPrc);       //손절가격
                 this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt;   //감시제외여부
                 this.grd_t0424.Rows[rowIndex].Cells["eventNm"       ].Value = summaryVo.eventNm;   //검색조건 이름
-                this.grd_t0424.Rows[rowIndex].Cells["maxHisRt"      ].Value = 최대수익율;   //최대도달 수익율
-                this.grd_t0424.Rows[rowIndex].Cells["minHisRt"      ].Value = 최소수익율;   //최소도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["maxRt"      ].Value = 최대수익율;   //최대도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["minRt"      ].Value = 최소수익율;   //최소도달 수익율
               
                 //매도가능수량이 같지 않으면 에러표시 해주자.
                 String errorcd = this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value == null ? "" : this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value.ToString();

@@ -45,17 +45,24 @@ namespace PackageSellSystemTrading
         {
             //프로그램 최초 설치시 메모리에 값이없을때 최초 기본 값으로 설정해준다.
             //배팅금액설정
-            if (Properties.Settings.Default.BATTING_RATE == null)
+            if (Properties.Settings.Default.BATTING_RATE == "")
             {
                 Properties.Settings.Default.BATTING_RATE = this.BATTING_RATE;
                 Properties.Settings.Default.Save();
             }
             //최대운영자금
-            if (Properties.Settings.Default.MAX_AMT_LIMIT == null)
+            if (Properties.Settings.Default.MAX_AMT_LIMIT == "")
             {
                 Properties.Settings.Default.MAX_AMT_LIMIT = this.MAX_AMT_LIMIT;
                 Properties.Settings.Default.Save();
             }
+            //목표수익율
+            if (Properties.Settings.Default.STOP_PROFIT_TARGET == "")
+            {
+                Properties.Settings.Default.STOP_PROFIT_TARGET = this.STOP_PROFIT_TARGET;
+                Properties.Settings.Default.Save();
+            }
+
 
             checkBox_limited.Checked            = Properties.Settings.Default.LIMITED_AT;//운영자금 제한 매입금액+D2예수금
             checkBox_today_sell.Checked         = Properties.Settings.Default.TODAY_SELL_AT;//금일매도/매수
@@ -92,23 +99,32 @@ namespace PackageSellSystemTrading
         //프로퍼티 초기화
         public void rollBack()
         {
-            checkBox_limited.Checked            = this.LIMITED_AT;               //운영자금 제한 매입금액+D2예수금
-            checkBox_today_sell.Checked         = this.TODAY_SELL_AT;            //금일매도/매수
-            checkBox_stopLoss.Checked           = this.STOP_LOSS_AT;             //손절사용여부
-            checkBox_exclStopLossAt.Checked     = this.EXCL_STOP_LOSS_AT;        //매수금지종목 손절여부
-            checkBox_time_profit_target.Checked = this.TIME_PROFIT_TARGET_AT;    //시간차목표수익율
-            input_repeat_rate.Text              = this.REPEAT_RATE;              //반복매수 비율
-            input_buy_stop_rate.Text            = this.BUY_STOP_RATE;            //자본금 대비 매입금액 제한 비율
-            input_max_amt_limit.Text            = this.MAX_AMT_LIMIT;            //최대 운영 금액 제한 - 기본 1억
-            input_stopLoss.Text                 = this.STOP_LOSS;                //손절
-            input_stop_profit_target.Text       = this.STOP_PROFIT_TARGET;       //목표 이익율
-            input_stop_profit_target2.Text      = this.STOP_PROFIT_TARGET2;      //목표 이익율2
-            input_battingRate.Text               = this.BATTING_RATE;              //예탁자산 총액대비 배팅 비율
+            try
+            {
+                checkBox_limited.Checked = this.LIMITED_AT;               //운영자금 제한 매입금액+D2예수금
+                checkBox_today_sell.Checked = this.TODAY_SELL_AT;            //금일매도/매수
+                checkBox_stopLoss.Checked = this.STOP_LOSS_AT;             //손절사용여부
+                checkBox_exclStopLossAt.Checked = this.EXCL_STOP_LOSS_AT;        //매수금지종목 손절여부
+                checkBox_time_profit_target.Checked = this.TIME_PROFIT_TARGET_AT;    //시간차목표수익율
+                input_repeat_rate.Text = this.REPEAT_RATE;              //반복매수 비율
+                input_buy_stop_rate.Text = this.BUY_STOP_RATE;            //자본금 대비 매입금액 제한 비율
+                input_max_amt_limit.Text = this.MAX_AMT_LIMIT;            //최대 운영 금액 제한 - 기본 1억
+                input_stopLoss.Text = this.STOP_LOSS;                //손절
+                input_stop_profit_target.Text = this.STOP_PROFIT_TARGET;       //목표 이익율
+                input_stop_profit_target2.Text = this.STOP_PROFIT_TARGET2;      //목표 이익율2
+                input_battingRate.Text = this.BATTING_RATE;              //예탁자산 총액대비 배팅 비율
 
-            checkBox_dpsastTotAmt_growth_at.Checked = this.DPSASTTOTAMT_GROWTH_AT;             //예탁자산 총액 증가율 사용여부
-            input_dpsastTotAmt_growth_rate.Text     = this.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 증가율
-
+                checkBox_dpsastTotAmt_growth_at.Checked = this.DPSASTTOTAMT_GROWTH_AT;             //예탁자산 총액 증가율 사용여부
+                input_dpsastTotAmt_growth_rate.Text = this.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 증가율
+            }
+                catch (Exception ex)
+            {
+                Log.WriteLine("OptionForm : " + ex.Message);
+                Log.WriteLine("OptionForm : " + ex.StackTrace);
+            }
         }
+
+        
 
         //폼내용을 프로퍼티에 저장
         public void btn_config_save_Click(object sender, EventArgs e)
@@ -186,11 +202,12 @@ namespace PackageSellSystemTrading
         //예탁자산 대비 배팅 금액 계산
         private void input_battingRate_TextChanged(object sender, EventArgs e)
         {
-            //Util.GetNumberFormat(Properties.Settings.Default.DPSASTTOTAMT_MAX.ToString()); ;//최대 예탁자산 총액
-            String dpsastTotAmtMax = Properties.Settings.Default.DPSASTTOTAMT_MAX;
-       
-            if (dpsastTotAmtMax != null)
+            
+            String dpsastTotAmtMax = Properties.Settings.Default.DPSASTTOTAMT_MAX;//최대 예탁자산 총액
+
+            if (dpsastTotAmtMax != "")
             {
+                MessageBox.Show(dpsastTotAmtMax);
                 String input_battingRate = ((TextBox)sender).Text;
                 //String 예탁자산총액 = mainForm.label_DpsastTotamt.Text;
                 this.label_battingAmt.Text = Util.GetNumberFormat(Util.getBattingAmt(dpsastTotAmtMax, input_battingRate));
