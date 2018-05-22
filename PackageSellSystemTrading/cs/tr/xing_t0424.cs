@@ -431,10 +431,8 @@ namespace PackageSellSystemTrading {
                 }
                 
                 //2차매수 - 손절검사하기전에 추가매수부터해준다.매수카운트 >= 2 면 2차매수 완료로 본다.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                if (추가진입가격 != "" && 추가진입가격 != "0" && int.Parse(t0424Vo.buyCnt) < 2)
-                {
-                    if (Double.Parse(현재가격) <= Double.Parse(추가진입가격))
-                    {
+                if (추가진입가격 != "" && 추가진입가격 != "0" && int.Parse(t0424Vo.buyCnt) < 2){
+                    if (Double.Parse(현재가격) <= Double.Parse(추가진입가격)){
                         Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                         //주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
                         int 수량 = int.Parse(추가진입금액) / int.Parse(현재가격);
@@ -446,16 +444,11 @@ namespace PackageSellSystemTrading {
                 }
 
                 //감시제외손절
-                if (감시제외손절가격 != "" && Double.Parse(감시제외손절가격) > 0)
-                {
+                if (감시제외손절가격 != "" && Double.Parse(감시제외손절가격) > 0){
                     if (Double.Parse(현재가격) <= Double.Parse(감시제외손절가격)) {
-
                         this.t0424Order(t0424Vo, "1", "감시제외손절");
-                        
                         return true;
-                       
                     }
-
                 }//감시제외손절 END
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ////여기서부터 감시제외
@@ -471,9 +464,7 @@ namespace PackageSellSystemTrading {
                 if (손절기능여부){
                     if (Double.Parse(현재수익율) <= Double.Parse(손절율)){
                         this.t0424Order(t0424Vo, "1", "손절");
-                       
                         return true;
-                        
                     }
                 }
                 
@@ -481,19 +472,15 @@ namespace PackageSellSystemTrading {
                 if (매수금지종목손절여부 && t0424Vo.ordermtd == "XING API")
                 {
                     int findIndex = mainForm.xing_t1857Exclude.getT1857ExcludeVoList().Find("shcode", t0424Vo.expcode.Replace("A",""));
-                    if (findIndex >= 0)
-                    {
+                    if (findIndex >= 0){
                         this.t0424Order(t0424Vo, "1", "매수금지손절");
-                       
                         return true;
                     }
                 }
                 //기본 감시제외 목록이면 무조건 삭제해준다.
                 int t1833excludeVoBasicListFindIndex = mainForm.xing_t1857Stop.getT1857StopList().Find("shcode", t0424Vo.expcode);
-                if (t1833excludeVoBasicListFindIndex >= 0)
-                {
+                if (t1833excludeVoBasicListFindIndex >= 0){
                     this.t0424Order(t0424Vo, "1", "정리매매");
-                   
                     return true;
                 }
 
@@ -513,8 +500,7 @@ namespace PackageSellSystemTrading {
                      
                     //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
                     //청산일때만 체크
-                    if (Double.Parse(t0424Vo.sunikrt) < 1)
-                    {
+                    if (Double.Parse(t0424Vo.sunikrt) < 1){
                         //Log.WriteLine("t0424 :: 청산 수익률이 마이너스 확인해보자 ." + infoStr);
                         t0424Vo.errorcd = "sunikrt error";
                         return false;
