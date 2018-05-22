@@ -232,7 +232,7 @@ namespace PackageSellSystemTrading {
                         //2.감시제외종목 그리드 동기화
                         this.exclWatchSync();
                         this.initAt = false;
-                        //int i = 0;
+                        
                         foreach (T0424Vo t0424Vo in t0424VoList)
                         {
                             //실시간 현재가 종목  등록
@@ -247,11 +247,7 @@ namespace PackageSellSystemTrading {
                             {
                                 mainForm.real_K3.call_real(t0424Vo.expcode);
                             }
-
-                            //최초 가격 변경 이벤트가 발생하지 않아서 이력정보가 없다.그래서 추가한다.
-                            //mainForm.priceChangedProcess(i);
-                            //i++;
-
+                            
                         }
                     }
                     //응답처리 완료
