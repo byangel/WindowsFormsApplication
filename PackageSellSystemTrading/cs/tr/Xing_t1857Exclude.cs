@@ -142,7 +142,7 @@ namespace PackageSellSystemTrading{
                 {
                     if (nSuccess == -23)
                     {
-                        MessageBox.Show("TR정보를 찾을수 없습니다.");
+                        MessageBox.Show("TR정보를 찾을수 없습니다.");//커밋 테스트
                     }
                     mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]e매수 금지 전송 에러.";
                 }
