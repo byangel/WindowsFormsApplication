@@ -956,10 +956,10 @@ namespace PackageSellSystemTrading{
             //매매이력정보 호출
             SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드);
             if (summaryVo != null) {
-                String 최대수익율 = Util.nvl(summaryVo.maxHisRt, "0");
-                String 최소수익율 = Util.nvl(summaryVo.minHisRt, "0");
+                String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
+                String 최소수익율 = Util.nvl(summaryVo.minRt, "0");
                
-                Util.nvl(summaryVo.maxHisRt,"0");
+                Util.nvl(summaryVo.maxRt,"0");
                 this.grd_t0424.Rows[rowIndex].Cells["pamt2"         ].Value = Util.GetNumberFormat(summaryVo.pamt2);    //평균단가2
                 this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;  //매도 횟수.
                 this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;   //매수 횟수

@@ -232,7 +232,7 @@ namespace PackageSellSystemTrading {
                         //2.감시제외종목 그리드 동기화
                         this.exclWatchSync();
                         this.initAt = false;
-
+                        //int i = 0;
                         foreach (T0424Vo t0424Vo in t0424VoList)
                         {
                             //실시간 현재가 종목  등록
@@ -247,6 +247,10 @@ namespace PackageSellSystemTrading {
                             {
                                 mainForm.real_K3.call_real(t0424Vo.expcode);
                             }
+
+                            //최초 가격 변경 이벤트가 발생하지 않아서 이력정보가 없다.그래서 추가한다.
+                            //mainForm.priceChangedProcess(i);
+                            //i++;
 
                         }
                     }
@@ -512,8 +516,8 @@ namespace PackageSellSystemTrading {
                    
                 }
                 //목표수익 달성수 하락한종목도 같이 매도 한다. -추후 옵션으로 제어하자
-                String maxHisRt = t0424Vo.maxHisRt == "" ? "0" : t0424Vo.maxHisRt;
-                if (Double.Parse(t0424Vo.maxHisRt) >= Double.Parse(목표수익율) && Double.Parse(현재수익율) > 3  )//최대도달 수익율
+                String maxRt = t0424Vo.maxRt == "" ? "0" : t0424Vo.maxRt;
+                if (Double.Parse(t0424Vo.maxRt) >= Double.Parse(목표수익율) && Double.Parse(현재수익율) > 3  )//최대도달 수익율
                 {
                     Log.WriteLine("t0424 ::" + t0424Vo.hname + "/" + 현재수익율.ToString() + "추적청산");                
                     this.t0424Order(t0424Vo, "1", "추적청산");

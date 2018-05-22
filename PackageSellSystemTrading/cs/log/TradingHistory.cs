@@ -799,8 +799,8 @@ namespace PackageSellSystemTrading
             summaryVo.stopPrc = items.First()["stopPrc"].ToString();    //손절가격 - 감시제외 일때 사용
             summaryVo.exclWatchAt = items.First()["exclWatchAt"].ToString();    //감시제외여부
             summaryVo.eventNm = items.First()["eventNm"].ToString();    //검색조건 이름
-            summaryVo.maxHisRt = items.First()["maxHisRt"].ToString();    //최대도달 수익율
-            summaryVo.minHisRt = items.First()["minHisRt"].ToString();    //최소도달 수익율 
+            summaryVo.maxRt = items.First()["maxHisRt"].ToString();    //최대도달 수익율
+            summaryVo.minRt = items.First()["minHisRt"].ToString();    //최소도달 수익율 
 
             return summaryVo;
         }
@@ -839,8 +839,8 @@ namespace PackageSellSystemTrading
         public String exclWatchAt { set; get; }//감시제외여부
 
         public String eventNm { set; get; }//검색조건 이름
-        public String maxHisRt { set; get; }//최대도달 수익율
-        public String minHisRt { set; get; }//최소도달 수익율
+        public String maxRt { set; get; }//최대도달 수익율
+        public String minRt { set; get; }//최소도달 수익율
 
 
     }
@@ -862,8 +862,8 @@ namespace PackageSellSystemTrading
         public String exclWatchAt { set; get; }//감시제외여부
 
         public String eventNm { set; get; }//검색조건 이름
-        public String maxHisRt { set; get; }//최대도달 수익율
-        public String minHisRt { set; get; }//최소도달 수익율
+        public String maxRt { set; get; }//최대도달 수익율
+        public String minRt { set; get; }//최소도달 수익율
     }
 
 }   // end namespace
