@@ -480,7 +480,7 @@ namespace PackageSellSystemTrading {
                 //기본 감시제외 목록이면 무조건 삭제해준다.
                 int t1833excludeVoBasicListFindIndex = mainForm.xing_t1857Stop.getT1857StopList().Find("shcode", t0424Vo.expcode);
                 if (t1833excludeVoBasicListFindIndex >= 0){
-                    this.t0424Order(t0424Vo, "1", "정리매매");//wjdflaoao
+                    this.t0424Order(t0424Vo, "1", "정리매매");//wjdflaoao   
                     return true;
                 }
 
