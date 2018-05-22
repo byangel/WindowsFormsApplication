@@ -325,7 +325,7 @@ namespace PackageSellSystemTrading{
 
             if (nSuccess < 0)
             {
-                if (nSuccess == 23)
+                if (nSuccess == -23)
                 {
                     MessageBox.Show("TR정보를 찾을수 없습니다.");
                 }
