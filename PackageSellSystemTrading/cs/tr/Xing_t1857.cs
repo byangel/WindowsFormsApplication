@@ -10,9 +10,7 @@ using System.Drawing;
 
 namespace PackageSellSystemTrading{
     public class Xing_t1857 : XAQueryClass{
-
-      
-
+        
         private DataTable t1857Dt;
         public DataTable gett1857Dt(){
             return this.t1857Dt;
@@ -58,8 +56,7 @@ namespace PackageSellSystemTrading{
 
         }   // end function
 
-        
-        
+
         /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
@@ -169,17 +166,17 @@ namespace PackageSellSystemTrading{
             //매매 시간 채크
             int nowTime = int.Parse(mainForm.xing_t0167.time.Substring(0, 4));
             //투자 율이 30%이하이면 장시작과 장 마지막에 매수 아니면 장 마지막에 매수한다.
-            //if (Double.Parse(this.investmentRatio) < 30)
-            //{
-            //    if ((nowTime > 1500 && nowTime < 1519) || (nowTime > 900 && nowTime < 935)){
-            //        mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 가능 시간.";
-                   
-            //    }else{
-            //        mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 금지 시간.";
-            //        return false;
-            //    }
-               
-            //}else{
+            if (Double.Parse(this.investmentRatio) < 30)
+            {
+                if ((nowTime > 1500 && nowTime < 1519) || (nowTime > 900 && nowTime < 935))
+                {
+                    mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 가능 시간.";
+                }else{
+                    mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 금지 시간.";
+                    return false;
+                }
+
+            }else{
                 if (nowTime > 1500 && nowTime < 1519){
                     mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 가능 시간.";
                    
@@ -187,7 +184,7 @@ namespace PackageSellSystemTrading{
                     mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 금지 시간.";
                     return false;
                 }
-            //}
+            }
             
             String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
             
@@ -259,9 +256,7 @@ namespace PackageSellSystemTrading{
             //-매수수량 계산.
             int Quantity = battingAtm / int.Parse(close);
             //int Quantity = 20000;
-            //-정규장에만 주문실행.
-            //if ((int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 1500 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1509) ||  (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 1510 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519))
-            //{
+          
             /// <summary>
             /// 현물정상주문
             /// </summary>
@@ -288,19 +283,14 @@ namespace PackageSellSystemTrading{
 
             return true;
 
-           
-          
-            //return true;
         }//buyTest END
 
-        private int callCnt = 0;
+   
         /// <summary>
         /// 종목검색 호출
         /// </summary>
         public void call_request()
         {
-
-
             String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");
             
             String conditionName = startupPath + "\\Resources\\Condition" + conditionCallIndex + ".ACF";
@@ -311,17 +301,11 @@ namespace PackageSellSystemTrading{
             int nSuccess = base.RequestService("t1857", "");
 
             if (nSuccess < 0){
-                
                 mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]"+ nSuccess;
-            }
-            else
-            {
+            }else{
                 mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]조건검색 요청.";
             }
-            
         }
-
-
     } //end class 
     
 }   // end namespace
