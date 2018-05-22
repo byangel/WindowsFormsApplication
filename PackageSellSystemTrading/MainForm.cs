@@ -1023,7 +1023,7 @@ namespace PackageSellSystemTrading{
 
                 if (double.Parse(현재수익율.Trim()) > double.Parse(최대수익율)){
                     this.tradingHistory.maxHisRtUpdate(종목코드, 현재수익율);
-                    this.grd_t0424.Rows[rowIndex].Cells["maxHisRt"].Value = 현재수익율;   //최대도달 수익율
+                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 현재수익율;   //최대도달 수익율
                 }
                 if (double.Parse(현재수익율.Trim()) < double.Parse(최소수익율)){
                     this.tradingHistory.minHisRtUpdate(종목코드, 현재수익율);
