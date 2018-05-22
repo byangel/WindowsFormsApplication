@@ -263,7 +263,7 @@ namespace PackageSellSystemTrading{
             this.tradingAt = "Y";
 
             //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
-            this.timer_t1833Exclude.Start();//진입검색 타이머
+            this.timer_t1857Exclude.Start();//진입검색 타이머
             this.timer_common.Start();//계좌 및 미체결 검색 타이머
             this.Timer0167.Start();//시간검색
 
@@ -280,7 +280,7 @@ namespace PackageSellSystemTrading{
             //timer_accountSearch.Stop();//계좌 및 미체결 검색 타이머
             this.tradingAt = "N";
 
-            this.timer_t1833Exclude.Stop();//진입검색 타이머
+            this.timer_t1857Exclude.Stop();//진입검색 타이머
             this.timer_common.Stop();//계좌 및 미체결 검색 타이머
             this.Timer0167.Stop();//시간검색
 
@@ -356,7 +356,6 @@ namespace PackageSellSystemTrading{
             //EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
             for (int i=0;i< grd_t0424.RowCount; i++)
             {
-
                 if (this.grd_t0424.Rows[i].Cells["grd_t0424_check"].FormattedValue.ToString() == "True")
                 {
                     //{
@@ -378,7 +377,6 @@ namespace PackageSellSystemTrading{
 
                         if (findIndex >= 0)
                         {
-
                             //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
                             expcode = this.xing_t0424.getT0424VoList().ElementAt(findIndex).expcode; //종목코드
                             hname   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).hname;   //종목명
@@ -562,8 +560,6 @@ namespace PackageSellSystemTrading{
 
                 //매도테스트 - 해당 보유종목 정보를 인자로 넘겨주어 매도가능인지 테스트한다.
                 //this.xing_t0424.stopProFitTargetTest(t0424VoList.ElementAt(findIndex));
-
-                
             }
         }//priceCallBack
 
@@ -599,7 +595,7 @@ namespace PackageSellSystemTrading{
         }
 
         
-        int flag1833 = 0;
+        int flag1857 = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833Exclude_Tick(object sender, EventArgs e)
         {
@@ -611,20 +607,20 @@ namespace PackageSellSystemTrading{
 
             }  else{
 
-                if (flag1833 == 0)
+                if (flag1857 == 0)
                 {
                     xing_t1857Stop.call_request();
-                    flag1833 = 1;
+                    flag1857 = 1;
                 }
-                else if (flag1833 == 1)
+                else if (flag1857 == 1)
                 {
                     xing_t1857Exclude.call_request();
-                    flag1833 = 2;
+                    flag1857 = 2;
                 }
                 else
                 {
                     xing_t1857.call_request();
-                    flag1833 = 0;
+                    flag1857 = 0;
                 }
                
 
@@ -666,21 +662,17 @@ namespace PackageSellSystemTrading{
         private void timerLogin_Tick(object sender, EventArgs e)
         {
             Log.WriteLine("로그인타이머 호출");
-            
-             Boolean b = exXASessionClass.fnLogin();
- 
+            Boolean b = exXASessionClass.fnLogin();
         }
 
         private void btn_history_pop_Click(object sender, EventArgs e)
         {
             historyForm.grd_history.DataSource = tradingHistory.getTradingHistoryDt();
             historyForm.ShowDialog();
-            
         }
 
         private void grd_chart_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-
             //폰트색 지정
             if (e.ColumnIndex == 1 || e.ColumnIndex == 3 || e.ColumnIndex == 4)
             {

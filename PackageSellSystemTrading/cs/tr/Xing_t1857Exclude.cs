@@ -43,17 +43,17 @@ namespace PackageSellSystemTrading{
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
 
             this.tmpDt = new DataTable();
-            tmpDt.Columns.Add("종목코드", typeof(string));
-            tmpDt.Columns.Add("종목명", typeof(string));
-            tmpDt.Columns.Add("현재가", typeof(string));
+            tmpDt.Columns.Add("종목코드"    , typeof(string));
+            tmpDt.Columns.Add("종목명"      , typeof(string));
+            tmpDt.Columns.Add("현재가"      , typeof(string));
             tmpDt.Columns.Add("전일대비구분", typeof(string));
-            tmpDt.Columns.Add("전일대비", typeof(string));
-            tmpDt.Columns.Add("등락율", typeof(string));
-            tmpDt.Columns.Add("거래량", typeof(double));
-            tmpDt.Columns.Add("연속봉수", typeof(string));
-            tmpDt.Columns.Add("검색조건", typeof(string));
-            tmpDt.Columns.Add("삭제여부", typeof(string));
-            tmpDt.Columns.Add("설명", typeof(string));
+            tmpDt.Columns.Add("전일대비"    , typeof(string));
+            tmpDt.Columns.Add("등락율"      , typeof(string));
+            tmpDt.Columns.Add("거래량"      , typeof(double));
+            tmpDt.Columns.Add("연속봉수"    , typeof(string));
+            tmpDt.Columns.Add("검색조건"    , typeof(string));
+            tmpDt.Columns.Add("삭제여부"    , typeof(string));
+            tmpDt.Columns.Add("설명"        , typeof(string));
 
         }   // end function
 
@@ -108,7 +108,7 @@ namespace PackageSellSystemTrading{
                 this.t1857ExcludeVoList.Clear();
                 this.t1857ExcludeVoList = tmpList;
            
-            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]t1857_Exclude: 매수금지종목 조회 완료.";
+            mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]t1857_Exclude: 매수금지종목 조회 완료.";
 
             
         }
@@ -118,7 +118,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
             } else { 
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]t1857_Exclude:" + nMessageCode + ":" + szMessage;
+                mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]t1857_Exclude:" + nMessageCode + ":" + szMessage;
             }
             
         }
@@ -140,16 +140,13 @@ namespace PackageSellSystemTrading{
 
                 if (nSuccess < 0)
                 {
-                    if (nSuccess == -23)
-                    {
-                        MessageBox.Show("TR정보를 찾을수 없습니다.");//커밋 테스트
-                    }
-                    mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]e매수 금지 전송 에러.";
+                    mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "][" + nSuccess + "]";
                 }
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]e매수 금지 검색 요청.";
+                else {
+                    mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]e매수 금지 검색 요청.";
+                }
+                
                
-
-           
         }
 
       
@@ -157,13 +154,13 @@ namespace PackageSellSystemTrading{
 
     public class T1857Vo
     {
-        public String shcode { set; get; } //종목코드
-        public String hname { set; get; } //종목명
-        public String close { set; get; } //현재가
-        public String sign { set; get; } //전일대비구분 
-        public String change { set; get; } //전일대비
-        public String diff { set; get; } //등락율
-        public String volume { set; get; } //거래량
+        public String shcode    { set; get; } //종목코드
+        public String hname     { set; get; } //종목명
+        public String close     { set; get; } //현재가
+        public String sign      { set; get; } //전일대비구분 
+        public String change    { set; get; } //전일대비
+        public String diff      { set; get; } //등락율
+        public String volume    { set; get; } //거래량
         public Boolean deleteAt { set; get; } //삭제여부
         public String searchMod { set; get; } //검색조건명
     }

@@ -107,7 +107,7 @@ namespace PackageSellSystemTrading{
             this.t1857StopList = tmpList;
          
 
-            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]손절종목]t1857_Exclude: 매수금지종목 조회 완료.";
+            mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "]손절종목]t1857_Exclude: 매수금지종목 조회 완료.";
 
           
         }
@@ -117,7 +117,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
             } else { 
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]t1857_Exclude:" + nMessageCode + ":" + szMessage;
+                mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]t1857_Exclude:" + nMessageCode + ":" + szMessage;
             }
             
         }
@@ -128,24 +128,24 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		public void call_request(){
       
-                String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");            
-                String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
-                //String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
-                base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");           // 실시간구분 : 0:조회, 1:실시간
-                base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");         // 종목검색구분 : F:파일, S:서버
-                base.SetFieldData("t1857InBlock", "query_index", 0, conditionName); 
+            String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");            
+            String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
+            //String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
+            base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");           // 실시간구분 : 0:조회, 1:실시간
+            base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");         // 종목검색구분 : F:파일, S:서버
+            base.SetFieldData("t1857InBlock", "query_index", 0, conditionName); 
                                                                                             
-                int nSuccess = base.RequestService("t1857", "");
+            int nSuccess = base.RequestService("t1857", "");
 
-                if (nSuccess < 0)
-                {
-                    if (nSuccess == -23)
-                    {
-                        MessageBox.Show("TR정보를 찾을수 없습니다.");
-                    }
-                    mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]e매수 금지 전송 에러.";
-                }
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]e매수 금지 검색 요청.";
+            if (nSuccess < 0)
+            {
+                mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "]["+ nSuccess+"]";
+            }
+            else
+            {
+                mainForm.input_t1857_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]e매수 금지 검색 요청.";
+            }
+                
                
         }
 

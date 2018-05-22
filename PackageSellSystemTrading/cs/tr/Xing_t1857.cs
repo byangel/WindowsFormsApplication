@@ -86,14 +86,10 @@ namespace PackageSellSystemTrading{
 
                     String shcode = base.GetFieldData("t1857OutBlock1", "shcode", i);//종목코드
                     
-
                     DataRow[] foundRows = t1857Dt.Select("종목코드 Like '"+shcode+"'");
-                    if (foundRows.Count()>0)
-                    {
+                    if (foundRows.Count()>0){
                         tmpRow = foundRows[0];
-                    }
-                    else
-                    {
+                    }else{
                         tmpRow = t1857Dt.NewRow();
                     }
                     
@@ -109,28 +105,21 @@ namespace PackageSellSystemTrading{
                     tmpRow["삭제여부"     ] = "new";                                            //삭제여부 [new|old]
 
                     //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = 메도가능수.ToString();
-                    if (foundRows.Count() == 0)
-                    {
+                    if (foundRows.Count() == 0){
                         t1857Dt.Rows.Add(tmpRow);
-                    //    if (mainForm.tradingAt == "Y")
-                    //    {
-                    //        this.BuyTest(tmpRow["종목코드"].ToString(), tmpRow["종목명"].ToString(), tmpRow["현재가"].ToString(), t1857Dt.Rows.Count - 1, tmpRow["검색조건"].ToString());
-                    //    }
                     }
                     this.BuyTest(tmpRow["종목코드"].ToString(), tmpRow["종목명"].ToString(), tmpRow["현재가"].ToString(), t1857Dt.Rows.Count - 1, tmpRow["검색조건"].ToString());
 
                 }
 
-                foreach (DataRow dr in t1857Dt.Select())
-                {
+                foreach (DataRow dr in t1857Dt.Select()){
                     if (dr["삭제여부"].ToString() == "old"){
                         dr.Delete();
                     }else{
                         dr["삭제여부"] = "old";
                     }
-
                 }
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text+ "][" + conditionNm[conditionCallIndex] + "]조건검색 응답 완료";
+                mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text+ "][" + conditionNm[conditionCallIndex] + "]조건검색 응답 완료";
                 
                 //정상호출시 처리
                 this.conditionCallIndex = this.conditionCallIndex + 1;
@@ -151,15 +140,13 @@ namespace PackageSellSystemTrading{
             
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
-               
             }else if (nMessageCode == "03563"){
-                mainForm.input_t1833_log1.Text = "정규장 시간이 아닙니다. 트레이딩 종료";
+                mainForm.input_t1857_log1.Text = "정규장 시간이 아닙니다. 트레이딩 종료";
                 mainForm.tradingAt = "N";
             } else { 
                 //Log.WriteLine("t1857 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1857:" + nMessageCode + ":" + szMessage;
+                mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text + "][" + conditionNm[conditionCallIndex] + "]t1857:" + nMessageCode + ":" + szMessage;
             }
-
         }
         
         //진입검색에서 검색된 종목을 매수한다.
@@ -323,26 +310,14 @@ namespace PackageSellSystemTrading{
 
             int nSuccess = base.RequestService("t1857", "");
 
-            if (nSuccess < 0)
-            {
-                if (nSuccess == -23)
-                {
-                    MessageBox.Show("TR정보를 찾을수 없습니다.");
-                }
-                mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]e조건검색 전송 에러.";
+            if (nSuccess < 0){
+                
+                mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]"+ nSuccess;
             }
-
-            mainForm.input_t1833_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]조건검색 요청.";
-
-           
-            
-
-            // 계좌잔고 그리드 초기화
-            //mainForm.grd_t0424.Rows.Clear();
-            //mainForm.dataTable_t0424.Clear();
-
-            //멤버변수 초기화
- 
+            else
+            {
+                mainForm.input_t1857_log1.Text = "[" + mainForm.label_time.Text + "][" + this.conditionNm[conditionCallIndex] + "]조건검색 요청.";
+            }
             
         }
 

@@ -62,13 +62,13 @@ namespace PackageSellSystemTrading
             mainForm.label_D2Dps.Text        = Util.GetNumberFormat(this.D2Dps);        // D2예수금
             mainForm.label_DpsastTotamt.Text = Util.GetNumberFormat(this.DpsastTotamt); //예탁자잔총액           
             mainForm.label_BalEvalAmt.Text   = Util.GetNumberFormat(this.BalEvalAmt); //잔고평가금액
-
+            mainForm.label_PnlRat.Text       = Util.GetNumberFormat(this.PnlRat);   // 손익률
             if (this.BalEvalAmt != "" && this.BalEvalAmt != null)
             {
                 mainForm.label_tdtsunik.Text = Util.GetNumberFormat(double.Parse(this.BalEvalAmt) - mainForm.xing_t0424.mamt); //투자손익금액(잔고평가금액-매입금액 )
             }
             
-            mainForm.label_PnlRat.Text = Util.GetNumberFormat(this.PnlRat);   // 손익률
+            
             
             completeAt = true;
 
