@@ -21,10 +21,11 @@ namespace PackageSellSystemTrading{
         public decimal battingAmt;
 
         public ExXASessionClass exXASessionClass;
-        //public Xing_t1833 xing_t1833;        //조건검색
+       
         public Xing_t1857 xing_t1857;        //조건검색
-        //public Xing_t1833Exclude xing_t1833Exclude; //매수금지종목
+
         public Xing_t1857Exclude xing_t1857Exclude; //매수금지종목
+        public Xing_t1857Stop xing_t1857Stop; //손절 종목
         public Xing_t0424 xing_t0424;        //잔고2
 
         public Xing_t0425 xing_t0425;        //체결/미체결
@@ -81,15 +82,16 @@ namespace PackageSellSystemTrading{
             try { 
                 exXASessionClass = new ExXASessionClass();//로그인
                 exXASessionClass.mainForm = this;
-
-                //this.xing_t1833 = new Xing_t1833();//종목검색
-                //this.xing_t1833.mainForm = this;
+                
                 this.xing_t1857 = new Xing_t1857();//종목검색
                 this.xing_t1857.mainForm = this;
-                //this.xing_t1833Exclude = new Xing_t1833Exclude();//매수금지종목검색
-                //this.xing_t1833Exclude.mainForm = this;
+
                 this.xing_t1857Exclude = new Xing_t1857Exclude();//매수금지종목검색
                 this.xing_t1857Exclude.mainForm = this;
+
+                this.xing_t1857Stop = new Xing_t1857Stop();//손절 종목 검색
+                this.xing_t1857Stop.mainForm = this;
+
                 this.xing_t0424 = new Xing_t0424();//주식잔고2
                 this.xing_t0424.mainForm = this;
                 this.xing_t0425 = new Xing_t0425();//체결/미체결
@@ -611,8 +613,13 @@ namespace PackageSellSystemTrading{
 
                 if (flag1833 == 0)
                 {
-                    xing_t1857Exclude.call_request();
+                    xing_t1857Stop.call_request();
                     flag1833 = 1;
+                }
+                else if (flag1833 == 1)
+                {
+                    xing_t1857Exclude.call_request();
+                    flag1833 = 2;
                 }
                 else
                 {
@@ -1226,7 +1233,7 @@ namespace PackageSellSystemTrading{
                 this.timer_common.Stop();
             }
         }
-
+        //검색종목 셀 클릭시 hts 와연동
         private void grd_t1833_dt_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -1258,29 +1265,32 @@ namespace PackageSellSystemTrading{
         private void label_DpsastTotamt_TextChanged(object sender, EventArgs e)
         {
             double dpsastTotamt             = double.Parse(((Label)sender).Text.Replace(",", ""));//예탁자산총액
-            String dpsastTotAmtMax          = Properties.Settings.Default.DPSASTTOTAMT_MAX.ToString();//최대 예탁자산 총액
-            String dpsastTotamtGrowthRate   = Properties.Settings.Default.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 목표 증가율
+            String dpsastTotAmtMax          = Properties.Settings.Default.DPSASTTOTAMT_MAX.ToString();//기준 예탁자산 총액
+            String DPSASTTOTAMT_GROWTH_RATE = Properties.Settings.Default.DPSASTTOTAMT_GROWTH_RATE.ToString();//목표 수익율
             
-            //1.최대 예탁자산 총금액이 메모리에 없다면 현재 예탁자산 값을 메모리에 설정한다.
+            //1.기준 예탁자산 총금액이 메모리에 없다면 현재 예탁자산 값을 메모리에 설정한다.
             if (dpsastTotAmtMax == "")
             {
                 Properties.Settings.Default.DPSASTTOTAMT_MAX = dpsastTotamt.ToString();   //예탁자산 총액 
                 Properties.Settings.Default.Save();
             }
            
-            //최대예탁자산 대비 수익율을 구한다.
+            //기준 예탁자산 대비 누적 수익율. ((예탁자산/기준예탁자산) *100) -100 == 누적 수익율
             double growthRate = ((dpsastTotamt / double.Parse(dpsastTotAmtMax)) * 100) - 100;
-            //2.최대예탁자산 총금액이 줄면 메모리에 저장
-            if ((growthRate + double.Parse(dpsastTotamtGrowthRate)) <= double.Parse(dpsastTotamtGrowthRate))
+            //2.예탁자산 총액이 줄면 기준예탁자산 새로 설정(누적수익율+목표수익율 <= 목표수익율)
+            //-3% 단위로 기준 예탁자산을 설정한다.
+            //if ((growthRate + double.Parse(DPSASTTOTAMT_GROWTH_RATE)) <= double.Parse(DPSASTTOTAMT_GROWTH_RATE))
+            if ((growthRate + double.Parse(DPSASTTOTAMT_GROWTH_RATE)) <= 0)
             {
+                //기준 예탁자산을 새로 설정한다.
                 Properties.Settings.Default.DPSASTTOTAMT_MAX = dpsastTotamt.ToString();   //예탁자산 총액 
                 Properties.Settings.Default.Save();
             }
 
-            //3.예탁자산 총액 증가율 사용일경우 예탁자산 증가율 달성시 매수금지종목 매도 처리
+            //3.예탁자산 총액 증가하면  사용일경우 예탁자산 증가율 달성시 매수금지종목 매도 처리
             if (Properties.Settings.Default.DPSASTTOTAMT_GROWTH_AT){
                 //설정 증가율 만큼 증가 했다면 매수금지종목을 찾아서 매도 처리 해주자.
-                if(growthRate >= double.Parse(dpsastTotamtGrowthRate))
+                if(growthRate >= double.Parse(DPSASTTOTAMT_GROWTH_RATE))
                 {
                     //1.매도 호출
                     foreach (T0424Vo t0424Vo in this.xing_t0424.getT0424VoList())
@@ -1303,7 +1313,7 @@ namespace PackageSellSystemTrading{
               
             }
 
-            //배팅금액 화면 출력
+            //배팅금액 화면 출력- 배팅금액은 실시간으로 예탁자산 총금액 대비하여 출력한다.
             String battingRate = Properties.Settings.Default.BATTING_RATE.ToString();          //예탁자산 대비 진입 비중
             String maxAmtLimit = Properties.Settings.Default.MAX_AMT_LIMIT;//최대 운영 자금
             if (double.Parse(dpsastTotAmtMax) > double.Parse(maxAmtLimit))
@@ -1312,7 +1322,8 @@ namespace PackageSellSystemTrading{
             }
             else
             {
-                this.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(dpsastTotAmtMax, battingRate));
+                // 배팅금액은 실시간으로 예탁자산 총금액 대비하여 출력한다.
+                this.label_battingAtm.Text = Util.GetNumberFormat(Util.getBattingAmt(dpsastTotamt.ToString(), battingRate));
             }
 
             

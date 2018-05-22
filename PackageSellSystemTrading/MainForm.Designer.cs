@@ -32,15 +32,27 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -67,24 +79,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -104,6 +104,41 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.grd_t0424 = new System.Windows.Forms.DataGridView();
+            this.grd_t0424_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.c_expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sunikrt2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstBuyDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.minRt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maxRt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buyCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_sunikrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtsunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_mdposqt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pamt2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellSunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.appamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orderAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.errorcd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_targClearPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_secEntPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_secEntAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_stopPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_exclWatchAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fee = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sininter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.msat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mpms = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mdat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mpmd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sumMdposqt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.input_t0425_log = new System.Windows.Forms.TextBox();
             this.btn_start = new System.Windows.Forms.Button();
             this.btn_stop = new System.Windows.Forms.Button();
@@ -113,26 +148,6 @@
             this.timer_common = new System.Windows.Forms.Timer(this.components);
             this.input_t0425_log2 = new System.Windows.Forms.TextBox();
             this.grd_t0425 = new System.Windows.Forms.DataGridView();
-            this.ordtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.medosu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordptnDetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.t0425_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.t0425_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cheqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cheprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordrem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.upOrdno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sellOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toDaysunikrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cancelOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.upExecprc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.useYn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.eventNm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label21 = new System.Windows.Forms.Label();
             this.btn_logout = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
@@ -230,41 +245,26 @@
             this.검색조건 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label_trading_condition = new System.Windows.Forms.Label();
             this.exCnt1 = new System.Windows.Forms.Label();
-            this.grd_t0424_check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.c_expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sunikrt2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.firstBuyDt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.minRt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxRt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buyCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_sunikrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dtsunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_mdposqt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sellCnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pamt2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sellSunik = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.appamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deleteAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.errorcd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_targClearPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_secEntPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_secEntAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_stopPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_exclWatchAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fee = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sininter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.msat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mpms = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mdat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mpmd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sumMdposqt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.eventNm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordermtd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.useYn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.upExecprc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cancelOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toDaysunikrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sellOrdAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.upOrdno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordrem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cheprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cheqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.t0425_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.t0425_hname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.expcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordptnDetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.medosu = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ordtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -516,6 +516,323 @@
             this.grd_t0424.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0424_CellValueChanged);
             this.grd_t0424.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0424_RowPostPaint);
             // 
+            // grd_t0424_check
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.NullValue = false;
+            this.grd_t0424_check.DefaultCellStyle = dataGridViewCellStyle2;
+            this.grd_t0424_check.HeaderText = "선택";
+            this.grd_t0424_check.Name = "grd_t0424_check";
+            this.grd_t0424_check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.grd_t0424_check.Width = 30;
+            // 
+            // c_expcode
+            // 
+            this.c_expcode.DataPropertyName = "expcode";
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("굴림", 8F);
+            this.c_expcode.DefaultCellStyle = dataGridViewCellStyle3;
+            this.c_expcode.HeaderText = "코드";
+            this.c_expcode.Name = "c_expcode";
+            this.c_expcode.Visible = false;
+            this.c_expcode.Width = 49;
+            // 
+            // c_hname
+            // 
+            this.c_hname.DataPropertyName = "hname";
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.c_hname.DefaultCellStyle = dataGridViewCellStyle4;
+            this.c_hname.HeaderText = "종목명";
+            this.c_hname.Name = "c_hname";
+            // 
+            // sunikrt2
+            // 
+            this.sunikrt2.DataPropertyName = "sunikrt2";
+            this.sunikrt2.HeaderText = "수익율2";
+            this.sunikrt2.Name = "sunikrt2";
+            this.sunikrt2.Width = 40;
+            // 
+            // firstBuyDt
+            // 
+            this.firstBuyDt.DataPropertyName = "firstBuyDt";
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.firstBuyDt.DefaultCellStyle = dataGridViewCellStyle5;
+            this.firstBuyDt.HeaderText = "최초진입";
+            this.firstBuyDt.Name = "firstBuyDt";
+            this.firstBuyDt.Width = 70;
+            // 
+            // minRt
+            // 
+            this.minRt.DataPropertyName = "minRt";
+            this.minRt.HeaderText = "minRt";
+            this.minRt.Name = "minRt";
+            this.minRt.Width = 40;
+            // 
+            // maxRt
+            // 
+            this.maxRt.DataPropertyName = "maxRt";
+            this.maxRt.HeaderText = "maxRt";
+            this.maxRt.Name = "maxRt";
+            this.maxRt.Width = 40;
+            // 
+            // buyCnt
+            // 
+            this.buyCnt.DataPropertyName = "buyCnt";
+            this.buyCnt.HeaderText = "매수횟수";
+            this.buyCnt.Name = "buyCnt";
+            this.buyCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.buyCnt.Width = 40;
+            // 
+            // c_sunikrt
+            // 
+            this.c_sunikrt.DataPropertyName = "sunikrt";
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("굴림", 8F);
+            this.c_sunikrt.DefaultCellStyle = dataGridViewCellStyle6;
+            this.c_sunikrt.HeaderText = "수익율";
+            this.c_sunikrt.Name = "c_sunikrt";
+            this.c_sunikrt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.c_sunikrt.Width = 50;
+            // 
+            // dtsunik
+            // 
+            this.dtsunik.DataPropertyName = "dtsunik";
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle7.Format = "###,##0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.dtsunik.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dtsunik.HeaderText = "평가손익";
+            this.dtsunik.Name = "dtsunik";
+            this.dtsunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dtsunik.Width = 59;
+            // 
+            // c_mdposqt
+            // 
+            this.c_mdposqt.DataPropertyName = "mdposqt";
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("굴림", 8F);
+            this.c_mdposqt.DefaultCellStyle = dataGridViewCellStyle8;
+            this.c_mdposqt.HeaderText = "매도가능";
+            this.c_mdposqt.Name = "c_mdposqt";
+            this.c_mdposqt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.c_mdposqt.Width = 40;
+            // 
+            // price
+            // 
+            this.price.DataPropertyName = "price";
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle9.Format = "G";
+            dataGridViewCellStyle9.NullValue = null;
+            this.price.DefaultCellStyle = dataGridViewCellStyle9;
+            this.price.HeaderText = "현재가";
+            this.price.Name = "price";
+            this.price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.price.Width = 65;
+            // 
+            // sellCnt
+            // 
+            this.sellCnt.DataPropertyName = "sellCnt";
+            this.sellCnt.HeaderText = "매도횟수";
+            this.sellCnt.Name = "sellCnt";
+            this.sellCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.sellCnt.Width = 40;
+            // 
+            // pamt
+            // 
+            this.pamt.DataPropertyName = "pamt";
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle10.Format = "###,##0";
+            this.pamt.DefaultCellStyle = dataGridViewCellStyle10;
+            this.pamt.HeaderText = "평균단가";
+            this.pamt.Name = "pamt";
+            this.pamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.pamt.Width = 59;
+            // 
+            // pamt2
+            // 
+            this.pamt2.DataPropertyName = "pamt2";
+            this.pamt2.HeaderText = "평규단가2";
+            this.pamt2.Name = "pamt2";
+            this.pamt2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.pamt2.Width = 59;
+            // 
+            // sellSunik
+            // 
+            this.sellSunik.DataPropertyName = "sellSunik";
+            this.sellSunik.HeaderText = "중간손익";
+            this.sellSunik.Name = "sellSunik";
+            this.sellSunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.sellSunik.Width = 59;
+            // 
+            // mamt
+            // 
+            this.mamt.DataPropertyName = "mamt";
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle11.Format = "###,##0";
+            this.mamt.DefaultCellStyle = dataGridViewCellStyle11;
+            this.mamt.HeaderText = "매입금액";
+            this.mamt.Name = "mamt";
+            this.mamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.mamt.Width = 59;
+            // 
+            // appamt
+            // 
+            this.appamt.DataPropertyName = "appamt";
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle12.Format = "###,##0";
+            this.appamt.DefaultCellStyle = dataGridViewCellStyle12;
+            this.appamt.HeaderText = "평가금액";
+            this.appamt.Name = "appamt";
+            this.appamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.appamt.Visible = false;
+            this.appamt.Width = 59;
+            // 
+            // orderAt
+            // 
+            this.orderAt.DataPropertyName = "orderAt";
+            this.orderAt.HeaderText = "주문여부";
+            this.orderAt.Name = "orderAt";
+            this.orderAt.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.orderAt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.orderAt.Width = 59;
+            // 
+            // deleteAt
+            // 
+            this.deleteAt.DataPropertyName = "deleteAt";
+            this.deleteAt.HeaderText = "삭제확인";
+            this.deleteAt.Name = "deleteAt";
+            this.deleteAt.Visible = false;
+            // 
+            // errorcd
+            // 
+            this.errorcd.DataPropertyName = "errorcd";
+            this.errorcd.HeaderText = "에러";
+            this.errorcd.Name = "errorcd";
+            // 
+            // c_ordermtd
+            // 
+            this.c_ordermtd.DataPropertyName = "ordermtd";
+            this.c_ordermtd.HeaderText = "주문매체";
+            this.c_ordermtd.Name = "c_ordermtd";
+            // 
+            // c_targClearPrc
+            // 
+            this.c_targClearPrc.DataPropertyName = "targClearPrc";
+            this.c_targClearPrc.HeaderText = "목표가격";
+            this.c_targClearPrc.Name = "c_targClearPrc";
+            // 
+            // c_secEntPrc
+            // 
+            this.c_secEntPrc.DataPropertyName = "secEntPrc";
+            this.c_secEntPrc.HeaderText = "2차진입";
+            this.c_secEntPrc.Name = "c_secEntPrc";
+            // 
+            // c_secEntAmt
+            // 
+            this.c_secEntAmt.DataPropertyName = "secEntAmt";
+            this.c_secEntAmt.HeaderText = "2차진입금액";
+            this.c_secEntAmt.Name = "c_secEntAmt";
+            // 
+            // c_stopPrc
+            // 
+            this.c_stopPrc.DataPropertyName = "stopPrc";
+            this.c_stopPrc.HeaderText = "손절가격";
+            this.c_stopPrc.Name = "c_stopPrc";
+            // 
+            // c_exclWatchAt
+            // 
+            this.c_exclWatchAt.DataPropertyName = "exclWatchAt";
+            this.c_exclWatchAt.HeaderText = "감시제외";
+            this.c_exclWatchAt.Name = "c_exclWatchAt";
+            this.c_exclWatchAt.Visible = false;
+            // 
+            // fee
+            // 
+            this.fee.DataPropertyName = "fee";
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("굴림", 8F);
+            this.fee.DefaultCellStyle = dataGridViewCellStyle13;
+            this.fee.HeaderText = "수수료";
+            this.fee.Name = "fee";
+            this.fee.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.fee.Visible = false;
+            this.fee.Width = 50;
+            // 
+            // sininter
+            // 
+            this.sininter.DataPropertyName = "sininter";
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("굴림", 8F);
+            this.sininter.DefaultCellStyle = dataGridViewCellStyle14;
+            this.sininter.HeaderText = "신용이자";
+            this.sininter.Name = "sininter";
+            this.sininter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.sininter.Visible = false;
+            this.sininter.Width = 74;
+            // 
+            // tax
+            // 
+            this.tax.DataPropertyName = "tax";
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle15.Format = "###,##0";
+            this.tax.DefaultCellStyle = dataGridViewCellStyle15;
+            this.tax.HeaderText = "제세금";
+            this.tax.Name = "tax";
+            this.tax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.tax.Visible = false;
+            this.tax.Width = 50;
+            // 
+            // msat
+            // 
+            this.msat.DataPropertyName = "msat";
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle16.Format = "###,##0";
+            this.msat.DefaultCellStyle = dataGridViewCellStyle16;
+            this.msat.HeaderText = "당일매수금액";
+            this.msat.Name = "msat";
+            this.msat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.msat.Visible = false;
+            this.msat.Width = 96;
+            // 
+            // mpms
+            // 
+            this.mpms.DataPropertyName = "mpms";
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle17.Format = "###,##0";
+            this.mpms.DefaultCellStyle = dataGridViewCellStyle17;
+            this.mpms.HeaderText = "당일매수단가";
+            this.mpms.Name = "mpms";
+            this.mpms.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.mpms.Visible = false;
+            this.mpms.Width = 96;
+            // 
+            // mdat
+            // 
+            this.mdat.DataPropertyName = "mdat";
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle18.Format = "###,##0";
+            this.mdat.DefaultCellStyle = dataGridViewCellStyle18;
+            this.mdat.HeaderText = "당일매도금액";
+            this.mdat.Name = "mdat";
+            this.mdat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.mdat.Visible = false;
+            this.mdat.Width = 69;
+            // 
+            // mpmd
+            // 
+            this.mpmd.DataPropertyName = "mpmd";
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle19.Format = "###,##0";
+            this.mpmd.DefaultCellStyle = dataGridViewCellStyle19;
+            this.mpmd.HeaderText = "당일매도단가";
+            this.mpmd.Name = "mpmd";
+            this.mpmd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.mpmd.Visible = false;
+            this.mpmd.Width = 69;
+            // 
+            // sumMdposqt
+            // 
+            this.sumMdposqt.DataPropertyName = "sumMdposqt";
+            this.sumMdposqt.HeaderText = "매도가능2";
+            this.sumMdposqt.Name = "sumMdposqt";
+            // 
             // input_t0425_log
             // 
             this.input_t0425_log.Location = new System.Drawing.Point(345, 726);
@@ -627,158 +944,6 @@
             this.grd_t0425.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellClick);
             this.grd_t0425.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellDoubleClick);
             this.grd_t0425.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grd_t0425_chegb1_RowPostPaint);
-            // 
-            // ordtime
-            // 
-            this.ordtime.DataPropertyName = "ordtime";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ordtime.DefaultCellStyle = dataGridViewCellStyle23;
-            this.ordtime.HeaderText = "주문시간";
-            this.ordtime.Name = "ordtime";
-            this.ordtime.Width = 74;
-            // 
-            // medosu
-            // 
-            this.medosu.DataPropertyName = "medosu";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.medosu.DefaultCellStyle = dataGridViewCellStyle24;
-            this.medosu.HeaderText = "구분";
-            this.medosu.Name = "medosu";
-            this.medosu.Width = 40;
-            // 
-            // status
-            // 
-            this.status.DataPropertyName = "status";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.status.DefaultCellStyle = dataGridViewCellStyle25;
-            this.status.HeaderText = "상태";
-            this.status.Name = "status";
-            this.status.Width = 40;
-            // 
-            // ordptnDetail
-            // 
-            this.ordptnDetail.DataPropertyName = "ordptnDetail";
-            this.ordptnDetail.HeaderText = "구분상세";
-            this.ordptnDetail.Name = "ordptnDetail";
-            this.ordptnDetail.Width = 58;
-            // 
-            // expcode
-            // 
-            this.expcode.DataPropertyName = "expcode";
-            this.expcode.HeaderText = "종목번호";
-            this.expcode.Name = "expcode";
-            this.expcode.Width = 60;
-            // 
-            // t0425_hname
-            // 
-            this.t0425_hname.DataPropertyName = "hname";
-            this.t0425_hname.HeaderText = "종목명";
-            this.t0425_hname.Name = "t0425_hname";
-            // 
-            // qty
-            // 
-            this.qty.DataPropertyName = "qty";
-            this.qty.HeaderText = "주문수량";
-            this.qty.Name = "qty";
-            this.qty.Width = 40;
-            // 
-            // t0425_price
-            // 
-            this.t0425_price.DataPropertyName = "price";
-            this.t0425_price.HeaderText = "주문가격";
-            this.t0425_price.Name = "t0425_price";
-            this.t0425_price.Width = 50;
-            // 
-            // cheqty
-            // 
-            this.cheqty.DataPropertyName = "cheqty";
-            this.cheqty.HeaderText = "체결수량";
-            this.cheqty.Name = "cheqty";
-            this.cheqty.Width = 40;
-            // 
-            // cheprice
-            // 
-            this.cheprice.DataPropertyName = "cheprice";
-            dataGridViewCellStyle26.Format = "C2";
-            dataGridViewCellStyle26.NullValue = null;
-            this.cheprice.DefaultCellStyle = dataGridViewCellStyle26;
-            this.cheprice.HeaderText = "제결가격";
-            this.cheprice.Name = "cheprice";
-            this.cheprice.Width = 50;
-            // 
-            // ordrem
-            // 
-            this.ordrem.DataPropertyName = "ordrem";
-            this.ordrem.HeaderText = "미체결잔량";
-            this.ordrem.Name = "ordrem";
-            this.ordrem.Width = 50;
-            // 
-            // ordno
-            // 
-            this.ordno.DataPropertyName = "ordno";
-            this.ordno.HeaderText = "주문번호";
-            this.ordno.Name = "ordno";
-            this.ordno.Width = 40;
-            // 
-            // upOrdno
-            // 
-            this.upOrdno.DataPropertyName = "upOrdno";
-            this.upOrdno.HeaderText = "상위주문번호";
-            this.upOrdno.Name = "upOrdno";
-            this.upOrdno.Width = 50;
-            // 
-            // sellOrdAt
-            // 
-            this.sellOrdAt.DataPropertyName = "sellOrdAt";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sellOrdAt.DefaultCellStyle = dataGridViewCellStyle27;
-            this.sellOrdAt.HeaderText = "금일매도";
-            this.sellOrdAt.Name = "sellOrdAt";
-            this.sellOrdAt.Width = 40;
-            // 
-            // toDaysunikrt
-            // 
-            this.toDaysunikrt.DataPropertyName = "toDaysunikrt";
-            this.toDaysunikrt.HeaderText = "금일수익률";
-            this.toDaysunikrt.Name = "toDaysunikrt";
-            this.toDaysunikrt.Width = 50;
-            // 
-            // cancelOrdAt
-            // 
-            this.cancelOrdAt.DataPropertyName = "cancelOrdAt";
-            this.cancelOrdAt.HeaderText = "주문취소";
-            this.cancelOrdAt.Name = "cancelOrdAt";
-            this.cancelOrdAt.Width = 40;
-            // 
-            // upExecprc
-            // 
-            this.upExecprc.DataPropertyName = "upExecprc";
-            this.upExecprc.HeaderText = "상위체결금액";
-            this.upExecprc.Name = "upExecprc";
-            this.upExecprc.Width = 50;
-            // 
-            // useYn
-            // 
-            this.useYn.DataPropertyName = "useYn";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.useYn.DefaultCellStyle = dataGridViewCellStyle28;
-            this.useYn.HeaderText = "사용여부";
-            this.useYn.Name = "useYn";
-            this.useYn.Width = 40;
-            // 
-            // ordermtd
-            // 
-            this.ordermtd.DataPropertyName = "ordermtd";
-            this.ordermtd.HeaderText = "주문매체";
-            this.ordermtd.Name = "ordermtd";
-            this.ordermtd.Width = 60;
-            // 
-            // eventNm
-            // 
-            this.eventNm.DataPropertyName = "eventNm";
-            this.eventNm.HeaderText = "검색조건";
-            this.eventNm.Name = "eventNm";
-            this.eventNm.Width = 60;
             // 
             // label21
             // 
@@ -1834,322 +1999,157 @@
             this.exCnt1.TabIndex = 128;
             this.exCnt1.Text = "0";
             // 
-            // grd_t0424_check
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.NullValue = false;
-            this.grd_t0424_check.DefaultCellStyle = dataGridViewCellStyle2;
-            this.grd_t0424_check.HeaderText = "선택";
-            this.grd_t0424_check.Name = "grd_t0424_check";
-            this.grd_t0424_check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.grd_t0424_check.Width = 30;
-            // 
-            // c_expcode
-            // 
-            this.c_expcode.DataPropertyName = "expcode";
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("굴림", 8F);
-            this.c_expcode.DefaultCellStyle = dataGridViewCellStyle3;
-            this.c_expcode.HeaderText = "코드";
-            this.c_expcode.Name = "c_expcode";
-            this.c_expcode.Visible = false;
-            this.c_expcode.Width = 49;
-            // 
-            // c_hname
-            // 
-            this.c_hname.DataPropertyName = "hname";
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("굴림", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.c_hname.DefaultCellStyle = dataGridViewCellStyle4;
-            this.c_hname.HeaderText = "종목명";
-            this.c_hname.Name = "c_hname";
-            // 
-            // sunikrt2
-            // 
-            this.sunikrt2.DataPropertyName = "sunikrt2";
-            this.sunikrt2.HeaderText = "수익율2";
-            this.sunikrt2.Name = "sunikrt2";
-            this.sunikrt2.Width = 40;
-            // 
-            // firstBuyDt
-            // 
-            this.firstBuyDt.DataPropertyName = "firstBuyDt";
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.firstBuyDt.DefaultCellStyle = dataGridViewCellStyle5;
-            this.firstBuyDt.HeaderText = "최초진입";
-            this.firstBuyDt.Name = "firstBuyDt";
-            this.firstBuyDt.Width = 70;
-            // 
-            // minRt
-            // 
-            this.minRt.DataPropertyName = "minRt";
-            this.minRt.HeaderText = "minRt";
-            this.minRt.Name = "minRt";
-            this.minRt.Width = 40;
-            // 
-            // maxRt
-            // 
-            this.maxRt.DataPropertyName = "maxRt";
-            this.maxRt.HeaderText = "maxRt";
-            this.maxRt.Name = "maxRt";
-            this.maxRt.Width = 40;
-            // 
-            // buyCnt
-            // 
-            this.buyCnt.DataPropertyName = "buyCnt";
-            this.buyCnt.HeaderText = "매수횟수";
-            this.buyCnt.Name = "buyCnt";
-            this.buyCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.buyCnt.Width = 40;
-            // 
-            // c_sunikrt
-            // 
-            this.c_sunikrt.DataPropertyName = "sunikrt";
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("굴림", 8F);
-            this.c_sunikrt.DefaultCellStyle = dataGridViewCellStyle6;
-            this.c_sunikrt.HeaderText = "수익율";
-            this.c_sunikrt.Name = "c_sunikrt";
-            this.c_sunikrt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.c_sunikrt.Width = 50;
-            // 
-            // dtsunik
-            // 
-            this.dtsunik.DataPropertyName = "dtsunik";
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle7.Format = "###,##0";
-            dataGridViewCellStyle7.NullValue = null;
-            this.dtsunik.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dtsunik.HeaderText = "평가손익";
-            this.dtsunik.Name = "dtsunik";
-            this.dtsunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dtsunik.Width = 59;
-            // 
-            // c_mdposqt
-            // 
-            this.c_mdposqt.DataPropertyName = "mdposqt";
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("굴림", 8F);
-            this.c_mdposqt.DefaultCellStyle = dataGridViewCellStyle8;
-            this.c_mdposqt.HeaderText = "매도가능";
-            this.c_mdposqt.Name = "c_mdposqt";
-            this.c_mdposqt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.c_mdposqt.Width = 40;
-            // 
-            // price
-            // 
-            this.price.DataPropertyName = "price";
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle9.Format = "G";
-            dataGridViewCellStyle9.NullValue = null;
-            this.price.DefaultCellStyle = dataGridViewCellStyle9;
-            this.price.HeaderText = "현재가";
-            this.price.Name = "price";
-            this.price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.price.Width = 65;
-            // 
-            // sellCnt
-            // 
-            this.sellCnt.DataPropertyName = "sellCnt";
-            this.sellCnt.HeaderText = "매도횟수";
-            this.sellCnt.Name = "sellCnt";
-            this.sellCnt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.sellCnt.Width = 40;
-            // 
-            // pamt
-            // 
-            this.pamt.DataPropertyName = "pamt";
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle10.Format = "###,##0";
-            this.pamt.DefaultCellStyle = dataGridViewCellStyle10;
-            this.pamt.HeaderText = "평균단가";
-            this.pamt.Name = "pamt";
-            this.pamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.pamt.Width = 59;
-            // 
-            // pamt2
+            // eventNm
             // 
-            this.pamt2.DataPropertyName = "pamt2";
-            this.pamt2.HeaderText = "평규단가2";
-            this.pamt2.Name = "pamt2";
-            this.pamt2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.pamt2.Width = 59;
-            // 
-            // sellSunik
-            // 
-            this.sellSunik.DataPropertyName = "sellSunik";
-            this.sellSunik.HeaderText = "중간손익";
-            this.sellSunik.Name = "sellSunik";
-            this.sellSunik.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.sellSunik.Width = 59;
-            // 
-            // mamt
-            // 
-            this.mamt.DataPropertyName = "mamt";
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle11.Format = "###,##0";
-            this.mamt.DefaultCellStyle = dataGridViewCellStyle11;
-            this.mamt.HeaderText = "매입금액";
-            this.mamt.Name = "mamt";
-            this.mamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.mamt.Width = 59;
-            // 
-            // appamt
-            // 
-            this.appamt.DataPropertyName = "appamt";
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle12.Format = "###,##0";
-            this.appamt.DefaultCellStyle = dataGridViewCellStyle12;
-            this.appamt.HeaderText = "평가금액";
-            this.appamt.Name = "appamt";
-            this.appamt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.appamt.Visible = false;
-            this.appamt.Width = 59;
-            // 
-            // orderAt
-            // 
-            this.orderAt.DataPropertyName = "orderAt";
-            this.orderAt.HeaderText = "주문여부";
-            this.orderAt.Name = "orderAt";
-            this.orderAt.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.orderAt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.orderAt.Width = 59;
-            // 
-            // deleteAt
-            // 
-            this.deleteAt.DataPropertyName = "deleteAt";
-            this.deleteAt.HeaderText = "삭제확인";
-            this.deleteAt.Name = "deleteAt";
-            this.deleteAt.Visible = false;
-            // 
-            // errorcd
-            // 
-            this.errorcd.DataPropertyName = "errorcd";
-            this.errorcd.HeaderText = "에러";
-            this.errorcd.Name = "errorcd";
-            // 
-            // c_ordermtd
-            // 
-            this.c_ordermtd.DataPropertyName = "ordermtd";
-            this.c_ordermtd.HeaderText = "주문매체";
-            this.c_ordermtd.Name = "c_ordermtd";
-            // 
-            // c_targClearPrc
-            // 
-            this.c_targClearPrc.DataPropertyName = "targClearPrc";
-            this.c_targClearPrc.HeaderText = "목표가격";
-            this.c_targClearPrc.Name = "c_targClearPrc";
-            // 
-            // c_secEntPrc
-            // 
-            this.c_secEntPrc.DataPropertyName = "secEntPrc";
-            this.c_secEntPrc.HeaderText = "2차진입";
-            this.c_secEntPrc.Name = "c_secEntPrc";
-            // 
-            // c_secEntAmt
-            // 
-            this.c_secEntAmt.DataPropertyName = "secEntAmt";
-            this.c_secEntAmt.HeaderText = "2차진입금액";
-            this.c_secEntAmt.Name = "c_secEntAmt";
-            // 
-            // c_stopPrc
-            // 
-            this.c_stopPrc.DataPropertyName = "stopPrc";
-            this.c_stopPrc.HeaderText = "손절가격";
-            this.c_stopPrc.Name = "c_stopPrc";
-            // 
-            // c_exclWatchAt
-            // 
-            this.c_exclWatchAt.DataPropertyName = "exclWatchAt";
-            this.c_exclWatchAt.HeaderText = "감시제외";
-            this.c_exclWatchAt.Name = "c_exclWatchAt";
-            this.c_exclWatchAt.Visible = false;
-            // 
-            // fee
-            // 
-            this.fee.DataPropertyName = "fee";
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("굴림", 8F);
-            this.fee.DefaultCellStyle = dataGridViewCellStyle13;
-            this.fee.HeaderText = "수수료";
-            this.fee.Name = "fee";
-            this.fee.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.fee.Visible = false;
-            this.fee.Width = 50;
-            // 
-            // sininter
-            // 
-            this.sininter.DataPropertyName = "sininter";
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("굴림", 8F);
-            this.sininter.DefaultCellStyle = dataGridViewCellStyle14;
-            this.sininter.HeaderText = "신용이자";
-            this.sininter.Name = "sininter";
-            this.sininter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.sininter.Visible = false;
-            this.sininter.Width = 74;
-            // 
-            // tax
-            // 
-            this.tax.DataPropertyName = "tax";
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle15.Format = "###,##0";
-            this.tax.DefaultCellStyle = dataGridViewCellStyle15;
-            this.tax.HeaderText = "제세금";
-            this.tax.Name = "tax";
-            this.tax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.tax.Visible = false;
-            this.tax.Width = 50;
-            // 
-            // msat
-            // 
-            this.msat.DataPropertyName = "msat";
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle16.Format = "###,##0";
-            this.msat.DefaultCellStyle = dataGridViewCellStyle16;
-            this.msat.HeaderText = "당일매수금액";
-            this.msat.Name = "msat";
-            this.msat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.msat.Visible = false;
-            this.msat.Width = 96;
-            // 
-            // mpms
-            // 
-            this.mpms.DataPropertyName = "mpms";
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle17.Format = "###,##0";
-            this.mpms.DefaultCellStyle = dataGridViewCellStyle17;
-            this.mpms.HeaderText = "당일매수단가";
-            this.mpms.Name = "mpms";
-            this.mpms.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.mpms.Visible = false;
-            this.mpms.Width = 96;
-            // 
-            // mdat
-            // 
-            this.mdat.DataPropertyName = "mdat";
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle18.Format = "###,##0";
-            this.mdat.DefaultCellStyle = dataGridViewCellStyle18;
-            this.mdat.HeaderText = "당일매도금액";
-            this.mdat.Name = "mdat";
-            this.mdat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.mdat.Visible = false;
-            this.mdat.Width = 69;
-            // 
-            // mpmd
-            // 
-            this.mpmd.DataPropertyName = "mpmd";
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle19.Format = "###,##0";
-            this.mpmd.DefaultCellStyle = dataGridViewCellStyle19;
-            this.mpmd.HeaderText = "당일매도단가";
-            this.mpmd.Name = "mpmd";
-            this.mpmd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.mpmd.Visible = false;
-            this.mpmd.Width = 69;
-            // 
-            // sumMdposqt
-            // 
-            this.sumMdposqt.DataPropertyName = "sumMdposqt";
-            this.sumMdposqt.HeaderText = "매도가능2";
-            this.sumMdposqt.Name = "sumMdposqt";
+            this.eventNm.DataPropertyName = "eventNm";
+            this.eventNm.HeaderText = "검색조건";
+            this.eventNm.Name = "eventNm";
+            this.eventNm.Width = 60;
+            // 
+            // ordermtd
+            // 
+            this.ordermtd.DataPropertyName = "ordermtd";
+            this.ordermtd.HeaderText = "주문매체";
+            this.ordermtd.Name = "ordermtd";
+            this.ordermtd.Width = 60;
+            // 
+            // useYn
+            // 
+            this.useYn.DataPropertyName = "useYn";
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.useYn.DefaultCellStyle = dataGridViewCellStyle28;
+            this.useYn.HeaderText = "사용여부";
+            this.useYn.Name = "useYn";
+            this.useYn.Width = 40;
+            // 
+            // upExecprc
+            // 
+            this.upExecprc.DataPropertyName = "upExecprc";
+            this.upExecprc.HeaderText = "상위체결금액";
+            this.upExecprc.Name = "upExecprc";
+            this.upExecprc.Width = 50;
+            // 
+            // cancelOrdAt
+            // 
+            this.cancelOrdAt.DataPropertyName = "cancelOrdAt";
+            this.cancelOrdAt.HeaderText = "주문취소";
+            this.cancelOrdAt.Name = "cancelOrdAt";
+            this.cancelOrdAt.Width = 40;
+            // 
+            // toDaysunikrt
+            // 
+            this.toDaysunikrt.DataPropertyName = "toDaysunikrt";
+            this.toDaysunikrt.HeaderText = "금일수익률";
+            this.toDaysunikrt.Name = "toDaysunikrt";
+            this.toDaysunikrt.Width = 50;
+            // 
+            // sellOrdAt
+            // 
+            this.sellOrdAt.DataPropertyName = "sellOrdAt";
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sellOrdAt.DefaultCellStyle = dataGridViewCellStyle27;
+            this.sellOrdAt.HeaderText = "금일매도";
+            this.sellOrdAt.Name = "sellOrdAt";
+            this.sellOrdAt.Width = 40;
+            // 
+            // upOrdno
+            // 
+            this.upOrdno.DataPropertyName = "upOrdno";
+            this.upOrdno.HeaderText = "상위주문번호";
+            this.upOrdno.Name = "upOrdno";
+            this.upOrdno.Width = 50;
+            // 
+            // ordno
+            // 
+            this.ordno.DataPropertyName = "ordno";
+            this.ordno.HeaderText = "주문번호";
+            this.ordno.Name = "ordno";
+            this.ordno.Width = 40;
+            // 
+            // ordrem
+            // 
+            this.ordrem.DataPropertyName = "ordrem";
+            this.ordrem.HeaderText = "미체결잔량";
+            this.ordrem.Name = "ordrem";
+            this.ordrem.Width = 50;
+            // 
+            // cheprice
+            // 
+            this.cheprice.DataPropertyName = "cheprice";
+            dataGridViewCellStyle26.Format = "C2";
+            dataGridViewCellStyle26.NullValue = null;
+            this.cheprice.DefaultCellStyle = dataGridViewCellStyle26;
+            this.cheprice.HeaderText = "제결가격";
+            this.cheprice.Name = "cheprice";
+            this.cheprice.Width = 50;
+            // 
+            // cheqty
+            // 
+            this.cheqty.DataPropertyName = "cheqty";
+            this.cheqty.HeaderText = "체결수량";
+            this.cheqty.Name = "cheqty";
+            this.cheqty.Width = 40;
+            // 
+            // t0425_price
+            // 
+            this.t0425_price.DataPropertyName = "price";
+            this.t0425_price.HeaderText = "주문가격";
+            this.t0425_price.Name = "t0425_price";
+            this.t0425_price.Width = 50;
+            // 
+            // qty
+            // 
+            this.qty.DataPropertyName = "qty";
+            this.qty.HeaderText = "주문수량";
+            this.qty.Name = "qty";
+            this.qty.Width = 40;
+            // 
+            // t0425_hname
+            // 
+            this.t0425_hname.DataPropertyName = "hname";
+            this.t0425_hname.HeaderText = "종목명";
+            this.t0425_hname.Name = "t0425_hname";
+            // 
+            // expcode
+            // 
+            this.expcode.DataPropertyName = "expcode";
+            this.expcode.HeaderText = "종목번호";
+            this.expcode.Name = "expcode";
+            this.expcode.Width = 60;
+            // 
+            // ordptnDetail
+            // 
+            this.ordptnDetail.DataPropertyName = "ordptnDetail";
+            this.ordptnDetail.HeaderText = "구분상세";
+            this.ordptnDetail.Name = "ordptnDetail";
+            this.ordptnDetail.Width = 58;
+            // 
+            // status
+            // 
+            this.status.DataPropertyName = "status";
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.status.DefaultCellStyle = dataGridViewCellStyle25;
+            this.status.HeaderText = "상태";
+            this.status.Name = "status";
+            this.status.Width = 40;
+            // 
+            // medosu
+            // 
+            this.medosu.DataPropertyName = "medosu";
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.medosu.DefaultCellStyle = dataGridViewCellStyle24;
+            this.medosu.HeaderText = "구분";
+            this.medosu.Name = "medosu";
+            this.medosu.Width = 40;
+            // 
+            // ordtime
+            // 
+            this.ordtime.DataPropertyName = "ordtime";
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ordtime.DefaultCellStyle = dataGridViewCellStyle23;
+            this.ordtime.HeaderText = "주문시간";
+            this.ordtime.Name = "ordtime";
+            this.ordtime.Width = 74;
             // 
             // MainForm
             // 
@@ -2347,26 +2347,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn e_stopPrc;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_exclWatchAt;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordptnDetail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn expcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_hname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cheqty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cheprice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordrem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn upOrdno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sellOrdAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn toDaysunikrt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cancelOrdAt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn upExecprc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
-        private System.Windows.Forms.DataGridViewTextBoxColumn eventNm;
         private System.Windows.Forms.Button btn_buyAt;
         private System.Windows.Forms.Button btn_sellAt;
         public System.Windows.Forms.DataGridView grd_t1833_dt;
@@ -2416,6 +2396,26 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn mdat;
         private System.Windows.Forms.DataGridViewTextBoxColumn mpmd;
         private System.Windows.Forms.DataGridViewTextBoxColumn sumMdposqt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordtime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn medosu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordptnDetail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn expcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_hname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn t0425_price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cheqty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cheprice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordrem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn upOrdno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sellOrdAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn toDaysunikrt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cancelOrdAt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn upExecprc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn eventNm;
     }
 }
 

@@ -29,7 +29,7 @@ namespace PackageSellSystemTrading
         //private EBindingList<TradingHistoryVo> tradingHistoryVoList;
         public MainForm mainForm;
         private String connStr = @"Data Source=" + Util.GetCurrentDirectoryWithPath() + "\\logs\\history.db;Pooling=true;FailIfMissing=false";
-
+       
         //public EBindingList<TradingHistoryVo> getTradingHistoryVoList()
         //{
         //    return this.tradingHistoryVoList;
@@ -47,13 +47,11 @@ namespace PackageSellSystemTrading
 
                 //    //디렉토리 체크
                 String dirPath = Util.GetCurrentDirectoryWithPath() + "\\logs";
-                if (!Directory.Exists(dirPath))
-                {
+                if (!Directory.Exists(dirPath)){
                     Directory.CreateDirectory(dirPath);
                     Log.WriteLine("DataLog ::디렉토리 생성[" + dirPath + "]");
                 }
-
-
+                
                 /////////////////////////////DB 테이블 설정//////////////////////////////////
                 using (var conn = new SQLiteConnection(connStr))
                 {

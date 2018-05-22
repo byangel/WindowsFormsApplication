@@ -370,6 +370,10 @@ namespace PackageSellSystemTrading
                 //자본금 투자 비율
                 //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
                 String D2예수금 = mainForm.xing_CSPAQ12200.D2Dps;
+                if (D2예수금 == "")
+                {
+                    return null;
+                }
                 Double 매입금액 = mainForm.xing_t0424.mamt;
                 Double 자본금 = 매입금액 + double.Parse(D2예수금);
                 //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.

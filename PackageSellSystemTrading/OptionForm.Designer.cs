@@ -32,7 +32,6 @@
             this.btn_rollback = new System.Windows.Forms.Button();
             this.checkBox_limited = new System.Windows.Forms.CheckBox();
             this.close = new System.Windows.Forms.Button();
-            this.checkBox_today_sell = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -108,16 +107,6 @@
             this.close.Text = "닫기";
             this.close.UseVisualStyleBackColor = true;
             this.close.Click += new System.EventHandler(this.close_Click);
-            // 
-            // checkBox_today_sell
-            // 
-            this.checkBox_today_sell.AutoSize = true;
-            this.checkBox_today_sell.Location = new System.Drawing.Point(124, 10);
-            this.checkBox_today_sell.Name = "checkBox_today_sell";
-            this.checkBox_today_sell.Size = new System.Drawing.Size(102, 16);
-            this.checkBox_today_sell.TabIndex = 103;
-            this.checkBox_today_sell.Text = "금일매수/매도";
-            this.checkBox_today_sell.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -347,7 +336,7 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(131, 12);
             this.label15.TabIndex = 124;
-            this.label15.Text = "5.최대 예탁자산 총금액";
+            this.label15.Text = "5.기준 예탁자산 총금액";
             // 
             // label16
             // 
@@ -449,7 +438,6 @@
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.input_battingRate);
-            this.Controls.Add(this.checkBox_today_sell);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.close);
             this.Controls.Add(this.label10);
@@ -479,7 +467,6 @@
         public System.Windows.Forms.Button btn_rollback;
         private System.Windows.Forms.CheckBox checkBox_limited;
         public System.Windows.Forms.Button close;
-        private System.Windows.Forms.CheckBox checkBox_today_sell;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;

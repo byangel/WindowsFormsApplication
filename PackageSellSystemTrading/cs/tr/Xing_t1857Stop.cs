@@ -12,31 +12,29 @@ using System.Data;
 using System.Drawing;
 using System.Threading;
 namespace PackageSellSystemTrading{
-    public class Xing_t1857Exclude : XAQueryClass{
+    public class Xing_t1857Stop : XAQueryClass{
 
         public MainForm mainForm;
 
-        private EBindingList<T1857Vo> t1857ExcludeVoList        = new EBindingList<T1857Vo>();
 
-
-        public EBindingList<T1857Vo>  getT1857ExcludeVoList(){
-            return this.t1857ExcludeVoList;
-        }
+        private EBindingList<T1857Vo> t1857StopList = new EBindingList<T1857Vo>();
         
-        private DataTable tmpDt;
-        private DataTable t1857ExcludeDt0;
-        public DataTable getT1857ExcludeDt0()
-        {
-            return this.t1857ExcludeDt0;
+        public EBindingList<T1857Vo> getT1857StopList(){
+            return this.t1857StopList;
         }
-        //private DataTable t1857ExcludeDt1;
-        //public DataTable getT1857ExcludeDt1()
-        //{
-        //    return this.t1857ExcludeDt1;
-        //}
-       
+
+        private DataTable tmpDt;
+
+        private DataTable t1857StopDt;
+        public DataTable getT1857StopDt()
+        {
+            return this.t1857StopDt;
+        }
+
+        
+
         // 생성자
-        public Xing_t1857Exclude(){
+        public Xing_t1857Stop(){
             base.ResFileName = "₩res₩t1857.res";
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
@@ -100,17 +98,18 @@ namespace PackageSellSystemTrading{
             }
             //혹시몰라서 1857에서 금지종목을 참조할때 로스가 생길거같아서 이런방식을 써보았다.
             //매수금지종목 검색 그리드 초기화
-           
-                //복사
-                this.t1857ExcludeDt0 = tmpDt.Clone();
-                mainForm.exCnt.Text = blockCount.ToString();
-
-                this.t1857ExcludeVoList.Clear();
-                this.t1857ExcludeVoList = tmpList;
-           
-            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]t1857_Exclude: 매수금지종목 조회 완료.";
-
             
+            //복사
+            this.t1857StopDt = tmpDt.Clone();
+            mainForm.exCnt1.Text = blockCount.ToString();
+
+            this.t1857StopList.Clear();
+            this.t1857StopList = tmpList;
+         
+
+            mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "]손절종목]t1857_Exclude: 매수금지종목 조회 완료.";
+
+          
         }
 
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
@@ -118,19 +117,19 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
             } else { 
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]t1857_Exclude:" + nMessageCode + ":" + szMessage;
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]t1857_Exclude:" + nMessageCode + ":" + szMessage;
             }
             
         }
 
 
         /// <summary>
-		/// 종목검색 호출
+		/// 손절종목 검색 호출
 		/// </summary>
 		public void call_request(){
       
                 String startupPath = Application.StartupPath.Replace("\\bin\\Debug", "");            
-                String conditionName = startupPath + "\\Resources\\Exclude0.ACF";
+                String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
                 //String conditionName = startupPath + "\\Resources\\Exclude1.ACF";
                 base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");           // 실시간구분 : 0:조회, 1:실시간
                 base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");         // 종목검색구분 : F:파일, S:서버
@@ -144,27 +143,14 @@ namespace PackageSellSystemTrading{
                     {
                         MessageBox.Show("TR정보를 찾을수 없습니다.");
                     }
-                    mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]e매수 금지 전송 에러.";
+                    mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]e매수 금지 전송 에러.";
                 }
-                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][매수금지]e매수 금지 검색 요청.";
+                mainForm.input_t1833_log2.Text = "[" + mainForm.label_time.Text + "][손절종목]e매수 금지 검색 요청.";
                
-
-           
         }
 
       
     } //end class 
 
-    public class T1857Vo
-    {
-        public String shcode { set; get; } //종목코드
-        public String hname { set; get; } //종목명
-        public String close { set; get; } //현재가
-        public String sign { set; get; } //전일대비구분 
-        public String change { set; get; } //전일대비
-        public String diff { set; get; } //등락율
-        public String volume { set; get; } //거래량
-        public Boolean deleteAt { set; get; } //삭제여부
-        public String searchMod { set; get; } //검색조건명
-    }
+   
 }   // end namespace

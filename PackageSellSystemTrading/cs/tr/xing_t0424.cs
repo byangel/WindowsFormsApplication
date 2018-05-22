@@ -489,7 +489,7 @@ namespace PackageSellSystemTrading {
                     }
                 }
                 //기본 감시제외 목록이면 무조건 삭제해준다.
-                int t1833excludeVoBasicListFindIndex = mainForm.xing_t1857Exclude.getT1857excludeVoBasicList().Find("shcode", t0424Vo.expcode);
+                int t1833excludeVoBasicListFindIndex = mainForm.xing_t1857Stop.getT1857StopList().Find("shcode", t0424Vo.expcode);
                 if (t1833excludeVoBasicListFindIndex >= 0)
                 {
                     this.t0424Order(t0424Vo, "1", "정리매매");
@@ -526,7 +526,7 @@ namespace PackageSellSystemTrading {
                    
                 }
                 //목표수익 달성수 하락한종목도 같이 매도 한다. -추후 옵션으로 제어하자
-              
+                String maxHisRt = t0424Vo.maxHisRt == "" ? "0" : t0424Vo.maxHisRt;
                 if (Double.Parse(t0424Vo.maxHisRt) >= Double.Parse(목표수익율) && Double.Parse(현재수익율) > 3  )//최대도달 수익율
                 {
                     Log.WriteLine("t0424 ::" + t0424Vo.hname + "/" + 현재수익율.ToString() + "추적청산");                

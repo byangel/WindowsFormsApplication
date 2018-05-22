@@ -18,7 +18,6 @@ namespace PackageSellSystemTrading
         Boolean TIME_PROFIT_TARGET_AT   = true; //시간차목표수익율
         Boolean STOP_LOSS_AT            = false; //손절사용여부
         Boolean EXCL_STOP_LOSS_AT       = false; //매수금지종목 손절 여부
-        Boolean TODAY_SELL_AT           = false;  //중복매수된 종목 금일 매수/매도 기능 활성화 여부 디폴트 false
 
         String STOP_LOSS          = "";         //2분후 무조건 매도
         String REPEAT_RATE        = "-3";        //반복매수 비율
@@ -65,7 +64,6 @@ namespace PackageSellSystemTrading
 
 
             checkBox_limited.Checked            = Properties.Settings.Default.LIMITED_AT;//운영자금 제한 매입금액+D2예수금
-            checkBox_today_sell.Checked         = Properties.Settings.Default.TODAY_SELL_AT;//금일매도/매수
             checkBox_stopLoss.Checked           = Properties.Settings.Default.STOP_LOSS_AT;//손절사용여부
             checkBox_exclStopLossAt.Checked     = Properties.Settings.Default.EXCL_STOP_LOSS_AT;//매수금지종목 손절여부
             checkBox_time_profit_target.Checked = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
@@ -101,21 +99,20 @@ namespace PackageSellSystemTrading
         {
             try
             {
-                checkBox_limited.Checked = this.LIMITED_AT;               //운영자금 제한 매입금액+D2예수금
-                checkBox_today_sell.Checked = this.TODAY_SELL_AT;            //금일매도/매수
-                checkBox_stopLoss.Checked = this.STOP_LOSS_AT;             //손절사용여부
+                checkBox_limited.Checked        = this.LIMITED_AT;               //운영자금 제한 매입금액+D2예수금
+                checkBox_stopLoss.Checked       = this.STOP_LOSS_AT;             //손절사용여부
                 checkBox_exclStopLossAt.Checked = this.EXCL_STOP_LOSS_AT;        //매수금지종목 손절여부
                 checkBox_time_profit_target.Checked = this.TIME_PROFIT_TARGET_AT;    //시간차목표수익율
-                input_repeat_rate.Text = this.REPEAT_RATE;              //반복매수 비율
-                input_buy_stop_rate.Text = this.BUY_STOP_RATE;            //자본금 대비 매입금액 제한 비율
-                input_max_amt_limit.Text = this.MAX_AMT_LIMIT;            //최대 운영 금액 제한 - 기본 1억
-                input_stopLoss.Text = this.STOP_LOSS;                //손절
-                input_stop_profit_target.Text = this.STOP_PROFIT_TARGET;       //목표 이익율
-                input_stop_profit_target2.Text = this.STOP_PROFIT_TARGET2;      //목표 이익율2
-                input_battingRate.Text = this.BATTING_RATE;              //예탁자산 총액대비 배팅 비율
+                input_repeat_rate.Text          = this.REPEAT_RATE;              //반복매수 비율
+                input_buy_stop_rate.Text        = this.BUY_STOP_RATE;            //자본금 대비 매입금액 제한 비율
+                input_max_amt_limit.Text        = this.MAX_AMT_LIMIT;            //최대 운영 금액 제한 - 기본 1억
+                input_stopLoss.Text             = this.STOP_LOSS;                //손절
+                input_stop_profit_target.Text   = this.STOP_PROFIT_TARGET;       //목표 이익율
+                input_stop_profit_target2.Text  = this.STOP_PROFIT_TARGET2;      //목표 이익율2
+                input_battingRate.Text          = this.BATTING_RATE;              //예탁자산 총액대비 배팅 비율
 
                 checkBox_dpsastTotAmt_growth_at.Checked = this.DPSASTTOTAMT_GROWTH_AT;             //예탁자산 총액 증가율 사용여부
-                input_dpsastTotAmt_growth_rate.Text = this.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 증가율
+                input_dpsastTotAmt_growth_rate.Text     = this.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 증가율
             }
                 catch (Exception ex)
             {
@@ -130,7 +127,6 @@ namespace PackageSellSystemTrading
         public void btn_config_save_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.LIMITED_AT              = checkBox_limited.Checked;         //운영자금 제한 사용여부
-            Properties.Settings.Default.TODAY_SELL_AT           = checkBox_today_sell.Checked;      //금일매수매도 사용여부
             Properties.Settings.Default.STOP_LOSS_AT            = checkBox_stopLoss.Checked;        //손절 사용여부
             Properties.Settings.Default.EXCL_STOP_LOSS_AT       = checkBox_exclStopLossAt.Checked; //매수금지종목 손절여부
             Properties.Settings.Default.TIME_PROFIT_TARGET_AT   = checkBox_time_profit_target.Checked;//시간차목표수익율
@@ -203,11 +199,10 @@ namespace PackageSellSystemTrading
         private void input_battingRate_TextChanged(object sender, EventArgs e)
         {
             
-            String dpsastTotAmtMax = Properties.Settings.Default.DPSASTTOTAMT_MAX;//최대 예탁자산 총액
+            String dpsastTotAmtMax = Properties.Settings.Default.DPSASTTOTAMT_MAX;//기준 예탁자산 총액
 
             if (dpsastTotAmtMax != "")
             {
-                MessageBox.Show(dpsastTotAmtMax);
                 String input_battingRate = ((TextBox)sender).Text;
                 //String 예탁자산총액 = mainForm.label_DpsastTotamt.Text;
                 this.label_battingAmt.Text = Util.GetNumberFormat(Util.getBattingAmt(dpsastTotAmtMax, input_battingRate));

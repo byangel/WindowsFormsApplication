@@ -35,9 +35,6 @@
     <Setting Name="LIMITED_AT" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="TODAY_SELL_AT" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="BATTING_RATE" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

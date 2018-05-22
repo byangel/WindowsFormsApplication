@@ -155,9 +155,7 @@ namespace PackageSellSystemTrading {
                     {
                         //트레이딩 시작 여부.
                         if (mainForm.tradingAt == "Y"){
-                            //2.금일매도실행
-                            this.toDaySellTest();
-                            //3.주문취소
+                            //2.주문취소
                             this.orderCancle();
                         }
                         
@@ -340,10 +338,9 @@ namespace PackageSellSystemTrading {
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
            
-            //매도취소만있다. 매수취소가 필요한지 모르겠다...
+            //매수/매도 취소
             var varT0425VoList = from item in this.t0425VoList
                                     where item.qty != item.cheqty 
-                                    //&& item.medosu == "매도" 
                                     && item.cancelOrdAt != "Y"//주문취소 Y가 아닌거.
                                     && item.ordermtd == "XING API"
                                  select item;
@@ -394,106 +391,7 @@ namespace PackageSellSystemTrading {
             }
         }
 
-        //금일매도 - 반복매수 중에서 상승한종목을 매도한다.
-        public void toDaySellTest()
-        {
-           String 투입비율   = Util.getInputRate(mainForm);
-            String 제한비율   = Properties.Settings.Default.BUY_STOP_RATE;
-            String 목표수익율 = mainForm.getStopProfitTarget();
-            
-            String price0424;//0424 현재가
-            //String pamt20424;//0424 평균단가
-            String 주문번호;//주문번호
-            String expcode;//종목코드
-            String hname;//종목명
-            String cheqty;//체결수량
-            String cheprice;//체결가격
-            String ordtime;//주문시간
-            String 금일수익율;
-            String 매매상세구분;
-            String 주문수량;
-            String 체결수량;
-                //금일 매수 and 매도여부:N and 반복매수 and 주문수량=체결수량
-            var varT0425VoList = from item in this.t0425VoList
-                                where item.sellOrdAt == "N" && item.ordptnDetail == "반복매수"
-                               select item;
-            int t0424Index;
-            for (int i = 0; i < varT0425VoList.Count(); i++){
-                주문번호    = varT0425VoList.ElementAt(i).ordno;   //주문번호
-                expcode     = varT0425VoList.ElementAt(i).expcode; //종목코드
-                hname       = varT0425VoList.ElementAt(i).hname;   //종목명
-                cheqty      = varT0425VoList.ElementAt(i).cheqty;  //체결수량
-                cheprice    = varT0425VoList.ElementAt(i).cheprice;//체결가격
-                ordtime     = varT0425VoList.ElementAt(i).ordtime;//주문시간   
-                금일수익율  = varT0425VoList.ElementAt(i).toDaysunikrt;
-                매매상세구분 = varT0425VoList.ElementAt(i).ordptnDetail;
-                주문수량    = varT0425VoList.ElementAt(i).qty;
-                체결수량    = varT0425VoList.ElementAt(i).cheqty;
-                //계좌잔고 그리드에서 해당종목 정보 참조.
-                t0424Index = mainForm.xing_t0424.getT0424VoList().Find("expcode", expcode);
-                if (t0424Index >= 0)
-                {
-                    price0424 = mainForm.xing_t0424.getT0424VoList().ElementAt(t0424Index).price;//현재가
-                    
-
-                    //금일매도 테스트
-                    if (Properties.Settings.Default.TODAY_SELL_AT && 매매상세구분 == "반복매수" && 주문수량 == 체결수량)
-                    {
-                        if (Double.Parse(varT0425VoList.ElementAt(i).toDaysunikrt) >= double.Parse(목표수익율)) {
-
-                            //MessageBox.Show(hname);
-                            /// <summary>
-                            /// 현물정상주문
-                            /// </summary>
-                            /// <param name="ordptnDetail">상세주문구분-신규매수|반복매수|금일매도|청산</param>
-                            /// <param name="upOrdno">상위매수주문번호-금일매도일때만 셋팅될것같다.</param>
-                            /// <param name="upExecprc">상위체결금액</param>
-                            /// <param name="hname">종목명</param>
-                            /// <param name="IsuNo">종목코드</param>
-                            /// <param name="Quantity">수량</param>
-                            /// <param name="Price">가격</param>
-                            //if (mainForm.xing_CSPAT00600.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
-                            //{
-                                Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-                                xing_CSPAT00600.ordptnDetail    = "금일매도";   //상세 매매 구분.
-                                xing_CSPAT00600.shcode          = expcode;      //종목코드
-                                xing_CSPAT00600.hname           = hname;        //종목명
-                                xing_CSPAT00600.quantity        = cheqty;       //수량
-                                xing_CSPAT00600.price           = price0424;    //가격
-                                xing_CSPAT00600.divideBuySell   = "1";          // 매매구분: 1-매도, 2-매수
-                                xing_CSPAT00600.upOrdno         = 주문번호;     //상위매수주문 - 금일매도매수일때만 값이 있다.
-                                xing_CSPAT00600.upExecprc       = cheprice;     //상위체결금액  
-                                xing_CSPAT00600.call_request();
-
-                                //매수건에대해서 금일매도를 해주었으므로 매수건에 금일매도여부를 Y로 업데이트 해준다.
-                                varT0425VoList.ElementAt(i).sellOrdAt="Y";  
-   
-                                //상위주문번호 주문여부 Y로 업데이트
-                                var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
-                                            where item["ordno"].ToString() == 주문번호
-                                               && item["accno"].ToString() == mainForm.account
-                                            //&& (String)item["useYN"] == "Y"
-                                            select item;
-
-                                foreach (DataRow item in items)
-                                {
-                                    item["sellOrdAt"] = "Y";
-                                    mainForm.tradingHistory.sellOrdAtUpdate(item);//금일 매도주문 여부 상태 업데이트
-                                }
-
-                                Log.WriteLine("t0425::금일매도:" + hname + "(" + expcode + "): [주문가격:" + price0424.ToString() + "|주문수량:" + cheqty + "|금일수익율:" + 금일수익율 + " | 주문번호:" + 주문번호 + "]");
-                                mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425::" + hname + ":금일 매도.");
-                            
-                        }
-
-                    }//t0424 index if end
-
-                }
-            }
-
-
-            
-        }//금일매도매수 end
+        
 
         //금일매도 청산 과 금일매도 를 구분하여 건당 매도차익을 리턴하는 메소드.
         //parameta //상세 주문구분 [금일매도|청산]
