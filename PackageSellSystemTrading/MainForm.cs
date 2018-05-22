@@ -1027,7 +1027,7 @@ namespace PackageSellSystemTrading{
                 }
                 if (double.Parse(현재수익율.Trim()) < double.Parse(최소수익율)){
                     this.tradingHistory.minHisRtUpdate(종목코드, 현재수익율);
-                    this.grd_t0424.Rows[rowIndex].Cells["minHisRt"].Value = 현재수익율;   //최소도달 수익율
+                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 현재수익율;   //최소도달 수익율
                 }
             } else {
                 //이력정보가 없으면 에러코드등록해준다.
