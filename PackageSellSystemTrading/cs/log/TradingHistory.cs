@@ -116,11 +116,7 @@ namespace PackageSellSystemTrading
             }
 
         }
-        // 소멸자
-        ~TradingHistory()
-        {
-
-        }
+        
 
         public void dbSync()
         {
