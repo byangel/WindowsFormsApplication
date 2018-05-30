@@ -163,28 +163,16 @@ namespace PackageSellSystemTrading{
                 }
                
             }
-            //매매 시간 채크
+            //매매 시간 채크-장 막판에만 매수한다.
             int nowTime = int.Parse(mainForm.xing_t0167.time.Substring(0, 4));
-            //투자 율이 30%이하이면 장시작과 장 마지막에 매수 아니면 장 마지막에 매수한다.
-            if (Double.Parse(this.investmentRatio) < 30)
-            {
-                if ((nowTime > 1500 && nowTime < 1519) || (nowTime > 900 && nowTime < 935))
-                {
-                    mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 가능 시간.";
-                }else{
-                    mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 금지 시간.";
-                    return false;
-                }
-
-            }else{
-                if (nowTime > 1500 && nowTime < 1519){
-                    mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 가능 시간.";
+            if (nowTime > 1500 && nowTime < 1519){
+                mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 가능 시간.";
                    
-                }else{
-                    mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 금지 시간.";
-                    return false;
-                }
+            }else{
+                mainForm.label_trading_condition.Text = "[" + mainForm.label_time.Text + "]매수 금지 시간.";
+                return false;
             }
+            
             
             String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
             
