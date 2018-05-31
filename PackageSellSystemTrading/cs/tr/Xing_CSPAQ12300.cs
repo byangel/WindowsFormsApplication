@@ -90,6 +90,8 @@ namespace PackageSellSystemTrading{
                     mainForm.xing_t0167.initAt = true;//초기화 여부
                     //호출
                     mainForm.xing_t1857Exclude.call_request();//매수금지 데이타
+                    System.Threading.Thread.Sleep(2000);
+                    mainForm.xing_t1857Stop.call_request();//매수금지 데이타
                     mainForm.xing_t0424.call_request(this.account, this.accountPw);//잔고 데이타
                     mainForm.xing_t0425.call_request(this.account, this.accountPw);//매매이력 데이타
                     mainForm.xing_CSPAQ12200.call_request(this.account, this.accountPw);//계좌정보

@@ -595,7 +595,7 @@ namespace PackageSellSystemTrading{
         }
 
         
-        int flag1857 = 0;
+        //int flag1857 = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833Exclude_Tick(object sender, EventArgs e)
         {
@@ -605,27 +605,36 @@ namespace PackageSellSystemTrading{
                 //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
                 Log.WriteLine("timer_t1833Exclude_Tick:: 미접속");
 
-            }  else{
+            }
+            else
+            {
 
-                if (flag1857 == 0)
+                //if (flag1857 == 0)
+                //{
+                //    xing_t1857Stop.call_request();
+                //    flag1857 = 1;
+                //}
+                //else if (flag1857 == 1)
+                //{
+                //    xing_t1857Exclude.call_request();
+                //    flag1857 = 2;
+                //}
+                //else
+                //{
+                xing_t1857.call_request();
+                //flag1857 = 0;
+                //}
+                int nowTime = int.Parse(this.xing_t0167.time.Substring(0, 4));
+                if (nowTime == 1500)
                 {
                     xing_t1857Stop.call_request();
-                    flag1857 = 1;
-                }
-                else if (flag1857 == 1)
-                {
+                    System.Threading.Thread.Sleep(2000);
                     xing_t1857Exclude.call_request();
-                    flag1857 = 2;
-                }
-                else
-                {
-                    xing_t1857.call_request();
-                    flag1857 = 0;
-                }
-               
+                    this.label_trading_condition.Text = "[" + this.label_time.Text + "]매수금지 갱신.";
 
+                }
             }
-
+               
         }
 
         //공통 타이머 계좌정보 --5초마다 호출됨.
