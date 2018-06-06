@@ -44,7 +44,7 @@ namespace PackageSellSystemTrading{
             this.t1857Dt = new DataTable();
             t1857Dt.Columns.Add("종목코드"     , typeof(string));
             t1857Dt.Columns.Add("종목명"       , typeof(string));
-            t1857Dt.Columns.Add("현재가"       , typeof(string));
+            t1857Dt.Columns.Add("현재가"       , typeof(double));
             t1857Dt.Columns.Add("전일대비구분" , typeof(string));
             t1857Dt.Columns.Add("전일대비"     , typeof(string));
             t1857Dt.Columns.Add("등락율"       , typeof(string));

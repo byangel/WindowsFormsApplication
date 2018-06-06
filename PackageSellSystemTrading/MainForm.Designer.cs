@@ -85,6 +85,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -254,7 +256,10 @@
             this.btn_buyAt = new System.Windows.Forms.Button();
             this.btn_sellAt = new System.Windows.Forms.Button();
             this.grd_t1833_dt = new System.Windows.Forms.DataGridView();
+            this.label_trading_condition = new System.Windows.Forms.Label();
+            this.exCnt1 = new System.Windows.Forms.Label();
             this.종목코드 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.검색조건 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.종목명 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.현재가 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.구분 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -262,9 +267,6 @@
             this.등락율 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.거래량 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.삭제여부 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.검색조건 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label_trading_condition = new System.Windows.Forms.Label();
-            this.exCnt1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -2031,14 +2033,14 @@
             this.grd_t1833_dt.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle52;
             this.grd_t1833_dt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.종목코드,
+            this.검색조건,
             this.종목명,
             this.현재가,
             this.구분,
             this.전일대비,
             this.등락율,
             this.거래량,
-            this.삭제여부,
-            this.검색조건});
+            this.삭제여부});
             this.grd_t1833_dt.Location = new System.Drawing.Point(13, 477);
             this.grd_t1833_dt.Name = "grd_t1833_dt";
             this.grd_t1833_dt.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -2049,6 +2051,24 @@
             this.grd_t1833_dt.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t1833_dt_CellClick);
             this.grd_t1833_dt.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.grd_t1833_dt_CellValuePushed);
             // 
+            // label_trading_condition
+            // 
+            this.label_trading_condition.AutoSize = true;
+            this.label_trading_condition.Location = new System.Drawing.Point(554, 9);
+            this.label_trading_condition.Name = "label_trading_condition";
+            this.label_trading_condition.Size = new System.Drawing.Size(11, 11);
+            this.label_trading_condition.TabIndex = 127;
+            this.label_trading_condition.Text = "0";
+            // 
+            // exCnt1
+            // 
+            this.exCnt1.AutoSize = true;
+            this.exCnt1.Location = new System.Drawing.Point(70, 450);
+            this.exCnt1.Name = "exCnt1";
+            this.exCnt1.Size = new System.Drawing.Size(11, 11);
+            this.exCnt1.TabIndex = 128;
+            this.exCnt1.Text = "0";
+            // 
             // 종목코드
             // 
             this.종목코드.DataPropertyName = "종목코드";
@@ -2057,13 +2077,24 @@
             this.종목코드.FillWeight = 24.82159F;
             this.종목코드.HeaderText = "종목코드";
             this.종목코드.Name = "종목코드";
+            this.종목코드.Visible = false;
             this.종목코드.Width = 74;
+            // 
+            // 검색조건
+            // 
+            this.검색조건.DataPropertyName = "검색조건";
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.검색조건.DefaultCellStyle = dataGridViewCellStyle54;
+            this.검색조건.HeaderText = "검색조건";
+            this.검색조건.Name = "검색조건";
+            this.검색조건.Width = 60;
             // 
             // 종목명
             // 
             this.종목명.DataPropertyName = "종목명";
-            dataGridViewCellStyle54.Font = new System.Drawing.Font("굴림", 8F);
-            this.종목명.DefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle55.Font = new System.Drawing.Font("굴림", 8F);
+            this.종목명.DefaultCellStyle = dataGridViewCellStyle55;
             this.종목명.FillWeight = 34.36586F;
             this.종목명.HeaderText = "종목명";
             this.종목명.Name = "종목명";
@@ -2072,14 +2103,14 @@
             // 현재가
             // 
             this.현재가.DataPropertyName = "현재가";
-            dataGridViewCellStyle55.Font = new System.Drawing.Font("굴림", 8F);
-            dataGridViewCellStyle55.Format = "N1";
-            dataGridViewCellStyle55.NullValue = null;
-            this.현재가.DefaultCellStyle = dataGridViewCellStyle55;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle56.Font = new System.Drawing.Font("굴림", 8F);
+            dataGridViewCellStyle56.Format = "N0";
+            dataGridViewCellStyle56.NullValue = null;
+            this.현재가.DefaultCellStyle = dataGridViewCellStyle56;
             this.현재가.FillWeight = 49.17073F;
             this.현재가.HeaderText = "현재가";
             this.현재가.Name = "현재가";
-            this.현재가.Visible = false;
             this.현재가.Width = 63;
             // 
             // 구분
@@ -2103,20 +2134,25 @@
             // 등락율
             // 
             this.등락율.DataPropertyName = "등락율";
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle57.Format = "N2";
+            dataGridViewCellStyle57.NullValue = null;
+            this.등락율.DefaultCellStyle = dataGridViewCellStyle57;
             this.등락율.FillWeight = 163.0164F;
             this.등락율.HeaderText = "등락율";
             this.등락율.Name = "등락율";
-            this.등락율.Width = 63;
+            this.등락율.Width = 50;
             // 
             // 거래량
             // 
             this.거래량.DataPropertyName = "거래량";
-            dataGridViewCellStyle56.Format = "N0";
-            dataGridViewCellStyle56.NullValue = null;
-            this.거래량.DefaultCellStyle = dataGridViewCellStyle56;
+            dataGridViewCellStyle58.Format = "N0";
+            dataGridViewCellStyle58.NullValue = null;
+            this.거래량.DefaultCellStyle = dataGridViewCellStyle58;
             this.거래량.FillWeight = 248.731F;
             this.거래량.HeaderText = "거래량";
             this.거래량.Name = "거래량";
+            this.거래량.Visible = false;
             this.거래량.Width = 63;
             // 
             // 삭제여부
@@ -2124,32 +2160,8 @@
             this.삭제여부.DataPropertyName = "삭제여부";
             this.삭제여부.HeaderText = "삭제여부";
             this.삭제여부.Name = "삭제여부";
+            this.삭제여부.Visible = false;
             this.삭제여부.Width = 74;
-            // 
-            // 검색조건
-            // 
-            this.검색조건.DataPropertyName = "검색조건";
-            this.검색조건.HeaderText = "검색조건";
-            this.검색조건.Name = "검색조건";
-            this.검색조건.Width = 74;
-            // 
-            // label_trading_condition
-            // 
-            this.label_trading_condition.AutoSize = true;
-            this.label_trading_condition.Location = new System.Drawing.Point(554, 9);
-            this.label_trading_condition.Name = "label_trading_condition";
-            this.label_trading_condition.Size = new System.Drawing.Size(11, 11);
-            this.label_trading_condition.TabIndex = 127;
-            this.label_trading_condition.Text = "0";
-            // 
-            // exCnt1
-            // 
-            this.exCnt1.AutoSize = true;
-            this.exCnt1.Location = new System.Drawing.Point(70, 450);
-            this.exCnt1.Name = "exCnt1";
-            this.exCnt1.Size = new System.Drawing.Size(11, 11);
-            this.exCnt1.TabIndex = 128;
-            this.exCnt1.Text = "0";
             // 
             // MainForm
             // 
@@ -2350,15 +2362,6 @@
         private System.Windows.Forms.Button btn_buyAt;
         private System.Windows.Forms.Button btn_sellAt;
         public System.Windows.Forms.DataGridView grd_t1833_dt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 종목코드;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 종목명;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 현재가;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 구분;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 전일대비;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 등락율;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 거래량;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 삭제여부;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 검색조건;
         public System.Windows.Forms.Label label_trading_condition;
         public System.Windows.Forms.Label exCnt1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn grd_t0424_check;
@@ -2416,6 +2419,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
         private System.Windows.Forms.DataGridViewTextBoxColumn eventNm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 종목코드;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 검색조건;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 종목명;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 현재가;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 구분;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 전일대비;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 등락율;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 거래량;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 삭제여부;
     }
 }
 

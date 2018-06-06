@@ -104,22 +104,22 @@ namespace PackageSellSystemTrading {
                     else
                     {
                         tmpT0425Vo = new T0425Vo();
-                        tmpT0425Vo.ordtime = base.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
-                        tmpT0425Vo.medosu = base.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
-                        tmpT0425Vo.expcode = base.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
+                        tmpT0425Vo.ordtime  = base.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
+                        tmpT0425Vo.medosu   = base.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
+                        tmpT0425Vo.expcode  = base.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
                         //tmpT0425Vo.hname    = ""; //종목명
-                        tmpT0425Vo.qty = base.GetFieldData("t0425OutBlock1", "qty", i); //주문수량
-                        tmpT0425Vo.price = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "price", i)); //주문가격
-                        tmpT0425Vo.cheqty = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
+                        tmpT0425Vo.qty      = base.GetFieldData("t0425OutBlock1", "qty", i); //주문수량
+                        tmpT0425Vo.price    = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "price", i)); //주문가격
+                        tmpT0425Vo.cheqty   = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
                         tmpT0425Vo.cheprice = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "cheprice", i)); //체결가격
-                        tmpT0425Vo.ordrem = base.GetFieldData("t0425OutBlock1", "ordrem", i); //미체결잔량
-                        tmpT0425Vo.status = base.GetFieldData("t0425OutBlock1", "status", i); //상태
-                        tmpT0425Vo.ordno = base.GetFieldData("t0425OutBlock1", "ordno", i); //주문번호
+                        tmpT0425Vo.ordrem   = base.GetFieldData("t0425OutBlock1", "ordrem", i); //미체결잔량
+                        tmpT0425Vo.status   = base.GetFieldData("t0425OutBlock1", "status", i); //상태
+                        tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno", i); //주문번호
                         tmpT0425Vo.ordermtd = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
 
                         //목록추가
                         this.t0425VoList.Insert(0, tmpT0425Vo);
-                        findIndex = this.t0425VoList.Count()-1;
+                        findIndex = 0;
 
                     }
                     //확장 정보및 싱크

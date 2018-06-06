@@ -625,10 +625,11 @@ namespace PackageSellSystemTrading{
                 //flag1857 = 0;
                 //}
                 int nowTime = int.Parse(this.xing_t0167.time.Substring(0, 4));
-                if (nowTime == 1500)
+                if (nowTime == 1455)
                 {
+                    System.Threading.Thread.Sleep(1500);
                     xing_t1857Stop.call_request();
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(1500);
                     xing_t1857Exclude.call_request();
                     this.label_trading_condition.Text = "[" + this.label_time.Text + "]매수금지 갱신.";
 
