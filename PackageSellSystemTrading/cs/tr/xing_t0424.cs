@@ -360,13 +360,13 @@ namespace PackageSellSystemTrading {
         }//fn END
 
 
-        private String 목표수익율;
+        //private String 목표수익율;
         //param1 자본금 투입 비율
        
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출 2.팔린종목 삭제,3.손절
         public void stopProFitTarget()
         {
-            this.목표수익율 = mainForm.getStopProfitTarget();
+            
             for (int i = 0; i < this.t0424VoList.Count(); i++)
             {
                 //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
@@ -381,13 +381,14 @@ namespace PackageSellSystemTrading {
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
         public Boolean stopProFitTargetTest(T0424Vo t0424Vo, int index){
             try {
+                Double 목표수익율 = mainForm.getStopProfitTarget(Double.Parse(t0424Vo.buyCnt));
+                
                 String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
  
                 Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
                 String  손절율        = Properties.Settings.Default.STOP_LOSS;
                 Boolean 매수금지종목손절여부 = Properties.Settings.Default.EXCL_STOP_LOSS_AT;
-                Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
-
+               
                 if (t0424Vo.expcode == "001250"){
                     int test = 0;
                 }
@@ -463,7 +464,7 @@ namespace PackageSellSystemTrading {
                 //손절
                 if (손절기능여부){
                     if (Double.Parse(현재수익율) <= Double.Parse(손절율)){
-                        this.t0424Order(t0424Vo, "1", "손절");
+                        this.t0424Order(t0424Vo, "1", "손절율");
                         return true;
                     }
                 }
@@ -477,16 +478,16 @@ namespace PackageSellSystemTrading {
                         return true;
                     }
                 }
-                //기본 감시제외 목록이면 무조건 삭제해준다.
+                //기본 손절목록이면 무조건 삭제해준다.
                 int t1833excludeVoBasicListFindIndex = mainForm.xing_t1857Stop.getT1857StopList().Find("shcode", t0424Vo.expcode);
                 if (t1833excludeVoBasicListFindIndex >= 0){
-                    this.t0424Order(t0424Vo, "1", "정리매매");//wjdflaoao   
+                    this.t0424Order(t0424Vo, "1", "손절목록");//wjdflaoao   
                     return true;
                 }
 
 
                 //목표수익 달성시...
-                if (Double.Parse(현재수익율) >= Double.Parse(목표수익율)){
+                if (Double.Parse(현재수익율) >= 목표수익율){
                     Log.WriteLine("t0424 ::"+t0424Vo.hname+"/" + 현재수익율.ToString() + "목표:" + 목표수익율);
                     /// <summary>
                     /// 현물정상주문
@@ -513,7 +514,7 @@ namespace PackageSellSystemTrading {
                 }
                 //목표수익 달성수 하락한종목도 같이 매도 한다. -추후 옵션으로 제어하자
                 String maxRt = t0424Vo.maxRt == "" ? "0" : t0424Vo.maxRt;
-                if (Double.Parse(t0424Vo.maxRt) >= Double.Parse(목표수익율) && Double.Parse(현재수익율) > 3  )//최대도달 수익율
+                if (Double.Parse(t0424Vo.maxRt) >= 목표수익율 && Double.Parse(현재수익율) > Double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET2))//최대도달 수익율
                 {
                     Log.WriteLine("t0424 ::" + t0424Vo.hname + "/" + 현재수익율.ToString() + "추적청산");                
                     this.t0424Order(t0424Vo, "1", "추적청산");
@@ -554,8 +555,8 @@ namespace PackageSellSystemTrading {
             xing_CSPAT00600.call_request();
 
             //String infoStr = "[" + t0424Vo.hname + "(" + t0424Vo.expcode + ")] 수익율: " + t0424Vo.sunikrt + " % 수익율2:" + t0424Vo.sunikrt2+ "수익율:" + t0424Vo.sunikrt + " %, 주문가격:" + t0424Vo.price + ",   주문수량:" + t0424Vo.mdposqt+ ", 에러코드: "+ t0424Vo.errorcd ;
-            Log.WriteLine("t0424 ::목표청산[" + t0424Vo.hname + "]");
-            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:[ " + t0424Vo.hname + " ]:목표청산.");
+            Log.WriteLine("t0424 ::"+ ordptnDetail+"[" + t0424Vo.hname + "]");
+            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0424:[ " + t0424Vo.hname + " ]:" + ordptnDetail);
             t0424Vo.orderAt = "Y";//청산 주문여부를 true로 설정  
         }
 

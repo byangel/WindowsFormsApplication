@@ -30,8 +30,8 @@ namespace PackageSellSystemTrading
 
         public String CONDITION_NM       = "Condition.ADF";
         public String EXCLUDE_NM         = "Exclude.ADF";
-        public String STOP_PROFIT_TARGET = "5";      //목표 이익율
-        public String STOP_PROFIT_TARGET2 = "3";       //투자율 95%이상 목표 이익율2
+        public String STOP_PROFIT_TARGET = "7";      //목표 이익율
+        public String STOP_PROFIT_TARGET2 = "5";       //3시이후 목표 수익율
         
         
         //생성자
@@ -43,24 +43,85 @@ namespace PackageSellSystemTrading
         public void init()
         {
             //프로그램 최초 설치시 메모리에 값이없을때 최초 기본 값으로 설정해준다.
-            //배팅금액설정
-            if (Properties.Settings.Default.BATTING_RATE == "")
+            
+            //운영자금 제한 매입금액+D2예수금
+            if (Properties.Settings.Default.LIMITED_AT.ToString() == "")
             {
-                Properties.Settings.Default.BATTING_RATE = this.BATTING_RATE;
+                Properties.Settings.Default.LIMITED_AT = this.LIMITED_AT;
+                Properties.Settings.Default.Save();
+            }
+            //손절사용여부
+            if (Properties.Settings.Default.STOP_LOSS_AT.ToString() == "")
+            {
+                Properties.Settings.Default.STOP_LOSS_AT = this.STOP_LOSS_AT;
+                Properties.Settings.Default.Save();
+            }
+            //매수금지종목 손절여부
+            if (Properties.Settings.Default.EXCL_STOP_LOSS_AT.ToString() == "")
+            {
+                Properties.Settings.Default.EXCL_STOP_LOSS_AT = this.EXCL_STOP_LOSS_AT;
+                Properties.Settings.Default.Save();
+            }
+            if (Properties.Settings.Default.TIME_PROFIT_TARGET_AT.ToString() == "")
+            {
+                Properties.Settings.Default.TIME_PROFIT_TARGET_AT = this.TIME_PROFIT_TARGET_AT;
+                Properties.Settings.Default.Save();
+            }
+            //반복매수 -수익율
+            if (Properties.Settings.Default.REPEAT_RATE.ToString() == "")
+            {
+                Properties.Settings.Default.REPEAT_RATE = this.REPEAT_RATE;
+                Properties.Settings.Default.Save();
+            }
+            //예탁자산대미 투자율
+            if (Properties.Settings.Default.BUY_STOP_RATE.ToString() == "")
+            {
+                Properties.Settings.Default.BUY_STOP_RATE = this.BUY_STOP_RATE;
                 Properties.Settings.Default.Save();
             }
             //최대운영자금
-            if (Properties.Settings.Default.MAX_AMT_LIMIT == "")
+            if (Properties.Settings.Default.MAX_AMT_LIMIT.ToString() == "")
             {
                 Properties.Settings.Default.MAX_AMT_LIMIT = this.MAX_AMT_LIMIT;
                 Properties.Settings.Default.Save();
             }
-            //목표수익율
-            if (Properties.Settings.Default.STOP_PROFIT_TARGET == "")
+            //손절 범위
+            if (Properties.Settings.Default.STOP_LOSS.ToString() == "")
+            {
+                Properties.Settings.Default.STOP_LOSS = this.STOP_LOSS;
+                Properties.Settings.Default.Save();
+            }
+            //목표 이익율
+            if (Properties.Settings.Default.STOP_PROFIT_TARGET.ToString() == "")
             {
                 Properties.Settings.Default.STOP_PROFIT_TARGET = this.STOP_PROFIT_TARGET;
                 Properties.Settings.Default.Save();
             }
+            ;//목표 이익율2
+            if (Properties.Settings.Default.STOP_PROFIT_TARGET2.ToString() == "")
+            {
+                Properties.Settings.Default.STOP_PROFIT_TARGET2 = this.STOP_PROFIT_TARGET2;
+                Properties.Settings.Default.Save();
+            }
+            //예탁자산 대비 비중
+            if (Properties.Settings.Default.BATTING_RATE.ToString() == "")
+            {
+                Properties.Settings.Default.BATTING_RATE = this.BATTING_RATE;
+                Properties.Settings.Default.Save();
+            }
+            ////예탁자산 총액 증가율 사용여부
+            if (Properties.Settings.Default.DPSASTTOTAMT_GROWTH_AT.ToString() == "")
+            {
+                Properties.Settings.Default.DPSASTTOTAMT_GROWTH_AT = this.DPSASTTOTAMT_GROWTH_AT;
+                Properties.Settings.Default.Save();
+            }
+            //예탁자산 총액 증가율
+            if (Properties.Settings.Default.DPSASTTOTAMT_GROWTH_RATE.ToString() == "")
+            {
+                Properties.Settings.Default.DPSASTTOTAMT_GROWTH_RATE = this.DPSASTTOTAMT_GROWTH_RATE;
+                Properties.Settings.Default.Save();
+            }
+
 
 
             checkBox_limited.Checked            = Properties.Settings.Default.LIMITED_AT;//운영자금 제한 매입금액+D2예수금
@@ -111,8 +172,8 @@ namespace PackageSellSystemTrading
                 input_stop_profit_target2.Text  = this.STOP_PROFIT_TARGET2;      //목표 이익율2
                 input_battingRate.Text          = this.BATTING_RATE;              //예탁자산 총액대비 배팅 비율
 
-                checkBox_dpsastTotAmt_growth_at.Checked = this.DPSASTTOTAMT_GROWTH_AT;             //예탁자산 총액 증가율 사용여부
-                input_dpsastTotAmt_growth_rate.Text     = this.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 증가율
+                //checkBox_dpsastTotAmt_growth_at.Checked = this.DPSASTTOTAMT_GROWTH_AT;             //예탁자산 총액 증가율 사용여부
+                //input_dpsastTotAmt_growth_rate.Text     = this.DPSASTTOTAMT_GROWTH_RATE.ToString();//예탁자산 총액 증가율
             }
                 catch (Exception ex)
             {

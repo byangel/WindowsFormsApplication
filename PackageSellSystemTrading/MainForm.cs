@@ -595,7 +595,7 @@ namespace PackageSellSystemTrading{
         }
 
         
-        //int flag1857 = 0;
+        int flag1857 = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833Exclude_Tick(object sender, EventArgs e)
         {
@@ -609,31 +609,26 @@ namespace PackageSellSystemTrading{
             else
             {
 
-                //if (flag1857 == 0)
-                //{
-                //    xing_t1857Stop.call_request();
-                //    flag1857 = 1;
-                //}
-                //else if (flag1857 == 1)
-                //{
-                //    xing_t1857Exclude.call_request();
-                //    flag1857 = 2;
-                //}
-                //else
-                //{
-                xing_t1857.call_request();
-                //flag1857 = 0;
-                //}
-                int nowTime = int.Parse(this.xing_t0167.time.Substring(0, 4));
-                if (nowTime == 1455)
+                if (flag1857 == 0)
                 {
-                    System.Threading.Thread.Sleep(1500);
-                    xing_t1857Stop.call_request();
-                    System.Threading.Thread.Sleep(1500);
-                    xing_t1857Exclude.call_request();
-                    this.label_trading_condition.Text = "[" + this.label_time.Text + "]매수금지 갱신.";
-
+                    
+                    xing_t1857.call_request();
+                    flag1857 = 1;
                 }
+                else if (flag1857 == 1)
+                {
+                    xing_t1857Stop.call_request(); 
+                    flag1857 = 2;
+                }
+                else
+                {
+                    //System.Threading.Thread.Sleep(1500);
+                    xing_t1857Exclude.call_request();
+                    flag1857 = 0;
+                }
+                //int nowTime = int.Parse(this.xing_t0167.time.Substring(0, 4));
+                //if (nowTime == 901 || nowTime == 1515)
+                
             }
                
         }
@@ -967,7 +962,7 @@ namespace PackageSellSystemTrading{
                 this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;   //매수 횟수
                 this.grd_t0424.Rows[rowIndex].Cells["sellSunik"     ].Value = Util.GetNumberFormat(summaryVo.sellSunik);//중간매도손익
                 this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"].Value = summaryVo.firstBuyDt.Substring(0,8);//최초진입일시
-
+               
                 this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;      //주문매체
                 this.grd_t0424.Rows[rowIndex].Cells["c_targClearPrc"].Value = Util.GetNumberFormat(summaryVo.targClearPrc);   //목표청산가격
                 this.grd_t0424.Rows[rowIndex].Cells["c_secEntPrc"   ].Value = Util.GetNumberFormat(summaryVo.secEntPrc);     //2차진입가격
@@ -975,8 +970,8 @@ namespace PackageSellSystemTrading{
                 this.grd_t0424.Rows[rowIndex].Cells["c_stopPrc"     ].Value = Util.GetNumberFormat(summaryVo.stopPrc);       //손절가격
                 this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt;   //감시제외여부
                 this.grd_t0424.Rows[rowIndex].Cells["eventNm"       ].Value = summaryVo.eventNm;   //검색조건 이름
-                this.grd_t0424.Rows[rowIndex].Cells["maxRt"      ].Value = 최대수익율;   //최대도달 수익율
-                this.grd_t0424.Rows[rowIndex].Cells["minRt"      ].Value = 최소수익율;   //최소도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["maxRt"         ].Value = 최대수익율;   //최대도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["minRt"         ].Value = 최소수익율;   //최소도달 수익율
               
                 //매도가능수량이 같지 않으면 에러표시 해주자.
                 String errorcd = this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value == null ? "" : this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value.ToString();
@@ -1147,39 +1142,37 @@ namespace PackageSellSystemTrading{
         }
 
         //목표수익율을 리턴한다.
-        public String getStopProfitTarget()
+        public Double getStopProfitTarget(Double buyCnt)
         {
-            String returnVal = Properties.Settings.Default.STOP_PROFIT_TARGET;
+            Double returnVal = Double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET);//목표수익율
             String 투입비율 = Util.getInputRate(this);
             String 제한비율 = Properties.Settings.Default.BUY_STOP_RATE;//투자 비중 제한
             Boolean 시간차목표수익율 = Properties.Settings.Default.TIME_PROFIT_TARGET_AT;
 
-
-            //자본금이 제한비율 근처까지 투입이 된상태이면 빠른 매매 회전율을 위하여 목표수익율을 낮추어 준다.
-            if (Double.Parse(투입비율) > (Double.Parse(제한비율) - 5))
+            
+            //만약 추가 매수한 종목이면 목표 숭익율을 반으로 줄여준다.
+            if (buyCnt > 1)
             {
-                returnVal = Properties.Settings.Default.STOP_PROFIT_TARGET2;
+                returnVal = Double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET2);
             }
             if (시간차목표수익율)
             {
-                //int 나머지 = (int.Parse(mainForm.xing_t0167.minute) - ((int.Parse(mainForm.xing_t0167.minute) / 60) * 60));
                 int 나머지 = int.Parse(this.xing_t0167.minute);
-                //if (나머지 != 0){
-                //    목표수익율 = "10";
-                //}
+                
                 if (나머지 == 19 || 나머지 == 39 || 나머지 == 59)
                 {
 
                 }
                 else if (int.Parse(this.xing_t0167.time.Substring(0, 4)) > 1500 && int.Parse(this.xing_t0167.time.Substring(0, 4)) < 1519)
                 {    //3시 이후부터 3% 이상인것은 판매 (대부문 다음날 올라가지 않고 하락하는 관계로)
-                    returnVal = "3";
+                    returnVal = Double.Parse(Properties.Settings.Default.STOP_PROFIT_TARGET2);
                 }
                 else
                 {
-                    returnVal = "10";
+                    returnVal = 20;
                 }
             }
+            
             return returnVal;
         }
 

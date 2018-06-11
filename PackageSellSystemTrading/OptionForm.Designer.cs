@@ -220,7 +220,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(396, 60);
+            this.label11.Location = new System.Drawing.Point(357, 60);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(71, 12);
             this.label11.TabIndex = 115;
@@ -229,11 +229,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(260, 60);
+            this.label2.Location = new System.Drawing.Point(259, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 12);
+            this.label2.Size = new System.Drawing.Size(47, 12);
             this.label2.TabIndex = 117;
-            this.label2.Text = "투자율95%이상";
+            this.label2.Text = "3시이후";
             // 
             // label7
             // 
@@ -265,7 +265,7 @@
             // input_stop_profit_target2
             // 
             this.input_stop_profit_target2.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_stop_profit_target2.Location = new System.Drawing.Point(353, 56);
+            this.input_stop_profit_target2.Location = new System.Drawing.Point(314, 56);
             this.input_stop_profit_target2.Name = "input_stop_profit_target2";
             this.input_stop_profit_target2.Size = new System.Drawing.Size(37, 20);
             this.input_stop_profit_target2.TabIndex = 116;
