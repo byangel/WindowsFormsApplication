@@ -65,14 +65,17 @@
             this.label_battingAmt = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_config_save
             // 
-            this.btn_config_save.Location = new System.Drawing.Point(349, 487);
+            this.btn_config_save.Location = new System.Drawing.Point(317, 610);
             this.btn_config_save.Name = "btn_config_save";
             this.btn_config_save.Size = new System.Drawing.Size(63, 26);
             this.btn_config_save.TabIndex = 13;
@@ -82,7 +85,7 @@
             // 
             // btn_rollback
             // 
-            this.btn_rollback.Location = new System.Drawing.Point(284, 487);
+            this.btn_rollback.Location = new System.Drawing.Point(252, 610);
             this.btn_rollback.Name = "btn_rollback";
             this.btn_rollback.Size = new System.Drawing.Size(59, 26);
             this.btn_rollback.TabIndex = 14;
@@ -93,7 +96,7 @@
             // checkBox_limited
             // 
             this.checkBox_limited.AutoSize = true;
-            this.checkBox_limited.Location = new System.Drawing.Point(25, 65);
+            this.checkBox_limited.Location = new System.Drawing.Point(34, 65);
             this.checkBox_limited.Name = "checkBox_limited";
             this.checkBox_limited.Size = new System.Drawing.Size(124, 16);
             this.checkBox_limited.TabIndex = 92;
@@ -103,7 +106,7 @@
             // 
             // close
             // 
-            this.close.Location = new System.Drawing.Point(418, 487);
+            this.close.Location = new System.Drawing.Point(386, 610);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(51, 26);
             this.close.TabIndex = 101;
@@ -114,7 +117,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(234, 65);
+            this.label9.Location = new System.Drawing.Point(243, 65);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(183, 12);
             this.label9.TabIndex = 98;
@@ -123,7 +126,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 100);
+            this.label5.Location = new System.Drawing.Point(20, 100);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 12);
             this.label5.TabIndex = 90;
@@ -132,7 +135,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 68);
+            this.label6.Location = new System.Drawing.Point(19, 68);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(15, 12);
             this.label6.TabIndex = 91;
@@ -141,7 +144,7 @@
             // input_max_amt_limit
             // 
             this.input_max_amt_limit.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_max_amt_limit.Location = new System.Drawing.Point(150, 61);
+            this.input_max_amt_limit.Location = new System.Drawing.Point(159, 61);
             this.input_max_amt_limit.Name = "input_max_amt_limit";
             this.input_max_amt_limit.Size = new System.Drawing.Size(80, 20);
             this.input_max_amt_limit.TabIndex = 97;
@@ -150,7 +153,7 @@
             // input_buy_stop_rate
             // 
             this.input_buy_stop_rate.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_buy_stop_rate.Location = new System.Drawing.Point(88, 95);
+            this.input_buy_stop_rate.Location = new System.Drawing.Point(97, 95);
             this.input_buy_stop_rate.Name = "input_buy_stop_rate";
             this.input_buy_stop_rate.Size = new System.Drawing.Size(44, 20);
             this.input_buy_stop_rate.TabIndex = 95;
@@ -159,7 +162,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(134, 99);
+            this.label8.Location = new System.Drawing.Point(143, 99);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(241, 12);
             this.label8.TabIndex = 96;
@@ -168,7 +171,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(183, 186);
+            this.label13.Location = new System.Drawing.Point(192, 186);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(43, 12);
             this.label13.TabIndex = 110;
@@ -177,7 +180,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(11, 186);
+            this.label12.Location = new System.Drawing.Point(20, 186);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(119, 12);
             this.label12.TabIndex = 109;
@@ -186,7 +189,7 @@
             // input_battingRate
             // 
             this.input_battingRate.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_battingRate.Location = new System.Drawing.Point(131, 180);
+            this.input_battingRate.Location = new System.Drawing.Point(140, 180);
             this.input_battingRate.Name = "input_battingRate";
             this.input_battingRate.Size = new System.Drawing.Size(48, 20);
             this.input_battingRate.TabIndex = 108;
@@ -196,7 +199,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(166, 128);
+            this.label4.Location = new System.Drawing.Point(175, 128);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 12);
             this.label4.TabIndex = 89;
@@ -205,7 +208,7 @@
             // input_repeat_rate
             // 
             this.input_repeat_rate.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_repeat_rate.Location = new System.Drawing.Point(131, 123);
+            this.input_repeat_rate.Location = new System.Drawing.Point(140, 123);
             this.input_repeat_rate.Name = "input_repeat_rate";
             this.input_repeat_rate.Size = new System.Drawing.Size(34, 20);
             this.input_repeat_rate.TabIndex = 94;
@@ -214,7 +217,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 127);
+            this.label1.Location = new System.Drawing.Point(20, 127);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(115, 12);
             this.label1.TabIndex = 102;
@@ -223,7 +226,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(360, 378);
+            this.label11.Location = new System.Drawing.Point(360, 443);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(71, 12);
             this.label11.TabIndex = 115;
@@ -232,7 +235,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(262, 378);
+            this.label2.Location = new System.Drawing.Point(262, 443);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 12);
             this.label2.TabIndex = 117;
@@ -241,7 +244,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(189, 378);
+            this.label7.Location = new System.Drawing.Point(189, 443);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 12);
             this.label7.TabIndex = 85;
@@ -250,7 +253,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(16, 378);
+            this.label10.Location = new System.Drawing.Point(16, 443);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(127, 12);
             this.label10.TabIndex = 100;
@@ -259,7 +262,7 @@
             // input_stop_profit_target
             // 
             this.input_stop_profit_target.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_stop_profit_target.Location = new System.Drawing.Point(147, 374);
+            this.input_stop_profit_target.Location = new System.Drawing.Point(147, 439);
             this.input_stop_profit_target.Name = "input_stop_profit_target";
             this.input_stop_profit_target.Size = new System.Drawing.Size(37, 20);
             this.input_stop_profit_target.TabIndex = 99;
@@ -268,7 +271,7 @@
             // input_stop_profit_target2
             // 
             this.input_stop_profit_target2.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_stop_profit_target2.Location = new System.Drawing.Point(317, 374);
+            this.input_stop_profit_target2.Location = new System.Drawing.Point(317, 439);
             this.input_stop_profit_target2.Name = "input_stop_profit_target2";
             this.input_stop_profit_target2.Size = new System.Drawing.Size(37, 20);
             this.input_stop_profit_target2.TabIndex = 116;
@@ -277,7 +280,7 @@
             // checkBox_stopLoss
             // 
             this.checkBox_stopLoss.AutoSize = true;
-            this.checkBox_stopLoss.Location = new System.Drawing.Point(28, 434);
+            this.checkBox_stopLoss.Location = new System.Drawing.Point(28, 499);
             this.checkBox_stopLoss.Name = "checkBox_stopLoss";
             this.checkBox_stopLoss.Size = new System.Drawing.Size(72, 16);
             this.checkBox_stopLoss.TabIndex = 118;
@@ -288,7 +291,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 437);
+            this.label3.Location = new System.Drawing.Point(13, 502);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(15, 12);
             this.label3.TabIndex = 119;
@@ -297,7 +300,7 @@
             // input_stopLoss
             // 
             this.input_stopLoss.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_stopLoss.Location = new System.Drawing.Point(99, 431);
+            this.input_stopLoss.Location = new System.Drawing.Point(99, 496);
             this.input_stopLoss.Name = "input_stopLoss";
             this.input_stopLoss.Size = new System.Drawing.Size(37, 20);
             this.input_stopLoss.TabIndex = 120;
@@ -306,7 +309,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(139, 436);
+            this.label14.Location = new System.Drawing.Point(139, 501);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(71, 12);
             this.label14.TabIndex = 121;
@@ -315,7 +318,7 @@
             // checkBox_exclStopLossAt
             // 
             this.checkBox_exclStopLossAt.AutoSize = true;
-            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(170, 33);
+            this.checkBox_exclStopLossAt.Location = new System.Drawing.Point(179, 33);
             this.checkBox_exclStopLossAt.Name = "checkBox_exclStopLossAt";
             this.checkBox_exclStopLossAt.Size = new System.Drawing.Size(120, 16);
             this.checkBox_exclStopLossAt.TabIndex = 122;
@@ -325,7 +328,7 @@
             // checkBox_time_profit_target
             // 
             this.checkBox_time_profit_target.AutoSize = true;
-            this.checkBox_time_profit_target.Location = new System.Drawing.Point(18, 33);
+            this.checkBox_time_profit_target.Location = new System.Drawing.Point(27, 33);
             this.checkBox_time_profit_target.Name = "checkBox_time_profit_target";
             this.checkBox_time_profit_target.Size = new System.Drawing.Size(108, 16);
             this.checkBox_time_profit_target.TabIndex = 123;
@@ -335,7 +338,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(11, 156);
+            this.label15.Location = new System.Drawing.Point(20, 156);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(131, 12);
             this.label15.TabIndex = 124;
@@ -344,7 +347,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(229, 156);
+            this.label16.Location = new System.Drawing.Point(238, 156);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(17, 12);
             this.label16.TabIndex = 126;
@@ -353,7 +356,7 @@
             // label_dpsastTotAmt_max
             // 
             this.label_dpsastTotAmt_max.AutoSize = true;
-            this.label_dpsastTotAmt_max.Location = new System.Drawing.Point(148, 156);
+            this.label_dpsastTotAmt_max.Location = new System.Drawing.Point(157, 156);
             this.label_dpsastTotAmt_max.Name = "label_dpsastTotAmt_max";
             this.label_dpsastTotAmt_max.Size = new System.Drawing.Size(11, 12);
             this.label_dpsastTotAmt_max.TabIndex = 127;
@@ -362,7 +365,7 @@
             // checkBox_dpsastTotAmt_growth_at
             // 
             this.checkBox_dpsastTotAmt_growth_at.AutoSize = true;
-            this.checkBox_dpsastTotAmt_growth_at.Location = new System.Drawing.Point(25, 403);
+            this.checkBox_dpsastTotAmt_growth_at.Location = new System.Drawing.Point(25, 468);
             this.checkBox_dpsastTotAmt_growth_at.Name = "checkBox_dpsastTotAmt_growth_at";
             this.checkBox_dpsastTotAmt_growth_at.Size = new System.Drawing.Size(172, 16);
             this.checkBox_dpsastTotAmt_growth_at.TabIndex = 128;
@@ -373,7 +376,7 @@
             // input_dpsastTotAmt_growth_rate
             // 
             this.input_dpsastTotAmt_growth_rate.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_dpsastTotAmt_growth_rate.Location = new System.Drawing.Point(190, 399);
+            this.input_dpsastTotAmt_growth_rate.Location = new System.Drawing.Point(190, 464);
             this.input_dpsastTotAmt_growth_rate.Name = "input_dpsastTotAmt_growth_rate";
             this.input_dpsastTotAmt_growth_rate.Size = new System.Drawing.Size(34, 20);
             this.input_dpsastTotAmt_growth_rate.TabIndex = 130;
@@ -382,7 +385,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(228, 404);
+            this.label17.Location = new System.Drawing.Point(228, 469);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(219, 12);
             this.label17.TabIndex = 129;
@@ -391,7 +394,7 @@
             // label_battingAmt
             // 
             this.label_battingAmt.AutoSize = true;
-            this.label_battingAmt.Location = new System.Drawing.Point(240, 186);
+            this.label_battingAmt.Location = new System.Drawing.Point(249, 186);
             this.label_battingAmt.Name = "label_battingAmt";
             this.label_battingAmt.Size = new System.Drawing.Size(11, 12);
             this.label_battingAmt.TabIndex = 132;
@@ -400,7 +403,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(284, 186);
+            this.label19.Location = new System.Drawing.Point(293, 186);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(17, 12);
             this.label19.TabIndex = 131;
@@ -409,46 +412,68 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(10, 407);
+            this.label18.Location = new System.Drawing.Point(10, 472);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(15, 12);
             this.label18.TabIndex = 133;
             this.label18.Text = "3.";
             // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(17, 281);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(69, 12);
-            this.label21.TabIndex = 135;
-            this.label21.Text = "조건식 설정";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(16, 358);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(81, 12);
-            this.label22.TabIndex = 136;
-            this.label22.Text = "트레이딩 스탑";
-            // 
             // groupBox1
             // 
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(457, 221);
+            this.groupBox1.Size = new System.Drawing.Size(425, 212);
             this.groupBox1.TabIndex = 137;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "기본설정";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Location = new System.Drawing.Point(12, 240);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(425, 154);
+            this.groupBox2.TabIndex = 138;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "조건식 설정";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "OR",
+            "AND"});
+            this.comboBox1.Location = new System.Drawing.Point(96, 20);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(50, 20);
+            this.comboBox1.TabIndex = 141;
+            this.comboBox1.Text = "AND";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("굴림", 8F);
+            this.textBox1.Location = new System.Drawing.Point(6, 20);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(80, 20);
+            this.textBox1.TabIndex = 140;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Location = new System.Drawing.Point(12, 414);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(425, 175);
+            this.groupBox3.TabIndex = 139;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "트레이딩 스탑";
             // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 525);
-            this.Controls.Add(this.label22);
-            this.Controls.Add(this.label21);
+            this.ClientSize = new System.Drawing.Size(446, 648);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label_battingAmt);
             this.Controls.Add(this.label19);
@@ -487,8 +512,12 @@
             this.Controls.Add(this.btn_rollback);
             this.Controls.Add(this.btn_config_save);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Name = "OptionForm";
             this.Text = "설정관리";
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -533,8 +562,10 @@
         private System.Windows.Forms.Label label_battingAmt;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        public System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

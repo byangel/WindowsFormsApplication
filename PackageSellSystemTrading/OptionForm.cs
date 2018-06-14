@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -267,6 +268,38 @@ namespace PackageSellSystemTrading
                 String input_battingRate = ((TextBox)sender).Text;
                 //String 예탁자산총액 = mainForm.label_DpsastTotamt.Text;
                 this.label_battingAmt.Text = Util.GetNumberFormat(Util.getBattingAmt(dpsastTotAmtMax, input_battingRate));
+            }
+        }
+
+     
+
+        private void textBox1_Click(object sender, EventArgs e)
+        {
+            Stream myStream = null;
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "All files (*.*)|*.*|ACF files (*.ACF)|*.ACF";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(openFileDialog1.FileName);
+                try
+                {
+                    if ((myStream = openFileDialog1.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            // Insert code to read the stream here.
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
             }
         }
     }//class end
