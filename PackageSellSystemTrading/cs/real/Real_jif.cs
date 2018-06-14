@@ -56,6 +56,7 @@ namespace PackageSellSystemTrading
                  
 
                     mainForm.label_jif.Text = this.mlabel;
+                    mainForm.insertListBoxLog(this.mlabel);
                     //장이 마감되면 스넵샷을 찍는다.(챠트데이타 저장)
                     if (jstatus == "41")
                     {
