@@ -74,18 +74,6 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MAX_AMT_LIMIT {
-            get {
-                return ((string)(this["MAX_AMT_LIMIT"]));
-            }
-            set {
-                this["MAX_AMT_LIMIT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string SERVER_ADDRESS {
             get {
                 return ((string)(this["SERVER_ADDRESS"]));
@@ -107,91 +95,795 @@ namespace PackageSellSystemTrading.Properties {
             }
         }
         
+        /// <summary>
+        /// 매도종목 재매수 허용
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BUY_STOP_RATE {
-            get {
-                return ((string)(this["BUY_STOP_RATE"]));
-            }
-            set {
-                this["BUY_STOP_RATE"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string REPEAT_RATE {
-            get {
-                return ((string)(this["REPEAT_RATE"]));
-            }
-            set {
-                this["REPEAT_RATE"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string REPEAT_TERM {
-            get {
-                return ((string)(this["REPEAT_TERM"]));
-            }
-            set {
-                this["REPEAT_TERM"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도종목 재매수 허용")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool LIMITED_AT {
+        public bool SELL_TO_RE_BUY_AT {
             get {
-                return ((bool)(this["LIMITED_AT"]));
+                return ((bool)(this["SELL_TO_RE_BUY_AT"]));
             }
             set {
-                this["LIMITED_AT"] = value;
+                this["SELL_TO_RE_BUY_AT"] = value;
             }
         }
         
+        /// <summary>
+        /// 미수 금지 여부
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("미수 금지 여부")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BATTING_RATE {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NOT_MONEY_BUY_AT {
             get {
-                return ((string)(this["BATTING_RATE"]));
+                return ((bool)(this["NOT_MONEY_BUY_AT"]));
             }
             set {
-                this["BATTING_RATE"] = value;
+                this["NOT_MONEY_BUY_AT"] = value;
             }
         }
         
+        /// <summary>
+        /// 자본금대비 매수 제한 여부
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("자본금대비 매수 제한 여부")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STOP_PROFIT_TARGET {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BASE_MONEY_BUY_AT {
             get {
-                return ((string)(this["STOP_PROFIT_TARGET"]));
+                return ((bool)(this["BASE_MONEY_BUY_AT"]));
             }
             set {
-                this["STOP_PROFIT_TARGET"] = value;
+                this["BASE_MONEY_BUY_AT"] = value;
             }
         }
         
+        /// <summary>
+        /// 자본금대비 매수 제한 비율
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("자본금대비 매수 제한 비율")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STOP_PROFIT_TARGET2 {
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public string BASE_MONEY_BUY_RATE {
             get {
-                return ((string)(this["STOP_PROFIT_TARGET2"]));
+                return ((string)(this["BASE_MONEY_BUY_RATE"]));
             }
             set {
-                this["STOP_PROFIT_TARGET2"] = value;
+                this["BASE_MONEY_BUY_RATE"] = value;
             }
         }
         
+        /// <summary>
+        /// 최대 운영자금 제한 여부
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("최대 운영자금 제한 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MAX_FUNDS_LIMITED_AT {
+            get {
+                return ((bool)(this["MAX_FUNDS_LIMITED_AT"]));
+            }
+            set {
+                this["MAX_FUNDS_LIMITED_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 최대 운영자금 금액(만원)
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("최대 운영자금 금액(만원)")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
+        public string MAX_FUNDS_LIMITED_AMT {
+            get {
+                return ((string)(this["MAX_FUNDS_LIMITED_AMT"]));
+            }
+            set {
+                this["MAX_FUNDS_LIMITED_AMT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 1회매수금액(만워)
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("1회매수금액(만워)")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string BUY_BATTING_AMT {
+            get {
+                return ((string)(this["BUY_BATTING_AMT"]));
+            }
+            set {
+                this["BUY_BATTING_AMT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 최대 매수 가능 종목수
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("최대 매수 가능 종목수")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public string MAX_BUY_COUNT {
+            get {
+                return ((string)(this["MAX_BUY_COUNT"]));
+            }
+            set {
+                this["MAX_BUY_COUNT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KOS_AT {
+            get {
+                return ((bool)(this["KOS_AT"]));
+            }
+            set {
+                this["KOS_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 전일대비 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 전일대비 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KOS_YESTERDAY_AT {
+            get {
+                return ((bool)(this["KOS_YESTERDAY_AT"]));
+            }
+            set {
+                this["KOS_YESTERDAY_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 전일대비 값
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 전일대비 값")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-0.1")]
+        public string KOS_YESTERDAY_VAL {
+            get {
+                return ((string)(this["KOS_YESTERDAY_VAL"]));
+            }
+            set {
+                this["KOS_YESTERDAY_VAL"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 전일대비 구분[%|pt]
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 전일대비 구분[%|pt]")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%")]
+        public string KOS_YESTERDAY_VAL_SE {
+            get {
+                return ((string)(this["KOS_YESTERDAY_VAL_SE"]));
+            }
+            set {
+                this["KOS_YESTERDAY_VAL_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 시작가대비 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 시작가대비 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KOS_START_AT {
+            get {
+                return ((bool)(this["KOS_START_AT"]));
+            }
+            set {
+                this["KOS_START_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 시작가대비 값
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 시작가대비 값")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-0.1")]
+        public string KOS_START_VAL {
+            get {
+                return ((string)(this["KOS_START_VAL"]));
+            }
+            set {
+                this["KOS_START_VAL"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스피 시작가대비 구분[%|pt
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스피 시작가대비 구분[%|pt")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%")]
+        public string KOS_START_VAL_SE {
+            get {
+                return ((string)(this["KOS_START_VAL_SE"]));
+            }
+            set {
+                this["KOS_START_VAL_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KOD_AT {
+            get {
+                return ((bool)(this["KOD_AT"]));
+            }
+            set {
+                this["KOD_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 전일대비 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 전일대비 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KOD_YESTERDAY_AT {
+            get {
+                return ((bool)(this["KOD_YESTERDAY_AT"]));
+            }
+            set {
+                this["KOD_YESTERDAY_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 전일대비 값
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 전일대비 값")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-0.1")]
+        public string KOD_YESTERDAY_VAL {
+            get {
+                return ((string)(this["KOD_YESTERDAY_VAL"]));
+            }
+            set {
+                this["KOD_YESTERDAY_VAL"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 전일대비 구분[%|pt
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 전일대비 구분[%|pt")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%")]
+        public string KOD_YESTERDAY_VAL_SE {
+            get {
+                return ((string)(this["KOD_YESTERDAY_VAL_SE"]));
+            }
+            set {
+                this["KOD_YESTERDAY_VAL_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 시작가대비 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 시작가대비 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KOD_START_AT {
+            get {
+                return ((bool)(this["KOD_START_AT"]));
+            }
+            set {
+                this["KOD_START_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 시작가대비 값
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 시작가대비 값")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-0.1")]
+        public string KOD_START_VAL {
+            get {
+                return ((string)(this["KOD_START_VAL"]));
+            }
+            set {
+                this["KOD_START_VAL"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 코스닥 시작가대비 구분[%|pt]
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("코스닥 시작가대비 구분[%|pt]")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%")]
+        public string KOD_START_VAL_SE {
+            get {
+                return ((string)(this["KOD_START_VAL_SE"]));
+            }
+            set {
+                this["KOD_START_VAL_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 조건검색 파일 이름1
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 조건검색 파일 이름1")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string BUY_SEARCH_NM1 {
+            get {
+                return ((string)(this["BUY_SEARCH_NM1"]));
+            }
+            set {
+                this["BUY_SEARCH_NM1"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 조건검색 파일 이름2
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 조건검색 파일 이름2")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string BUY_SEARCH_NM2 {
+            get {
+                return ((string)(this["BUY_SEARCH_NM2"]));
+            }
+            set {
+                this["BUY_SEARCH_NM2"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 조건검색 파일 이름3
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 조건검색 파일 이름3")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string BUY_SEARCH_NM3 {
+            get {
+                return ((string)(this["BUY_SEARCH_NM3"]));
+            }
+            set {
+                this["BUY_SEARCH_NM3"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 조건검색 구분1
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 조건검색 구분1")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AND")]
+        public string BUY_SEARCH_SE1 {
+            get {
+                return ((string)(this["BUY_SEARCH_SE1"]));
+            }
+            set {
+                this["BUY_SEARCH_SE1"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 조건검색 구분2
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 조건검색 구분2")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AND")]
+        public string BUY_SEARCH_SE2 {
+            get {
+                return ((string)(this["BUY_SEARCH_SE2"]));
+            }
+            set {
+                this["BUY_SEARCH_SE2"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 호가
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 호가")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("시장가")]
+        public string BUY_HO {
+            get {
+                return ((string)(this["BUY_HO"]));
+            }
+            set {
+                this["BUY_HO"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 호가 정정 타이머(초)
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 호가 정정 타이머(초)")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public string BUY_HO_CHANGE_TIMMER {
+            get {
+                return ((string)(this["BUY_HO_CHANGE_TIMMER"]));
+            }
+            set {
+                this["BUY_HO_CHANGE_TIMMER"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 호가 정정 구분
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 호가 정정 구분")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("주문취소")]
+        public string BUY_HO_CHANGE_SE {
+            get {
+                return ((string)(this["BUY_HO_CHANGE_SE"]));
+            }
+            set {
+                this["BUY_HO_CHANGE_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 동작 시간 FROM
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 동작 시간 FROM")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 21:00:00")]
+        public global::System.DateTime BUY_TIME_FROM {
+            get {
+                return ((global::System.DateTime)(this["BUY_TIME_FROM"]));
+            }
+            set {
+                this["BUY_TIME_FROM"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매수 동작 시간 TO
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매수 동작 시간 TO")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 15:20:00")]
+        public global::System.DateTime BUY_TIME_TO {
+            get {
+                return ((global::System.DateTime)(this["BUY_TIME_TO"]));
+            }
+            set {
+                this["BUY_TIME_TO"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 조건검색 파일 이름1
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 조건검색 파일 이름1")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string SELL_SEARCH_NM1 {
+            get {
+                return ((string)(this["SELL_SEARCH_NM1"]));
+            }
+            set {
+                this["SELL_SEARCH_NM1"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 조건검색 파일 이름2
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 조건검색 파일 이름2")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string SELL_SEARCH_NM2 {
+            get {
+                return ((string)(this["SELL_SEARCH_NM2"]));
+            }
+            set {
+                this["SELL_SEARCH_NM2"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 조건검색 파일 이름3
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 조건검색 파일 이름3")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string SELL_SEARCH_NM3 {
+            get {
+                return ((string)(this["SELL_SEARCH_NM3"]));
+            }
+            set {
+                this["SELL_SEARCH_NM3"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 조건검색 구분1
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 조건검색 구분1")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AND")]
+        public string SELL_SEARCH_SE1 {
+            get {
+                return ((string)(this["SELL_SEARCH_SE1"]));
+            }
+            set {
+                this["SELL_SEARCH_SE1"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 조건검색 구분2
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 조건검색 구분2")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AND")]
+        public string SELL_SEARCH_SE2 {
+            get {
+                return ((string)(this["SELL_SEARCH_SE2"]));
+            }
+            set {
+                this["SELL_SEARCH_SE2"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 호가
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 호가")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public string SELL_HO {
+            get {
+                return ((string)(this["SELL_HO"]));
+            }
+            set {
+                this["SELL_HO"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 호가 정정 타이머
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 호가 정정 타이머")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public string SELL_HO_CHANGE_TIMMER {
+            get {
+                return ((string)(this["SELL_HO_CHANGE_TIMMER"]));
+            }
+            set {
+                this["SELL_HO_CHANGE_TIMMER"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 호가 정정 구분
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 호가 정정 구분")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("주문정정")]
+        public string SELL_HO_CHANGE_SE {
+            get {
+                return ((string)(this["SELL_HO_CHANGE_SE"]));
+            }
+            set {
+                this["SELL_HO_CHANGE_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 동작 시간 FROM
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 동작 시간 FROM")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 21:00:00")]
+        public global::System.DateTime SELL_TIME_FROM {
+            get {
+                return ((global::System.DateTime)(this["SELL_TIME_FROM"]));
+            }
+            set {
+                this["SELL_TIME_FROM"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 동작 시간 TO
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 동작 시간 TO")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 15:20:00")]
+        public global::System.DateTime SELL_TIME_TO {
+            get {
+                return ((global::System.DateTime)(this["SELL_TIME_TO"]));
+            }
+            set {
+                this["SELL_TIME_TO"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 목표 수익
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("목표 수익")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public string STOP_TARGET_RATE {
+            get {
+                return ((string)(this["STOP_TARGET_RATE"]));
+            }
+            set {
+                this["STOP_TARGET_RATE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 목표 수익 대비 하락율
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("목표 수익 대비 하락율")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public string STOP_TARGET_DOWN_RATE {
+            get {
+                return ((string)(this["STOP_TARGET_DOWN_RATE"]));
+            }
+            set {
+                this["STOP_TARGET_DOWN_RATE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 일괄 매도 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("일괄 매도 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ALL_SELL_AT {
+            get {
+                return ((bool)(this["ALL_SELL_AT"]));
+            }
+            set {
+                this["ALL_SELL_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 일괄 매도 시작시간
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("일괄 매도 시작시간")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 15:10:00")]
+        public global::System.DateTime ALL_SELL_TIME_FROM {
+            get {
+                return ((global::System.DateTime)(this["ALL_SELL_TIME_FROM"]));
+            }
+            set {
+                this["ALL_SELL_TIME_FROM"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 일괄 매도 종료시간
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("일괄 매도 종료시간")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 15:20:00")]
+        public global::System.DateTime ALL_SELL_TIME_TO {
+            get {
+                return ((global::System.DateTime)(this["ALL_SELL_TIME_TO"]));
+            }
+            set {
+                this["ALL_SELL_TIME_TO"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 일괄 매도 비율
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("일괄 매도 비율")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("99")]
+        public string ALL_SELL_RATE {
+            get {
+                return ((string)(this["ALL_SELL_RATE"]));
+            }
+            set {
+                this["ALL_SELL_RATE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 일괄 매도 구분
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("일괄 매도 구분")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("이하")]
+        public string ALL_SELL_RATE_SE {
+            get {
+                return ((string)(this["ALL_SELL_RATE_SE"]));
+            }
+            set {
+                this["ALL_SELL_RATE_SE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 손절 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("손절 여부")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool STOP_LOSS_AT {
@@ -203,75 +895,339 @@ namespace PackageSellSystemTrading.Properties {
             }
         }
         
+        /// <summary>
+        /// 손절 하락 비율
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("손절 하락 비율")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string STOP_LOSS {
+        [global::System.Configuration.DefaultSettingValueAttribute("-5")]
+        public double STOP_LOSS_RATE {
             get {
-                return ((string)(this["STOP_LOSS"]));
+                return ((double)(this["STOP_LOSS_RATE"]));
             }
             set {
-                this["STOP_LOSS"] = value;
+                this["STOP_LOSS_RATE"] = value;
             }
         }
         
+        /// <summary>
+        /// 지정 시간 매도 여부
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EXCL_STOP_LOSS_AT {
-            get {
-                return ((bool)(this["EXCL_STOP_LOSS_AT"]));
-            }
-            set {
-                this["EXCL_STOP_LOSS_AT"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도 여부")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TIME_PROFIT_TARGET_AT {
+        public bool SELL_TARGET_TIME_AT {
             get {
-                return ((bool)(this["TIME_PROFIT_TARGET_AT"]));
+                return ((bool)(this["SELL_TARGET_TIME_AT"]));
             }
             set {
-                this["TIME_PROFIT_TARGET_AT"] = value;
+                this["SELL_TARGET_TIME_AT"] = value;
             }
         }
         
+        /// <summary>
+        /// 지정시간 오버 수익 비율
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정시간 오버 수익 비율")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DPSASTTOTAMT_MAX {
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string SELL_TARGET_TIME_OVR_RATE {
             get {
-                return ((string)(this["DPSASTTOTAMT_MAX"]));
+                return ((string)(this["SELL_TARGET_TIME_OVR_RATE"]));
             }
             set {
-                this["DPSASTTOTAMT_MAX"] = value;
+                this["SELL_TARGET_TIME_OVR_RATE"] = value;
             }
         }
         
+        /// <summary>
+        /// 지정 시간 매도
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SELL_TARGET_TIME_10 {
+            get {
+                return ((bool)(this["SELL_TARGET_TIME_10"]));
+            }
+            set {
+                this["SELL_TARGET_TIME_10"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 지정 시간 매도
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DPSASTTOTAMT_GROWTH_AT {
+        public bool SELL_TARGET_TIME_20 {
             get {
-                return ((bool)(this["DPSASTTOTAMT_GROWTH_AT"]));
+                return ((bool)(this["SELL_TARGET_TIME_20"]));
             }
             set {
-                this["DPSASTTOTAMT_GROWTH_AT"] = value;
+                this["SELL_TARGET_TIME_20"] = value;
             }
         }
         
+        /// <summary>
+        /// 지정 시간 매도
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DPSASTTOTAMT_GROWTH_RATE {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SELL_TARGET_TIME_30 {
             get {
-                return ((string)(this["DPSASTTOTAMT_GROWTH_RATE"]));
+                return ((bool)(this["SELL_TARGET_TIME_30"]));
             }
             set {
-                this["DPSASTTOTAMT_GROWTH_RATE"] = value;
+                this["SELL_TARGET_TIME_30"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 지정 시간 매도
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SELL_TARGET_TIME_40 {
+            get {
+                return ((bool)(this["SELL_TARGET_TIME_40"]));
+            }
+            set {
+                this["SELL_TARGET_TIME_40"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 지정 시간 매도
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SELL_TARGET_TIME_50 {
+            get {
+                return ((bool)(this["SELL_TARGET_TIME_50"]));
+            }
+            set {
+                this["SELL_TARGET_TIME_50"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 지정 시간 매도
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("지정 시간 매도")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SELL_TARGET_TIME_00 {
+            get {
+                return ((bool)(this["SELL_TARGET_TIME_00"]));
+            }
+            set {
+                this["SELL_TARGET_TIME_00"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 신호 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 신호 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ADD_BUY_SIGNAL_AT {
+            get {
+                return ((bool)(this["ADD_BUY_SIGNAL_AT"]));
+            }
+            set {
+                this["ADD_BUY_SIGNAL_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 신호 하락 비율
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 신호 하락 비율")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-3")]
+        public string ADD_BUY_SIGNAL_RATE {
+            get {
+                return ((string)(this["ADD_BUY_SIGNAL_RATE"]));
+            }
+            set {
+                this["ADD_BUY_SIGNAL_RATE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 신호 금액(만원)
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 신호 금액(만원)")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public string ADD_BUY_SIGNAL_AMT {
+            get {
+                return ((string)(this["ADD_BUY_SIGNAL_AMT"]));
+            }
+            set {
+                this["ADD_BUY_SIGNAL_AMT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ADD_BUY_AT {
+            get {
+                return ((bool)(this["ADD_BUY_AT"]));
+            }
+            set {
+                this["ADD_BUY_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 하락 비율
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 하락 비율")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-3")]
+        public string ADD_BUY_RATE {
+            get {
+                return ((string)(this["ADD_BUY_RATE"]));
+            }
+            set {
+                this["ADD_BUY_RATE"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 금액(만원)
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 금액(만원)")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public string ADD_BUY_AMT {
+            get {
+                return ((string)(this["ADD_BUY_AMT"]));
+            }
+            set {
+                this["ADD_BUY_AMT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 조건검색 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 조건검색 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ADD_BUY_SEARCH_AT {
+            get {
+                return ((bool)(this["ADD_BUY_SEARCH_AT"]));
+            }
+            set {
+                this["ADD_BUY_SEARCH_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 조건검색 이름
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 조건검색 이름")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string ADD_BUY_SEARCH_NM {
+            get {
+                return ((string)(this["ADD_BUY_SEARCH_NM"]));
+            }
+            set {
+                this["ADD_BUY_SEARCH_NM"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 조건검색 시작시간
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 조건검색 시작시간")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2018-06-25 오후 9:00")]
+        public string ADD_BUY_SEARCH_TIME_FROM {
+            get {
+                return ((string)(this["ADD_BUY_SEARCH_TIME_FROM"]));
+            }
+            set {
+                this["ADD_BUY_SEARCH_TIME_FROM"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 추가매수 조건검색 종료시간
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("추가매수 조건검색 종료시간")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2018-06-25 오후 3:20")]
+        public string ADD_BUY_SEARCH_TIME_TO {
+            get {
+                return ((string)(this["ADD_BUY_SEARCH_TIME_TO"]));
+            }
+            set {
+                this["ADD_BUY_SEARCH_TIME_TO"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 서버 조건식 검색 여부
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("서버 조건식 검색 여부")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SEARCH_SERVER_AT {
+            get {
+                return ((bool)(this["SEARCH_SERVER_AT"]));
+            }
+            set {
+                this["SEARCH_SERVER_AT"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// 매도 검색시 매수금지만
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("매도 검색시 매수금지만")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SELL_SEARCH_ONLY_AT {
+            get {
+                return ((bool)(this["SELL_SEARCH_ONLY_AT"]));
+            }
+            set {
+                this["SELL_SEARCH_ONLY_AT"] = value;
             }
         }
     }

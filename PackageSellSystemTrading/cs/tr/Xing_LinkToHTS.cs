@@ -18,15 +18,15 @@ namespace PackageSellSystemTrading{
         public MainForm mainForm;
 
 
-        // 생성자
+     // 생성자
         public Xing_LinkToHTS(){
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
-        }   // end function
+        }// end function
 
         
 
-        /// <summary>
+     /// <summary>
 		/// 데이터 응답 처리
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
@@ -37,13 +37,13 @@ namespace PackageSellSystemTrading{
   
         }
 
-        /// <summary>
+     /// <summary>
 		/// 종목검색 호출
 		/// </summary>
 		public bool call_request(String shcode)
         {
-            //base.SetFieldData("t0167InBlock", "id", 0, "");
-            //base.Request(false);
+         //base.SetFieldData("t0167InBlock", "id", 0, "");
+         //base.Request(false);
             base.RequestLinkToHTS("&OPEN_SCREEN", "4001", "");
             return base.RequestLinkToHTS("&STOCK_CODE", shcode, "");
  
@@ -51,4 +51,4 @@ namespace PackageSellSystemTrading{
 
     } //end class 
    
-}   // end namespace
+}// end namespace

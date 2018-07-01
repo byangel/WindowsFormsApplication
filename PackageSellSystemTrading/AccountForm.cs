@@ -23,7 +23,7 @@ namespace PackageSellSystemTrading
         {
             InitializeComponent();
 
-            //this.exXASessionClass = exXASessionClass;
+         //this.exXASessionClass = exXASessionClass;
         }
 
         private void AccountForm_Load(object sender, EventArgs e){
@@ -43,17 +43,17 @@ namespace PackageSellSystemTrading
             this.xing_CSPAQ12300.accountForm = this;
             this.xing_CSPAQ12300.mainForm = this.mainForm;
 
-            //주식잔고2
-            //mainForm.xing_t0424.call_request();
+         //주식잔고2
+         //mainForm.xing_t0424.call_request();
         }
 
 
-        //확인
+     //확인
         private void btn_account_check_Click(object sender, EventArgs e){
             accountCheck();
         }
 
-        //비밀번호 에서 엔터 이벤트.
+     //비밀번호 에서 엔터 이벤트.
         private void input_accountPw_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter){

@@ -14,56 +14,224 @@
     <Setting Name="ACCOUNT_PW" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MAX_AMT_LIMIT" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SERVER_ADDRESS" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ACCOUNT" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="BUY_STOP_RATE" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="REPEAT_RATE" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="REPEAT_TERM" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LIMITED_AT" Type="System.Boolean" Scope="User">
+    <Setting Name="SELL_TO_RE_BUY_AT" Description="매도종목 재매수 허용" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="BATTING_RATE" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="STOP_PROFIT_TARGET" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="STOP_PROFIT_TARGET2" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="STOP_LOSS_AT" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="STOP_LOSS" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="EXCL_STOP_LOSS_AT" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="TIME_PROFIT_TARGET_AT" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="DPSASTTOTAMT_MAX" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="DPSASTTOTAMT_GROWTH_AT" Type="System.Boolean" Scope="User">
+    <Setting Name="NOT_MONEY_BUY_AT" Description="미수 금지 여부" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DPSASTTOTAMT_GROWTH_RATE" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="BASE_MONEY_BUY_AT" Description="자본금대비 매수 제한 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BASE_MONEY_BUY_RATE" Description="자본금대비 매수 제한 비율" Type="System.String" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="MAX_FUNDS_LIMITED_AT" Description="최대 운영자금 제한 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MAX_FUNDS_LIMITED_AMT" Description="최대 운영자금 금액(만원)" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="BUY_BATTING_AMT" Description="1회매수금액(만워)" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="MAX_BUY_COUNT" Description="최대 매수 가능 종목수" Type="System.String" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="KOS_AT" Description="코스피 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KOS_YESTERDAY_AT" Description="코스피 전일대비 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KOS_YESTERDAY_VAL" Description="코스피 전일대비 값" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-0.1</Value>
+    </Setting>
+    <Setting Name="KOS_YESTERDAY_VAL_SE" Description="코스피 전일대비 구분[%|pt]" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%</Value>
+    </Setting>
+    <Setting Name="KOS_START_AT" Description="코스피 시작가대비 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KOS_START_VAL" Description="코스피 시작가대비 값" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-0.1</Value>
+    </Setting>
+    <Setting Name="KOS_START_VAL_SE" Description="코스피 시작가대비 구분[%|pt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%</Value>
+    </Setting>
+    <Setting Name="KOD_AT" Description="코스닥 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KOD_YESTERDAY_AT" Description="코스닥 전일대비 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KOD_YESTERDAY_VAL" Description="코스닥 전일대비 값" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-0.1</Value>
+    </Setting>
+    <Setting Name="KOD_YESTERDAY_VAL_SE" Description="코스닥 전일대비 구분[%|pt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%</Value>
+    </Setting>
+    <Setting Name="KOD_START_AT" Description="코스닥 시작가대비 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KOD_START_VAL" Description="코스닥 시작가대비 값" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-0.1</Value>
+    </Setting>
+    <Setting Name="KOD_START_VAL_SE" Description="코스닥 시작가대비 구분[%|pt]" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%</Value>
+    </Setting>
+    <Setting Name="BUY_SEARCH_NM1" Description="매수 조건검색 파일 이름1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="BUY_SEARCH_NM2" Description="매수 조건검색 파일 이름2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="BUY_SEARCH_NM3" Description="매수 조건검색 파일 이름3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="BUY_SEARCH_SE1" Description="매수 조건검색 구분1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AND</Value>
+    </Setting>
+    <Setting Name="BUY_SEARCH_SE2" Description="매수 조건검색 구분2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AND</Value>
+    </Setting>
+    <Setting Name="BUY_HO" Description="매수 호가" Type="System.String" Scope="User">
+      <Value Profile="(Default)">시장가</Value>
+    </Setting>
+    <Setting Name="BUY_HO_CHANGE_TIMMER" Description="매수 호가 정정 타이머(초)" Type="System.String" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="BUY_HO_CHANGE_SE" Description="매수 호가 정정 구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)">주문취소</Value>
+    </Setting>
+    <Setting Name="BUY_TIME_FROM" Description="매수 동작 시간 FROM" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 21:00:00</Value>
+    </Setting>
+    <Setting Name="BUY_TIME_TO" Description="매수 동작 시간 TO" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 15:20:00</Value>
+    </Setting>
+    <Setting Name="SELL_SEARCH_NM1" Description="매도 조건검색 파일 이름1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="SELL_SEARCH_NM2" Description="매도 조건검색 파일 이름2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="SELL_SEARCH_NM3" Description="매도 조건검색 파일 이름3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="SELL_SEARCH_SE1" Description="매도 조건검색 구분1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AND</Value>
+    </Setting>
+    <Setting Name="SELL_SEARCH_SE2" Description="매도 조건검색 구분2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AND</Value>
+    </Setting>
+    <Setting Name="SELL_HO" Description="매도 호가" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="SELL_HO_CHANGE_TIMMER" Description="매도 호가 정정 타이머" Type="System.String" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="SELL_HO_CHANGE_SE" Description="매도 호가 정정 구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)">주문정정</Value>
+    </Setting>
+    <Setting Name="SELL_TIME_FROM" Description="매도 동작 시간 FROM" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 21:00:00</Value>
+    </Setting>
+    <Setting Name="SELL_TIME_TO" Description="매도 동작 시간 TO" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 15:20:00</Value>
+    </Setting>
+    <Setting Name="STOP_TARGET_RATE" Description="목표 수익" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="STOP_TARGET_DOWN_RATE" Description="목표 수익 대비 하락율" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="ALL_SELL_AT" Description="일괄 매도 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ALL_SELL_TIME_FROM" Description="일괄 매도 시작시간" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 15:10:00</Value>
+    </Setting>
+    <Setting Name="ALL_SELL_TIME_TO" Description="일괄 매도 종료시간" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 15:20:00</Value>
+    </Setting>
+    <Setting Name="ALL_SELL_RATE" Description="일괄 매도 비율" Type="System.String" Scope="User">
+      <Value Profile="(Default)">99</Value>
+    </Setting>
+    <Setting Name="ALL_SELL_RATE_SE" Description="일괄 매도 구분" Type="System.String" Scope="User">
+      <Value Profile="(Default)">이하</Value>
+    </Setting>
+    <Setting Name="STOP_LOSS_AT" Description="손절 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="STOP_LOSS_RATE" Description="손절 하락 비율" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-5</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_AT" Description="지정 시간 매도 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_OVR_RATE" Description="지정시간 오버 수익 비율" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_10" Description="지정 시간 매도" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_20" Description="지정 시간 매도" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_30" Description="지정 시간 매도" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_40" Description="지정 시간 매도" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_50" Description="지정 시간 매도" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SELL_TARGET_TIME_00" Description="지정 시간 매도" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SIGNAL_AT" Description="추가매수 신호 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SIGNAL_RATE" Description="추가매수 신호 하락 비율" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-3</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SIGNAL_AMT" Description="추가매수 신호 금액(만원)" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_AT" Description="추가매수 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_RATE" Description="추가매수 하락 비율" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-3</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_AMT" Description="추가매수 금액(만원)" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SEARCH_AT" Description="추가매수 조건검색 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SEARCH_NM" Description="추가매수 조건검색 이름" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SEARCH_TIME_FROM" Description="추가매수 조건검색 시작시간" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2018-06-25 오후 9:00</Value>
+    </Setting>
+    <Setting Name="ADD_BUY_SEARCH_TIME_TO" Description="추가매수 조건검색 종료시간" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2018-06-25 오후 3:20</Value>
+    </Setting>
+    <Setting Name="SEARCH_SERVER_AT" Description="서버 조건식 검색 여부" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SELL_SEARCH_ONLY_AT" Description="매도 검색시 매수금지만" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

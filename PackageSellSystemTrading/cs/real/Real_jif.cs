@@ -8,7 +8,7 @@ using XA_DATASETLib;
 
 namespace PackageSellSystemTrading
 {
-    //장정보
+ //장정보
 	public class Real_jif : XARealClass
     {
 		// 멤버변수 선언
@@ -35,17 +35,17 @@ namespace PackageSellSystemTrading
 
 
 
-        /// <summary>
-        /// 실시간 데이터 처리 
-        /// </summary>
-        /// <param name="szTrCode"></param>
+     /// <summary>
+     /// 실시간 데이터 처리 
+     /// </summary>
+     /// <param name="szTrCode"></param>
         void receiveDataEventHandler(string szTrCode){
             
 			try
 			{
                 string jangubun = base.GetFieldData("OutBlock", "jangubun");
 				string jstatus = base.GetFieldData("OutBlock", "jstatus");
-                //double iTimeCur = mForm.mxTr0167.mTimeCur;
+             //double iTimeCur = mForm.mxTr0167.mTimeCur;
 
 				// 장 구분이 코스피일 경우 
 				if (jangubun == "1")
@@ -55,9 +55,9 @@ namespace PackageSellSystemTrading
                     this.mlabel = mjstatus + "-" + get_label(mjstatus);
                  
 
-                    mainForm.label_jif.Text = this.mlabel;
+                    //mainForm.label_jif.Text = this.mlabel;
                     mainForm.insertListBoxLog(this.mlabel);
-                    //장이 마감되면 스넵샷을 찍는다.(챠트데이타 저장)
+                 //장이 마감되면 스넵샷을 찍는다.(챠트데이타 저장)
                     if (jstatus == "41")
                     {
                         mainForm.dayCapture();
@@ -199,7 +199,7 @@ namespace PackageSellSystemTrading
 		/// </summary>
 		public void init_jstatus()
 		{
-            //DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+         //DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
 
                 double time = Double.Parse(DateTime.Now.ToString("HHmmss"));
 

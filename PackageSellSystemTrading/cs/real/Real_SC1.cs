@@ -13,115 +13,115 @@ using System.Threading;
 using System.Data;
 
 namespace PackageSellSystemTrading{
-    //현물계좌 예수금/주문가능금액/총평가 조회(API)
+ //현물계좌 예수금/주문가능금액/총평가 조회(API)
     public class Real_SC1 : XARealClass{
 
         public MainForm    mainForm;
 
-        // 생성자
+     // 생성자
         public Real_SC1()
         {
             base.ResFileName = "₩res₩SC1.res";
 
             base.ReceiveRealData  += new _IXARealEvents_ReceiveRealDataEventHandler(receiveDataEventHandler);
-            //base.ReceiveMessage   += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
-        }   // end function
+         //base.ReceiveMessage   += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
+        }// end function
 
 
 
         private RealSc1Vo realSc1Vo = new RealSc1Vo();
-        /// <summary>
-        /// 데이터 응답 처리
-        /// </summary>
-        /// <param name="szTrCode">조회코드</param>
+     /// <summary>
+     /// 데이터 응답 처리
+     /// </summary>
+     /// <param name="szTrCode">조회코드</param>
         void receiveDataEventHandler(string szTrCode){
 
-            //4.주문처리유형코드,ordtrxptncode,
-            // 0    정상                    
-            //6    정정확인                
-            //7    정정거부(채권)
-            //8    취소확인                
-            //9    취소거부(채권)
+         //4.주문처리유형코드,ordtrxptncode,
+         // 0    정상                    
+         //6    정정확인                
+         //7    정정거부(채권)
+         //8    취소확인                
+         //9    취소거부(채권)
 
-            realSc1Vo.ordno         = base.GetFieldData("OutBlock", "ordno");      //주문번호
+            realSc1Vo.ordno         = base.GetFieldData("OutBlock", "ordno");   //주문번호
             realSc1Vo.ordptncode    = base.GetFieldData("OutBlock", "ordptncode"); //주문구분 01:매도|02:매수 
             realSc1Vo.ordtrxptncode = base.GetFieldData("OutBlock", "ordptncode"); // 0:정상|6:정정확인 |7:정정거부(채권) |8:취소확인 |9:취소거부(채권)
             realSc1Vo.Isuno         = base.GetFieldData("OutBlock", "shtnIsuno");  //종목코드
-            realSc1Vo.Isunm         = base.GetFieldData("OutBlock", "Isunm");      //종목명 
-            realSc1Vo.ordqty        = base.GetFieldData("OutBlock", "ordqty");     //ordqty//주문수량
-            realSc1Vo.ordprc        = base.GetFieldData("OutBlock", "ordprc");     //ordprc//주문가격
-            realSc1Vo.execqty       = base.GetFieldData("OutBlock", "execqty");    //execqty//체결수량
-            realSc1Vo.execprc       = base.GetFieldData("OutBlock", "execprc");    //execprc//체결가격
+            realSc1Vo.Isunm         = base.GetFieldData("OutBlock", "Isunm");   //종목명 
+            realSc1Vo.ordqty        = base.GetFieldData("OutBlock", "ordqty");  //ordqty//주문수량
+            realSc1Vo.ordprc        = base.GetFieldData("OutBlock", "ordprc");  //ordprc//주문가격
+            realSc1Vo.execqty       = base.GetFieldData("OutBlock", "execqty"); //execqty//체결수량
+            realSc1Vo.execprc       = base.GetFieldData("OutBlock", "execprc"); //execprc//체결가격
             realSc1Vo.avrpchsprc    = base.GetFieldData("OutBlock", "avrpchsprc"); //평균매입가 -실서버에서 제공하지 않는필드
-            realSc1Vo.pchsant       = base.GetFieldData("OutBlock", "pchsant");    //매입금액  -실서버에서 제공하지 않는필드
-            realSc1Vo.accno         = base.GetFieldData("OutBlock", "accno");      //계좌번호
+            realSc1Vo.pchsant       = base.GetFieldData("OutBlock", "pchsant"); //매입금액  -실서버에서 제공하지 않는필드
+            realSc1Vo.accno         = base.GetFieldData("OutBlock", "accno");   //계좌번호
 
-            //Log.WriteLine("realSc1 ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
-            //Isuno +","+ shtnIsuno
+         //Log.WriteLine("realSc1 ::실시간 체결확인: 계좌번호:"+ realSc1Vo.accno + "|주문번호"+ realSc1Vo.ordno +"|"+ realSc1Vo.Isunm + "("+ realSc1Vo.Isuno + ")|주문수량:" + realSc1Vo.ordqty +"|체결수량:" + realSc1Vo.execqty +"|거래구분:" + realSc1Vo.ordptncode + "|평균매입가:" + realSc1Vo.avrpchsprc +"|체결가걱:"+ realSc1Vo.execprc);
+         //Isuno +","+ shtnIsuno
 
             
-            //int tmpindex = mainForm.tradingHistory.getTradingHistoryVoList().Find("ordno", realSc1Vo.ordno);
+         //int tmpindex = mainForm.tradingHistory.getTradingHistoryVoList().Find("ordno", realSc1Vo.ordno);
             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
                         where item["ordno"].ToString() == realSc1Vo.ordno
                            && item["Isuno"].ToString() == realSc1Vo.Isuno.Replace("A", "")
                            && item["accno"].ToString() == mainForm.account
-                           //&& item["useYN"].ToString() == "Y"
+                        //&& item["useYN"].ToString() == "Y"
                         select item;
            
-            //매매이력이없으면 등록해줘야한다.
+         //매매이력이없으면 등록해줘야한다.
             if (items.Count() > 0){
-                //기존체결수량+체결수량
+             //기존체결수량+체결수량
                 items.First()["execqty"] = (int.Parse(items.First()["execqty"].ToString()) + int.Parse(realSc1Vo.execqty)).ToString();
                 items.First()["execprc"] = realSc1Vo.execprc.Replace(",", "");//체결가격
-                //items.First()["Isunm"] = realSc1Vo.Isunm;
-                //dataLogVo.sellOrdAt = "Y";
-                //item.Isunm = realSc1Vo.Isunm;//하루확인후 필요하면 주석풀자.
+             //items.First()["Isunm"] = realSc1Vo.Isunm;
+             //dataLogVo.sellOrdAt = "Y";
+             //item.Isunm = realSc1Vo.Isunm;//하루확인후 필요하면 주석풀자.
                 mainForm.tradingHistory.execqtyUpdate(items.First());//매도주문 여부 상태 업데이트
           
                 
             }else{
-                //데이타로그에 저장
-                //public class dataLogVo
+             //데이타로그에 저장
+             //public class dataLogVo
                 TradingHistoryVo dataLogVo = new TradingHistoryVo();
-                dataLogVo.ordno         = realSc1Vo.ordno;                  //주문번호
-                dataLogVo.accno         = mainForm.account;                 //계좌번호
-                dataLogVo.ordptncode    = realSc1Vo.ordptncode;             //주문구분 01:매도|02:매수 
+                dataLogVo.ordno         = realSc1Vo.ordno;               //주문번호
+                dataLogVo.accno         = mainForm.account;              //계좌번호
+                dataLogVo.ordptncode    = realSc1Vo.ordptncode;          //주문구분 01:매도|02:매수 
                 dataLogVo.Isuno         = realSc1Vo.Isuno.Replace("A", ""); //종목코드
-                dataLogVo.ordqty        = realSc1Vo.ordqty;                 //주문수량
-                dataLogVo.execqty       = realSc1Vo.execqty;                //체결수량
-                dataLogVo.ordprc        = realSc1Vo.ordprc;                 //주문가격
-                dataLogVo.execprc       = realSc1Vo.execprc;                //체결가격
-                dataLogVo.Isunm         = realSc1Vo.Isunm;                  //종목명
-                dataLogVo.ordptnDetail  = "수동매수";                       //상세 주문구분 신규매수|반복매수|금일매도|청산
-                dataLogVo.upExecprc     = "0";                              //상위체결가격
-                dataLogVo.sellOrdAt     = "N";                              //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-                dataLogVo.useYN         = "Y";                              //사용여부
-                dataLogVo.ordermtd      = "HTS";                            //주문 매체
-                dataLogVo.upOrdno       = realSc1Vo.ordno;                  //상위 주문번호
-                dataLogVo.exclWatchAt   = "Y";         //감시제외여부 : 자동매수가 아닌것은 기본으로 감시제외시킨다.                      
+                dataLogVo.ordqty        = realSc1Vo.ordqty;              //주문수량
+                dataLogVo.execqty       = realSc1Vo.execqty;             //체결수량
+                dataLogVo.ordprc        = realSc1Vo.ordprc;              //주문가격
+                dataLogVo.execprc       = realSc1Vo.execprc;             //체결가격
+                dataLogVo.Isunm         = realSc1Vo.Isunm;               //종목명
+                dataLogVo.ordptnDetail  = "수동매수";                    //상세 주문구분 신규매수|반복매수|금일매도|청산
+                dataLogVo.upExecprc     = "0";                           //상위체결가격
+                dataLogVo.sellOrdAt     = "N";                           //매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+                dataLogVo.useYN         = "Y";                           //사용여부
+                dataLogVo.ordermtd      = "HTS";                         //주문 매체
+                dataLogVo.upOrdno       = realSc1Vo.ordno;               //상위 주문번호
+                dataLogVo.exclWatchAt   = "Y";      //감시제외여부 : 자동매수가 아닌것은 기본으로 감시제외시킨다.                      
                 
-                //주문정보를 주문이력 DB에 저장 - dataInsert호출
+             //주문정보를 주문이력 DB에 저장 - dataInsert호출
                 mainForm.tradingHistory.insert(dataLogVo);
-                ////mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
+             ////mainForm.tradingHistory.getTradingHistoryVoList().Add(dataLogVo);
             }
             
-            //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
+         //실시간 매도가능수량 업데이트(3초마다업데이트되어서 안해줘도되는데...) ->매도가 이루어지면 실시간으로 매도가능수량을 적용해주자.
             EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
             int findIndex = t0424VoList.Find("expcode", realSc1Vo.Isuno.Replace("A", ""));
-            int 메도가능수 = 0;
+            Double 매도가능수 = 0;
             if (findIndex >= 0){
-                //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
-                //매도 - 매도가능수량-체결수량
+             //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Style.BackColor = Color.Gray;
+             //매도 - 매도가능수량-체결수량
                 if (realSc1Vo.ordptncode == "01")  {
-                    메도가능수 = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) - int.Parse(realSc1Vo.execqty);     
+                    매도가능수 = t0424VoList.ElementAt(findIndex).mdposqt - int.Parse(realSc1Vo.execqty);     
                 } else if (realSc1Vo.ordptncode == "02") {//매수 - 매도가능수량+체결수량
-                    메도가능수 = int.Parse(t0424VoList.ElementAt(findIndex).mdposqt) + int.Parse(realSc1Vo.execqty);                
+                    매도가능수 = t0424VoList.ElementAt(findIndex).mdposqt + int.Parse(realSc1Vo.execqty);                
                 }
-                mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = 메도가능수.ToString();
+                mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = 매도가능수.ToString();
 
 
                 //매도가능수량이 0보다 작으면 잔고그리드와 dataLog에서 제거해주자.
-                if (메도가능수 <= 0)
+                if (매도가능수 <= 0)
                 {
                     //2.청산된 종목 사용여부를 db 'N'으로 업데이트한다.
                     if (items.Count() > 0){
@@ -140,39 +140,36 @@ namespace PackageSellSystemTrading{
                     //Log.WriteLine("TEST Real Sc1 historyvo :[종목코드: " + realSc1Vo.Isuno + "]");
                     if (summaryVo != null)
                     {
-                        mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value = summaryVo.pamt2;//평균단가
+                        //mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value = summaryVo.pamt2;//평균단가
                         mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"].Value = summaryVo.sellCnt;//매도횟수
                         mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value = summaryVo.buyCnt;//매수욋수
-                        mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = summaryVo.sellSunik;//중간매도손익
-                        //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
-                        //평균단가 구한후 평균단가를 기준으로 수익율을 구한다.
+                        //mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = summaryVo.sellSunik;//중간매도손익
+                     //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
+                     //평균단가 구한후 평균단가를 기준으로 수익율을 구한다.
                     }
                 }
 
             }else{//실시간 체결정보인데 종목그리드에 존재하지 않는 종목일경우 t0424 를 호출해준다.--신규매수일수잇다.
-                //mainForm.xing_t0424.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw);
+             //mainForm.xing_t0424.call_request(mainForm.accountForm.account, mainForm.accountForm.accountPw);
             }
 
         }
-
         
-
-
-        /// <summary>
-        /// 종목 실시간 체결 등록
-        /// </summary>
-        /// <param name="IsuNo">종목번호</param>
+     /// <summary>
+     /// 종목 실시간 체결 등록
+     /// </summary>
+     /// <param name="IsuNo">종목번호</param>
         public void call_real(String shcode)
         {
-            //모의투자 여부 구분하여 모의투자이면 A+종목번호
+         //모의투자 여부 구분하여 모의투자이면 A+종목번호
             if (mainForm.combox_targetServer.SelectedIndex == 0)
             {
                 shcode = "A" + shcode;
             }
 
-            //base.SetFieldData("InBlock", "shcode", shcode);         // 종목번호
+         //base.SetFieldData("InBlock", "shcode", shcode);      // 종목번호
 
-            //base.AdviseRealData();
+         //base.AdviseRealData();
 
         }	// end function
 //1.주문체결유형코드,ordxctptncode
@@ -186,29 +183,29 @@ namespace PackageSellSystemTrading{
 
 //2.주문시장코드,ordmktcode,
 // 04 채권 
-//10 KSE
+// 10 KSE
 // 20 KOSDAQ
 // 30 K-OTC
-//23 KONEX 
+// 23 KONEX 
 
 //3.주문유형코드,ordptncode,
 // 00                   해당없음
-//01                   현금매도
-//02                   현금매수
-//03                   신용매도
-//04                   신용매수
+// 01                   현금매도
+// 02                   현금매수
+// 03                   신용매도
+// 04                   신용매수
 
 //4.주문처리유형코드,ordtrxptncode,
 // 0    정상                    
-//6    정정확인                
-//7    정정거부(채권)
-//8    취소확인                
-//9    취소거부(채권)
+// 6    정정확인                
+// 7    정정거부(채권)
+// 8    취소확인                
+// 9    취소거부(채권)
 
 //5.주문거래유형코드,ordtrdptncode
 // 00                   위탁
-//01                   신용
-//04                   선물대용
+// 01                   신용
+// 04                   선물대용
 
 //6.신용거래코드,mgntrncode,
 //  [신규]      
@@ -261,7 +258,7 @@ namespace PackageSellSystemTrading{
                                                  
 
 
-        //2017-04-09 후회할까? 
+     //2017-04-09 후회할까? 
     }
 
-}   // end namespace
+}// end namespace

@@ -84,44 +84,29 @@ namespace PackageSellSystemTrading {
                         continue;
                     }
                     findIndex = this.t0425VoList.Find("ordno", ordno);
-                    if (findIndex >= 0)
-                    {
-                        tmpT0425Vo = this.t0425VoList.ElementAt(findIndex);
 
-                        mainForm.grd_t0425.Rows[findIndex].Cells["ordtime"      ].Value = base.GetFieldData("t0425OutBlock1", "ordtime" , i); //주문시간
-                        mainForm.grd_t0425.Rows[findIndex].Cells["medosu"       ].Value = base.GetFieldData("t0425OutBlock1", "medosu"  , i); //매매구분 - 0:전체|1:매수|2:매도
-                        mainForm.grd_t0425.Rows[findIndex].Cells["expcode"      ].Value = base.GetFieldData("t0425OutBlock1", "expcode" , i); //종목번호
-                        //mainForm.grd_t0425.Rows[findIndex].Cells["t0425_hname"].Value       = ""; //종목명
-                        mainForm.grd_t0425.Rows[findIndex].Cells["qty"          ].Value = base.GetFieldData("t0425OutBlock1", "qty"     , i); //주문수량
-                        mainForm.grd_t0425.Rows[findIndex].Cells["t0425_price"  ].Value = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "price", i)); //주문가격
-                        mainForm.grd_t0425.Rows[findIndex].Cells["cheqty"       ].Value = base.GetFieldData("t0425OutBlock1", "cheqty"  , i); //체결수량
-                        mainForm.grd_t0425.Rows[findIndex].Cells["cheprice"     ].Value = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "cheprice", i)); //체결가격
-                        mainForm.grd_t0425.Rows[findIndex].Cells["ordrem"       ].Value = base.GetFieldData("t0425OutBlock1", "ordrem"  , i); //미체결잔량
-                        mainForm.grd_t0425.Rows[findIndex].Cells["status"       ].Value = base.GetFieldData("t0425OutBlock1", "status"  , i); //상태
-                        mainForm.grd_t0425.Rows[findIndex].Cells["ordno"        ].Value = base.GetFieldData("t0425OutBlock1", "ordno"   , i); //주문번호
-                        mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"     ].Value = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
-                    }
-                    else
+
+                    if (findIndex < 0)
                     {
                         tmpT0425Vo = new T0425Vo();
-                        tmpT0425Vo.ordtime  = base.GetFieldData("t0425OutBlock1", "ordtime", i); //주문시간
-                        tmpT0425Vo.medosu   = base.GetFieldData("t0425OutBlock1", "medosu", i); //매매구분 - 0:전체|1:매수|2:매도
-                        tmpT0425Vo.expcode  = base.GetFieldData("t0425OutBlock1", "expcode", i); //종목번호
-                        //tmpT0425Vo.hname    = ""; //종목명
-                        tmpT0425Vo.qty      = base.GetFieldData("t0425OutBlock1", "qty", i); //주문수량
-                        tmpT0425Vo.price    = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "price", i)); //주문가격
-                        tmpT0425Vo.cheqty   = base.GetFieldData("t0425OutBlock1", "cheqty", i); //체결수량
-                        tmpT0425Vo.cheprice = Util.GetNumberFormat(base.GetFieldData("t0425OutBlock1", "cheprice", i)); //체결가격
-                        tmpT0425Vo.ordrem   = base.GetFieldData("t0425OutBlock1", "ordrem", i); //미체결잔량
-                        tmpT0425Vo.status   = base.GetFieldData("t0425OutBlock1", "status", i); //상태
-                        tmpT0425Vo.ordno    = base.GetFieldData("t0425OutBlock1", "ordno", i); //주문번호
-                        tmpT0425Vo.ordermtd = base.GetFieldData("t0425OutBlock1", "ordermtd", i); //주문매체
+                        this.t0425VoList.Add(tmpT0425Vo);
+                        findIndex = this.t0425VoList.Count() - 1;
 
-                        //목록추가
-                        this.t0425VoList.Insert(0, tmpT0425Vo);
-                        findIndex = 0;
-
+                       
                     }
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordtime"      ].Value = base.GetFieldData("t0425OutBlock1", "ordtime", i);        //주문시간
+                    mainForm.grd_t0425.Rows[findIndex].Cells["medosu"       ].Value = base.GetFieldData("t0425OutBlock1", "medosu", i);         //매매구분 - 0:전체|1:매수|2:매도
+                    mainForm.grd_t0425.Rows[findIndex].Cells["expcode"      ].Value = base.GetFieldData("t0425OutBlock1", "expcode", i);        //종목번호
+                    //mainForm.grd_t0425.Rows[findIndex].Cells["t0425_hname"].Value       = "";                                                 //종목명
+                    mainForm.grd_t0425.Rows[findIndex].Cells["qty"          ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "qty", i)); //주문수량
+                    mainForm.grd_t0425.Rows[findIndex].Cells["t0425_price"  ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "price", i)); //주문가격
+                    mainForm.grd_t0425.Rows[findIndex].Cells["cheqty"       ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "cheqty", i)); //체결수량
+                    mainForm.grd_t0425.Rows[findIndex].Cells["cheprice"     ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "cheprice", i)); //체결가격
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordrem"       ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "ordrem", i)); //미체결잔량
+                    mainForm.grd_t0425.Rows[findIndex].Cells["status"       ].Value = base.GetFieldData("t0425OutBlock1", "status", i);         //상태
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordno"        ].Value = base.GetFieldData("t0425OutBlock1", "ordno", i);          //주문번호
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"     ].Value = base.GetFieldData("t0425OutBlock1", "ordermtd", i);       //주문매체
+                    
                     //확장 정보및 싱크
                     this.t0425Sync(findIndex);
                     
@@ -137,31 +122,17 @@ namespace PackageSellSystemTrading {
                     base.SetFieldData("t0425InBlock", "cts_ordno", 0, cts_ordno);      //처음 조회시는 SPACE
                     base.Request(true); //연속조회일경우 true
                     //mainForm.input_t0424_log.Text = "[연속조회]잔고조회를 요청을 하였습니다.";
-                }
-                else
-                {//마지막 데이타일때 메인폼에 출력해준다.
+                }else{//마지막 데이타일때 메인폼에 출력해준다.
                     
                     //매수체결 목록
                     mainForm.grd_t0425_chegb1_cnt.Text = this.t0425VoList.Count().ToString();
                     //Thread.Sleep(5000);
                     //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
-                    mainForm.input_t0425_log2.Text = "[" + mainForm.label_time.Text + "]t0425 :: 채결/미채결 요청완료";
-
-                    //1.금일매도 청산 각각 구분하여 출력해준다.  
-                    mainForm.label_toDaysunik.Text = Util.GetNumberFormat(this.getToDayShSunik("금일매도"));
-                    mainForm.label_dtsunik2.Text   = Util.GetNumberFormat(this.getToDayShSunik("청산"));
-
-                    if (int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && int.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519)
-                    {
-                        //트레이딩 시작 여부.
-                        if (mainForm.tradingAt == "Y"){
-                            //2.주문취소
-                            this.orderCancle();
-                        }
-                        
-                    }
+                    mainForm.input_t0425_log2.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0425:채결/미채결 요청완료>";
+                    
+                    //2.주문취소
+                    this.orderCancle();
                 }
-
                 completeAt = true;
             }
             catch (Exception ex){
@@ -185,10 +156,10 @@ namespace PackageSellSystemTrading {
             {
                 /////////프로그램 재시작하는동안 체결된 정보는 DB에 저장이 안되기 때문에 체결수량이 DB정보와 다르면 DB정보를 수정해준다.///////////
                 //체결수량이 다르면 체결수량과 체결가격을 현행화해준다.
-                if (tmpT0425Vo.cheqty != items.First()["execqty"].ToString())
+                if (tmpT0425Vo.cheqty != Double.Parse(items.First()["execqty"].ToString()))
                 {
                     items.First()["execqty"] = tmpT0425Vo.cheqty;
-                    items.First()["execprc"] = tmpT0425Vo.cheprice.Replace(",", "");
+                    items.First()["execprc"] = tmpT0425Vo.cheprice;
 
                     //item.Isunm   = tmpT0425Vo.hname//tr에서 종목 이름이 넘어오지 않는다.
                     mainForm.tradingHistory.execqtyUpdate(items.First());//수량 업데이트
@@ -196,14 +167,14 @@ namespace PackageSellSystemTrading {
                 }
                 //2.매매목록 확장 데이타 출력
                 
-                mainForm.grd_t0425.Rows[rowIndex].Cells["ordptnDetail"  ].Value = items.First()["ordptnDetail"].ToString();//매매상세구분
-                mainForm.grd_t0425.Rows[rowIndex].Cells["t0425_hname"   ].Value = items.First()["Isunm"].ToString();//종목명
-                mainForm.grd_t0425.Rows[rowIndex].Cells["sellOrdAt"     ].Value = items.First()["sellOrdAt"].ToString();//금일매도여부
-                mainForm.grd_t0425.Rows[rowIndex].Cells["cancelOrdAt"   ].Value = items.First()["cancelOrdAt"].ToString();//주문취소여부
-                mainForm.grd_t0425.Rows[rowIndex].Cells["useYN"         ].Value = items.First()["useYN"].ToString();//사용여부
-                mainForm.grd_t0425.Rows[rowIndex].Cells["upOrdno"       ].Value = items.First()["upOrdno"].ToString();//상위 매수 주문번호
-                mainForm.grd_t0425.Rows[rowIndex].Cells["upExecprc"     ].Value = Util.GetNumberFormat(items.First()["upExecprc"].ToString());
-                mainForm.grd_t0425.Rows[rowIndex].Cells["eventNm"       ].Value = items.First()["eventNm"].ToString();//검색조건 이름
+                mainForm.grd_t0425.Rows[rowIndex].Cells["ordptnDetail"  ].Value = items.First()["ordptnDetail"].ToString(); //매매상세구분
+                mainForm.grd_t0425.Rows[rowIndex].Cells["t0425_hname"   ].Value = items.First()["Isunm"].ToString();        //종목명
+                mainForm.grd_t0425.Rows[rowIndex].Cells["sellOrdAt"     ].Value = items.First()["sellOrdAt"].ToString();    //금일매도여부
+                mainForm.grd_t0425.Rows[rowIndex].Cells["cancelOrdAt"   ].Value = items.First()["cancelOrdAt"].ToString();  //주문취소여부
+                mainForm.grd_t0425.Rows[rowIndex].Cells["useYN"         ].Value = items.First()["useYN"].ToString();        //사용여부
+                mainForm.grd_t0425.Rows[rowIndex].Cells["upOrdno"       ].Value = items.First()["upOrdno"].ToString();      //상위 매수 주문번호
+                mainForm.grd_t0425.Rows[rowIndex].Cells["upExecprc"     ].Value = items.First()["upExecprc"].ToString();
+                mainForm.grd_t0425.Rows[rowIndex].Cells["searchNm"      ].Value = items.First()["searchNm"].ToString();     //검색조건 이름
                 //상위체결금액
                 Double 재비용율 = mainForm.combox_targetServer.SelectedIndex == 0 ? 0.0099 : 0.0033;
 
@@ -211,11 +182,11 @@ namespace PackageSellSystemTrading {
                 //실현손익: (당일매도금액 - 매도수수료 - 매도제세금) - (매입금액 + 추정매입수수료) - 신용이자
                 if (items.First()["ordptncode"].ToString() == "01")
                 {
-                    Double 매입금액 = double.Parse(tmpT0425Vo.upExecprc) * double.Parse(tmpT0425Vo.cheqty);
-                    Double 매도금액 = double.Parse(tmpT0425Vo.cheprice) * double.Parse(tmpT0425Vo.cheqty);
+                    Double 매입금액 = tmpT0425Vo.upExecprc * tmpT0425Vo.cheqty;
+                    Double 매도금액 = tmpT0425Vo.cheprice  * tmpT0425Vo.cheqty;
                     매도금액 = 매도금액 - (매도금액 * 재비용율);
-                    //tmpT0425Vo.shSunik = Util.GetNumberFormat(매도금액 - 매입금액);
-                    mainForm.grd_t0425.Rows[rowIndex].Cells["shSunik"].Value = Util.GetNumberFormat(매도금액 - 매입금액);
+
+                    mainForm.grd_t0425.Rows[rowIndex].Cells["shSunik"].Value = 매도금액 - 매입금액;
                     Double todayLate = ((매도금액 / 매입금액) * 100) - 100;
                     mainForm.grd_t0425.Rows[rowIndex].Cells["toDaysunikrt"].Value = Math.Round(todayLate, 2).ToString();
 
@@ -226,9 +197,9 @@ namespace PackageSellSystemTrading {
                     int t0424FindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", tmpT0425Vo.expcode);
                     if (t0424FindIndex >= 0)
                     {
-                        Double 현재가 = Double.Parse(mainForm.xing_t0424.getT0424VoList().ElementAt(t0424FindIndex).price);//현재가
-                        현재가 = 현재가 - (현재가 * 재비용율);
-                        Double 체결가격 = Double.Parse(tmpT0425Vo.cheprice.Replace(",", ""));//금일체결가격
+                        Double 현재가   = mainForm.xing_t0424.getT0424VoList().ElementAt(t0424FindIndex).price;//현재가
+                        현재가          = 현재가 - (현재가 * 재비용율);
+                        Double 체결가격 = tmpT0425Vo.cheprice;//금일체결가격
                                                                                             //1.현재가가 금일매수 값보다 3%이상 올랐으면 금일 매수 수량만큼 매도한다.
                         Double todayLate = ((현재가 / 체결가격) * 100) - 100;
 
@@ -312,10 +283,10 @@ namespace PackageSellSystemTrading {
                 base.Request(false);  //연속조회일경우 true
 
                 //폼 메세지.
-                mainForm.input_t0425_log.Text = "[" + mainForm.label_time.Text + "]t0425::체결/미체결 요청";
+                mainForm.input_t0425_log.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + ">t0425:체결/미체결 요청>";
 
             } else {
-                mainForm.input_t0425_log.Text = "[" + mainForm.label_time.Text + "][중복]t0425::체결/미체결 요청";
+                mainForm.input_t0425_log.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0425:중복>";
 
                 callCnt++;
                 if (callCnt == 6)
@@ -332,86 +303,109 @@ namespace PackageSellSystemTrading {
             String 종목명;
             String 종목코드;
             String 주문번호;
+            Double 미체결수량=0;
             //현재시간.
             String time = mainForm.xing_t0167.time;
             if (time == "" || time == null) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
             int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
-           
+            
             //매수/매도 취소
             var varT0425VoList = from item in this.t0425VoList
                                     where item.qty != item.cheqty 
                                     && item.cancelOrdAt != "Y"//주문취소 Y가 아닌거.
                                     && item.ordermtd == "XING API"
+                                    && item.ordrem > 0
                                  select item;
             
             for (int i = 0; i < varT0425VoList.Count(); i++){
-                //미체결 시간이 5분 이상이면 취소주문 한다.
-                int 주문시간 = (int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(0, 2)) * 60) + int.Parse(varT0425VoList.ElementAt(i).ordtime.Substring(2, 2));//현재 시간
-                if ((cTime - 주문시간) >= 5)
-                {
-                    종목명   = varT0425VoList.ElementAt(i).hname;
-                    종목코드 = varT0425VoList.ElementAt(i).expcode;
-                    주문번호 = varT0425VoList.ElementAt(i).ordno;
-                    /// <summary>
-                    /// 현물 취소 주문
-                    /// </summary>
-                    /// <param name="OrgOrdNo">원주문번호</param>
-                    /// <param name="IsuNo">종목번호</param>
-                    /// <param name="OrdQty">주문수량</param>
-                    //if (mainForm.xing_CSPAT00800.completeAt)//주문을 호출할수 있을때 호출하고 못하면 그냥 스킵한다.
-                    //{
-                        Xing_CSPAT00800 xing_CSPAT00800 = mainForm.CSPAT00600Mng.get800();
-                        xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
-                        //회색으로
-                        varT0425VoList.ElementAt(i).cancelOrdAt = "Y";
-                        //주문번호 주문취소여부 Y로 업데이트
-                        
-                        var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
-                                    where item["ordno"].ToString() == 주문번호
-                                       && item["accno"].ToString() == mainForm.account
-                                    select item;
+              
+                T0425Vo t0425Vo = varT0425VoList.ElementAt(i);
+                종목명 = t0425Vo.hname;
+                종목코드 = t0425Vo.expcode;
+                주문번호 = t0425Vo.ordno;
+                미체결수량 = t0425Vo.ordrem; 
+                //타임스펜
+                //현재시간 
+                TimeSpan nowTimeSpan = TimeSpan.Parse(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+                // 주문시간
+                TimeSpan ordTimeSpan = TimeSpan.Parse(t0425Vo.ordtime.Substring(0, 2) + ":" + t0425Vo.ordtime.Substring(2, 2) + ":" + t0425Vo.ordtime.Substring(4, 2));
 
-                        //매매이력이없으면 등록해줘야한다.
-                        if (items.Count() > 0)
+                double 타이머 = (nowTimeSpan.TotalSeconds - ordTimeSpan.TotalSeconds);
+                if (t0425Vo.medosu.Equals("매수"))
+                {
+                    //Properties.Settings.Default.BUY_HO;
+                    //Properties.Settings.Default.BUY_HO_CHANGE_TIMMER;
+                    //Properties.Settings.Default.BUY_HO_CHANGE_SE;
+                    
+                    if (타이머 > Double.Parse(Properties.Settings.Default.BUY_HO_CHANGE_TIMMER))
+                    {
+                        if (Properties.Settings.Default.BUY_HO_CHANGE_SE.Equals("주문취소"))
                         {
-                            items.First()["cancelOrdAt"] = "Y";
-                            mainForm.tradingHistory.cancelOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
-                            
-                            Log.WriteLine("t0425::취소주문:" + 종목명 + "(" + 종목코드 + "):[주문번호:" + 주문번호 + "]");
-                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425::" + 종목명 + ":취소완료");
+                            // 현물 취소 주문
+                            //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량)
+                            Xing_CSPAT00800 xing_CSPAT00800 = mainForm.CSPAT00600Mng.get800();
+                            xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
+                            //회색으로
+                            t0425Vo.cancelOrdAt = "Y";
+                            //주문번호 주문취소여부 Y로 업데이트
+
+                            var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
+                                        where item["ordno"].ToString() == 주문번호
+                                            && item["accno"].ToString() == mainForm.account
+                                        select item;
+                            if (items.Count() > 0)
+                            {
+                                items.First()["cancelOrdAt"] = "Y";
+                                mainForm.tradingHistory.cancelOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
+
+                                Log.WriteLine("<t0425:주문취소><" + 종목명 + ">:<주문번호:" + 주문번호 + ">");
+                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:취소완료>" + 종목명);
+                            }
+                            else
+                            {
+                                Log.WriteLine("<t0425:주문취소 매핑정보 없음>");
+                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:주문취소 매핑정보 없음>" + 종목명);
+                            }
+                        }
+                        else{//시장가로정정
+                             //미구현 --현재가를 구하는 방법이 일단은 없다.
+                             //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량),겨걱
+                             //Xing_CSPAT00700 xing_CSPAT00700 = mainForm.CSPAT00600Mng.get700();
+                             //xing_CSPAT00700.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, 미체결수량.ToString(), 가격);
+                            mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:주문정정 미구현>" + 종목명);
+                        }
+                    }
+                }
+
+                if (t0425Vo.medosu.Equals("매도"))
+                {
+                    //Properties.Settings.Default.SELL_HO;
+                    //Properties.Settings.Default.SELL_HO_CHANGE_TIMMER;
+                    //Properties.Settings.Default.SELL_HO_CHANGE_SE;
+                    if (타이머 > Double.Parse(Properties.Settings.Default.SELL_HO_CHANGE_TIMMER))
+                    {
+                        if (Properties.Settings.Default.SELL_HO_CHANGE_SE.Equals("주문취소전송"))
+                        {
+
                         }
                         else
-                        {
-                           Log.WriteLine("t0425 ::주문스킵(취소)");
-                            mainForm.insertListBoxLog("[" + mainForm.label_time.Text.Substring(0, 5) + "]t0425:" + 종목명 + ":주문스킵(취소)");
+                        {//시장가로정정
+                         //미구현 --현재가를 구하는 방법이 일단은 없다.
+                         //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량),겨걱
+                         //Xing_CSPAT00700 xing_CSPAT00700 = mainForm.CSPAT00600Mng.get700();
+                         //xing_CSPAT00700.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, 미체결수량.ToString(), 가격);
+                         mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:주문정정 미구현>" + 종목명);
+
                         }
-                   // }
+
+                    }
                 }
+                
+               
             }
         }
-
         
-
-        //금일매도 청산 과 금일매도 를 구분하여 건당 매도차익을 리턴하는 메소드.
-        //parameta //상세 주문구분 [금일매도|청산]
-        public String getToDayShSunik(String ordptnDetail)
-        {
-            double 실현손익 = 0;
-            var resultDataLogVoList = from item in this.t0425VoList
-                                      where item.ordptnDetail == ordptnDetail
-                                      //&& item.date == DateTime.Now.ToString("yyyyMMdd")
-                                      //&& item.accno == mainForm.accountForm.account
-                                      select item;
-            //Log.WriteLine("DataLog::  [카운트:" + resultDataLogVoList.Count()+"]");
-            foreach (var item  in resultDataLogVoList)
-            {
-                //매도금액 - 매수금액
-                //실현손익 = 실현손익 + ((double.Parse(item.cheprice) * double.Parse(item.cheqty)) - (double.Parse(item.cheqty) * double.Parse(item.upExecprc)));
-                실현손익 = 실현손익 + double.Parse(item.shSunik);
-            }
-            return 실현손익.ToString();
-        }
 
     } //end class   
     
@@ -420,26 +414,27 @@ namespace PackageSellSystemTrading {
         public String medosu   { set; get; } //매매구분 - 0:전체|1:매수|2:매도
         public String expcode  { set; get; } //종목번호
         public String hname    { set; get; } //종목명
-        public String qty      { set; get; } //주문수량
-        public String price    { set; get; } //주문가격
-        public String cheqty   { set; get; } //체결수량
-        public String cheprice { set; get; } //체결가격
-        public String ordrem   { set; get; } //미체결잔량
+        public Double qty      { set; get; } //주문수량
+        public Double price    { set; get; } //주문가격
+        public Double cheqty   { set; get; } //체결수량
+        public Double cheprice { set; get; } //체결가격
+        public Double ordrem   { set; get; } //미체결잔량
         public String status   { set; get; } //상태
         public String ordno    { set; get; } //주문번호
         public String ordermtd { set; get; } //주문매체
 
         public String ordptnDetail { set; get; }//상세 주문구분 신규매수|반복매수|금일매도|청산
         public String upOrdno      { set; get; }//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-        public String upExecprc    { set; get; }//상위체결금액
+        public Double upExecprc    { set; get; }//상위체결금액
         public String sellOrdAt    { set; get; }//매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
-        public String cancelOrdAt  { set; get; }//매도주문 여부 YN default:N     -02:매 일때만 값이 있어야한다.
+        public String cancelOrdAt  { set; get; }//주문 취소 여부.
         public String useYN        { set; get; }//사용여부
-        public String toDaysunikrt { set; get; }//금일 수익률
-        public String shSunik      { set; get; }//실현손익
-        public String eventNm      { set; get; }//검색조건이름
+        public Double toDaysunikrt { set; get; }//금일 수익률
+        public Double shSunik      { set; get; }//실현손익
+        public String searchNm     { set; get; }//검색조건이름
+        public String currentPrice { set; get; }//현재가격
 
-        
+
     }
 
 

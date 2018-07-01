@@ -17,7 +17,7 @@ namespace PackageSellSystemTrading
 
        
 
-        //생성자
+     //생성자
         public HistoryForm()
         {
             InitializeComponent();
@@ -27,13 +27,13 @@ namespace PackageSellSystemTrading
 
         private void btn_test_Click(object sender, EventArgs e)
         {
-            //mainForm.tradingHistory.dbSync();
-            //Search("000030");
+         //mainForm.tradingHistory.dbSync();
+         //Search("000030");
         }
-        //매매 이력 조회
+     //매매 이력 조회
         private void btn_search_Click(object sender, EventArgs e)
         {
-            //mainForm.tradingHistory.dbSync();
+         //mainForm.tradingHistory.dbSync();
             this.Search(input_searchString.Text);
         }
 
@@ -60,7 +60,7 @@ namespace PackageSellSystemTrading
             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
                         where item["accno"].ToString() == mainForm.account
                            && (item["Isuno"].ToString() == searchString.Replace("A", "") || item["Isunm"].ToString() == searchString)
-                        //|| SqlMethods.Like(item["Isunm"].ToString() , "%"+ searchString + "%") )
+                     //|| SqlMethods.Like(item["Isunm"].ToString() , "%"+ searchString + "%") )
 
                         select item;
             if(items.Count() > 0)
@@ -71,7 +71,7 @@ namespace PackageSellSystemTrading
                 this.grd_history.DataSource = null; //검색카운트가 없을때...
             }
 
-            //조회조건이 없을때
+         //조회조건이 없을때
             if(searchString == "")
             {
                 this.grd_history.DataSource = mainForm.tradingHistory.getTradingHistoryDt();
@@ -83,13 +83,13 @@ namespace PackageSellSystemTrading
         {
             if (e.RowIndex >= 0)
             {
-                //MessageBox.Show(e.ColumnIndex.ToString());
+             //MessageBox.Show(e.ColumnIndex.ToString());
                 int useYnIndex = grd_history.Rows[e.RowIndex].Cells["useYn"].ColumnIndex;
                 MessageBox.Show(useYnIndex.ToString());
                 if (e.ColumnIndex == useYnIndex)
                 {
-                    //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
-                    //priceChangedProcess(e.RowIndex);
+                 //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                 //priceChangedProcess(e.RowIndex);
                 }
 
             }
@@ -97,18 +97,18 @@ namespace PackageSellSystemTrading
 
         private void grd_history_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            //if (e.RowIndex >= 0)
-            //{
-            //    var useYn = grd_history.Rows[e.RowIndex].Cells["useYn"].Value;
-            //    useYn = useYn == null ? "" : useYn;
-            //    MessageBox.Show(useYn.ToString());
-            //    if (useYn.ToString() == "N")
-            //    {
-            //        this.grd_history.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Gray;
-            //    }
+         //if (e.RowIndex >= 0)
+         //{
+         //    var useYn = grd_history.Rows[e.RowIndex].Cells["useYn"].Value;
+         //    useYn = useYn == null ? "" : useYn;
+         //    MessageBox.Show(useYn.ToString());
+         //    if (useYn.ToString() == "N")
+         //    {
+         //        this.grd_history.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Gray;
+         //    }
                 
 
-            //}
+         //}
         }
 
     }//class end

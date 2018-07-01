@@ -4,6 +4,11 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Win32;
 using System.Windows.Forms;
+
+using System.Collections.Generic;
+
+
+
 namespace PackageSellSystemTrading
 {
     class Util
@@ -122,13 +127,44 @@ namespace PackageSellSystemTrading
             return Encoding.UTF8.GetString(ms.GetBuffer());
         }   // end function
 
-
+        
+            public static double GetTickMinus(double iNumber)
+        {
+            if (iNumber >= 500000)
+            {
+                return 1000;
+            }
+            else if (iNumber > 100000 && iNumber <= 500000)
+            {
+                return 500;
+            }
+            else if (iNumber > 50000 && iNumber <= 100000)
+            {
+                return 100;
+            }
+            else if (iNumber > 10000 && iNumber <= 50000)
+            {
+                return 50;
+            }
+            else if (iNumber > 5000 && iNumber <= 10000)
+            {
+                return 10;
+            }
+            else if (iNumber > 1000 && iNumber <= 5000)
+            {
+                return 5;
+            }
+            else
+            {
+                return 1;
+            }
+        }   // end fucntion
         /// <summary>
         /// 틱 단위 리턴 
         /// </summary>
         /// <param name="iNumber"></param>
         /// <returns></returns>
-        public static double GetTick(double iNumber)
+        public static double GetTickPlus(double iNumber)
         {
             if (iNumber >= 500000)
             {
@@ -168,22 +204,9 @@ namespace PackageSellSystemTrading
         /// <returns></returns>
         public static double GetPricePlus01(double iPrice)
         {
-            return iPrice + GetTick(iPrice);
+            return iPrice + GetTickPlus(iPrice);
         }
-
-
-        /// <summary>
-        /// +1틱 적용된 가격 리턴 
-        /// </summary>
-        /// <param name="szPrice"></param>
-        /// <returns></returns>
-        public static double GetPricePlus01(string szPrice)
-        {
-            double iPrice = Double.Parse(szPrice);
-            return iPrice + GetTick(iPrice);
-        }
-
-
+        
         /// <summary>
         /// -1틱 적용된 가격 리턴
         /// </summary>
@@ -191,21 +214,27 @@ namespace PackageSellSystemTrading
         /// <returns></returns>
         public static double GetPriceMinus01(double iPrice)
         {
-            return iPrice - GetTick(iPrice);
+            return iPrice - GetTickMinus(iPrice);
         }
-
-
-        /// <summary>
-        /// -1틱 적용된 가격 
-        /// </summary>
-        /// <param name="szPrice"></param>
-        /// <returns></returns>
-        public static double GetPriceMinus01(string szPrice)
+        
+        public static String getTickPrice(String price, double tick)
         {
-            double iPrice = Double.Parse(szPrice);
-            return iPrice - GetTick(iPrice);
+            Double rtnVal = Double.Parse(price);
+           
+            if (tick < 0){
+                tick = tick * tick;
+                for (int i=0; i< tick; i++)
+                {
+                    rtnVal = GetPriceMinus01(rtnVal);
+                }
+            } else {
+                for (int i = 0; i < int.Parse(tick.ToString()); i++)
+                {
+                    rtnVal = GetPricePlus01(rtnVal); 
+                }
+            }
+            return rtnVal.ToString();
         }
-
 
         /// <summary>
         /// % 적용된 금액 리턴 
@@ -273,54 +302,21 @@ namespace PackageSellSystemTrading
         //dpsastTotamt 예탁자잔총액 대비 진입비중 금액을 리턴한다.
         //dpsastTotamtMax :최대예탁자산
         //battingRate : 최대예탁자산 대비 배팅 비율
-        public static String getBattingAmt(String dpsastTotamtMax,String battingRate)
-        {
-            String returnVal="0";
-            if (isNaN(battingRate)) {
-                battingRate = nvl(battingRate, "0");
-                double resultBattingAmt = Math.Round((double.Parse(dpsastTotamtMax) * double.Parse(battingRate)), 0);
+        //public static String getBattingAmt(String dpsastTotamtMax,String battingRate)
+        //{
+        //    String returnVal="0";
+        //    if (isNaN(battingRate)) {
+        //        battingRate = nvl(battingRate, "0");
+        //        double resultBattingAmt = Math.Round((double.Parse(dpsastTotamtMax) * double.Parse(battingRate)), 0);
 
-                returnVal = resultBattingAmt.ToString(); //배팅금액 리턴
-            }
-            return returnVal;
+        //        returnVal = resultBattingAmt.ToString(); //배팅금액 리턴
+        //    }
+        //    return returnVal;
             
-        }
+        //}
 
 
-        //손익률2를 vo에 설정한다.
-        public static String getSunikrt2(T0424Vo t0424Vo)
-        {
-            /////////////////////////////////////////////////////////////////////
-            Double 손익률 = 0;
-            if (t0424Vo.pamt2 != null && t0424Vo.pamt2 != "") {
-                Double 매도가능수량 = double.Parse(t0424Vo.mdposqt);
-                Double 현재가      = double.Parse(t0424Vo.price);
-
-                Double 매입금액    = double.Parse(t0424Vo.pamt2) * 매도가능수량;
-                Double 평가금액    = (현재가 * 매도가능수량);
-                평가금액 = 평가금액 - (평가금액 * 0.0033);
-                Double 평균단가2 = double.Parse(t0424Vo.pamt2);
- 
-                //평가손익 = Util.GetNumberFormat(평가금액 - 매입금액);
-
-                현재가 = 현재가 - (현재가 * 0.0033);
-                //1.현재가가 금일매수 값보다 3%이상 올랐으면 금일 매수 수량만큼 매도한다.
-                손익률 = ((현재가 / 평균단가2) * 100) - 100;
-                //손익률 = ((평가금액 / 매입금액) * 100) - 100;
-
-            }
-            else
-            {
-                손익률 = 0;
-            }
-
-            //t0424Vo.sunikrt2 = String.Format("{0:#0.#0}", sunikrt2);
-            //return Math.Round(손익률, 2).ToString();
-            //서버 수치보다 높게나와서 0.05 정도 강제 보정해준다.
-            //return (Math.Round(sunikrt2, 2) - 0.05).ToString();
-            return Math.Round(손익률, 2).ToString();
-
-        }
+        
         public static String nvl(String val,String tmpVal)
         {
             val = val == null ? tmpVal : val;
@@ -362,35 +358,27 @@ namespace PackageSellSystemTrading
         }
 
         //총자산대비 투자 비율을 리턴한다.
-        public static String getInputRate(MainForm mainForm)
+        public static Double getInputRate(Double 매입금액합, Double 예수금D2 )
         {
-            String returnValue = "0"; ;
+            Double returnValue = 0;
             try
             {
-                //자본금 투자 비율
-                //자본금테스트 -- 자본금 = 매입금액 + D2예수금 
-                String D2예수금 = mainForm.xing_CSPAQ12200.D2Dps;
-                if (D2예수금 == "")
-                {
-                    return null;
-                }
-                Double 매입금액 = mainForm.xing_t0424.mamt;
-                Double 자본금 = 매입금액 + double.Parse(D2예수금);
+               
+                //Double 매입금액 = mainForm.xing_t0424.mamt;
+                //Double 매입금액합 = Double.Parse(mainForm.tradingInfoDt.Rows[0]["매입금액합"].ToString());
+                Double 자본금 = 매입금액합 + 예수금D2;
                 //-투자금액 제한 옵션이 참이면 AMT_LIMIT 값을 강제로 삽입해준다.- 자본금이 최대운영자금까지는 복리로 운영이 된다.
-                if (Properties.Settings.Default.LIMITED_AT)
+                if (Properties.Settings.Default.MAX_FUNDS_LIMITED_AT)
                 {
                     //이런날이 올까?
-                    if (자본금 > int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT))
+                    Double maxFundsLimit = Double.Parse(Properties.Settings.Default.MAX_FUNDS_LIMITED_AMT) * 10000;
+                    if (자본금 > maxFundsLimit)
                     {
-                        자본금 = int.Parse(Properties.Settings.Default.MAX_AMT_LIMIT);
+                        자본금 = maxFundsLimit;
                     }
                 }
-
-                //-최대 운영 설정금액 이상일경우 매수 신규매수 하지 않는다.
-                //-매입금액 기초자산의 90% 이상 매입을 할수 없다.
-                //-매입금액 / 자본금 * 100 =자본금 대비 투자율
-                //Double enterRate = (this.xing_t0424.mamt / 자본금) * 100;
-                returnValue = Math.Round(((mainForm.xing_t0424.mamt / 자본금) * 100), 2).ToString();
+                
+                returnValue = Math.Round(((매입금액합 / 자본금) * 100), 2);
             }
             catch (Exception ex)
             {
@@ -400,7 +388,32 @@ namespace PackageSellSystemTrading
             return returnValue;
         }
 
-
+        //옵션에서 사용 파일선택 콤보 박스에서 파일명을 추출하여 key,value 로 추가한다.--나중에 배열 처리도 추가해야한다.
+        public static void setComBoByKeyValue(ComboBox combo, String fileFullNm)
+        {
+            if (fileFullNm != "")
+            {
+                String lastString = getShortFileNm(fileFullNm);
+                Dictionary<String, String> buySearchCbxSource = new Dictionary<String, String>();
+                buySearchCbxSource.Add("선택","");
+                buySearchCbxSource.Add(lastString, fileFullNm);
+                combo.DataSource = null;
+                combo.DataSource = new BindingSource(buySearchCbxSource, null);
+                combo.DisplayMember = "Key";
+                combo.ValueMember = "Value";
+                combo.SelectedIndex = 1;
+            }
+        }
+        //확장자를 제거한 파일명만 리턴한다.
+        public static String getShortFileNm(String fileFullNm)
+        {   String returnVal="";
+            if (fileFullNm != "")
+            {
+                returnVal = fileFullNm.Substring(fileFullNm.LastIndexOf("\\") + 1);
+                returnVal = returnVal.Substring(0, returnVal.IndexOf("."));
+            }
+            return returnVal;
+        }
 
     }	// end class
 }	// end namespace
