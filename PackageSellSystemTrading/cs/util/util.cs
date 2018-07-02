@@ -394,17 +394,19 @@ namespace PackageSellSystemTrading
                 
                 Dictionary<String, String> buySearchCbxSource = new Dictionary<String, String>();
                 buySearchCbxSource.Add("선택","");
-
-                if (fileFullNm != "선택")
-                {
-                    String lastString = getShortFileNm(fileFullNm);
-                    buySearchCbxSource.Add(lastString, fileFullNm);
-                }
                 combo.DataSource = null;
                 combo.DataSource = new BindingSource(buySearchCbxSource, null);
                 combo.DisplayMember = "Key";
                 combo.ValueMember = "Value";
-                combo.SelectedIndex = 1;
+                combo.SelectedIndex = 0;
+            if (fileFullNm != "선택")
+                {
+                    String lastString = getShortFileNm(fileFullNm);
+                    buySearchCbxSource.Add(lastString, fileFullNm);
+                    combo.SelectedIndex = 1;
+                }
+                
+                
            
         }
         //확장자를 제거한 파일명만 리턴한다.
