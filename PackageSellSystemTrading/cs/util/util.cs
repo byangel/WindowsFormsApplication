@@ -391,18 +391,21 @@ namespace PackageSellSystemTrading
         //옵션에서 사용 파일선택 콤보 박스에서 파일명을 추출하여 key,value 로 추가한다.--나중에 배열 처리도 추가해야한다.
         public static void setComBoByKeyValue(ComboBox combo, String fileFullNm)
         {
-            if (fileFullNm != "")
-            {
-                String lastString = getShortFileNm(fileFullNm);
+                
                 Dictionary<String, String> buySearchCbxSource = new Dictionary<String, String>();
                 buySearchCbxSource.Add("선택","");
-                buySearchCbxSource.Add(lastString, fileFullNm);
+
+                if (fileFullNm != "")
+                {
+                    String lastString = getShortFileNm(fileFullNm);
+                    buySearchCbxSource.Add(lastString, fileFullNm);
+                }
                 combo.DataSource = null;
                 combo.DataSource = new BindingSource(buySearchCbxSource, null);
                 combo.DisplayMember = "Key";
                 combo.ValueMember = "Value";
                 combo.SelectedIndex = 1;
-            }
+           
         }
         //확장자를 제거한 파일명만 리턴한다.
         public static String getShortFileNm(String fileFullNm)
