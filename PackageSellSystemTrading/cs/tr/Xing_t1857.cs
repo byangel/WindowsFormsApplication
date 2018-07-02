@@ -352,7 +352,8 @@ namespace PackageSellSystemTrading{
             base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");                // 실시간구분   : 0:조회, 1:실시간
             base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");                // 종목검색구분 : F:파일, S:서버
             base.SetFieldData("t1857InBlock", "query_index", 0, searchFileFullPath); //
-
+            //재귀호출하면서 이전 데이타를 참조하여 블럭카운터를 0으로 초기화 해준다.
+            base.SetBlockCount("t1857OutBlock1", 0);
             //호출
             int nSuccess = base.RequestService("t1857", "");
             
