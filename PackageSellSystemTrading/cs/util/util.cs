@@ -395,7 +395,7 @@ namespace PackageSellSystemTrading
                 Dictionary<String, String> buySearchCbxSource = new Dictionary<String, String>();
                 buySearchCbxSource.Add("선택","");
 
-                if (fileFullNm != "")
+                if (fileFullNm != "선택")
                 {
                     String lastString = getShortFileNm(fileFullNm);
                     buySearchCbxSource.Add(lastString, fileFullNm);
