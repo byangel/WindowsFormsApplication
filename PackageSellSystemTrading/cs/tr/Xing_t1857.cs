@@ -102,7 +102,7 @@ namespace PackageSellSystemTrading{
                             break;
                     };
                 }
-
+                mainForm.input_t1857_log1.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">t1857:" + int_callIndex;
                 switch (this.int_callIndex)
                 {
                     case 0:
@@ -119,7 +119,7 @@ namespace PackageSellSystemTrading{
                     case 2:
                         break;
                 };
-                mainForm.input_t1857_log1.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">t1857:"+ int_callIndex;
+                
             }
             catch (Exception ex){
                 Log.WriteLine("t1857 : " + ex.Message);
