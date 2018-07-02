@@ -479,9 +479,9 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.BUY_TIME_FROM = inp_buy_time_from.Value;                         //매수 동작 시간 FROM             
             Properties.Settings.Default.BUY_TIME_TO = inp_buy_time_to.Value;                             //매수 동작 시간 TO           
 
-            Properties.Settings.Default.SELL_SEARCH_NM1 = sel_sell_search_nm1.SelectedIndex > -1 ? sel_buy_search_nm1.SelectedValue.ToString() : "";//매도 조건검색 파일 이름1
-            Properties.Settings.Default.SELL_SEARCH_NM2 = sel_sell_search_nm2.SelectedIndex > -1 ? sel_buy_search_nm2.SelectedValue.ToString() : "";//매도 조건검색 파일 이름2   
-            Properties.Settings.Default.SELL_SEARCH_NM3 = sel_sell_search_nm3.SelectedIndex > -1 ? sel_buy_search_nm3.SelectedValue.ToString() : "";//매도 조건검색 파일 이름3 
+            Properties.Settings.Default.SELL_SEARCH_NM1 = sel_sell_search_nm1.SelectedIndex > -1 ? sel_sell_search_nm1.SelectedValue.ToString() : "";//매도 조건검색 파일 이름1
+            Properties.Settings.Default.SELL_SEARCH_NM2 = sel_sell_search_nm2.SelectedIndex > -1 ? sel_sell_search_nm2.SelectedValue.ToString() : "";//매도 조건검색 파일 이름2   
+            Properties.Settings.Default.SELL_SEARCH_NM3 = sel_sell_search_nm3.SelectedIndex > -1 ? sel_sell_search_nm3.SelectedValue.ToString() : "";//매도 조건검색 파일 이름3 
                             
             Properties.Settings.Default.SELL_SEARCH_SE1 = sel_sell_search_se1.Text;                     //매도 조건검색 구분1                  
             Properties.Settings.Default.SELL_SEARCH_SE2 = sel_sell_search_se2.Text;                     //매도 조건검색 구분2                  

@@ -787,7 +787,7 @@ namespace PackageSellSystemTrading{
             //chartVo.dtsunik2        = Double.Parse(this.label_dtsunik2.Text.Replace(",", ""));    //실현손익2           
             chartVo.investmentRatio = Double.Parse(tmpRow["투자율"].ToString());              //투자율             
             chartVo.itemTotalCnt    = Double.Parse(this.h_totalCount.Text);                       //총 보유종목 수     
-            chartVo.buyFilterCnt    = Double.Parse(this.exCnt.Text);                              //매수금지종목수         
+            //chartVo.buyFilterCnt    = Double.Parse(this.exCnt.Text);                              //매수금지종목수         
             chartVo.buyCnt          = Double.Parse(this.label_buyCnt.Text);                       //매수횟수            
             chartVo.sellCnt         = Double.Parse(this.label_sellCnt.Text.Replace(",", ""));     //매도횟수  
 
