@@ -741,7 +741,7 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsDescriptionAttribute("매도 동작 시간 FROM")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 21:00:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 09:00:00")]
         public global::System.DateTime SELL_TIME_FROM {
             get {
                 return ((global::System.DateTime)(this["SELL_TIME_FROM"]));
@@ -821,7 +821,7 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsDescriptionAttribute("일괄 매도 시작시간")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 15:10:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 09:00:00")]
         public global::System.DateTime ALL_SELL_TIME_FROM {
             get {
                 return ((global::System.DateTime)(this["ALL_SELL_TIME_FROM"]));
@@ -1173,7 +1173,7 @@ namespace PackageSellSystemTrading.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsDescriptionAttribute("추가매수 조건검색 시작시간")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2018-06-25 오후 9:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2018-06-25 오전 9:00")]
         public string ADD_BUY_SEARCH_TIME_FROM {
             get {
                 return ((string)(this["ADD_BUY_SEARCH_TIME_FROM"]));

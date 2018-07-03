@@ -94,18 +94,18 @@ namespace PackageSellSystemTrading {
 
                        
                     }
-                    mainForm.grd_t0425.Rows[findIndex].Cells["ordtime"      ].Value = base.GetFieldData("t0425OutBlock1", "ordtime", i);        //주문시간
-                    mainForm.grd_t0425.Rows[findIndex].Cells["medosu"       ].Value = base.GetFieldData("t0425OutBlock1", "medosu", i);         //매매구분 - 0:전체|1:매수|2:매도
-                    mainForm.grd_t0425.Rows[findIndex].Cells["expcode"      ].Value = base.GetFieldData("t0425OutBlock1", "expcode", i);        //종목번호
-                    //mainForm.grd_t0425.Rows[findIndex].Cells["t0425_hname"].Value       = "";                                                 //종목명
-                    mainForm.grd_t0425.Rows[findIndex].Cells["qty"          ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "qty", i)); //주문수량
-                    mainForm.grd_t0425.Rows[findIndex].Cells["t0425_price"  ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "price", i)); //주문가격
-                    mainForm.grd_t0425.Rows[findIndex].Cells["cheqty"       ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "cheqty", i)); //체결수량
-                    mainForm.grd_t0425.Rows[findIndex].Cells["cheprice"     ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "cheprice", i)); //체결가격
-                    mainForm.grd_t0425.Rows[findIndex].Cells["ordrem"       ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "ordrem", i)); //미체결잔량
-                    mainForm.grd_t0425.Rows[findIndex].Cells["status"       ].Value = base.GetFieldData("t0425OutBlock1", "status", i);         //상태
-                    mainForm.grd_t0425.Rows[findIndex].Cells["ordno"        ].Value = base.GetFieldData("t0425OutBlock1", "ordno", i);          //주문번호
-                    mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"     ].Value = base.GetFieldData("t0425OutBlock1", "ordermtd", i);       //주문매체
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordtime"      ].Value = base.GetFieldData(             "t0425OutBlock1", "ordtime"    , i);  //주문시간
+                    mainForm.grd_t0425.Rows[findIndex].Cells["medosu"       ].Value = base.GetFieldData(             "t0425OutBlock1", "medosu"     , i);  //매매구분 - 0:전체|1:매수|2:매도
+                    mainForm.grd_t0425.Rows[findIndex].Cells["expcode"      ].Value = base.GetFieldData(             "t0425OutBlock1", "expcode"    , i);  //종목번호
+                    //mainForm.grd_t0425.Rows[findIndex].Cells["t0425_hname"].Value       = "";                                                            //종목명
+                    mainForm.grd_t0425.Rows[findIndex].Cells["qty"          ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "qty"        , i)); //주문수량
+                    mainForm.grd_t0425.Rows[findIndex].Cells["t0425_price"  ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "price"      , i)); //주문가격
+                    mainForm.grd_t0425.Rows[findIndex].Cells["cheqty"       ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "cheqty"     , i)); //체결수량
+                    mainForm.grd_t0425.Rows[findIndex].Cells["cheprice"     ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "cheprice"   , i)); //체결가격
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordrem"       ].Value = Double.Parse(base.GetFieldData("t0425OutBlock1", "ordrem"     , i)); //미체결잔량
+                    mainForm.grd_t0425.Rows[findIndex].Cells["status"       ].Value = base.GetFieldData(             "t0425OutBlock1", "status"     , i);  //상태
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordno"        ].Value = base.GetFieldData(             "t0425OutBlock1", "ordno"      , i);  //주문번호
+                    mainForm.grd_t0425.Rows[findIndex].Cells["ordermtd"     ].Value = base.GetFieldData(             "t0425OutBlock1", "ordermtd"   , i);  //주문매체
                     
                     //확장 정보및 싱크
                     this.t0425Sync(findIndex);
@@ -191,7 +191,7 @@ namespace PackageSellSystemTrading {
                     mainForm.grd_t0425.Rows[rowIndex].Cells["toDaysunikrt"].Value = Math.Round(todayLate, 2).ToString();
 
                 }
-                //매수이면. 매수 기준으로 수익률 출력
+                //매수이면. 매수 기준으로 수익률 출력 --이벤트 대상
                 if (items.First()["ordptncode"].ToString() == "02")
                 {
                     int t0424FindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", tmpT0425Vo.expcode);
@@ -207,7 +207,7 @@ namespace PackageSellSystemTrading {
                     }
                 }
 
-                //금일매도주문 색변경
+                //금일매도주문 색변경  --삭제및 이벤트 대상
                 if (items.First()["sellOrdAt"].ToString() == "Y")
                 {
                     mainForm.grd_t0425.Rows[rowIndex].DefaultCellStyle.BackColor = Color.DarkOrange;
@@ -433,8 +433,6 @@ namespace PackageSellSystemTrading {
         public Double shSunik      { set; get; }//실현손익
         public String searchNm     { set; get; }//검색조건이름
         public String currentPrice { set; get; }//현재가격
-
-
     }
 
 

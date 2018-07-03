@@ -112,7 +112,7 @@ namespace PackageSellSystemTrading{
                 {
                     case 0:
                         //재귀호출
-                        System.Threading.Thread.Sleep(1000);//1초
+                        Util.Delay(1000);
                         this.call_index(1);
                         //매도주문 호출
                         this.SearchSell();
@@ -120,7 +120,7 @@ namespace PackageSellSystemTrading{
                         break;
                     case 1:
                         //재귀호출
-                        System.Threading.Thread.Sleep(1000);//1초
+                        Util.Delay(1000);
                         this.call_index(2);
                         break;
                     case 2:

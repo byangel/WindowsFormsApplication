@@ -107,13 +107,13 @@ namespace PackageSellSystemTrading{
                 {
                     case 0:
                         //재귀호출
-                        System.Threading.Thread.Sleep(1000);//1초
+                        Util.Delay(1000);
                         this.call_index(1);
                         this.SearchBuy();
                         break;
                     case 1:
                         //재귀호출
-                        System.Threading.Thread.Sleep(1000);//1초
+                        Util.Delay(1000);
                         this.call_index(2);
                         break;
                     case 2:

@@ -141,7 +141,7 @@
       <Value Profile="(Default)">주문정정</Value>
     </Setting>
     <Setting Name="SELL_TIME_FROM" Description="매도 동작 시간 FROM" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">06/25/2018 21:00:00</Value>
+      <Value Profile="(Default)">06/25/2018 09:00:00</Value>
     </Setting>
     <Setting Name="SELL_TIME_TO" Description="매도 동작 시간 TO" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">06/25/2018 15:20:00</Value>
@@ -156,7 +156,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ALL_SELL_TIME_FROM" Description="일괄 매도 시작시간" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">06/25/2018 15:10:00</Value>
+      <Value Profile="(Default)">06/25/2018 09:00:00</Value>
     </Setting>
     <Setting Name="ALL_SELL_TIME_TO" Description="일괄 매도 종료시간" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">06/25/2018 15:20:00</Value>
@@ -222,7 +222,7 @@
       <Value Profile="(Default)">선택</Value>
     </Setting>
     <Setting Name="ADD_BUY_SEARCH_TIME_FROM" Description="추가매수 조건검색 시작시간" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2018-06-25 오후 9:00</Value>
+      <Value Profile="(Default)">2018-06-25 오전 9:00</Value>
     </Setting>
     <Setting Name="ADD_BUY_SEARCH_TIME_TO" Description="추가매수 조건검색 종료시간" Type="System.String" Scope="User">
       <Value Profile="(Default)">2018-06-25 오후 3:20</Value>
