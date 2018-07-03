@@ -857,37 +857,46 @@ namespace PackageSellSystemTrading{
         //그리드 현재가 변경 이벤트
         private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
-            {
-                //MessageBox.Show(e.ColumnIndex.ToString());
-                int priceIndex = grd_t0424.Rows[e.RowIndex].Cells["price"].ColumnIndex;
-                if (e.ColumnIndex == priceIndex)
-                {
-                    //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
-                    //현재 가격이 변경되면 
-                    EBindingList< T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
-                    Double 현재가   = t0424VoList.ElementAt(e.RowIndex).price;
-                    Double 평균단가 = t0424VoList.ElementAt(e.RowIndex).pamt;
-                    Double 매도가능 = t0424VoList.ElementAt(e.RowIndex).mdposqt;
-                    Double 매입금액 = t0424VoList.ElementAt(e.RowIndex).mamt;
+            try {
+                if (!this.xing_t0424.initAt) {
+                    if(e.RowIndex >= 0)
+                    {
+                        //MessageBox.Show(e.ColumnIndex.ToString());
+                        int priceIndex = grd_t0424.Rows[e.RowIndex].Cells["price"].ColumnIndex;
+                        if (e.ColumnIndex == priceIndex)
+                        {
+                            //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                            //현재 가격이 변경되면 
+                            EBindingList< T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
+                            Double 현재가   = t0424VoList.ElementAt(e.RowIndex).price;
+                            Double 평균단가 = t0424VoList.ElementAt(e.RowIndex).pamt;
+                            Double 매도가능 = t0424VoList.ElementAt(e.RowIndex).mdposqt;
+                            Double 매입금액 = t0424VoList.ElementAt(e.RowIndex).mamt;
                     
-                    Double 평가금액 = 현재가 * 매도가능;
-                    Double 손익금 = 매입금액 - 평가금액;
-                    Double 수익율 = this.xing_t0424.getSunikrt(현재가, 평균단가);
+                            Double 평가금액 = 현재가 * 매도가능;
+                            Double 손익금 = 매입금액 - 평가금액;
+                            Double 수익율 = this.xing_t0424.getSunikrt(현재가, 평균단가);
                    
                     
-                    //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금
-                    this.grd_t0424.Rows[e.RowIndex].Cells["appamt"   ].Value = 평가금액;
-                    this.grd_t0424.Rows[e.RowIndex].Cells["c_sunikrt"].Value = 수익율;
-                    this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"  ].Value = 손익금;
+                            //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금
+                            this.grd_t0424.Rows[e.RowIndex].Cells["appamt"   ].Value = 평가금액;
+                            this.grd_t0424.Rows[e.RowIndex].Cells["c_sunikrt"].Value = 수익율;
+                            this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"  ].Value = 손익금;
 
-                    //트레이딩 정보 업데이트
-                    this.tradingInfoUpdate();
+                            //트레이딩 정보 업데이트
+                            this.tradingInfoUpdate();
 
-                    //매매 프로세스 호출 
-                    priceChangedProcess(e.RowIndex);
-                }
+                            //매매 프로세스 호출 
+                            priceChangedProcess(e.RowIndex);
+                        }
          
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log.WriteLine("t0424 : " + ex.Message);
+                //Log.WriteLine("t0424 : " + ex.StackTrace);
             }
 
         }//grd_t0424_CellValueChanged END
@@ -1000,17 +1009,19 @@ namespace PackageSellSystemTrading{
                 }
 
                 //수익율 최소 최대 업데이트
-               // String 현재수익율  = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
-                //double d현재수익   = double.Parse(현재수익율.Trim());
-                //double d최대수익율 = double.Parse(최대수익율.Trim());
+                String 현재수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
+                double d현재수익 = double.Parse(현재수익율.Trim());
+                double d최대수익율 = double.Parse(최대수익율.Trim());
 
-                if (수익율 > double.Parse(최대수익율)){
-                    this.tradingHistory.maxHisRtUpdate(종목코드, 수익율.ToString());
-                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 수익율;   //최대도달 수익율
+                if (double.Parse(현재수익율.Trim()) > double.Parse(최대수익율))
+                {
+                    this.tradingHistory.maxHisRtUpdate(종목코드, 현재수익율);
+                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 현재수익율;   //최대도달 수익율
                 }
-                if (수익율 < double.Parse(최소수익율)){
-                    this.tradingHistory.minHisRtUpdate(종목코드, 수익율.ToString());
-                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 수익율;   //최소도달 수익율
+                if (double.Parse(현재수익율.Trim()) < double.Parse(최소수익율))
+                {
+                    this.tradingHistory.minHisRtUpdate(종목코드, 현재수익율);
+                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 현재수익율;   //최소도달 수익율
                 }
             } else {
                 //이력정보가 없으면 에러코드등록해준다.

@@ -44,7 +44,7 @@ namespace PackageSellSystemTrading{
             int t0425Index = mainForm.xing_t0425.getT0425VoList().Find("expcode", shcode.Replace("A", ""));
             if (t0425Index >= 0)
             {
-                mainForm.grd_t0425.Rows[t0425Index].Cells["price"].Value = Double.Parse(price);
+                mainForm.grd_t0425.Rows[t0425Index].Cells["currentPrice"].Value = Double.Parse(price);
             }
             //var T0425VoList = (List<T0425Vo>)mainForm.xing_t0425.getT0425VoList().Select(item => item.expcode = shcode );
 
