@@ -161,18 +161,14 @@ namespace PackageSellSystemTrading {
                             //실시간 현재가 종목  등록
 
                             //코스피
-                            if (t0424Vo.jonggb == "3")
-                            {
-                                mainForm.real_S3.call_real(t0424Vo.expcode);
-                            }
+                            if (t0424Vo.jonggb == "3") mainForm.real_S3.call_real(t0424Vo.expcode);
+                         
                             //코스닥
-                            if (t0424Vo.jonggb == "2")
-                            {
-                                mainForm.real_K3.call_real(t0424Vo.expcode);
-                            }
-                           
+                            if (t0424Vo.jonggb == "2")  mainForm.real_K3.call_real(t0424Vo.expcode);
+                         
                         }
                     }
+                    mainForm.h_totalCount.Text = t0424VoList.Count().ToString();
                     //응답처리 완료
                     completeAt = true;
                 }//end

@@ -578,8 +578,7 @@ namespace PackageSellSystemTrading{
                 xing_t0167.call_request();
             }
         }
-
-        Thread t1857Thread;
+        
         int searchCnt = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833_Tick(object sender, EventArgs e)
@@ -591,25 +590,12 @@ namespace PackageSellSystemTrading{
                 
                 if (searchCnt == 0){
                     //매수여부를 확인후 조건검색 실행여부를 판단한다.
-                    //if (this.cbx_buy_at.Checked ) xing_t1857.call_index(0);
-
-                    //검색 쓰래드
-                    t1857Thread = new Thread(() =>
-                    {
-                        //매수여부를 확인후 조건검색 실행여부를 판단한다.
-                        if (this.cbx_buy_at.Checked) xing_t1857.call_index(0);
-                        //this.
-                    });
-                    t1857Thread.Start();
+                    if (this.cbx_buy_at.Checked ) xing_t1857.call_index(0);
+                    
                     searchCnt = 1;
                 }else{
-                    //if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
-                    t1857Thread = new Thread(() =>
-                    {
-                        if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
-                    });
-                    t1857Thread.Start();
-
+                    if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
+                   
                     searchCnt = 0;
                 }
             }

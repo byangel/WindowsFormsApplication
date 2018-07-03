@@ -109,7 +109,6 @@ namespace PackageSellSystemTrading{
                         //재귀호출
                         Util.Delay(1000);
                         this.call_index(1);
-                        this.SearchBuy();
                         break;
                     case 1:
                         //재귀호출
@@ -117,6 +116,7 @@ namespace PackageSellSystemTrading{
                         this.call_index(2);
                         break;
                     case 2:
+                        this.SearchBuy();
                         break;
                 };
                 
@@ -193,11 +193,11 @@ namespace PackageSellSystemTrading{
             DataRow[] SellListDtRow = null;
             SellListDtRow = SellListDt.Select("종목코드 Like '" + shcode + "'");
 
-            if (SellListDtRow.Count() >= 0)
+            if (SellListDtRow.Count() > 0)
             {
                 //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
                 //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
-                itemRow["상태"] = "<매도종목 매수X>";
+                itemRow["상태"] = "<매수금지>";
                 return false;
 
             }

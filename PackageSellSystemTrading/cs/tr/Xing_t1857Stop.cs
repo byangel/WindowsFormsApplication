@@ -114,9 +114,9 @@ namespace PackageSellSystemTrading{
                         //재귀호출
                         Util.Delay(1000);
                         this.call_index(1);
-                        //매도주문 호출
-                        this.SearchSell();
+                        
                         mainForm.lb_sellCnt.Text = sellListDt.Rows.Count.ToString();
+                       
                         break;
                     case 1:
                         //재귀호출
@@ -124,6 +124,8 @@ namespace PackageSellSystemTrading{
                         this.call_index(2);
                         break;
                     case 2:
+                        //매도주문 호출
+                        this.SearchSell();
                         break;
                 };
             } catch (Exception ex){

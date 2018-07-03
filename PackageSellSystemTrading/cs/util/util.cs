@@ -4,7 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Win32;
 using System.Windows.Forms;
-
+using System.Threading.Tasks;
+using System.Threading;
 using System.Collections.Generic;
 
 
@@ -442,6 +443,7 @@ namespace PackageSellSystemTrading
             {
                 System.Windows.Forms.Application.DoEvents();
                 ThisMoment = DateTime.Now;
+                Thread.Sleep(1);
             }
             return DateTime.Now;
         }
