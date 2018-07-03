@@ -71,6 +71,7 @@ namespace PackageSellSystemTrading{
             
         }
 
+        
         //프로그램시작시 폼 초기화
         private void initForm(){
             //접속가능
@@ -176,7 +177,7 @@ namespace PackageSellSystemTrading{
 
                 //누적수익율 출력
                 tmpRow["누적수익금"] = Util.GetNumberFormat(this.chartData.getSumDtsunik());
-
+                
             } catch (Exception ex)
             {
                 Log.WriteLine("t0424 : " + ex.Message);
@@ -542,7 +543,22 @@ namespace PackageSellSystemTrading{
         //item 수가 500개 이상이면 마지막 item을 삭제한다.
         public void insertListBoxLog(String Message)
         {
-            this.listBox_log.Items.Insert(0, Message);
+            //this.listBox_log.Items.Insert(0, Message);
+
+
+            if (listBox_log.InvokeRequired)
+            {
+                listBox_log.BeginInvoke(new MethodInvoker(delegate ()
+                {
+                    listBox_log.Items.Insert(0, Message);
+                }));
+            }
+            else
+            {
+                listBox_log.Items.Insert(0, Message);
+            }
+
+
             if (listBox_log.Items.Count > 100)
             {
                 this.listBox_log.Items.RemoveAt(100);
@@ -563,7 +579,7 @@ namespace PackageSellSystemTrading{
             }
         }
 
-        
+        Thread t1857Thread;
         int searchCnt = 0;
         //매수금지종목 호출 타이머.
         private void timer_t1833_Tick(object sender, EventArgs e)
@@ -572,13 +588,28 @@ namespace PackageSellSystemTrading{
                 //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
                 Log.WriteLine("timer_t1833Exclude_Tick:: 미접속");
             }else{
-
+                
                 if (searchCnt == 0){
                     //매수여부를 확인후 조건검색 실행여부를 판단한다.
-                    if (this.cbx_buy_at.Checked ) xing_t1857.call_index(0);
+                    //if (this.cbx_buy_at.Checked ) xing_t1857.call_index(0);
+
+                    //검색 쓰래드
+                    t1857Thread = new Thread(() =>
+                    {
+                        //매수여부를 확인후 조건검색 실행여부를 판단한다.
+                        if (this.cbx_buy_at.Checked) xing_t1857.call_index(0);
+                        //this.
+                    });
+                    t1857Thread.Start();
                     searchCnt = 1;
                 }else{
-                    if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
+                    //if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
+                    t1857Thread = new Thread(() =>
+                    {
+                        if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
+                    });
+                    t1857Thread.Start();
+
                     searchCnt = 0;
                 }
             }

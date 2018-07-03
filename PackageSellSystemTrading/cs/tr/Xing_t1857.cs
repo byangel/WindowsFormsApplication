@@ -365,7 +365,7 @@ namespace PackageSellSystemTrading{
             
             //호출 성공 여부
             if (nSuccess < 0) {
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:" + nSuccess.ToString() + "> 조건검색 파일을 찾을 수 없습니다.");
+                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:" + nSuccess.ToString() + "> 조건검색 파일을 찾을 수 없습니다.");               
                 return false;
             } 
             return true;

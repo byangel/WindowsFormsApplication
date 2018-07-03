@@ -446,5 +446,26 @@ namespace PackageSellSystemTrading
             return DateTime.Now;
         }
 
+        public static void AppendTextCrossThread(Label label, string appendText)
+        {
+           
+            if (label.InvokeRequired)
+            {
+                label.BeginInvoke(new MethodInvoker(delegate ()
+                {
+                    label.Text = appendText;
+                }));
+            }
+            else
+            {
+                label.Text = appendText;
+            }
+        }
+       
+
+
+
+
+
     }	// end class
 }	// end namespace
