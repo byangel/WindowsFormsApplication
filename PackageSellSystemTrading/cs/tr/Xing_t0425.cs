@@ -359,13 +359,13 @@ namespace PackageSellSystemTrading {
                                 items.First()["cancelOrdAt"] = "Y";
                                 mainForm.tradingHistory.cancelOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
 
-                                Log.WriteLine("<t0425:주문취소><" + 종목명 + ">:<주문번호:" + 주문번호 + ">");
-                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:취소완료>" + 종목명);
+                                Log.WriteLine("<t0425:매수주문취소><" + 종목명 + ">:<매수주문번호:" + 주문번호 + ">");
+                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:매수취소완료>" + 종목명);
                             }
                             else
                             {
-                                Log.WriteLine("<t0425:주문취소 매핑정보 없음>");
-                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:주문취소 매핑정보 없음>" + 종목명);
+                                Log.WriteLine("<t0425:매수주문취소 매핑정보 없음>");
+                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:매수주문취소 매핑정보 없음>" + 종목명);
                             }
                         }
                         else{//시장가로정정
@@ -373,7 +373,7 @@ namespace PackageSellSystemTrading {
                              //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량),겨걱
                              //Xing_CSPAT00700 xing_CSPAT00700 = mainForm.CSPAT00600Mng.get700();
                              //xing_CSPAT00700.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, 미체결수량.ToString(), 가격);
-                            mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:주문정정 미구현>" + 종목명);
+                            mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:매수 주문정정 미구현>" + 종목명);
                         }
                     }
                 }
@@ -385,9 +385,33 @@ namespace PackageSellSystemTrading {
                     //Properties.Settings.Default.SELL_HO_CHANGE_SE;
                     if (타이머 > Double.Parse(Properties.Settings.Default.SELL_HO_CHANGE_TIMMER))
                     {
-                        if (Properties.Settings.Default.SELL_HO_CHANGE_SE.Equals("주문취소전송"))
+                        if (Properties.Settings.Default.SELL_HO_CHANGE_SE.Equals("주문취소"))
                         {
+                            // 현물 취소 주문
+                            //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량)
+                            Xing_CSPAT00800 xing_CSPAT00800 = mainForm.CSPAT00600Mng.get800();
+                            xing_CSPAT00800.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, "");
+                            //회색으로
+                            t0425Vo.cancelOrdAt = "Y";
+                            //주문번호 주문취소여부 Y로 업데이트
 
+                            var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
+                                        where item["ordno"].ToString() == 주문번호
+                                            && item["accno"].ToString() == mainForm.account
+                                        select item;
+                            if (items.Count() > 0)
+                            {
+                                items.First()["cancelOrdAt"] = "Y";
+                                mainForm.tradingHistory.cancelOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
+
+                                Log.WriteLine("<t0425:매도주문취소><" + 종목명 + ">:<매도주문번호:" + 주문번호 + ">");
+                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:매도취소완료>" + 종목명);
+                            }
+                            else
+                            {
+                                Log.WriteLine("<t0425:매도주문취소 매핑정보 없음>");
+                                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:매도주문취소 매핑정보 없음>" + 종목명);
+                            }
                         }
                         else
                         {//시장가로정정
@@ -395,7 +419,7 @@ namespace PackageSellSystemTrading {
                          //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량),겨걱
                          //Xing_CSPAT00700 xing_CSPAT00700 = mainForm.CSPAT00600Mng.get700();
                          //xing_CSPAT00700.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, 미체결수량.ToString(), 가격);
-                         mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:주문정정 미구현>" + 종목명);
+                         mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0425:매도 주문정정 미구현>" + 종목명);
 
                         }
 

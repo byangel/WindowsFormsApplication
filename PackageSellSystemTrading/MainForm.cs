@@ -47,8 +47,7 @@ namespace PackageSellSystemTrading{
         public ChartData chartData;//차트데이타
 
         Xing_LinkToHTS xing_LinkToHTS;
-
-        public String tradingAt;//매매 여부 Y|N
+        
         public Boolean buyAt;
         public Boolean sellAt;
 
@@ -275,8 +274,6 @@ namespace PackageSellSystemTrading{
         //자동매매 시작
         public void tradingStart()
         {
-            this.tradingAt = "Y";
-
             //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
             this.timer_t1857.Start();//진입검색 타이머
             this.timer_common.Start();//계좌 및 미체결 검색 타이머
@@ -290,8 +287,6 @@ namespace PackageSellSystemTrading{
         //자동매매 정지
         public void tradingStop()
         {
-            this.tradingAt = "N";
-
             this.timer_t1857.Stop();//진입검색 타이머
             this.timer_common.Stop();//계좌 및 미체결 검색 타이머
             this.Timer0167.Stop();//시간검색
@@ -1008,17 +1003,17 @@ namespace PackageSellSystemTrading{
                 }
 
                 //수익율 최소 최대 업데이트
-                String 현재수익율  = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
-                double d현재수익   = double.Parse(현재수익율.Trim());
-                double d최대수익율 = double.Parse(최대수익율.Trim());
+               // String 현재수익율  = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
+                //double d현재수익   = double.Parse(현재수익율.Trim());
+                //double d최대수익율 = double.Parse(최대수익율.Trim());
 
-                if (double.Parse(현재수익율.Trim()) > double.Parse(최대수익율)){
-                    this.tradingHistory.maxHisRtUpdate(종목코드, 현재수익율);
-                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 현재수익율;   //최대도달 수익율
+                if (수익율 > double.Parse(최대수익율)){
+                    this.tradingHistory.maxHisRtUpdate(종목코드, 수익율.ToString());
+                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 수익율;   //최대도달 수익율
                 }
-                if (double.Parse(현재수익율.Trim()) < double.Parse(최소수익율)){
-                    this.tradingHistory.minHisRtUpdate(종목코드, 현재수익율);
-                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 현재수익율;   //최소도달 수익율
+                if (수익율 < double.Parse(최소수익율)){
+                    this.tradingHistory.minHisRtUpdate(종목코드, 수익율.ToString());
+                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 수익율;   //최소도달 수익율
                 }
             } else {
                 //이력정보가 없으면 에러코드등록해준다.
