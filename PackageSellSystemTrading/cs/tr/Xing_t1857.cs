@@ -233,7 +233,7 @@ namespace PackageSellSystemTrading{
             {
                 if (!Properties.Settings.Default.ADD_BUY_SIGNAL_AT)
                 {
-                    itemRow["상태"] = "<보유 추가매수X>";
+                    itemRow["상태"] = "<보유중 추가매수X>";
                     return false;
                 }
 
@@ -313,6 +313,10 @@ namespace PackageSellSystemTrading{
             xing_CSPAT00600.searchNm        = searchNm;             //이벤트명(검색조건명이나 매도이유가 들어간다.)
             //매수 실행
             xing_CSPAT00600.call_request();
+            
+            //실시간 가격 모니터링 등록
+            mainForm.real_S3.call_real(shcode);
+            mainForm.real_K3.call_real(shcode);
 
             itemRow["상태"] = "<주문전송><" + ordptnDetail + ">";
             Log.WriteLine("<t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");

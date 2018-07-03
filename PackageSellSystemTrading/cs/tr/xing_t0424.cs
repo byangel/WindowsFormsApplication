@@ -109,7 +109,7 @@ namespace PackageSellSystemTrading {
                     mainForm.grd_t0424.Rows[findIndex].Cells["mamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
                     mainForm.grd_t0424.Rows[findIndex].Cells["fee"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
                     mainForm.grd_t0424.Rows[findIndex].Cells["tax"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
-                    mainForm.grd_t0424.Rows[findIndex].Cells["jonggb"].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "jonggb", i)); //종목시장구분
+                    mainForm.grd_t0424.Rows[findIndex].Cells["jonggb"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "jonggb", i)); //종목시장구분
                     
                     String 주문여부 = mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value.ToString();
                     //매도 주문후 취소된 종목은 N상태이고 종목 정보가 업데이트 되면 주문여부를 N 으로 다시 돌려놓는다.
@@ -170,7 +170,7 @@ namespace PackageSellSystemTrading {
                             {
                                 mainForm.real_K3.call_real(t0424Vo.expcode);
                             }
-                            
+                           
                         }
                     }
                     //응답처리 완료

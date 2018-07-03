@@ -806,27 +806,24 @@ namespace PackageSellSystemTrading{
         //목표 설정및 손절 청산 저장
         private void btn_exclWatchSave_Click(object sender, EventArgs e)
         {
-            TimeSpan nowTimeSpan = TimeSpan.Parse("3:10:10");
-            // 주문시간
-            TimeSpan ordTimeSpan = TimeSpan.Parse("3:9:10");
-            double test = (nowTimeSpan.TotalSeconds - ordTimeSpan.TotalSeconds);
-            MessageBox.Show(test.ToString());
-            //for (int i = 0; i < this.grd_t0424Excl.RowCount; i++)
-            //{
-            //    //감시제외 상태 업데이트.
-            //    TradingHistoryVo tradingHistoryVo = new TradingHistoryVo();
-            //    tradingHistoryVo.accno = this.account;
-            //    tradingHistoryVo.Isuno = this.grd_t0424Excl.Rows[i].Cells["e_expcode"].FormattedValue.ToString().Replace("A", ""); //종목코드;
-            //    tradingHistoryVo.targClearPrc = this.grd_t0424Excl.Rows[i].Cells["e_targClearPrc"].FormattedValue.ToString().Replace(",", ""); //목표청산가격
-            //    tradingHistoryVo.secEntPrc = this.grd_t0424Excl.Rows[i].Cells["e_secEntPrc"].FormattedValue.ToString().Replace(",", ""); //2차진입가격  
-            //    tradingHistoryVo.secEntAmt = this.grd_t0424Excl.Rows[i].Cells["e_secEntAmt"].FormattedValue.ToString().Replace(",", ""); //2차진입비중가격  
-            //    tradingHistoryVo.stopPrc = this.grd_t0424Excl.Rows[i].Cells["e_stopPrc"].FormattedValue.ToString().Replace(",", ""); //손절가격
 
-            //    //감시여부 상태 업데이트 호출
-            //    this.tradingHistory.clearUpdate(tradingHistoryVo);
-            //}
-            //this.tradingHistory.dbSync();
-            //MessageBox.Show("감시가격을 저장하였습니다.");
+
+            for (int i = 0; i < this.grd_t0424Excl.RowCount; i++)
+            {
+                //감시제외 상태 업데이트.
+                TradingHistoryVo tradingHistoryVo = new TradingHistoryVo();
+                tradingHistoryVo.accno = this.account;
+                tradingHistoryVo.Isuno = this.grd_t0424Excl.Rows[i].Cells["e_expcode"].FormattedValue.ToString().Replace("A", ""); //종목코드;
+                tradingHistoryVo.targClearPrc = this.grd_t0424Excl.Rows[i].Cells["e_targClearPrc"].FormattedValue.ToString().Replace(",", ""); //목표청산가격
+                tradingHistoryVo.secEntPrc = this.grd_t0424Excl.Rows[i].Cells["e_secEntPrc"].FormattedValue.ToString().Replace(",", ""); //2차진입가격  
+                tradingHistoryVo.secEntAmt = this.grd_t0424Excl.Rows[i].Cells["e_secEntAmt"].FormattedValue.ToString().Replace(",", ""); //2차진입비중가격  
+                tradingHistoryVo.stopPrc = this.grd_t0424Excl.Rows[i].Cells["e_stopPrc"].FormattedValue.ToString().Replace(",", ""); //손절가격
+
+                //감시여부 상태 업데이트 호출
+                this.tradingHistory.clearUpdate(tradingHistoryVo);
+            }
+            this.tradingHistory.dbSync();
+            MessageBox.Show("감시가격을 저장하였습니다.");
         }
 
         private void btn_exclWatchSync_Click(object sender, EventArgs e)

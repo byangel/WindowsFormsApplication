@@ -33,19 +33,26 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-            String expcode = base.GetFieldData("OutBlock", "shcode"); //단축종목코드
+            String shcode = base.GetFieldData("OutBlock", "shcode"); //단축종목코드
             String price   = base.GetFieldData("OutBlock", "price");  //현재가
 
-            int findIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", expcode.Replace("A", ""));
+            int findIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode.Replace("A", ""));
             if (findIndex >= 0){
                mainForm.grd_t0424.Rows[findIndex].Cells["price"].Value =Double.Parse(price);
             }
+            //주문 정정을 위해 추가한다.
+            int t0425Index = mainForm.xing_t0425.getT0425VoList().Find("expcode", shcode.Replace("A", ""));
+            if (t0425Index >= 0)
+            {
+                mainForm.grd_t0425.Rows[t0425Index].Cells["price"].Value = Double.Parse(price);
+            }
+            //var T0425VoList = (List<T0425Vo>)mainForm.xing_t0425.getT0425VoList().Select(item => item.expcode = shcode );
 
         }
-     /// <summary>
-     /// 종목 실시간 체결 등록
-     /// </summary>
-     /// <param name="IsuNo">종목번호</param>
+        /// <summary>
+        /// 종목 실시간 체결 등록
+        /// </summary>
+        /// <param name="IsuNo">종목번호</param>
         public void call_real(String shcode)
         {   
             base.SetFieldData("InBlock", "shcode", shcode);      // 종목번호
