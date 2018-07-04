@@ -107,12 +107,10 @@ namespace PackageSellSystemTrading{
                 {
                     case 0:
                         //재귀호출
-                        Util.Delay(1000);
                         this.call_index(1);
                         break;
                     case 1:
                         //재귀호출
-                        Util.Delay(1000);
                         this.call_index(2);
                         break;
                     case 2:
@@ -344,10 +342,12 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
+                    Util.Delay(1000);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
+                    Util.Delay(1000);
                     break;
             };
             //파일명만 추출

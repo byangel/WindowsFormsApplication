@@ -112,20 +112,16 @@ namespace PackageSellSystemTrading{
                 {
                     case 0:
                         //재귀호출
-                        Util.Delay(1000);
                         this.call_index(1);
-                        
-                        mainForm.lb_sellCnt.Text = sellListDt.Rows.Count.ToString();
-                       
                         break;
                     case 1:
                         //재귀호출
-                        Util.Delay(1000);
                         this.call_index(2);
                         break;
                     case 2:
                         //매도주문 호출
                         this.SearchSell();
+                        mainForm.lb_sellCnt.Text = sellListDt.Rows.Count.ToString();
                         break;
                 };
             } catch (Exception ex){
@@ -244,10 +240,12 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
+                    Util.Delay(1000);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
+                    Util.Delay(1000);
                     break;
             };
             //파일명만 추출
