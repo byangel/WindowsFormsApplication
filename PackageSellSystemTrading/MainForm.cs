@@ -875,45 +875,49 @@ namespace PackageSellSystemTrading{
         private void grd_t0424_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try {
-                if (!this.xing_t0424.initAt) {
-                    if(e.RowIndex >= 0)
+                if(this.xing_t0424!=null) {
+
+                    if (!this.xing_t0424.initAt)
                     {
-                        //MessageBox.Show(e.ColumnIndex.ToString());
-                        int priceIndex = grd_t0424.Rows[e.RowIndex].Cells["price"].ColumnIndex;
-                        if (e.ColumnIndex == priceIndex)
+                        if (e.RowIndex >= 0)
                         {
-                            //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
-                            //현재 가격이 변경되면 
-                            EBindingList< T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
-                            Double 현재가   = t0424VoList.ElementAt(e.RowIndex).price;
-                            Double 평균단가 = t0424VoList.ElementAt(e.RowIndex).pamt;
-                            Double 매도가능 = t0424VoList.ElementAt(e.RowIndex).mdposqt;
-                            Double 매입금액 = t0424VoList.ElementAt(e.RowIndex).mamt;
-                    
-                            Double 평가금액 = 현재가 * 매도가능;
-                            Double 손익금 = 매입금액 - 평가금액;
-                            Double 수익율 = this.xing_t0424.getSunikrt(현재가, 평균단가);
-                   
-                    
-                            //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금
-                            this.grd_t0424.Rows[e.RowIndex].Cells["appamt"   ].Value = 평가금액;
-                            this.grd_t0424.Rows[e.RowIndex].Cells["c_sunikrt"].Value = 수익율;
-                            this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"  ].Value = 손익금;
+                            //MessageBox.Show(e.ColumnIndex.ToString());
+                            int priceIndex = grd_t0424.Rows[e.RowIndex].Cells["price"].ColumnIndex;
+                            if (e.ColumnIndex == priceIndex)
+                            {
+                                //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
+                                //현재 가격이 변경되면 
+                                EBindingList<T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
+                                Double 현재가 = t0424VoList.ElementAt(e.RowIndex).price;
+                                Double 평균단가 = t0424VoList.ElementAt(e.RowIndex).pamt;
+                                Double 매도가능 = t0424VoList.ElementAt(e.RowIndex).mdposqt;
+                                Double 매입금액 = t0424VoList.ElementAt(e.RowIndex).mamt;
 
-                            //트레이딩 정보 업데이트
-                            this.tradingInfoUpdate();
+                                Double 평가금액 = 현재가 * 매도가능;
+                                Double 손익금 = 매입금액 - 평가금액;
+                                Double 수익율 = this.xing_t0424.getSunikrt(현재가, 평균단가);
 
-                            //매매 프로세스 호출 
-                            priceChangedProcess(e.RowIndex);
+
+                                //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금
+                                this.grd_t0424.Rows[e.RowIndex].Cells["appamt"].Value = 평가금액;
+                                this.grd_t0424.Rows[e.RowIndex].Cells["c_sunikrt"].Value = 수익율;
+                                this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"].Value = 손익금;
+
+                                //트레이딩 정보 업데이트
+                                this.tradingInfoUpdate();
+
+                                //매매 프로세스 호출 
+                                priceChangedProcess(e.RowIndex);
+                            }
+
                         }
-         
                     }
                 }
             }
             catch (Exception ex)
             {
-                //Log.WriteLine("t0424 : " + ex.Message);
-                //Log.WriteLine("t0424 : " + ex.StackTrace);
+                Log.WriteLine("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.StackTrace);
             }
 
         }//grd_t0424_CellValueChanged END
