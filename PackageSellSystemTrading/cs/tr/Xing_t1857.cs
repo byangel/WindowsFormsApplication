@@ -20,7 +20,7 @@ namespace PackageSellSystemTrading{
         }
         
         //투자 비율
-        public String investmentRatio;
+        //public String investmentRatio;
         //public Boolean initAt = false;
 
         // 생성자
@@ -170,156 +170,168 @@ namespace PackageSellSystemTrading{
         //매수 테스트
         private Boolean BuyTest(DataRow itemRow, int configSearchCode, TimeSpan nowTimeSpan,int rowIndex)
         {
-            String shcode     = itemRow["종목코드" ].ToString(); //종목코드
-            String hname      = itemRow["종목명"   ].ToString(); //종목명
-            String close      = itemRow["현재가"   ].ToString(); //현재가
-            String searchNm   = itemRow["검색조건" ].ToString(); //검색조건
-            String searchCode = itemRow["검색코드" ].ToString(); //검색코드
-
-            //검색코드 설정값 비교
-            if (int.Parse(searchCode) < configSearchCode)
+            try
             {
-                itemRow["상태"] = "<ANDOR 매수X>";
-                return false;
-            }
+                String shcode = itemRow["종목코드"].ToString(); //종목코드
+                String hname = itemRow["종목명"].ToString(); //종목명
+                String close = itemRow["현재가"].ToString(); //현재가
+                String searchNm = itemRow["검색조건"].ToString(); //검색조건
+                String searchCode = itemRow["검색코드"].ToString(); //검색코드
 
-            //배팅금액 설정
-            int battingAtm = int.Parse(Properties.Settings.Default.BUY_BATTING_AMT) * 10000;
-
-            //매수금지목록
-            DataTable SellListDt = mainForm.xing_t1857Stop.getSellListDt();
-            DataRow[] SellListDtRow = null;
-            SellListDtRow = SellListDt.Select("종목코드 Like '" + shcode + "'");
-
-            if (SellListDtRow.Count() > 0)
-            {
-                //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
-                //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
-                itemRow["상태"] = "<매수금지>";
-                return false;
-
-            }
-
-            String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
-            //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
-            var toDayBuyT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
-                                      where item.expcode == shcode && item.medosu == "매수"
-                                      select item;
-            if (toDayBuyT0425VoList.Count() > 0)
-            {
-                itemRow["상태"] = "<금일1회매수X>";
-                return false;
-            }
-
-            var toDaySellT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
-                                      where item.expcode == shcode && item.medosu == "매도"
-                                      select item;
-
-            if (toDaySellT0425VoList.Count() > 0)
-            {
-                if (!Properties.Settings.Default.SELL_TO_RE_BUY_AT)
+                //검색코드 설정값 비교
+                if (int.Parse(searchCode) < configSearchCode)
                 {
-                    itemRow["상태"] = "<금일매도 매수X>";
-                    return false;
-                }
-            }
-            
-            //5.보유종목 반복매수여부 테스트 -두번째 컨디션일 경우 보유종목일경우에만 중복 매수한다.
-            int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
-
-            if (t0424VoListFindIndex >= 0)
-            {
-                if (!Properties.Settings.Default.ADD_BUY_SIGNAL_AT)
-                {
-                    itemRow["상태"] = "<보유중 추가매수X>";
+                    itemRow["상태"] = "<ANDOR 매수X>";
                     return false;
                 }
 
-                //기존 종목 수익률
-                EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
-                Double sunikrt = t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;
-
-                //-매수신호시마다 추가매수 여부 
-                if (sunikrt > double.Parse(Properties.Settings.Default.ADD_BUY_SIGNAL_RATE))
-                {
-                    //mainForm.insertListBoxLog("<" + mainForm.label_time.Text.Substring(0, 5) + "><추가매수제한><" + searchNm + "><t1857:" + hname + ">");
-                    itemRow["상태"] = "<하락비율미달 추가매수x>";
-                    return false;
-                }
-
-                ordptnDetail = "추가매수";
                 //배팅금액 설정
-                battingAtm = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
-                //1.반복매수면 투자율 제한 하지 않는다.
-                //2.반복매수면 매수금지 종목이라도 매수한다.
+                int battingAtm = int.Parse(Properties.Settings.Default.BUY_BATTING_AMT) * 10000;
 
-            }else{//-보유종목이 아니고 신규매수해야 한다면.
+                //매수금지목록
+                DataTable SellListDt = mainForm.xing_t1857Stop.getSellListDt();
+                DataRow[] SellListDtRow = null;
+                SellListDtRow = SellListDt.Select("종목코드 Like '" + shcode + "'");
 
-                //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                if (Double.Parse(this.investmentRatio) > Double.Parse(Properties.Settings.Default.BASE_MONEY_BUY_RATE))
+                if (SellListDtRow.Count() > 0)
                 {
-                    itemRow["상태"] = "<투자율제한 매수X>";
+                    //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
+                    //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
+                    itemRow["상태"] = "<매수금지>";
+                    return false;
+
+                }
+
+                String ordptnDetail; //매수 상세 구분을 해준다. 신규매수|반복매수
+                                     //금일 매수 체결 내용이 있고 미체결 잔량이 0인 건은 매수 하지 않는다.
+                var toDayBuyT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
+                                          where item.expcode == shcode && item.medosu == "매수"
+                                          select item;
+                if (toDayBuyT0425VoList.Count() > 0)
+                {
+                    itemRow["상태"] = "<금일1회매수X>";
                     return false;
                 }
-                ordptnDetail = "신규매수";
-            }
+
+                var toDaySellT0425VoList = from item in mainForm.xing_t0425.getT0425VoList()
+                                           where item.expcode == shcode && item.medosu == "매도"
+                                           select item;
+
+                if (toDaySellT0425VoList.Count() > 0)
+                {
+                    if (!Properties.Settings.Default.SELL_TO_RE_BUY_AT)
+                    {
+                        itemRow["상태"] = "<금일매도 매수X>";
+                        return false;
+                    }
+                }
+
+                //5.보유종목 반복매수여부 테스트 -두번째 컨디션일 경우 보유종목일경우에만 중복 매수한다.
+                int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
+
+                if (t0424VoListFindIndex >= 0)
+                {
+                    if (!Properties.Settings.Default.ADD_BUY_SIGNAL_AT)
+                    {
+                        itemRow["상태"] = "<보유중 추가매수X>";
+                        return false;
+                    }
+
+                    //기존 종목 수익률
+                    EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
+                    Double sunikrt = t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;
+
+                    //-매수신호시마다 추가매수 여부 
+                    if (sunikrt > double.Parse(Properties.Settings.Default.ADD_BUY_SIGNAL_RATE))
+                    {
+                        //mainForm.insertListBoxLog("<" + mainForm.label_time.Text.Substring(0, 5) + "><추가매수제한><" + searchNm + "><t1857:" + hname + ">");
+                        itemRow["상태"] = "<하락비율미달 추가매수x>";
+                        return false;
+                    }
+
+                    ordptnDetail = "추가매수";
+                    //배팅금액 설정
+                    battingAtm = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
+                    //1.반복매수면 투자율 제한 하지 않는다.
+                    //2.반복매수면 매수금지 종목이라도 매수한다.
+
+                }
+                else
+                {//-보유종목이 아니고 신규매수해야 한다면.
+
+                    //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
+                    Double 투자율 = Double.Parse(mainForm.tradingInfoDt.Rows[0]["투자율"].ToString());
+                    if (투자율 > Double.Parse(Properties.Settings.Default.BASE_MONEY_BUY_RATE))
+                    {
+                        itemRow["상태"] = "<투자율제한 매수X>";
+                        return false;
+                    }
+                    ordptnDetail = "신규매수";
+                }
 
 
-            //매수 가능 시간 비교
-            DateTime buyTimeFrom = Properties.Settings.Default.BUY_TIME_FROM;
-            DateTime buyTimeTo   = Properties.Settings.Default.BUY_TIME_TO;
-            if (nowTimeSpan <= buyTimeFrom.TimeOfDay || nowTimeSpan >= buyTimeTo.TimeOfDay){
-                itemRow["상태"] = "<시간x><" + ordptnDetail + ">";
-                return false;
+                //매수 가능 시간 비교
+                DateTime buyTimeFrom = Properties.Settings.Default.BUY_TIME_FROM;
+                DateTime buyTimeTo = Properties.Settings.Default.BUY_TIME_TO;
+                if (nowTimeSpan <= buyTimeFrom.TimeOfDay || nowTimeSpan >= buyTimeTo.TimeOfDay)
+                {
+                    itemRow["상태"] = "<시간x><" + ordptnDetail + ">";
+                    return false;
+                }
+
+                //4.매수
+                //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
+                if (close == "0")
+                {
+                    itemRow["상태"] = "오류:246";
+                    return false;
+                }
+
+                //-매수수량 계산.
+                int Quantity = battingAtm / int.Parse(close);
+                //호가 계산
+                if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
+                {
+                    close = Util.getTickPrice(close, double.Parse(Properties.Settings.Default.BUY_HO));
+                }
+
+                //int Quantity = 20000;
+
+                /// <summary>
+                /// 현물정상주문
+                /// </summary>
+                /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
+                /// <param name="IsuNo">종목번호</param>
+                /// <param name="Quantity">수량</param>
+                /// <param name="Price">가격</param>
+                Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+
+                xing_CSPAT00600.ordptnDetail = ordptnDetail;         //상세 매매 구분.
+                xing_CSPAT00600.shcode = shcode;               //종목코드
+                xing_CSPAT00600.hname = hname;                //종목명
+                xing_CSPAT00600.quantity = Quantity.ToString();  //수량
+                xing_CSPAT00600.price = close;                //가격
+                xing_CSPAT00600.divideBuySell = "2";                  // 매매구분: 1-매도, 2-매수
+                xing_CSPAT00600.upOrdno = "";                   //상위매수주문 - 금일매도매수일때만 값이 있다.
+                xing_CSPAT00600.upExecprc = "";                   //상위체결금액 
+                xing_CSPAT00600.searchNm = searchNm;             //이벤트명(검색조건명이나 매도이유가 들어간다.)
+                                                                 //매수 실행
+                xing_CSPAT00600.call_request();
+
+                //실시간 가격 모니터링 등록
+                mainForm.real_S3.call_real(shcode);
+                mainForm.real_K3.call_real(shcode);
+
+                itemRow["상태"] = "<주문전송><" + ordptnDetail + ">";
+                Log.WriteLine("<t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
+                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
+
             }
-            
-            //4.매수
-            //임시로 넣어둔다 왜 현제가가 0으로 넘어오는지 모르겠다.
-            if (close == "0")
+            catch (Exception ex)
             {
-                itemRow["상태"] = "오류:246";
-                return false;
+                Log.WriteLine("t1857 : " + ex.Message);
+                Log.WriteLine("t1857 : " + ex.StackTrace);
             }
-
-            //-매수수량 계산.
-            int Quantity = battingAtm / int.Parse(close);
-            //호가 계산
-            if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
-            {
-                close = Util.getTickPrice(close, double.Parse(Properties.Settings.Default.BUY_HO));
-            }
-            
-            //int Quantity = 20000;
-
-            /// <summary>
-            /// 현물정상주문
-            /// </summary>
-            /// <param name="ordptnDetail">상세주문구분 신규매수|반복매수|금일매도|청산</param>
-            /// <param name="IsuNo">종목번호</param>
-            /// <param name="Quantity">수량</param>
-            /// <param name="Price">가격</param>
-            Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-
-            xing_CSPAT00600.ordptnDetail    = ordptnDetail;         //상세 매매 구분.
-            xing_CSPAT00600.shcode          = shcode;               //종목코드
-            xing_CSPAT00600.hname           = hname;                //종목명
-            xing_CSPAT00600.quantity        = Quantity.ToString();  //수량
-            xing_CSPAT00600.price           = close;                //가격
-            xing_CSPAT00600.divideBuySell   = "2";                  // 매매구분: 1-매도, 2-매수
-            xing_CSPAT00600.upOrdno         = "";                   //상위매수주문 - 금일매도매수일때만 값이 있다.
-            xing_CSPAT00600.upExecprc       = "";                   //상위체결금액 
-            xing_CSPAT00600.searchNm        = searchNm;             //이벤트명(검색조건명이나 매도이유가 들어간다.)
-            //매수 실행
-            xing_CSPAT00600.call_request();
-            
-            //실시간 가격 모니터링 등록
-            mainForm.real_S3.call_real(shcode);
-            mainForm.real_K3.call_real(shcode);
-
-            itemRow["상태"] = "<주문전송><" + ordptnDetail + ">";
-            Log.WriteLine("<t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
-            mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
-
             return true;
 
         }//buyTest END
