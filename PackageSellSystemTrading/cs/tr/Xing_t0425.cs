@@ -310,9 +310,9 @@ namespace PackageSellSystemTrading {
             Double 현재가격 = 0;
             String 매매구분;
             //현재시간.
-            String time = mainForm.xing_t0167.time;
-            if (time == "" || time == null) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
-            int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
+            //String time = mainForm.xing_t0167.time;
+            //if (time == "" || time == null) { time = "1530"; }//에러 안나게 기본값을 셋팅해준다.
+            //int cTime = (int.Parse(time.Substring(0, 2)) * 60) + int.Parse(time.Substring(2, 2));//현재 시간
 
             
             //매수/매도 취소
@@ -422,7 +422,7 @@ namespace PackageSellSystemTrading {
             //주문번호 주문취소여부 Y로 업데이트
             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()
                         where item["ordno"].ToString() == 주문번호
-                            && item["accno"].ToString() == mainForm.account
+                           && item["accno"].ToString() == mainForm.account
                         select item;
             if (items.Count() > 0)
             {
