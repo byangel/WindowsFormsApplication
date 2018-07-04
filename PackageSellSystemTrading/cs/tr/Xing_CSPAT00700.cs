@@ -94,7 +94,7 @@ namespace PackageSellSystemTrading{
      /// <summary>
 		/// 현물 정정 주문
 		//OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량), price(주문가격)
-		public void call_request(String account, String accountPw, string OrgOrdNo, string IsuNo, string OrdQty, string price)
+		public void call_request(String account, String accountPw, string OrgOrdNo, string IsuNo, Double OrdQty, Double price)
         {
             this.completeAt = false;//중복호출 방지
 
@@ -109,11 +109,11 @@ namespace PackageSellSystemTrading{
             base.SetFieldData("CSPAT00800InBlock1", "InptPwd"       , 0, accountPw  ); // 입력비밀번호
             base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo"      , 0, OrgOrdNo   ); // 원주문번호
             base.SetFieldData("CSPAT00800InBlock1", "IsuNo"         , 0, IsuNo      ); // 종목번호
-            base.SetFieldData("CSPAT00800InBlock1", "OrdQty"        , 0, OrdQty     ); // 주문수량
+            base.SetFieldData("CSPAT00800InBlock1", "OrdQty"        , 0, OrdQty.ToString()     ); // 주문수량
 
             base.SetFieldData("CSPAT00800InBlock1", "OrdprcPtnCode" , 0, "00"       ); //호가유형코드 --지정
             base.SetFieldData("CSPAT00800InBlock1", "OrdCndiTpCode" , 0, "0"        ); //주문조건구분 0:없음, 1:IOC, 2:FOK
-            base.SetFieldData("CSPAT00800InBlock1", "OrdPrc"        , 0, price.Replace(",", ""));//주문가
+            base.SetFieldData("CSPAT00800InBlock1", "OrdPrc"        , 0, price.ToString());//주문가
             
             base.Request(false);
         }

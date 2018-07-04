@@ -550,18 +550,18 @@ namespace PackageSellSystemTrading{
             {
                 listBox_log.BeginInvoke(new MethodInvoker(delegate ()
                 {
-                    listBox_log.Items.Insert(0, Message);
+                    listBox_log.Items.Add(Message);
                 }));
             }
             else
             {
-                listBox_log.Items.Insert(0, Message);
+                listBox_log.Items.Add(Message);
             }
 
 
-            if (listBox_log.Items.Count > 100)
+            if (listBox_log.Items.Count > 1000)
             {
-                this.listBox_log.Items.RemoveAt(100);
+                this.listBox_log.Items.RemoveAt(0);
             }
         }
 
