@@ -141,7 +141,7 @@ namespace PackageSellSystemTrading {
                     mainForm.tradingInfoUpdate();
 
                     //로그 및 중복 요청 처리 2:코스닥, 3:코스피
-                    mainForm.input_t0424_log2.Text = "[" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "]t0424 :: 잔고조회 완료";
+                    mainForm.input_t0424_log.Text = "[" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "]t0424 :: 잔고조회 완료";
                     
                     //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
                     if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519){
@@ -239,7 +239,7 @@ namespace PackageSellSystemTrading {
                 ;
             }else {
                 //Log.WriteLine("[" + mainForm.input_time.Text + "]t0424 :: " + nMessageCode + " :: " + szMessage);
-                mainForm.input_t0424_log2.Text = "[" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "]t0424 :: " + nMessageCode + " :: " + szMessage;
+                mainForm.input_t0424_log.Text = "[" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "]t0424 :: " + nMessageCode + " :: " + szMessage;
                 completeAt = true;//중복호출 방지
 
                 //서버접속 실패로인하여 로그인 여부를 false 로 설정한다.후에 접속실패 코드확보후 조건문 추가해주자.

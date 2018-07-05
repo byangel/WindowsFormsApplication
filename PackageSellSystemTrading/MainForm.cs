@@ -559,7 +559,7 @@ namespace PackageSellSystemTrading{
             }
 
 
-            if (listBox_log.Items.Count > 1000)
+            if (listBox_log.Items.Count > 500)
             {
                 this.listBox_log.Items.RemoveAt(0);
             }

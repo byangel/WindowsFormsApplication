@@ -60,14 +60,15 @@ namespace PackageSellSystemTrading{
                 int iCount = base.GetBlockCount("t1857OutBlock1");
 
                 DataRow tmpRow;
+                DataRow[] foundRows = new DataRow[] { };
+                String shcode;
                 //String sunikrt;//수익률
                 for (int i = 0; i < iCount; i++) {
-
-                    String shcode = base.GetFieldData("t1857OutBlock1", "shcode", i);//종목코드
-                    
-                    DataRow[] foundRows=null;
-                    foundRows = buyListDt.Select("종목코드 Like '" + shcode + "'");
-
+                    shcode = base.GetFieldData("t1857OutBlock1", "shcode", i);//종목코드
+                    if (this.int_callIndex != 0)
+                    {
+                        foundRows = buyListDt.Select("종목코드 = '" + shcode + "'");
+                    }
                     //종목이 없으면 추가 있으면 수정
                     if (foundRows.Count() > 0)
                     {
@@ -91,7 +92,7 @@ namespace PackageSellSystemTrading{
                     switch (this.int_callIndex)
                     {
                         case 0:
-                            tmpRow["검색조건"] += Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM1) ;        //검색조건
+                            tmpRow["검색조건"] = Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM1) ;        //검색조건
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 1;                           //검색코드
                             break;
                         case 1:
@@ -185,7 +186,7 @@ namespace PackageSellSystemTrading{
                 //검색코드 설정값 비교
                 if (int.Parse(searchCode) < configSearchCode)
                 {
-                    itemRow["상태"] = "<ANDOR 매수X>";
+                    itemRow["상태"] = "조건식매수 금지 ";
                     return false;
                 }
 
@@ -201,7 +202,7 @@ namespace PackageSellSystemTrading{
                 {
                     //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
                     //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
-                    itemRow["상태"] = "<매수금지>";
+                    itemRow["상태"] = "매수금지";
                     return false;
 
                 }
@@ -213,7 +214,7 @@ namespace PackageSellSystemTrading{
                                           select item;
                 if (toDayBuyT0425VoList.Count() > 0)
                 {
-                    itemRow["상태"] = "<금일1회매수X>";
+                    itemRow["상태"] = "금일1회매수X";
                     return false;
                 }
 
@@ -225,7 +226,7 @@ namespace PackageSellSystemTrading{
                 {
                     if (!Properties.Settings.Default.SELL_TO_RE_BUY_AT)
                     {
-                        itemRow["상태"] = "<금일매도 매수X>";
+                        itemRow["상태"] = "금일매도 매수X";
                         return false;
                     }
                 }
@@ -237,7 +238,7 @@ namespace PackageSellSystemTrading{
                 {
                     if (!Properties.Settings.Default.ADD_BUY_SIGNAL_AT)
                     {
-                        itemRow["상태"] = "<보유중 추가매수X>";
+                        itemRow["상태"] = "보유중 추가매수X";
                         return false;
                     }
 
@@ -249,7 +250,7 @@ namespace PackageSellSystemTrading{
                     if (sunikrt > double.Parse(Properties.Settings.Default.ADD_BUY_SIGNAL_RATE))
                     {
                         //mainForm.insertListBoxLog("<" + mainForm.label_time.Text.Substring(0, 5) + "><추가매수제한><" + searchNm + "><t1857:" + hname + ">");
-                        itemRow["상태"] = "<하락비율미달 추가매수x>";
+                        itemRow["상태"] = "하락비율미달 추가매수x";
                         return false;
                     }
 
@@ -267,7 +268,7 @@ namespace PackageSellSystemTrading{
                     Double 투자율 = Double.Parse(mainForm.tradingInfoDt.Rows[0]["투자율"].ToString());
                     if (투자율 > Double.Parse(Properties.Settings.Default.BASE_MONEY_BUY_RATE))
                     {
-                        itemRow["상태"] = "<투자율제한 매수X>";
+                        itemRow["상태"] = "투자율제한 매수X";
                         return false;
                     }
                     ordptnDetail = "신규매수";
@@ -279,7 +280,7 @@ namespace PackageSellSystemTrading{
                 DateTime buyTimeTo = Properties.Settings.Default.BUY_TIME_TO;
                 if (nowTimeSpan <= buyTimeFrom.TimeOfDay || nowTimeSpan >= buyTimeTo.TimeOfDay)
                 {
-                    itemRow["상태"] = "<시간x><" + ordptnDetail + ">";
+                    itemRow["상태"] = "시간x<" + ordptnDetail + ">";
                     return false;
                 }
 
@@ -326,7 +327,7 @@ namespace PackageSellSystemTrading{
                 mainForm.real_S3.call_real(shcode);
                 mainForm.real_K3.call_real(shcode);
 
-                itemRow["상태"] = "<주문전송><" + ordptnDetail + ">";
+                itemRow["상태"] = "<" + ordptnDetail + ">주문전송";
                 Log.WriteLine("<t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
                 mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
 
@@ -358,14 +359,10 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
-
-                    //Thread.Sleep(1000);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
-                    //Util.Delay(1000);
-                    //Thread.Sleep(1000);
                     break;
             };
             //파일명만 추출
@@ -383,9 +380,9 @@ namespace PackageSellSystemTrading{
 
             while (nSuccess < 0)
             {
-                Thread.Sleep(250);
                 nSuccess = base.RequestService("t1857", ""); ;
-                
+                Thread.Sleep(250);
+                mainForm.insertListBoxLog(nSuccess.ToString());
             }
 
             

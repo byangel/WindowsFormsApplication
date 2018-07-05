@@ -131,7 +131,7 @@ namespace PackageSellSystemTrading {
                     mainForm.grd_t0425_chegb1_cnt.Text = this.t0425VoList.Count().ToString();
                     //Thread.Sleep(5000);
                     //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
-                    mainForm.input_t0425_log2.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0425:채결/미채결 요청완료>";
+                    mainForm.input_t0425_log.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0425:채결/미채결 요청완료>";
 
                     //초기화 여부
                     if (initAt)

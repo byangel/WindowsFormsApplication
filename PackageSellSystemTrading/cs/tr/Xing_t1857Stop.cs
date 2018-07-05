@@ -56,19 +56,22 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
             //매수검색목록,매도검색목록 초기화.
             if (this.int_callIndex == 0) sellListDt.Clear();
+            String searchSellSe1 = Properties.Settings.Default.SELL_SEARCH_SE1 == "AND" ? " & " : " || ";
+            String searchSellSe2 = Properties.Settings.Default.SELL_SEARCH_SE2 == "AND" ? " & " : " || ";
 
             try {
                 int iCount = base.GetBlockCount("t1857OutBlock1");
 
                 DataRow tmpRow;
+                DataRow[] foundRows = new DataRow[] { };
+                String shcode;
                 //String sunikrt;//수익률
                 for (int i = 0; i < iCount; i++) {
 
-                    String shcode = base.GetFieldData("t1857OutBlock1", "shcode", i);//종목코드
+                    shcode = base.GetFieldData("t1857OutBlock1", "shcode", i);//종목코드
 
-                    DataRow[] foundRows = null;
-                    foundRows = sellListDt.Select("종목코드 Like '" + shcode + "'");
-
+                    if (this.int_callIndex != 0) foundRows = sellListDt.Select("종목코드 = '" + shcode + "'");
+                
                     //종목이 없으면 추가 있으면 수정
                     if (foundRows.Count() > 0)
                     {
@@ -98,11 +101,12 @@ namespace PackageSellSystemTrading{
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 1;                           //검색코드
                             break;
                         case 1:
-                            tmpRow["검색조건"] += " " + Util.getShortFileNm(Properties.Settings.Default.SELL_SEARCH_NM2); //검색조건
+                            tmpRow["검색조건"] += (tmpRow["검색조건"].ToString().Length > 0 ? searchSellSe1 : "") + Util.getShortFileNm(Properties.Settings.Default.SELL_SEARCH_NM2); //검색조건
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 2;                           //검색코드
+
                             break;
                         case 2:
-                            tmpRow["검색조건"] += " " + Util.getShortFileNm(Properties.Settings.Default.SELL_SEARCH_NM3); //검색조건
+                            tmpRow["검색조건"] += (tmpRow["검색조건"].ToString().Length > 0 ? searchSellSe2 : "") + Util.getShortFileNm(Properties.Settings.Default.SELL_SEARCH_NM3); //검색조건
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 4;                           //검색코드
                             break;
                     };
@@ -245,12 +249,12 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
-                    Thread.Sleep(600);
+                    //Thread.Sleep(600);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
-                    Thread.Sleep(600);
+                    //Thread.Sleep(600);
                     break;
             };
             //파일명만 추출
@@ -268,8 +272,10 @@ namespace PackageSellSystemTrading{
 
             while (nSuccess < 0)
             {
-                Thread.Sleep(250);
+                
                 nSuccess = base.RequestService("t1857", "");
+                Thread.Sleep(250);
+                mainForm.insertListBoxLog(nSuccess.ToString());
             }
             //호출 성공 여부
             //if (nSuccess < 0){
