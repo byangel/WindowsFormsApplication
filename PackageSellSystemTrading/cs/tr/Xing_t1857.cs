@@ -54,7 +54,8 @@ namespace PackageSellSystemTrading{
 
             //매수검색목록,매도검색목록 초기화.
             if (this.int_callIndex == 0) buyListDt.Clear();
-
+            String searchBuySe1 = Properties.Settings.Default.BUY_SEARCH_SE1 == "AND" ? " & " : " || ";
+            String searchBuySe2 = Properties.Settings.Default.BUY_SEARCH_SE2 == "AND" ? " & " : " || ";
             try {
                 int iCount = base.GetBlockCount("t1857OutBlock1");
 
@@ -78,27 +79,27 @@ namespace PackageSellSystemTrading{
                         buyListDt.Rows.Add(tmpRow);
                     }
                     
-                    tmpRow["종목코드"     ] = base.GetFieldData("t1857OutBlock1", "shcode", i); //종목코드
-                    tmpRow["종목명"       ] = base.GetFieldData("t1857OutBlock1", "hname" , i); //종목명
-                    tmpRow["현재가"       ] = base.GetFieldData("t1857OutBlock1", "price" , i); //현재가
-                    tmpRow["전일대비구분" ] = base.GetFieldData("t1857OutBlock1", "sign"  , i); //전일대비구분 
-                    tmpRow["전일대비"     ] = base.GetFieldData("t1857OutBlock1", "change", i); //전일대비
-                    tmpRow["등락율"       ] = base.GetFieldData("t1857OutBlock1", "diff"  , i); //등락율
-                    tmpRow["거래량"       ] = base.GetFieldData("t1857OutBlock1", "volume", i); //거래량
+                    tmpRow["종목코드"     ] = base.GetFieldData("t1857OutBlock1", "shcode",  i); //종목코드
+                    tmpRow["종목명"       ] = base.GetFieldData("t1857OutBlock1", "hname" ,  i); //종목명
+                    tmpRow["현재가"       ] = base.GetFieldData("t1857OutBlock1", "price" ,  i); //현재가
+                    tmpRow["전일대비구분" ] = base.GetFieldData("t1857OutBlock1", "sign"  ,  i); //전일대비구분 
+                    tmpRow["전일대비"     ] = base.GetFieldData("t1857OutBlock1", "change",  i); //전일대비
+                    tmpRow["등락율"       ] = base.GetFieldData("t1857OutBlock1", "diff"  ,  i); //등락율
+                    tmpRow["거래량"       ] = base.GetFieldData("t1857OutBlock1", "volume",  i); //거래량
                     tmpRow["연속봉수"     ] = base.GetFieldData("t1857OutBlock1", "jobFlag", i);//연속봉수
                    
                     switch (this.int_callIndex)
                     {
                         case 0:
-                            tmpRow["검색조건"] = Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM1);        //검색조건
+                            tmpRow["검색조건"] += Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM1) ;        //검색조건
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 1;                           //검색코드
                             break;
                         case 1:
-                            tmpRow["검색조건"] += " " + Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM2); //검색조건
+                            tmpRow["검색조건"] += (tmpRow["검색조건"].ToString().Length > 0 ? searchBuySe1 : "")+Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM2); //검색조건
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 2;                           //검색코드
                             break;
                         case 2:
-                            tmpRow["검색조건"] += " " + Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM3); //검색조건
+                            tmpRow["검색조건"] += (tmpRow["검색조건"].ToString().Length > 0 ? searchBuySe2 : "")+Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM3); //검색조건
                             tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 4;                           //검색코드
                             break;
                     };
@@ -115,10 +116,10 @@ namespace PackageSellSystemTrading{
                         this.call_index(2);
                         break;
                     case 2:
-                        this.SearchBuy();
                         break;
                 };
-                
+                this.SearchBuy();
+
             }
             catch (Exception ex){
                 Log.WriteLine("t1857 : " + ex.Message);
@@ -129,14 +130,16 @@ namespace PackageSellSystemTrading{
 
         //메세지 이벤트 핸들러
         void receiveMessageEventHandler(bool bIsSystemError, string nMessageCode, string szMessage){
-            
+
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 //MessageBox.Show("dd");
                 ;
-            }else if (nMessageCode == "03563"){
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:03563>정규장 시간이 아닙니다");
-            } else { 
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:"+ nMessageCode +">"+ szMessage);
+            } else if (nMessageCode == "03563") {
+                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857:03563>정규장 시간이 아닙니다");
+            } else if (nMessageCode== "  -21") {
+                
+            } else {
+                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857:" + nMessageCode + ">" + szMessage);
             }
         }
 
@@ -173,10 +176,10 @@ namespace PackageSellSystemTrading{
         {
             try
             {
-                String shcode = itemRow["종목코드"].ToString(); //종목코드
-                String hname = itemRow["종목명"].ToString(); //종목명
-                String close = itemRow["현재가"].ToString(); //현재가
-                String searchNm = itemRow["검색조건"].ToString(); //검색조건
+                String shcode     = itemRow["종목코드"].ToString(); //종목코드
+                String hname      = itemRow["종목명"].ToString(); //종목명
+                String close      = itemRow["현재가"].ToString(); //현재가
+                String searchNm   = itemRow["검색조건"].ToString(); //검색조건
                 String searchCode = itemRow["검색코드"].ToString(); //검색코드
 
                 //검색코드 설정값 비교
@@ -307,15 +310,15 @@ namespace PackageSellSystemTrading{
                 /// <param name="Price">가격</param>
                 Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
 
-                xing_CSPAT00600.ordptnDetail = ordptnDetail;         //상세 매매 구분.
-                xing_CSPAT00600.shcode = shcode;               //종목코드
-                xing_CSPAT00600.hname = hname;                //종목명
-                xing_CSPAT00600.quantity = Quantity.ToString();  //수량
-                xing_CSPAT00600.price = close;                //가격
-                xing_CSPAT00600.divideBuySell = "2";                  // 매매구분: 1-매도, 2-매수
-                xing_CSPAT00600.upOrdno = "";                   //상위매수주문 - 금일매도매수일때만 값이 있다.
-                xing_CSPAT00600.upExecprc = "";                   //상위체결금액 
-                xing_CSPAT00600.searchNm = searchNm;             //이벤트명(검색조건명이나 매도이유가 들어간다.)
+                xing_CSPAT00600.ordptnDetail    = ordptnDetail;         //상세 매매 구분.
+                xing_CSPAT00600.shcode          = shcode;               //종목코드
+                xing_CSPAT00600.hname           = hname;                //종목명
+                xing_CSPAT00600.quantity        = Quantity.ToString();  //수량
+                xing_CSPAT00600.price           = close;                //가격
+                xing_CSPAT00600.divideBuySell   = "2";                  // 매매구분: 1-매도, 2-매수
+                xing_CSPAT00600.upOrdno         = "";                   //상위매수주문 - 금일매도매수일때만 값이 있다.
+                xing_CSPAT00600.upExecprc       = "";                   //상위체결금액 
+                xing_CSPAT00600.searchNm        = searchNm;             //이벤트명(검색조건명이나 매도이유가 들어간다.)
                                                                  //매수 실행
                 xing_CSPAT00600.call_request();
 
@@ -355,15 +358,14 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
-                    //Util.Delay(1000);
-                    Thread.Sleep(1000);
+
+                    //Thread.Sleep(1000);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
                     //Util.Delay(1000);
-                    Thread.Sleep(1000);
-
+                    //Thread.Sleep(1000);
                     break;
             };
             //파일명만 추출
@@ -377,13 +379,16 @@ namespace PackageSellSystemTrading{
             base.SetBlockCount("t1857OutBlock1", 0);
 
             //호출
-            int nSuccess = base.RequestService("t1857", "");
+            int nSuccess = -1 ;
+
+            while (nSuccess < 0)
+            {
+                Thread.Sleep(250);
+                nSuccess = base.RequestService("t1857", ""); ;
+                
+            }
+
             
-            //호출 성공 여부
-            if (nSuccess < 0) {
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:" + nSuccess.ToString() + "> 조건검색 파일을 찾을 수 없습니다.");               
-                return false;
-            } 
             return true;
         }
 

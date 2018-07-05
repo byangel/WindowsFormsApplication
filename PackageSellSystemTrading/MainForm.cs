@@ -579,28 +579,7 @@ namespace PackageSellSystemTrading{
             }
         }
         
-        int searchCnt = 0;
-        //매수금지종목 호출 타이머.
-        private void timer_t1833_Tick(object sender, EventArgs e)
-        {
-            if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true){
-                //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
-                Log.WriteLine("timer_t1833Exclude_Tick:: 미접속");
-            }else{
-                
-                if (searchCnt == 0){
-                    //매수여부를 확인후 조건검색 실행여부를 판단한다.
-                    if (this.cbx_buy_at.Checked ) xing_t1857.call_index(0);
-                    
-                    searchCnt = 1;
-                }else{
-                    if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
-                   
-                    searchCnt = 0;
-                }
-            }
-               
-        }
+        
 
         //공통 타이머 계좌정보 --5초마다 호출됨.
         private void timer_common_Tick(object sender, EventArgs e)
@@ -1138,11 +1117,25 @@ namespace PackageSellSystemTrading{
             }
         }
 
-        private void grd_t1833_dt_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+        int searchCnt = 0;
+        //매수금지종목 호출 타이머.
+        private void timer_t1857_Tick(object sender, EventArgs e)
         {
-            //MessageBox.Show("Dd");
+            if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
+            {
+                //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
+                Log.WriteLine("timer_t1833Exclude_Tick:: 미접속");
+            }  else {
+                if (searchCnt == 0) {
+                    //매수여부를 확인후 조건검색 실행여부를 판단한다.
+                    if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
+                    searchCnt = 1;
+                } else {
+                    if (this.cbx_buy_at.Checked) xing_t1857.call_index(0);
+                    searchCnt = 0;
+                }
+            }
         }
-        
     }//end class
 }//end namespace
 

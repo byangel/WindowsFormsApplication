@@ -120,7 +120,6 @@ namespace PackageSellSystemTrading{
                         break;
                     case 2:
                         //매도주문 호출
-                        
                         break;
                 };
                 this.SearchSell();
@@ -143,37 +142,44 @@ namespace PackageSellSystemTrading{
 
         private Boolean SearchSell()
         {
-            //검색코드 설정값
-            int configSearchCode = 1;
-            String searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM2;
-            if (searchFileFullPath != "")
-            {
-                if (Properties.Settings.Default.SELL_SEARCH_SE1.Equals("AND")) configSearchCode += 2;
-            }
-            searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM3;
-            if (searchFileFullPath != "")
-            {
-                if (Properties.Settings.Default.SELL_SEARCH_SE2.Equals("AND")) configSearchCode += 4;
-            }
-            //매도 검색 전용 -매수금지 목록으로만 사용된다.
-            if (Properties.Settings.Default.SELL_SEARCH_ONLY_AT)
-            {
-                return false;
-            }
+            try {
+                //검색코드 설정값
+                int configSearchCode = 1;
+                String searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM2;
+                if (searchFileFullPath != "")
+                {
+                    if (Properties.Settings.Default.SELL_SEARCH_SE1.Equals("AND")) configSearchCode += 2;
+                }
+                searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM3;
+                if (searchFileFullPath != "")
+                {
+                    if (Properties.Settings.Default.SELL_SEARCH_SE2.Equals("AND")) configSearchCode += 4;
+                }
+                //매도 검색 전용 -매수금지 목록으로만 사용된다.
+                if (Properties.Settings.Default.SELL_SEARCH_ONLY_AT)
+                {
+                    return false;
+                }
 
-            //매도 유효 시간 인지 비교 - 매수는 사태값을 출력하지 않기 때문에 유효 시간이 아니면 아예 매도 테스트를 호출하지 않는다.
-            TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
-            DateTime sellTimeFrom = Properties.Settings.Default.SELL_TIME_FROM;
-            DateTime sellTimeTo = Properties.Settings.Default.SELL_TIME_TO;
-            if (nowTimeSpan <= sellTimeFrom.TimeOfDay || nowTimeSpan >= sellTimeTo.TimeOfDay)
-            {
-                return false;
-            }
+                //매도 유효 시간 인지 비교 - 매수는 사태값을 출력하지 않기 때문에 유효 시간이 아니면 아예 매도 테스트를 호출하지 않는다.
+                TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
+                DateTime sellTimeFrom = Properties.Settings.Default.SELL_TIME_FROM;
+                DateTime sellTimeTo = Properties.Settings.Default.SELL_TIME_TO;
+                if (nowTimeSpan <= sellTimeFrom.TimeOfDay || nowTimeSpan >= sellTimeTo.TimeOfDay)
+                {
+                    return false;
+                }
+            
+                
+                //검색목록 매수 테스트
+                foreach (DataRow itemRow in this.sellListDt.AsEnumerable()){
+                    SellTest(itemRow, configSearchCode, nowTimeSpan);
+                }
 
-            //검색목록 매수 테스트
-            foreach (DataRow itemRow in this.sellListDt.AsEnumerable())
-            {
-                SellTest(itemRow, configSearchCode, nowTimeSpan);
+            } catch (Exception ex){
+                mainForm.insertListBoxLog("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.Message);
+                Log.WriteLine("t0424 : " + ex.StackTrace);
             }
             return true;
         }
@@ -181,46 +187,44 @@ namespace PackageSellSystemTrading{
         //매도 테스트
         private Boolean SellTest(DataRow itemRow, int configSearchCode, TimeSpan nowTimeSpan)
         {
+            String shcode; //종목코드
+            String hname; //종목명
+            String close; //현재가
+            String searchNm; //검색조건
+            String searchCode; //검색코드
 
-            try
+            shcode      = itemRow["종목코드"].ToString(); //종목코드
+            hname       = itemRow["종목명"].ToString(); //종목명
+            close       = itemRow["현재가"].ToString(); //현재가
+            searchNm    = itemRow["검색조건"].ToString(); //검색조건
+            searchCode  = itemRow["검색코드"].ToString(); //검색코드
+
+            //검색코드 설정값 비교
+            if (int.Parse(searchCode) < configSearchCode)
             {
-                String shcode       = itemRow["종목코드"].ToString(); //종목코드
-                String hname        = itemRow["종목명"  ].ToString(); //종목명
-                String close        = itemRow["현재가"  ].ToString(); //현재가
-                String searchNm     = itemRow["검색조건"].ToString(); //검색조건
-                String searchCode   = itemRow["검색코드"].ToString(); //검색코드
-                
-                //검색코드 설정값 비교
-                if (int.Parse(searchCode) < configSearchCode)
+                return false;
+            }
+
+            //5.보유종목 반복매수여부 테스트 -두번째 컨디션일 경우 보유종목일경우에만 중복 매수한다.
+            int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
+            if (t0424VoListFindIndex >= 0)
+            {
+                T0424Vo t0424Vo = mainForm.xing_t0424.getT0424VoList().ElementAt(t0424VoListFindIndex);
+
+                //이미 주문이 실행된 상태
+                if (t0424Vo.orderAt == "Y")
                 {
                     return false;
                 }
 
-                //5.보유종목 반복매수여부 테스트 -두번째 컨디션일 경우 보유종목일경우에만 중복 매수한다.
-                int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
-                if (t0424VoListFindIndex >= 0)
-                {
-                    T0424Vo t0424Vo = mainForm.xing_t0424.getT0424VoList().ElementAt(t0424VoListFindIndex);
+                //주문 전송
+                mainForm.xing_t0424.t0424Order(t0424Vo, "1", searchNm);
 
-                    //이미 주문이 실행된 상태
-                    if (t0424Vo.orderAt == "Y")
-                    {
-                        return false;
-                    }
+                //Log.WriteLine("<t1857Stop::매도검색주문><" + hname + "><" + close + "원><" + Quantity + "주><" + searchNm + ">");
+                //mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857Stop:매도검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
 
-                    //주문 전송
-                    mainForm.xing_t0424.t0424Order(t0424Vo, "1", searchNm);
-
-                    //itemRow["상태"] = "<주문전송><" + ordptnDetail + ">";
-                    //Log.WriteLine("<t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
-                    //mainForm.insertListBoxLog("<" + mainForm.label_time.Text.Substring(0, 5) + "><t1857:검색매도><" + hname + ">" + searchNm + ">");
-
-                }
-            } catch (Exception ex) {
-                Log.WriteLine("t0424 : " + ex.Message);
-                Log.WriteLine("t0424 : " + ex.StackTrace);
             }
-            
+
             return true;
 
         }//buyTest END
@@ -241,12 +245,12 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
-                    Thread.Sleep(1000); //Util.Delay(1000);
+                    Thread.Sleep(600);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.SELL_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
-                    Thread.Sleep(1000); //Util.Delay(1000);
+                    Thread.Sleep(600);
                     break;
             };
             //파일명만 추출
@@ -260,13 +264,18 @@ namespace PackageSellSystemTrading{
             base.SetBlockCount("t1857OutBlock1", 0);
 
             //호출
-            int nSuccess = base.RequestService("t1857", "");
+            int nSuccess = -1;
 
-            //호출 성공 여부
-            if (nSuccess < 0){
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:" + nSuccess.ToString() + "> 매도 검색식 파일을 찾을 수 없습니다.");
-                return false;
+            while (nSuccess < 0)
+            {
+                Thread.Sleep(250);
+                nSuccess = base.RequestService("t1857", "");
             }
+            //호출 성공 여부
+            //if (nSuccess < 0){
+            //    mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:" + nSuccess.ToString() + "> 매도 검색식 파일을 찾을 수 없습니다.");
+            //    return false;
+            //}
             return true;
         }
 
