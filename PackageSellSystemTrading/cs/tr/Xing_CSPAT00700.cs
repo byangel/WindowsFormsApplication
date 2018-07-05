@@ -21,7 +21,7 @@ namespace PackageSellSystemTrading{
      // 생성자
         public Xing_CSPAT00700(MainForm mainForm)
         {
-            base.ResFileName = "₩res₩CSPAT00800.res";
+            base.ResFileName = "₩res₩CSPAT00700.res";
 
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
             base.ReceiveMessage += new _IXAQueryEvents_ReceiveMessageEventHandler(receiveMessageEventHandler);
@@ -38,14 +38,14 @@ namespace PackageSellSystemTrading{
 		/// </summary>
 		/// <param name="szTrCode">조회코드</param>
 		void receiveDataEventHandler(string szTrCode){
-            String OrdNo = base.GetFieldData("CSPAT00800OutBlock2", "OrdNo", 0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
+            String OrdNo = base.GetFieldData("CSPAT00700OutBlock2", "OrdNo", 0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
             if (OrdNo != "0")
             {
-                String PrntOrdNo = base.GetFieldData("CSPAT00800OutBlock1", "PrntOrdNo", 0);//부모주문번호
+                String PrntOrdNo = base.GetFieldData("CSPAT00700OutBlock1", "PrntOrdNo", 0);//부모주문번호
                                                                                           
-                String IsuNo = base.GetFieldData("CSPAT00800OutBlock1", "IsuNo", 0);//종목번호
+                String IsuNo = base.GetFieldData("CSPAT00700OutBlock1", "IsuNo", 0);//종목번호
             
-                String IsuNm = base.GetFieldData("CSPAT00800OutBlock1", "IsuNm", 0);//종목명 -안넘어온다.
+                String IsuNm = base.GetFieldData("CSPAT00700OutBlock1", "IsuNm", 0);//종목명 -안넘어온다.
 
                 mainForm.insertListBoxLog("<CSPAT00700::정정주문완료>" + IsuNm + "<주문번호:" + OrdNo + ">");
                 Log.WriteLine("<CSPAT00700::정정주문완료>" + IsuNm + "<주문번호:" + OrdNo + ">");
@@ -76,7 +76,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000"){
                 ;
             }else{
-                Log.WriteLine("CSPAT00800 :: " + nMessageCode + " :: " + szMessage);
+                Log.WriteLine("CSPAT00700 :: " + nMessageCode + " :: " + szMessage);
                 
 
              //02714 :: 주문수량이 매매가능수량을 초과했습니다 .
@@ -105,15 +105,15 @@ namespace PackageSellSystemTrading{
             {
                 IsuNo = "A" + IsuNo;
             }
-            base.SetFieldData("CSPAT00800InBlock1", "AcntNo"        , 0, account    ); // 계좌번호
-            base.SetFieldData("CSPAT00800InBlock1", "InptPwd"       , 0, accountPw  ); // 입력비밀번호
-            base.SetFieldData("CSPAT00800InBlock1", "OrgOrdNo"      , 0, OrgOrdNo   ); // 원주문번호
-            base.SetFieldData("CSPAT00800InBlock1", "IsuNo"         , 0, IsuNo      ); // 종목번호
-            base.SetFieldData("CSPAT00800InBlock1", "OrdQty"        , 0, OrdQty.ToString()     ); // 주문수량
+            base.SetFieldData("CSPAT00700InBlock1", "AcntNo"        , 0, account    ); // 계좌번호
+            base.SetFieldData("CSPAT00700InBlock1", "InptPwd"       , 0, accountPw  ); // 입력비밀번호
+            base.SetFieldData("CSPAT00700InBlock1", "OrgOrdNo"      , 0, OrgOrdNo   ); // 원주문번호
+            base.SetFieldData("CSPAT00700InBlock1", "IsuNo"         , 0, IsuNo      ); // 종목번호
+            base.SetFieldData("CSPAT00700InBlock1", "OrdQty"        , 0, OrdQty.ToString()     ); // 주문수량
 
-            base.SetFieldData("CSPAT00800InBlock1", "OrdprcPtnCode" , 0, "00"       ); //호가유형코드 --지정
-            base.SetFieldData("CSPAT00800InBlock1", "OrdCndiTpCode" , 0, "0"        ); //주문조건구분 0:없음, 1:IOC, 2:FOK
-            base.SetFieldData("CSPAT00800InBlock1", "OrdPrc"        , 0, price.ToString());//주문가
+            base.SetFieldData("CSPAT00700InBlock1", "OrdprcPtnCode" , 0, "00"       ); //호가유형코드 --지정
+            base.SetFieldData("CSPAT00700InBlock1", "OrdCndiTpCode" , 0, "0"        ); //주문조건구분 0:없음, 1:IOC, 2:FOK
+            base.SetFieldData("CSPAT00700InBlock1", "OrdPrc"        , 0, price.ToString());//주문가
             
             base.Request(false);
         }

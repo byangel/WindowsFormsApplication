@@ -895,7 +895,7 @@ namespace PackageSellSystemTrading{
 
                                 Double 평가금액 = 현재가 * 매도가능;
                                 Double 손익금 = 매입금액 - 평가금액;
-                                Double 수익율 = this.xing_t0424.getSunikrt(현재가, 평균단가);
+                                Double 수익율 = this.xing_t0424.getSunikrt(평가금액, 매입금액);
 
 
                                 //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금

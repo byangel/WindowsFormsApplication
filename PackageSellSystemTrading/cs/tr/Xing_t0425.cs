@@ -28,7 +28,7 @@ namespace PackageSellSystemTrading {
 
         public int totalCount;
 
-        public Boolean initAt = false;
+        public Boolean initAt = true;
 
         // 생성자
         public Xing_t0425()
@@ -132,9 +132,27 @@ namespace PackageSellSystemTrading {
                     //Thread.Sleep(5000);
                     //mainForm.setRowNumber(mainForm.grd_t0425_chegb1);
                     mainForm.input_t0425_log2.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0425:채결/미채결 요청완료>";
-                    
-                    //2.주문취소
-                    this.orderCancle();
+
+                    //초기화 여부
+                    if (initAt)
+                    {
+                        this.initAt = false;
+
+                        foreach (T0425Vo t0425Vo in t0425VoList)
+                        {
+                            //실시간 현재가 종목  등록
+                            //코스피
+                            mainForm.real_S3.call_real(t0425Vo.expcode);
+                            mainForm.real_K3.call_real(t0425Vo.expcode);
+
+                        }
+                    }
+                    else
+                    {
+                        //2.주문취소
+                        this.orderCancle();
+                    }
+
                 }
                 completeAt = true;
             }

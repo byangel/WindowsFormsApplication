@@ -405,7 +405,7 @@ namespace PackageSellSystemTrading
 
             return result;
         }
-     //금일 매도 관련 매도주문 업데이트 sellOrdAt
+        //금일 매도 관련 매도주문 업데이트 sellOrdAt
         public int sellOrdAtUpdate(DataRow dataLogVo)
         {
             int result = 0;
@@ -418,7 +418,7 @@ namespace PackageSellSystemTrading
                 sb.Append(" WHERE accno = '" + mainForm.account + "'  "); //계좌번호
                 sb.Append("   AND ordno = '" + dataLogVo["ordno"].ToString() + "'  "); //주문번호
                 SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
-             //Log.WriteLine(sb.ToString());
+                //Log.WriteLine(sb.ToString());
                 result = sqlCmd.ExecuteNonQuery();
 
                 sqlCmd.Dispose();
@@ -428,7 +428,7 @@ namespace PackageSellSystemTrading
 
             return result;
         }
-     //수동주문 진입청산 값 수정
+        //수동주문 진입청산 값 수정
         public int clearUpdate(TradingHistoryVo dataLogVo)
         {
             int result = 0;
@@ -499,68 +499,34 @@ namespace PackageSellSystemTrading
             this.dbSync();
             return result;
         }
-     ////금일매수 건 매도 여부 업데이트
-     //public int execqtyUpdate(TradingHistoryVo dataLogVo)
-     //{
-     //    int result = 0;
-     //    using (var conn = new SQLiteConnection(connStr))
-     //    {
-     //        conn.Open();
+        ////금일매수 건 매도 여부 업데이트
+        //public int execqtyUpdate(TradingHistoryVo dataLogVo)
+        //{
+        //    int result = 0;
+        //    using (var conn = new SQLiteConnection(connStr))
+        //    {
+        //        conn.Open();
 
-     //        StringBuilder sb = new StringBuilder();
-     //        sb.Append("UPDATE trading SET sellOrdAt = '" + dataLogVo.sellOrdAt + "'  "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
-     //        sb.Append("                   ,execqty     = '" + dataLogVo.execqty + "'  ");
-     //        sb.Append("                   ,execprc     = '" + dataLogVo.execprc + "'  ");
-     //        sb.Append("WHERE accno = '" + mainForm.account + "'     "); //계좌번호
-     //        sb.Append("AND   ordno = '" + dataLogVo.ordno  + "'     "); //주문번호
-     //        sb.Append("AND   Isuno = '" + dataLogVo.Isuno  + "'     "); //종목코드
-     //        SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
-     //     //Log.WriteLine(sb.ToString());
-     //        result = sqlCmd.ExecuteNonQuery();
+        //        StringBuilder sb = new StringBuilder();
+        //        sb.Append("UPDATE trading SET sellOrdAt = '" + dataLogVo.sellOrdAt + "'  "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
+        //        sb.Append("                   ,execqty     = '" + dataLogVo.execqty + "'  ");
+        //        sb.Append("                   ,execprc     = '" + dataLogVo.execprc + "'  ");
+        //        sb.Append("WHERE accno = '" + mainForm.account + "'     "); //계좌번호
+        //        sb.Append("AND   ordno = '" + dataLogVo.ordno + "'     "); //주문번호
+        //        sb.Append("AND   Isuno = '" + dataLogVo.Isuno + "'     "); //종목코드
+        //        SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
+        //        //Log.WriteLine(sb.ToString());
+        //        result = sqlCmd.ExecuteNonQuery();
 
-     //        sqlCmd.Dispose();
-     //        conn.Close();
-     //        conn.Dispose();
-     //    }
-     //    dbSync();
-     //    return result;
-     //}
-
-     ////수정
-     //public int update(DataTable dataLogVo)
-     //{
-     //    int result = 0;
-     //    using (var conn = new SQLiteConnection(connStr))
-     //    {
-     //        conn.Open();
-
-     //        StringBuilder sb = new StringBuilder();
-     //        sb.Append("UPDATE trading         SET                                                         ");
-     //        sb.Append("                              ordqty           = '" + dataLogVo.ordqty       + "'  "); //주문수량  
-     //        sb.Append("                             ,execqty          = '" + dataLogVo.execqty      + "'  "); //체결수량  
-     //        sb.Append("                             ,execprc          = '" + dataLogVo.execprc      + "'  "); //체결가격
-     //        sb.Append("                             ,ordptnDetail     = '" + dataLogVo.ordptnDetail + "'  "); //상세 0 신규매수|반복매수|금일매도|청산|
-     //        sb.Append("                             ,upOrdno          = '" + dataLogVo.upOrdno      + "'  ");//상위 매수 주문번호 -값이없으면 자신의 주문번호로 넣는다.
-     //        sb.Append("                             ,upExecprc        = '" + dataLogVo.upExecprc    + "'  "); //상위체결금액
-     //        sb.Append("                             ,sellOrdAt        = '" + dataLogVo.sellOrdAt    + "'  "); //매도주문 여부 YN default:N 금일매도일때 의미있다.
-     //        sb.Append("                             ,cancelOrdAt      = '" + dataLogVo.cancelOrdAt  + "'  "); //금일매도주문 여부 YN
-     //        sb.Append("                             ,useYN 			  = '" + dataLogVo.useYN        + "'  "); //사용여부 
-     //        sb.Append("WHERE accno = '" + mainForm.account + "'                                           "); //계좌번호
-     //        sb.Append("AND   ordno = '" + dataLogVo.ordno + "'                                            "); //주문번호
-     //        sb.Append("AND   Isuno = '" + dataLogVo.Isuno + "'                                            "); //종목코드
-     //        SQLiteCommand sqlCmd = new SQLiteCommand(sb.ToString(), conn);
-     //     //Log.WriteLine(sb.ToString());
-     //        result = sqlCmd.ExecuteNonQuery();
-
-     //        sqlCmd.Dispose();
-     //        conn.Close();
-     //        conn.Dispose();
-     //    }
-     //    dbSync();
-     //    return result;
-     //}
-
-     //로그인 할때 필요없는 매매 정보를 삭제해준다.
+        //        sqlCmd.Dispose();
+        //        conn.Close();
+        //        conn.Dispose();
+        //    }
+        //    dbSync();
+        //    return result;
+        //}
+        
+        //로그인 할때 필요없는 매매 정보를 삭제해준다.
         public int initDelete()
         {
          //select * from trading where dt not like '20170727%' and useYN='N'

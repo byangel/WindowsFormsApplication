@@ -5,7 +5,8 @@ using System.Windows.Forms;
 using XA_DATASETLib;
 using System.Data;
 using System.Drawing;
-
+using System.Threading.Tasks;
+using System.Threading;
 
 
 namespace PackageSellSystemTrading{
@@ -354,12 +355,15 @@ namespace PackageSellSystemTrading{
                 case 1:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM2;
                     if (searchFileFullPath == "") return false;
-                    Util.Delay(1000);
+                    //Util.Delay(1000);
+                    Thread.Sleep(1000);
                     break;
                 case 2:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM3;
                     if (searchFileFullPath == "") return false;
-                    Util.Delay(1000);
+                    //Util.Delay(1000);
+                    Thread.Sleep(1000);
+
                     break;
             };
             //파일명만 추출
