@@ -382,7 +382,7 @@ namespace PackageSellSystemTrading{
             {
                 nSuccess = base.RequestService("t1857", ""); ;
                 Thread.Sleep(250);
-                mainForm.insertListBoxLog(nSuccess.ToString());
+                //mainForm.insertListBoxLog(nSuccess.ToString());
             }
 
             

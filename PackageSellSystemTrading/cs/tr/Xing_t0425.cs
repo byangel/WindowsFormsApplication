@@ -411,6 +411,10 @@ namespace PackageSellSystemTrading {
                             Xing_CSPAT00700 xing_CSPAT00700 = mainForm.CSPAT00600Mng.get700();
                             xing_CSPAT00700.call_request(mainForm.account, mainForm.accountPw, 주문번호, 종목코드, 미체결수량, 현재가격);
                             orderAfterCall(t0425Vo,"정정");
+                            //시간을 타이머 만큼 더해준다.
+                            //ordtime = ordtime.Substring(0, 2) + ":" + ordtime.Substring(2, 2) + ":" + ordtime.Substring(4, 2);
+                            //mainForm.grd_t0425.Rows[findIndex].Cells["ordtime"      ].Value = base.GetFieldData(  "t0425OutBlock1", "ordtime"    , i);  //주문시간
+                            //mainForm.grd_t0425.Rows[findIndex].Cells["ordtime"].Value = ordtime; //주문시간
                         }
                       
                     }
