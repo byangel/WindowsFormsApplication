@@ -209,6 +209,12 @@ namespace PackageSellSystemTrading{
                 return false;
             }
 
+            if (!mainForm.cbx_sell_at.Checked)
+            {
+                //itemRow["상태"] = "매도정지 상태";
+                return false;
+            }
+
             //5.보유종목 반복매수여부 테스트 -두번째 컨디션일 경우 보유종목일경우에만 중복 매수한다.
             int t0424VoListFindIndex = mainForm.xing_t0424.getT0424VoList().Find("expcode", shcode);//보유종목인지 체크
             if (t0424VoListFindIndex >= 0)
@@ -216,17 +222,26 @@ namespace PackageSellSystemTrading{
                 T0424Vo t0424Vo = mainForm.xing_t0424.getT0424VoList().ElementAt(t0424VoListFindIndex);
 
                 //이미 주문이 실행된 상태
-                if (t0424Vo.orderAt == "Y")
-                {
+                if (t0424Vo.orderAt == "Y") {
                     return false;
                 }
 
                 //주문 전송
-                mainForm.xing_t0424.t0424Order(t0424Vo, "1", searchNm);
+                Double 평균단가     = t0424Vo.pamt; //매도주문일경우 매수금액을 알기위해 넣어준다.
+                String 종목코드     = t0424Vo.expcode;
+                String 종목명       = t0424Vo.hname;
+                Double 현재가       = t0424Vo.price;
+                String 매수전량명   = t0424Vo.searchNm;
+                Double 수량         = t0424Vo.mdposqt;
+                //String 상세매매구분 = "매도검색 매도";
+    
+                Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+                xing_CSPAT00600.call_request(종목명, 종목코드, "매도", 수량, 현재가, 매수전량명, 평균단가, "매도검색 매도");
 
-                //Log.WriteLine("<t1857Stop::매도검색주문><" + hname + "><" + close + "원><" + Quantity + "주><" + searchNm + ">");
-                //mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857Stop:매도검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + Quantity + "주><" + searchNm + ">");
-
+                Double 수익율 = t0424Vo.sunikrt;
+                Log.WriteLine("<t1857Stop:매도검색 매도>" + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
+                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857Stop:매도검색 매도>" + 종목명 + " "+ 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
+            
             }
 
             return true;

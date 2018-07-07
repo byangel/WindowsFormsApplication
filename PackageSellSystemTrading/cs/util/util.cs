@@ -203,7 +203,7 @@ namespace PackageSellSystemTrading
         /// </summary>
         /// <param name="iPrice"></param>
         /// <returns></returns>
-        public static double GetPricePlus01(double iPrice)
+        public static Double GetPricePlus01(Double iPrice)
         {
             return iPrice + GetTickPlus(iPrice);
         }
@@ -213,28 +213,28 @@ namespace PackageSellSystemTrading
         /// </summary>
         /// <param name="iPrice"></param>
         /// <returns></returns>
-        public static double GetPriceMinus01(double iPrice)
+        public static Double GetPriceMinus01(Double iPrice)
         {
             return iPrice - GetTickMinus(iPrice);
         }
         
-        public static String getTickPrice(String price, double tick)
+        public static Double getTickPrice(Double price, Double tick)
         {
-            Double rtnVal = Double.Parse(price);
+            Double returnValue = price;
            
             if (tick < 0){
                 tick = tick * tick;
                 for (int i=0; i< tick; i++)
                 {
-                    rtnVal = GetPriceMinus01(rtnVal);
+                    returnValue = GetPriceMinus01(returnValue);
                 }
             } else {
                 for (int i = 0; i < int.Parse(tick.ToString()); i++)
                 {
-                    rtnVal = GetPricePlus01(rtnVal); 
+                    returnValue = GetPricePlus01(returnValue); 
                 }
             }
-            return rtnVal.ToString();
+            return returnValue;
         }
 
         /// <summary>

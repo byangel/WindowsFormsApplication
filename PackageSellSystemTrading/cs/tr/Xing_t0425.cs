@@ -376,7 +376,7 @@ namespace PackageSellSystemTrading {
                              //호가 계산
                             if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
                             {
-                                현재가격 = Double.Parse(Util.getTickPrice(현재가격.ToString(), double.Parse(Properties.Settings.Default.BUY_HO)));
+                                현재가격 = Util.getTickPrice(현재가격, double.Parse(Properties.Settings.Default.BUY_HO));
                             }
 
                             //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량),겨걱
@@ -405,7 +405,7 @@ namespace PackageSellSystemTrading {
                             //호가 계산
                             if (!Properties.Settings.Default.SELL_HO.Equals("시장가"))
                             {
-                                현재가격 = Double.Parse(Util.getTickPrice(현재가격.ToString(), double.Parse(Properties.Settings.Default.SELL_HO)));
+                                현재가격 = Util.getTickPrice(현재가격, double.Parse(Properties.Settings.Default.SELL_HO));
                             }
                             //OrgOrdNo(원주문번호), IsuNo(종목번호), OrdQty(주문수량),겨걱
                             Xing_CSPAT00700 xing_CSPAT00700 = mainForm.CSPAT00600Mng.get700();

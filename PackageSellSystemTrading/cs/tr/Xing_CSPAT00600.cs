@@ -22,7 +22,7 @@ namespace PackageSellSystemTrading{
         public String shcode;           // 종목번호
         public String price;            // 가격
         public String quantity;         // 주문수량
-        public String divideBuySell;    // 매매구분: 1-매도, 2-매수
+        public String BnsTpCode;    // 매매구분: 1-매도, 2-매수
         public String hname         = "";  //종목명
         public String ordptnDetail  = "";  //상세주문구분
         public String upOrdno       = "";  //상위매수주문 - 금일매도매수일때만 값이 있다.
@@ -52,26 +52,26 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
             try
             {
-                String RecCnt = base.GetFieldData("CSPAT00600OutBlock1"     , "RecCnt", 0);//레코드갯수
-                String AcntNo = base.GetFieldData("CSPAT00600OutBlock1"     , "AcntNo", 0);//계좌번호
-                String IsuNo = base.GetFieldData("CSPAT00600OutBlock1"      , "IsuNo", 0);//종목번호
-                String OrdQty = base.GetFieldData("CSPAT00600OutBlock1"     , "OrdQty", 0);//주문수량
-                String OrdPrc = base.GetFieldData("CSPAT00600OutBlock1"     , "OrdPrc", 0);//주문가격
-                String BnsTpCode = base.GetFieldData("CSPAT00600OutBlock1"  , "BnsTpCode", 0);//매매구분
+                String RecCnt       = base.GetFieldData("CSPAT00600OutBlock1"     , "RecCnt", 0);//레코드갯수
+                String AcntNo       = base.GetFieldData("CSPAT00600OutBlock1"     , "AcntNo", 0);//계좌번호
+                String IsuNo        = base.GetFieldData("CSPAT00600OutBlock1"      , "IsuNo", 0);//종목번호
+                String OrdQty       = base.GetFieldData("CSPAT00600OutBlock1"     , "OrdQty", 0);//주문수량
+                String OrdPrc       = base.GetFieldData("CSPAT00600OutBlock1"     , "OrdPrc", 0);//주문가격
+                String BnsTpCode    = base.GetFieldData("CSPAT00600OutBlock1"  , "BnsTpCode", 0);//매매구분
                                                                                          //Log.WriteLine("CSPAT00600 block1:: [레코드:"+ RecCnt + "|계좌번호:" + AcntNo + "|종목번호:" + IsuNo + "|주문수량:" + OrdQty + "| 주문가격:" + OrdPrc + " | 매매구분:" + BnsTpCode + "]");
 
-                String RecCnt2 = base.GetFieldData("CSPAT00600OutBlock2"    , "RecCnt", 0);//레코드갯수
-                String OrdNo = base.GetFieldData("CSPAT00600OutBlock2"      , "OrdNo", 0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
-                String OrdTime = base.GetFieldData("CSPAT00600OutBlock2"    , "OrdTime", 0);//주문시각
-                String OrdMktCode = base.GetFieldData("CSPAT00600OutBlock2" , "OrdMktCode", 0);//주문시장코드
-                String OrdPtnCode = base.GetFieldData("CSPAT00600OutBlock2" , "OrdPtnCode", 0);//주문유형코드
-                String ShtnIsuNo = base.GetFieldData("CSPAT00600OutBlock2"  , "ShtnIsuNo", 0);//단축종목번호
-                String MgempNo = base.GetFieldData("CSPAT00600OutBlock2"    , "MgempNo", 0);//관리사원번호
-                String OrdAmt = base.GetFieldData("CSPAT00600OutBlock2"     , "OrdAmt", 0);//주문금액
-                String SpotOrdQty = base.GetFieldData("CSPAT00600OutBlock1" , "SpotOrdQty", 0);//실물주문수량  noData
-                String MnyOrdAmt = base.GetFieldData("CSPAT00600OutBlock1"  , "MnyOrdAmt", 0);//현금주문금액  noData
-                String AcntNm = base.GetFieldData("CSPAT00600OutBlock1"     , "AcntNm", 0);//계좌명
-                String IsuNm = base.GetFieldData("CSPAT00600OutBlock1"      , "IsuNm", 0);//종목명 -안넘어온다.
+                String RecCnt2      = base.GetFieldData("CSPAT00600OutBlock2"    , "RecCnt", 0);//레코드갯수
+                String OrdNo        = base.GetFieldData("CSPAT00600OutBlock2"      , "OrdNo", 0);//주문번호 --block2에서는 주문번호만 참조하면 될듯.
+                String OrdTime      = base.GetFieldData("CSPAT00600OutBlock2"    , "OrdTime", 0);//주문시각
+                String OrdMktCode   = base.GetFieldData("CSPAT00600OutBlock2" , "OrdMktCode", 0);//주문시장코드
+                String OrdPtnCode   = base.GetFieldData("CSPAT00600OutBlock2" , "OrdPtnCode", 0);//주문유형코드
+                String ShtnIsuNo    = base.GetFieldData("CSPAT00600OutBlock2"  , "ShtnIsuNo", 0);//단축종목번호
+                String MgempNo      = base.GetFieldData("CSPAT00600OutBlock2"    , "MgempNo", 0);//관리사원번호
+                String OrdAmt       = base.GetFieldData("CSPAT00600OutBlock2"     , "OrdAmt", 0);//주문금액
+                String SpotOrdQty   = base.GetFieldData("CSPAT00600OutBlock1" , "SpotOrdQty", 0);//실물주문수량  noData
+                String MnyOrdAmt    = base.GetFieldData("CSPAT00600OutBlock1"  , "MnyOrdAmt", 0);//현금주문금액  noData
+                String AcntNm       = base.GetFieldData("CSPAT00600OutBlock1"     , "AcntNm", 0);//계좌명
+                String IsuNm        = base.GetFieldData("CSPAT00600OutBlock1"      , "IsuNm", 0);//종목명 -안넘어온다.
                                                                                  //Log.WriteLine("CSPAT00600 block2:: [레코드:" + RecCnt2 + "|주문번호:" + OrdNo + "|단축종목번호:" + ShtnIsuNo + "|주문금액:" + OrdAmt + "|실물주문수량:" + SpotOrdQty + "|종목명:" + IsuNm + "]");
 
              //TradingHistoryVo dataLogVo = new TradingHistoryVo();
@@ -94,7 +94,7 @@ namespace PackageSellSystemTrading{
                     dataLogVo.sellOrdAt     = "N";                   //금일 매도 주문 여부
                     dataLogVo.useYN         = "Y";                   //사용여부
                     dataLogVo.ordermtd      = "XING API";            //주문 매체
-                    dataLogVo.searchNm       = this.searchNm;         //검색조건 이름
+                    dataLogVo.searchNm      = this.searchNm;         //검색조건 이름
                                                            //상위 주문번호
                     if (this.upOrdno == "")
                     {
@@ -134,7 +134,7 @@ namespace PackageSellSystemTrading{
              //에러 리턴 받았을때 매수 일때와 매도일때 구분해서 구현하자.
 
              //매수일때는 에러코드를 출력할곳이 없으므로 안내창을 호출 해준다.
-                if (this.divideBuySell == "1")
+                if (this.BnsTpCode == "1")
                 {
                  //금일매도매수일때만 값이 있다.--이게 필요한지 모르겠다...매도취소일때만 매도주문 초기화를 해줘도 될듯한데...
                     if (upOrdno != "")
@@ -202,34 +202,95 @@ namespace PackageSellSystemTrading{
      /// <param name="Quantity">수량</param>
      /// <param name="Price">가격</param>
      /// <param name="DivideBuySell">매매구분 : 1-매도, 2-매수</param>
-        public void call_request(){
+        //public void call_request(){
 
-            this.shcode = this.shcode.Replace("A","");
-            if (mainForm.combox_targetServer.SelectedIndex == 0){
-                        shcode = "A" + this.shcode;
-            }
-            base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, mainForm.account);        // 계좌번호
-            base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, mainForm.accountPw);      // 입력비밀번호
-            base.SetFieldData("CSPAT00600Inblock1", "IsuNo"        ,0, this.shcode);             // 종목번호
-            base.SetFieldData("CSPAT00600Inblock1", "OrdQty"       ,0, this.quantity);           // 주문수량
-            base.SetFieldData("CSPAT00600Inblock1", "OrdPrc"       ,0, this.price.Replace(",","")); // 가격
-            base.SetFieldData("CSPAT00600Inblock1", "BnsTpCode"    ,0, this.divideBuySell);      // 매매구분: 1-매도, 2-매수
-            base.SetFieldData("CSPAT00600Inblock1", "OrdprcPtnCode",0, "00");                    // 호가유형코드: 00-지정가, 05-조건부지정가, 06-최유리지정가, 07-최우선지정가
-            base.SetFieldData("CSPAT00600Inblock1", "MgntrnCode"   ,0, "000");                   // 신용거래코드: 000-보통
-            base.SetFieldData("CSPAT00600Inblock1", "LoanDt"       ,0, "");                      // 대출일 : 신용주문이 아닐 경우 SPACE
-            base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode",0, "0");                     // 주문조건구분 : 0-없음
+        //    this.shcode = this.shcode.Replace("A","");
+        //    if (mainForm.combox_targetServer.SelectedIndex == 0){
+        //                shcode = "A" + this.shcode;
+        //    }
+        //    base.SetFieldData("CSPAT00600Inblock1", "AcntNo"       ,0, mainForm.account);        // 계좌번호
+        //    base.SetFieldData("CSPAT00600Inblock1", "InptPwd"      ,0, mainForm.accountPw);      // 입력비밀번호
+        //    base.SetFieldData("CSPAT00600Inblock1", "IsuNo"        ,0, this.shcode);             // 종목번호
+        //    base.SetFieldData("CSPAT00600Inblock1", "OrdQty"       ,0, this.quantity);           // 주문수량
+        //    base.SetFieldData("CSPAT00600Inblock1", "OrdPrc"       ,0, this.price.Replace(",","")); // 가격
+        //    base.SetFieldData("CSPAT00600Inblock1", "BnsTpCode"    ,0, this.BnsTpCode);      // 매매구분: 1-매도, 2-매수
+        //    base.SetFieldData("CSPAT00600Inblock1", "OrdprcPtnCode",0, "00");                    // 호가유형코드: 00-지정가, 05-조건부지정가, 06-최유리지정가, 07-최우선지정가
+        //    base.SetFieldData("CSPAT00600Inblock1", "MgntrnCode"   ,0, "000");                   // 신용거래코드: 000-보통
+        //    base.SetFieldData("CSPAT00600Inblock1", "LoanDt"       ,0, "");                      // 대출일 : 신용주문이 아닐 경우 SPACE
+        //    base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode",0, "0");                     // 주문조건구분 : 0-없음
             
+        //    if (mainForm.accountPw == "" || mainForm.account == "")
+        //    {
+        //        MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
+        //    }else{           
+        //        base.Request(false);  //연속조회일경우 true
+        //     //this.completeAt = false;
+        //    }
+            
+        //}// end function
+
+        public void call_request(String 종목명, String 종목코드, String 매매구분, Double 수량, Double 현재가, String 매수전량명, Double 평균단가, String 상세매매구분)
+        {
+            Double 호가 = 현재가;
+            if (매매구분.Equals("매도"))
+            {
+                매매구분 = "1";
+                if (!Properties.Settings.Default.SELL_HO.Equals("시장가"))
+                {
+                    호가 = Util.getTickPrice(현재가, Double.Parse(Properties.Settings.Default.BUY_HO));
+                }
+            }
+            if (매매구분.Equals("매수"))
+            {
+                매매구분 = "2";
+                if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
+                {
+                    호가 = Util.getTickPrice(현재가, Double.Parse(Properties.Settings.Default.BUY_HO));
+                }
+                수량 = (int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000) / int.Parse(호가.ToString());
+            }
+
+
+            //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
+            //Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+            this.ordptnDetail   = 상세매매구분;         //상세 매매 구분.
+            this.shcode         = 종목코드;      //종목코드
+            this.hname          = 종목명;        //종목명
+            this.quantity       = 수량.ToString(); //수량
+            //xing_CSPAT00600.price      = t0424Vo.price.Replace(",", "");   //가격
+            this.price          = 호가.ToString();   //가격
+            this.BnsTpCode      = 매매구분;             // 매매구분: 1-매도, 2-매수
+            this.upOrdno        = "";              //상위매수주문번호 - 금일매도매수일때만 값이 있다.
+            this.upExecprc      = 평균단가.ToString();    //매도이면 매수단가 주입, 매수
+            this.searchNm       = 매수전량명; //매수전략명
+
+            this.shcode = this.shcode.Replace("A", "");
+            if (mainForm.combox_targetServer.SelectedIndex == 0)
+            {
+                shcode = "A" + this.shcode;
+            }
+            base.SetFieldData("CSPAT00600Inblock1", "AcntNo", 0, mainForm.account);        // 계좌번호
+            base.SetFieldData("CSPAT00600Inblock1", "InptPwd", 0, mainForm.accountPw);      // 입력비밀번호
+            base.SetFieldData("CSPAT00600Inblock1", "IsuNo", 0, this.shcode);             // 종목번호
+            base.SetFieldData("CSPAT00600Inblock1", "OrdQty", 0, this.quantity);           // 주문수량
+            base.SetFieldData("CSPAT00600Inblock1", "OrdPrc", 0, this.price.Replace(",", "")); // 가격
+            base.SetFieldData("CSPAT00600Inblock1", "BnsTpCode", 0, this.BnsTpCode);      // 매매구분: 1-매도, 2-매수
+            base.SetFieldData("CSPAT00600Inblock1", "OrdprcPtnCode", 0, "00");                    // 호가유형코드: 00-지정가, 05-조건부지정가, 06-최유리지정가, 07-최우선지정가
+            base.SetFieldData("CSPAT00600Inblock1", "MgntrnCode", 0, "000");                   // 신용거래코드: 000-보통
+            base.SetFieldData("CSPAT00600Inblock1", "LoanDt", 0, "");                      // 대출일 : 신용주문이 아닐 경우 SPACE
+            base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode", 0, "0");                     // 주문조건구분 : 0-없음
+
             if (mainForm.accountPw == "" || mainForm.account == "")
             {
                 MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
-            }else{           
-                base.Request(false);  //연속조회일경우 true
-             //this.completeAt = false;
             }
-            
-        }// end function
-        
-        
+            else
+            {
+                base.Request(false);  //연속조회일경우 true
+                                      //this.completeAt = false;
+            }
+
+        }
 
 
     } //end class 

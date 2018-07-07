@@ -352,71 +352,45 @@ namespace PackageSellSystemTrading{
         //선택 매도
         private void btn_checkSell_Click(object sender, EventArgs e)
         {
-            String expcode; //종목코드
-            String hname;   //종목명
-            Double mdposqt; //주문가능수량
-            Double sunikrt; //수익율
-            Double price;   //현재가
-            Double pamt;   //평균단가
-            String orderAt; //매도주문여부
+           
+
+            Double 평균단가; //매도주문일경우 매수금액을 알기위해 넣어준다.
+            String 종목코드;
+            String 종목명;
+            Double 현재가;
+            String 매수전략명;
+            Double 수량;
+            Double 수익율;
+            //String 상세매매구분 = null;
+            //String 매매구분 = null;
+            String 매도주문여부; //매도주문여부
+
             //EBindingList<T0424Vo> t0424VoList = ((EBindingList<T0424Vo>)this.grd_t0424.DataSource);
             for (int i=0;i< grd_t0424.RowCount; i++)
             {
                 if (this.grd_t0424.Rows[i].Cells["grd_t0424_check"].FormattedValue.ToString() == "True")
                 {
-                    //{
-                    //선택된 종목이 이미 매도주문이 나간 상태인지 체크하는 부분이 없다.(청산 관련 매도주문에는 DataLog 를 참조하지 않고 t0424를 참조한다.
-
-                    expcode = this.grd_t0424.Rows[i].Cells["c_expcode"].Value.ToString(); //종목코드
-                    orderAt = this.grd_t0424.Rows[i].Cells["orderAt"].Value.ToString(); //매도주문여부
-                    hname   = this.grd_t0424.Rows[i].Cells["c_hname"].Value.ToString();   //종목명                                                           
-
-                    if (orderAt == "N"){
-
-                        //주문 여부를 true로 업데이트
-                        var result_t0424 = from item in this.xing_t0424.getT0424VoList()
-                                           where item.expcode == expcode.Replace("A", "")
-                                           select item;
-                        int findIndex = this.xing_t0424.getT0424VoList().Find("expcode", expcode.Replace("A", ""));
-
-                        //MessageBox.Show(result_t0424.Count().ToString());
-
-                        if (findIndex >= 0)
-                        {
-                            //MessageBox.Show(this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt.ToString());
-                            expcode = this.xing_t0424.getT0424VoList().ElementAt(findIndex).expcode;  //종목코드
-                            hname   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).hname;    //종목명
-                            sunikrt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).sunikrt; //수익율
-                            mdposqt = this.xing_t0424.getT0424VoList().ElementAt(findIndex).mdposqt;  //주문가능수량수량
-                            price   = this.xing_t0424.getT0424VoList().ElementAt(findIndex).price;    //현재가
-                            pamt    = this.xing_t0424.getT0424VoList().ElementAt(findIndex).pamt;      //평균단가2
-
-                            //ordptnDetail 상세주문구분 신규매수|반복매수|금일매도|청산(선택매도,손절매)</param>
-                            //upOrdno(상위매수주문번호), upOrdno(상위체결금액), IsuNo(종목명), IsuNo(종목번호) Quantity(수량), Price(가격)
-                            Xing_CSPAT00600 xing_CSPAT00600 = CSPAT00600Mng.get600();
-                            xing_CSPAT00600.ordptnDetail    = "선택매도";   //상세 매매 구분.
-                            xing_CSPAT00600.shcode          = expcode;      //종목코드
-                            xing_CSPAT00600.hname           = hname;        //종목명
-                            xing_CSPAT00600.quantity        = mdposqt.ToString();      //수량
-                            xing_CSPAT00600.price           = price.ToString();        //가격
-                            xing_CSPAT00600.divideBuySell   = "1";          // 매매구분: 1-매도, 2-매수
-                            xing_CSPAT00600.upOrdno         = "";           //상위매수주문 - 금일매도매수일때만 값이 있다.
-                            xing_CSPAT00600.upExecprc       = pamt.ToString();         //상위체결금액  
+                    T0424Vo t0424Vo = (T0424Vo)this.grd_t0424.Rows[i].DataBoundItem;
+                    평균단가    = t0424Vo.pamt; //매도주문일경우 매수금액을 알기위해 넣어준다.
+                    종목코드    = t0424Vo.expcode;
+                    종목명      = t0424Vo.hname;
+                    현재가      = t0424Vo.price;
+                    매수전략명  = t0424Vo.searchNm;
+                    수량        = t0424Vo.mdposqt;
+                    매도주문여부= t0424Vo.orderAt;
+                    수익율      = t0424Vo.sunikrt;
+                    
+                    if (매도주문여부 == "N"){
+                            Xing_CSPAT00600 xing_CSPAT00600 = this.CSPAT00600Mng.get600();
+                            xing_CSPAT00600.call_request(종목명, 종목코드, "매도", 수량, 현재가, 매수전략명, 평균단가, "선택매도");
+                            t0424Vo.orderAt = "Y";//일괄 매도시 주문여부를 true로 설정
                             
-                            //매도 전송
-                            xing_CSPAT00600.call_request();
-
-                            this.xing_t0424.getT0424VoList().ElementAt(findIndex).orderAt = "Y";//일괄 매도시 주문여부를 true로 설정
-
-                            Log.WriteLine("<mainForm:선택매도><" + hname + ">< 수익율:" + sunikrt + "%> <매도가능수량:" + mdposqt+">");
-
-                        }
-
-                    }
-                    else
-                    {
+                            Log.WriteLine("<main:선택매도> " + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전략명 + ">");
+                            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><main:선택매도>" + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전략명 + ">");
+                        
+                    }else{
                         //이미 매도주문 실행 종목
-                        MessageBox.Show(hname + "이미 매도주문이 이루어 졌습니다.");
+                        MessageBox.Show(종목명 + "이미 매도주문이 이루어 졌습니다.");
                     }
                     //선택체크해제
                     this.grd_t0424.Rows[i].Cells["grd_t0424_check"].Value = false;
@@ -492,46 +466,6 @@ namespace PackageSellSystemTrading{
         }
 
        
-
-
-        
-
-        //실시간 현재가 정보 이벤트시 호출된다.
-        //public void realPriceCallBack(String shcode, String price)
-        //{
-            
-        //    //String 손익률2;
-        //    String 수수료;
-        //    String 세금;
-        //    String 매도가능수량;
-        //    String 평균단가;
-        //    //String 평가손익;
-        //    Double 손익률;
-        //    //Double 평가금액;
-        //    Double 현재가 = Double.Parse(price);
-        //    //Double 매입금액;
-            
-        //    EBindingList<T0424Vo> t0424VoList = xing_t0424.getT0424VoList();
-        //    int findIndex = t0424VoList.Find("expcode", shcode.Replace("A", ""));
-        //    if (findIndex >= 0)
-        //    {
-
-        //        매도가능수량  = t0424VoList.ElementAt(findIndex).mdposqt;
-        //        수수료        = t0424VoList.ElementAt(findIndex).fee;
-        //        세금          = t0424VoList.ElementAt(findIndex).tax;
-        //        평균단가      = t0424VoList.ElementAt(findIndex).pamt;
-        //        //평균단가2     = t0424VoList.ElementAt(findIndex).pamt2;
-               
-        //        grd_t0424.Rows[findIndex].Cells["price"].Value = Util.GetNumberFormat(현재가);
-
-        //        //재계산 손익율
-        //        손익률 = xing_t0424.getSunikrt(t0424VoList.ElementAt(findIndex));
-        //        grd_t0424.Rows[findIndex].Cells["sunikrt"].Value = 손익률;
-
-        //        //매도테스트 - 해당 보유종목 정보를 인자로 넘겨주어 매도가능인지 테스트한다.
-        //        //this.xing_t0424.stopProFitTargetTest(t0424VoList.ElementAt(findIndex));
-        //    }
-        //}//priceCallBack
 
         //로그 클린
         private void button2_Click(object sender, EventArgs e)
@@ -634,25 +568,18 @@ namespace PackageSellSystemTrading{
                     e.Value = Util.GetNumberFormat(e.Value.ToString());
                 }
             }
-                if (e.ColumnIndex == 2 || e.ColumnIndex == 7 || e.ColumnIndex == 8 || e.ColumnIndex == 9||e.ColumnIndex == 10)
-            {
+            if (e.ColumnIndex == 2 || e.ColumnIndex == 7 || e.ColumnIndex == 8 || e.ColumnIndex == 9||e.ColumnIndex == 10) {
                 if (e.Value != null)
                 {
 
-                    //if (e.Value.ToString().IndexOf("-") >= 0)
-                    //{
-                    //    e.CellStyle.ForeColor = Color.Blue;
-                    //    e.CellStyle.SelectionForeColor = Color.Blue;
-                    //}
-                    //else
-                    //{
+                    
                     if (e.Value != null)
                     {
                         e.CellStyle.ForeColor = Color.Red;
                         //e.CellStyle.SelectionForeColor = Color.Red;
                         e.Value = Util.GetNumberFormat(e.Value.ToString());
                     }
-                    //}
+     
                 }
             }
 
@@ -873,19 +800,23 @@ namespace PackageSellSystemTrading{
                                 Double 매입금액 = t0424VoList.ElementAt(e.RowIndex).mamt;
 
                                 Double 평가금액 = 현재가 * 매도가능;
-                                Double 손익금 = 매입금액 - 평가금액;
+                                Double 손익금 = 평가금액 - 매입금액;
                                 Double 수익율 = this.xing_t0424.getSunikrt(평가금액, 매입금액);
-
+                                String 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value.ToString();
+                                if (종목코드== "220630")
+                                {
+                                    String testc = "";
+                                }
 
                                 //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금
-                                this.grd_t0424.Rows[e.RowIndex].Cells["appamt"].Value = 평가금액;
+                                this.grd_t0424.Rows[e.RowIndex].Cells["appamt"   ].Value = 평가금액;
                                 this.grd_t0424.Rows[e.RowIndex].Cells["c_sunikrt"].Value = 수익율;
-                                this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"].Value = 손익금;
+                                this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"  ].Value = 손익금;
 
                                 //트레이딩 정보 업데이트
                                 this.tradingInfoUpdate();
 
-                                //매매 프로세스 호출 
+                                //매매 프로세스 호출 --그리드색 지정 및 확정 요약정보 호출
                                 priceChangedProcess(e.RowIndex);
                             }
 
@@ -935,7 +866,7 @@ namespace PackageSellSystemTrading{
 
             
         }
-        //감시제외 그리드 현재가 변경 이벤트
+        //감시제외 그리드 현재가 변경 이벤트 - 그리드색 지정 및 확정 요약정보 호출
         public void t0424ExclPriceChangedProcess(int rowIndex)
         {
             String 종목코드 = this.grd_t0424Excl.Rows[rowIndex].Cells["e_expcode"].Value.ToString().Replace("A", "");
@@ -950,88 +881,90 @@ namespace PackageSellSystemTrading{
         //그리드 현재가 변경 이벤트
         public void priceChangedProcess(int rowIndex)
         {
-            String 종목코드 = this.grd_t0424.Rows[rowIndex].Cells["c_expcode"].Value.ToString();
-            
+            T0424Vo t0424Vo     = (T0424Vo)this.grd_t0424.Rows[rowIndex].DataBoundItem;
+            String 종목코드     = t0424Vo.expcode;// this.grd_t0424.Rows[rowIndex].Cells["c_expcode"].Value.ToString();
+            Double 수익율       = t0424Vo.sunikrt;  // Double.Parse(this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString());
+            String 에러코드     = t0424Vo.errorcd == null ? "" : t0424Vo.errorcd;
+            Double 매도가능수량 = t0424Vo.mdposqt;
             //매매이력정보 호출
             SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드);
             if (summaryVo != null) {
                 String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
                 String 최소수익율 = Util.nvl(summaryVo.minRt, "0");
 
-                this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;  //매도 횟수.
-                this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;   //매수 횟수
-                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt;//최초진입일시
+                this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;    //매도 횟수.
+                this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;     //매수 횟수
+                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt; //최초진입일시
                
-                this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;      //주문매체
-                this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt;   //감시제외여부
-                this.grd_t0424.Rows[rowIndex].Cells["searchNm"      ].Value = summaryVo.searchNm;   //검색조건 이름
-                this.grd_t0424.Rows[rowIndex].Cells["maxRt"         ].Value = 최대수익율;   //최대도달 수익율
-                this.grd_t0424.Rows[rowIndex].Cells["minRt"         ].Value = 최소수익율;   //최소도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;    //주문매체
+                this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt; //감시제외여부
+                this.grd_t0424.Rows[rowIndex].Cells["searchNm"      ].Value = summaryVo.searchNm;    //검색조건 이름
+                this.grd_t0424.Rows[rowIndex].Cells["maxRt"         ].Value = 최대수익율;            //최대도달 수익율
+                this.grd_t0424.Rows[rowIndex].Cells["minRt"         ].Value = 최소수익율;            //최소도달 수익율
               
                 //매도가능수량이 같지 않으면 에러표시 해주자.
-                String errorcd = this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value == null ? "" : this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value.ToString();
-                String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
-                if (c_mdposqt != summaryVo.sumMdposqt)
+                
+                //String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
+                if (매도가능수량.ToString() != summaryVo.sumMdposqt)
                 {
-                    this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "mdposqt not equals";
+                    t0424Vo.errorcd = "mdposqt not equals";
                     this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
                 }
-                else if (c_mdposqt == summaryVo.sumMdposqt)
+                else if (매도가능수량.ToString() == summaryVo.sumMdposqt)
                 {
                     if (errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
                     {
-                        this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "";
+                        t0424Vo.errorcd = "";
                         this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
                     }
                 }
                 //확장정보 에러일경우 에러상태를 풀어준다.
                 if (errorcd != null && errorcd.Equals("notHistory")) {
-                    this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "";
+                    t0424Vo.errorcd = "";
                     this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
                 }
+                
 
-                Double 수익율 = Double.Parse(this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString());
+                
                 //그리드 수익에따라  폰트색 지정
                 Color color = 수익율 < 0 ? Color.Blue : Color.Red;
 
-                grd_t0424.Rows[rowIndex].Cells["price"      ].Style.ForeColor = color;
-                //grd_t0424.Rows[rowIndex].Cells["price"    ].Style.SelectionForeColor = Color.Red;
-                grd_t0424.Rows[rowIndex].Cells["c_sunikrt"  ].Style.ForeColor = color;
-                //grd_t0424.Rows[rowIndex].Cells["sunikrt2"   ].Style.ForeColor = color;
-                grd_t0424.Rows[rowIndex].Cells["dtsunik"    ].Style.ForeColor = color;
-                grd_t0424.Rows[rowIndex].Cells["appamt"     ].Style.ForeColor = color;
+                grd_t0424.Rows[rowIndex].Cells["price"      ].Style.ForeColor = color; //현재가
+                grd_t0424.Rows[rowIndex].Cells["c_sunikrt"  ].Style.ForeColor = color; //손익율
+                grd_t0424.Rows[rowIndex].Cells["dtsunik"    ].Style.ForeColor = color; //평가손익금
+                grd_t0424.Rows[rowIndex].Cells["appamt"     ].Style.ForeColor = color; //평가금액
 
                 //제외종목 가격도 같이 수정해주자.
                 int findIndex = this.xing_t0424.getExcludeT0424VoList().Find("expcode", 종목코드);
                 if (findIndex >= 0) {
                     grd_t0424Excl.Rows[findIndex].Cells["e_price"].Value = grd_t0424.Rows[rowIndex].Cells["price"].Value;
-                    //grd_t0424Excl.Rows[findIndex].Cells["e_price"].Style.ForeColor = color;
                 }
 
                 //수익율 최소 최대 업데이트
-                String 현재수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
-                double d현재수익 = double.Parse(현재수익율.Trim());
-                double d최대수익율 = double.Parse(최대수익율.Trim());
+                //String 현재수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
+                //double d현재수익 = double.Parse(현재수익율.Trim());
+                //double d최대수익율 = double.Parse(최대수익율.Trim());
 
-                if (double.Parse(현재수익율.Trim()) > double.Parse(최대수익율))
+                if (수익율 > double.Parse(최대수익율))
                 {
-                    if (최대수익율 == "∞") this.insertListBoxLog("∞ mainForm line 1020");
-                    this.tradingHistory.maxHisRtUpdate(종목코드, 현재수익율);
-                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 현재수익율;   //최대도달 수익율
+                    if (최대수익율 == "∞")
+                    {
+                        this.insertListBoxLog("∞ mainForm line 1020");
+                    }
+                    this.tradingHistory.maxHisRtUpdate(종목코드, 수익율.ToString());
+                    this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 수익율;   //최대도달 수익율
                 }
-                if (double.Parse(현재수익율.Trim()) < double.Parse(최소수익율))
+                if (수익율 < double.Parse(최소수익율))
                 {
-                    this.tradingHistory.minHisRtUpdate(종목코드, 현재수익율);
-                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 현재수익율;   //최소도달 수익율
+                    this.tradingHistory.minHisRtUpdate(종목코드, 수익율.ToString());
+                    this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 수익율;   //최소도달 수익율
                 }
             } else {
                 //이력정보가 없으면 에러코드등록해준다.
-                this.grd_t0424.Rows[rowIndex].Cells["errorcd"].Value = "notHistory";
+                t0424Vo.errorcd = "notHistory";
                 this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
             }
-
             
-
         }
         
         //HTS연동
