@@ -887,6 +887,10 @@ namespace PackageSellSystemTrading{
             String 에러코드     = t0424Vo.errorcd == null ? "" : t0424Vo.errorcd;
             Double 매도가능수량 = t0424Vo.mdposqt;
             //매매이력정보 호출
+            if (종목코드=="081660")
+            {
+                String ddd = "dd";
+            }
             SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드);
             if (summaryVo != null) {
                 String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
@@ -895,7 +899,8 @@ namespace PackageSellSystemTrading{
                 this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;    //매도 횟수.
                 this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;     //매수 횟수
                 this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt; //최초진입일시
-               
+
+                this.grd_t0424.Rows[rowIndex].Cells["sumMdposqt"    ].Value = summaryVo.sumMdposqt; //매도가능이력
                 this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;    //주문매체
                 this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt; //감시제외여부
                 this.grd_t0424.Rows[rowIndex].Cells["searchNm"      ].Value = summaryVo.searchNm;    //검색조건 이름
@@ -944,6 +949,11 @@ namespace PackageSellSystemTrading{
                 //String 현재수익율 = this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString();
                 //double d현재수익 = double.Parse(현재수익율.Trim());
                 //double d최대수익율 = double.Parse(최대수익율.Trim());
+
+                if (최대수익율 == "∞")
+                {
+                    최대수익율 = "0";
+                }
 
                 if (수익율 > double.Parse(최대수익율))
                 {

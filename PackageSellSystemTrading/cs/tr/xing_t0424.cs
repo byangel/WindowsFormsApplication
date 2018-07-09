@@ -322,90 +322,97 @@ namespace PackageSellSystemTrading {
                 String 매매구분     = null;
 
                 //매도--------------------------------------------------------------------------------
-                //손절
-                Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
-                if (손절기능여부)
-                {
-                    Double 손절율 = Properties.Settings.Default.STOP_LOSS_RATE;
-                    if (수익율 <= 손절율)
+                if (mainForm.cbx_sell_at.Checked) {
+                    //손절
+                    Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
+                    if (손절기능여부)
                     {
-                        if (!mainForm.cbx_sell_at.Checked) return false;
-                       
-                        매매구분     = "매도";
-                        상세매매구분 = "손절";
-                        
-                    }
-                }
-                //목표수익 달성후 지정 비율 하락이상 반전시 매도
-                if (Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE) < 0)
-                {//설정값이 0이면 사용하지 않는다.
-                    if (Double.Parse(t0424Vo.maxRt) >= 목표수익율 && 수익율 <= (Double.Parse(t0424Vo.maxRt) - Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE)))//최대도달 수익율
-                    {
-                        if (!mainForm.cbx_sell_at.Checked) return false;
-                       
-                        매매구분     = "매도";
-                        상세매매구분 = "추적청산";
-                        
-                    }
-                } else  {
-                    //목표수익 달성시...
-                    if (수익율 >= 목표수익율)
-                    {
-                        //ordptnDetail(상세주문구분-신규매수|반복매수|금일매도|청산)
-                        //upOrdno(상위매수주문번호-금일매도일때만 셋팅될것같다)
-                        //upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
-                        //IsuNo(종목코드) Quantity(수량) Price(가격)
-                        //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
-                        //청산일때만 체크
-                        if (t0424Vo.sunikrt < 1)
+                        Double 손절율 = Properties.Settings.Default.STOP_LOSS_RATE;
+                        if (수익율 <= 손절율)
                         {
-                            Log.WriteLine("<ERROR-수익청산><t0424-496:" + t0424Vo.hname + "><" + 수익율.ToString() + ">");
-                            t0424Vo.errorcd = "sunikrt error";
-                            return false;
-                        }
-                        if (!mainForm.cbx_sell_at.Checked) return false;
+                            
+                            매매구분     = "매도";
+                            상세매매구분 = "손절";
                         
-                        매매구분     = "매도";
-                        상세매매구분 = "수익청산";
+                        }
+                    }
+                    if (종목코드=="005070")
+                    {
+                        String tessst = "3";
+                    }
+                    //목표수익 달성후 지정 비율 하락이상 반전시 매도
+                    Double test = Double.Parse(t0424Vo.maxRt) + Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE);
+                    if (Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE) < 0)
+                    {//설정값이 0이면 사용하지 않는다.
+                        if (Double.Parse(t0424Vo.maxRt) >= 목표수익율 && 수익율 <= test)//최대도달 수익율
+                        {
+                            매매구분     = "매도";
+                            상세매매구분 = "추적청산";
+                        }
+                    } else  {
+                        //목표수익 달성시...
+                        if (수익율 >= 목표수익율)
+                        {
+                            //ordptnDetail(상세주문구분-신규매수|반복매수|금일매도|청산)
+                            //upOrdno(상위매수주문번호-금일매도일때만 셋팅될것같다)
+                            //upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
+                            //IsuNo(종목코드) Quantity(수량) Price(가격)
+                            //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
+                            //청산일때만 체크
+                            if (t0424Vo.sunikrt < 1)
+                            {
+                                Log.WriteLine("<ERROR-수익청산><t0424-496:" + t0424Vo.hname + "><" + 수익율.ToString() + ">");
+                                t0424Vo.errorcd = "sunikrt error";
+                                return false;
+                            }
+                            
+                            매매구분     = "매도";
+                            상세매매구분 = "수익청산";
                       
-                    }
-                }
-
-                if (Properties.Settings.Default.ALL_SELL_AT)
-                {
-                    TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
-                    DateTime allSellTimeFrom = Properties.Settings.Default.ALL_SELL_TIME_FROM;
-                    DateTime allSellTimeTo = Properties.Settings.Default.ALL_SELL_TIME_TO;
-
-                    if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이상")) {
-                        if (수익율 >= 목표수익율) {
-                            매매구분 = "매도";
-                            상세매매구분 = "일괄매도";
                         }
                     }
-                    if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이하")) {
-                        if (수익율 < 목표수익율)
-                        {
-                            매매구분 = "매도";
-                            상세매매구분 = "일괄매도";
-                        }
-                    }
-                }
 
-                //추가 매수--------------------------------------------------------------------------------
-                //지정 하락 비율 이하이면 추가매수 1번만.
-                if (Properties.Settings.Default.ADD_BUY_AT)
-                {
-                    if (int.Parse(t0424Vo.buyCnt) < 2 && 수익율 < Double.Parse(Properties.Settings.Default.ADD_BUY_RATE))
+                    if (Properties.Settings.Default.ALL_SELL_AT)
                     {
-                        if (!mainForm.cbx_buy_at.Checked) return false;
+                        TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
+                        DateTime allSellTimeFrom = Properties.Settings.Default.ALL_SELL_TIME_FROM;
+                        DateTime allSellTimeTo = Properties.Settings.Default.ALL_SELL_TIME_TO;
+                        if (nowTimeSpan >= allSellTimeFrom.TimeOfDay && nowTimeSpan <= allSellTimeTo.TimeOfDay)
+                        {
+                            if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이상")) {
+                                if (수익율 >= 목표수익율)
+                                {
+                                    매매구분 = "매도";
+                                    상세매매구분 = "일괄매도";
+                                }
+                            }
+                            if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이하")) {
+                                if (수익율 < 목표수익율)
+                                {
+                                    매매구분 = "매도";
+                                    상세매매구분 = "일괄매도";
+                                }
+                            }
+                        }
                         
-                        매매구분     = "매수";
-                        상세매매구분 = "추가매수";
                     }
-
                 }
+                //추가 매수--------------------------------------------------------------------------------
+                if (mainForm.cbx_buy_at.Checked)
+                {
+                    //지정 하락 비율 이하이면 추가매수 1번만.
+                    if (Properties.Settings.Default.ADD_BUY_AT)
+                    {
+                        if (int.Parse(t0424Vo.buyCnt) < 2 && 수익율 < Double.Parse(Properties.Settings.Default.ADD_BUY_RATE))
+                        {
+                            if (!mainForm.cbx_buy_at.Checked) return false;
 
+                            매매구분 = "매수";
+                            상세매매구분 = "추가매수";
+                        }
+
+                    }
+                }
                 
 
 

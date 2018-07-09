@@ -237,7 +237,7 @@ namespace PackageSellSystemTrading{
                 매매구분 = "1";
                 if (!Properties.Settings.Default.SELL_HO.Equals("시장가"))
                 {
-                    호가 = Util.getTickPrice(현재가, Double.Parse(Properties.Settings.Default.BUY_HO));
+                    호가 = Util.getTickPrice(현재가, Double.Parse(Properties.Settings.Default.SELL_HO));
                 }
             }
             if (매매구분.Equals("매수"))

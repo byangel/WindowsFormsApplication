@@ -221,7 +221,11 @@ namespace PackageSellSystemTrading
         public static Double getTickPrice(Double price, Double tick)
         {
             Double returnValue = price;
-           
+
+            if (tick.Equals("시장가"))
+            {
+                return returnValue;
+            }
             if (tick < 0){
                 tick = tick * tick;
                 for (int i=0; i< tick; i++)

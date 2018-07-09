@@ -45,7 +45,7 @@ namespace PackageSellSystemTrading
 			{
                 string jangubun = base.GetFieldData("OutBlock", "jangubun");
 				string jstatus = base.GetFieldData("OutBlock", "jstatus");
-             //double iTimeCur = mForm.mxTr0167.mTimeCur;
+                //double iTimeCur = mForm.mxTr0167.mTimeCur;
 
 				// 장 구분이 코스피일 경우 
 				if (jangubun == "1")
@@ -57,12 +57,16 @@ namespace PackageSellSystemTrading
 
                     //mainForm.label_jif.Text = this.mlabel;
                     mainForm.insertListBoxLog(this.mlabel);
-                 //장이 마감되면 스넵샷을 찍는다.(챠트데이타 저장)
+                    //장이 마감되면 스넵샷을 찍는다.(챠트데이타 저장)
                     if (jstatus == "41")
                     {
                         mainForm.dayCapture();
                     }
-
+                    if (jstatus == "23")
+                    {
+                        //장개시1분전
+                        ;
+                    }
                 }
 			}
 			catch (Exception ex)
