@@ -229,7 +229,7 @@ namespace PackageSellSystemTrading{
             
         //}// end function
 
-        public void call_request(String 종목명, String 종목코드, String 매매구분, Double 수량, Double 현재가, String 매수전량명, Double 평균단가, String 상세매매구분)
+        public void call_request(String 종목명, String 종목코드, String 매매구분, Double 수량, Double 현재가, String 매수전략명, Double 평균단가, String 상세매매구분)
         {
             Double 호가 = 현재가;
             if (매매구분.Equals("매도"))
@@ -243,11 +243,22 @@ namespace PackageSellSystemTrading{
             if (매매구분.Equals("매수"))
             {
                 매매구분 = "2";
+                int 배팅금액 = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
+                if (상세매매구분 == "신호추가매수")
+                {
+                    배팅금액 = int.Parse(Properties.Settings.Default.ADD_BUY_SIGNAL_AMT) * 10000;
+                }
+                if (상세매매구분 == "추가매수(1회)")
+                {
+                    배팅금액 = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
+                }
+
                 if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
                 {
                     호가 = Util.getTickPrice(현재가, Double.Parse(Properties.Settings.Default.BUY_HO));
                 }
-                수량 = (int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000) / int.Parse(호가.ToString());
+                
+                수량 = 배팅금액 / int.Parse(호가.ToString());
             }
 
 
@@ -257,12 +268,63 @@ namespace PackageSellSystemTrading{
             this.shcode         = 종목코드;      //종목코드
             this.hname          = 종목명;        //종목명
             this.quantity       = 수량.ToString(); //수량
-            //xing_CSPAT00600.price      = t0424Vo.price.Replace(",", "");   //가격
             this.price          = 호가.ToString();   //가격
             this.BnsTpCode      = 매매구분;             // 매매구분: 1-매도, 2-매수
             this.upOrdno        = "";              //상위매수주문번호 - 금일매도매수일때만 값이 있다.
             this.upExecprc      = 평균단가.ToString();    //매도이면 매수단가 주입, 매수
-            this.searchNm       = 매수전량명; //매수전략명
+            this.searchNm       = 매수전략명; //매수전략명
+
+            this.shcode = this.shcode.Replace("A", "");
+            if (mainForm.combox_targetServer.SelectedIndex == 0)
+            {
+                shcode = "A" + this.shcode;
+            }
+            base.SetFieldData("CSPAT00600Inblock1", "AcntNo", 0, mainForm.account);        // 계좌번호
+            base.SetFieldData("CSPAT00600Inblock1", "InptPwd", 0, mainForm.accountPw);      // 입력비밀번호
+            base.SetFieldData("CSPAT00600Inblock1", "IsuNo", 0, this.shcode);             // 종목번호
+            base.SetFieldData("CSPAT00600Inblock1", "OrdQty", 0, this.quantity);           // 주문수량
+            base.SetFieldData("CSPAT00600Inblock1", "OrdPrc", 0, this.price.Replace(",", "")); // 가격
+            base.SetFieldData("CSPAT00600Inblock1", "BnsTpCode", 0, this.BnsTpCode);      // 매매구분: 1-매도, 2-매수
+            base.SetFieldData("CSPAT00600Inblock1", "OrdprcPtnCode", 0, "00");                    // 호가유형코드: 00-지정가, 05-조건부지정가, 06-최유리지정가, 07-최우선지정가
+            base.SetFieldData("CSPAT00600Inblock1", "MgntrnCode", 0, "000");                   // 신용거래코드: 000-보통
+            base.SetFieldData("CSPAT00600Inblock1", "LoanDt", 0, "");                      // 대출일 : 신용주문이 아닐 경우 SPACE
+            base.SetFieldData("CSPAT00600Inblock1", "OrdCndiTpCode", 0, "0");                     // 주문조건구분 : 0-없음
+
+            if (mainForm.accountPw == "" || mainForm.account == "")
+            {
+                MessageBox.Show("계좌 번호 및 비밀번호가 없습니다.");
+            }
+            else
+            {
+                base.Request(false);  //연속조회일경우 true
+                                      //this.completeAt = false;
+            }
+
+        }
+        public void call_buy(String 종목명, String 종목코드, String 매매구분, Double 수량, Double 현재가, String 매수전량명, Double 평균단가, String 상세매매구분)
+        {
+            Double 호가 = 현재가;
+            
+            매매구분 = "2";
+            if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
+            {
+                호가 = Util.getTickPrice(현재가, Double.Parse(Properties.Settings.Default.BUY_HO));
+            }
+            수량 = (int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000) / int.Parse(호가.ToString());
+            
+
+
+            //상세주문구분|상위매수주문번호|상위체결금액|종목명|종목코드|수량|가격 -신규매수|반복매수|금일매도|청산|목표청산
+            //Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
+            this.ordptnDetail = 상세매매구분;         //상세 매매 구분.
+            this.shcode = 종목코드;      //종목코드
+            this.hname = 종목명;        //종목명
+            this.quantity = 수량.ToString(); //수량
+            this.price = 호가.ToString();   //가격
+            this.BnsTpCode = 매매구분;             // 매매구분: 1-매도, 2-매수
+            this.upOrdno = "";              //상위매수주문번호 - 금일매도매수일때만 값이 있다.
+            this.upExecprc = 평균단가.ToString();    //매도이면 매수단가 주입, 매수
+            this.searchNm = 매수전량명; //매수전략명
 
             this.shcode = this.shcode.Replace("A", "");
             if (mainForm.combox_targetServer.SelectedIndex == 0)

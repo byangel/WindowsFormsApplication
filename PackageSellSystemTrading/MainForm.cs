@@ -35,7 +35,7 @@ namespace PackageSellSystemTrading{
         public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
 
         public AccountForm accountForm;       //계좌 선택
-        public OptionForm optionForm;        //프로그램 설정 폼
+        public OptionForm  optionForm;        //프로그램 설정 폼
         public HistoryForm historyForm;        //매매이력 폼
 
         public Real_SC1 real_SC1; //실시간 체결
@@ -177,7 +177,12 @@ namespace PackageSellSystemTrading{
 
                 //누적수익율 출력
                 tmpRow["누적수익금"] = Util.GetNumberFormat(this.chartData.getSumDtsunik());
-                
+
+
+                //장상태 정보
+
+                this.real_jif.init_jstatus();
+                this.log(this.real_jif.mlabel);
             } catch (Exception ex)
             {
                 Log.WriteLine("t0424 : " + ex.Message);
@@ -882,57 +887,92 @@ namespace PackageSellSystemTrading{
         public void priceChangedProcess(int rowIndex)
         {
             T0424Vo t0424Vo     = (T0424Vo)this.grd_t0424.Rows[rowIndex].DataBoundItem;
-            String 종목코드     = t0424Vo.expcode;// this.grd_t0424.Rows[rowIndex].Cells["c_expcode"].Value.ToString();
-            Double 수익율       = t0424Vo.sunikrt;  // Double.Parse(this.grd_t0424.Rows[rowIndex].Cells["c_sunikrt"].Value.ToString());
+            String 종목코드     = t0424Vo.expcode;
+            Double 수익율       = t0424Vo.sunikrt; 
             String 에러코드     = t0424Vo.errorcd == null ? "" : t0424Vo.errorcd;
             Double 매도가능수량 = t0424Vo.mdposqt;
+
+            String 최대수익율 = t0424Vo.maxRt;
+            String 최소수익율 = t0424Vo.minRt;
             //매매이력정보 호출
-            if (종목코드=="081660")
-            {
-                String ddd = "dd";
+            //if (종목코드=="081660")
+            //{
+            //    String ddd = "dd";
+            //}
+            //SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드);
+            //if (summaryVo != null) {
+            //    String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
+            //    String 최소수익율 = Util.nvl(summaryVo.minRt, "0");
+
+            //    this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;    //매도 횟수.
+            //    this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;     //매수 횟수
+            //    this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt; //최초진입일시
+
+            //    this.grd_t0424.Rows[rowIndex].Cells["sumMdposqt"    ].Value = summaryVo.sumMdposqt; //매도가능이력
+            //    this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;    //주문매체
+            //    this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt; //감시제외여부
+            //    this.grd_t0424.Rows[rowIndex].Cells["searchNm"      ].Value = summaryVo.searchNm;    //검색조건 이름
+            //    this.grd_t0424.Rows[rowIndex].Cells["maxRt"         ].Value = 최대수익율;            //최대도달 수익율
+            //    this.grd_t0424.Rows[rowIndex].Cells["minRt"         ].Value = 최소수익율;            //최소도달 수익율
+
+            //    //매도가능수량이 같지 않으면 에러표시 해주자.
+
+            //    //String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
+            //    if (매도가능수량.ToString() != summaryVo.sumMdposqt)
+            //    {
+            //        t0424Vo.errorcd = "mdposqt not equals";
+            //        this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+            //    }
+            //    else if (매도가능수량.ToString() == summaryVo.sumMdposqt)
+            //    {
+            //        if (errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
+            //        {
+            //            t0424Vo.errorcd = "";
+            //            this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+            //        }
+            //    }
+            //    //확장정보 에러일경우 에러상태를 풀어준다.
+            //    if (errorcd != null && errorcd.Equals("notHistory")) {
+            //        t0424Vo.errorcd = "";
+            //        this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+            //    }
+
+
+
+            //String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
+            //if (매도가능수량.ToString() != t0424Vo.sumMdposqt)
+            //{
+            //    //t0424Vo.errorcd = "mdposqt not equals";
+            //    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+            //}
+            //else if (매도가능수량.ToString() == t0424Vo.sumMdposqt)
+            //{
+            //    if (t0424Vo.errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
+            //    {
+            //        //t0424Vo.errorcd = "";
+            //        this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+            //    }
+            //}
+            ////확장정보 에러일경우 에러상태를 풀어준다.
+            //if (t0424Vo.errorcd != null && t0424Vo.errorcd.Equals("notHistory"))
+            //{
+            //    //t0424Vo.errorcd = "";
+            //    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+            //}
+            if (t0424Vo.errorcd == null || t0424Vo.errorcd == ""){
+                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
             }
-            SummaryVo summaryVo = this.tradingHistory.getSummaryVo(종목코드);
-            if (summaryVo != null) {
-                String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
-                String 최소수익율 = Util.nvl(summaryVo.minRt, "0");
+            else
+            {
+                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+            }
 
-                this.grd_t0424.Rows[rowIndex].Cells["sellCnt"       ].Value = summaryVo.sellCnt;    //매도 횟수.
-                this.grd_t0424.Rows[rowIndex].Cells["buyCnt"        ].Value = summaryVo.buyCnt;     //매수 횟수
-                this.grd_t0424.Rows[rowIndex].Cells["firstBuyDt"    ].Value = summaryVo.firstBuyDt; //최초진입일시
 
-                this.grd_t0424.Rows[rowIndex].Cells["sumMdposqt"    ].Value = summaryVo.sumMdposqt; //매도가능이력
-                this.grd_t0424.Rows[rowIndex].Cells["c_ordermtd"    ].Value = summaryVo.ordermtd;    //주문매체
-                this.grd_t0424.Rows[rowIndex].Cells["c_exclWatchAt" ].Value = summaryVo.exclWatchAt; //감시제외여부
-                this.grd_t0424.Rows[rowIndex].Cells["searchNm"      ].Value = summaryVo.searchNm;    //검색조건 이름
-                this.grd_t0424.Rows[rowIndex].Cells["maxRt"         ].Value = 최대수익율;            //최대도달 수익율
-                this.grd_t0424.Rows[rowIndex].Cells["minRt"         ].Value = 최소수익율;            //최소도달 수익율
-              
-                //매도가능수량이 같지 않으면 에러표시 해주자.
-                
-                //String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
-                if (매도가능수량.ToString() != summaryVo.sumMdposqt)
-                {
-                    t0424Vo.errorcd = "mdposqt not equals";
-                    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
-                }
-                else if (매도가능수량.ToString() == summaryVo.sumMdposqt)
-                {
-                    if (errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
-                    {
-                        t0424Vo.errorcd = "";
-                        this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
-                    }
-                }
-                //확장정보 에러일경우 에러상태를 풀어준다.
-                if (errorcd != null && errorcd.Equals("notHistory")) {
-                    t0424Vo.errorcd = "";
-                    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
-                }
-                
 
-                
-                //그리드 수익에따라  폰트색 지정
-                Color color = 수익율 < 0 ? Color.Blue : Color.Red;
+
+
+            //그리드 수익에따라  폰트색 지정
+            Color color = 수익율 < 0 ? Color.Blue : Color.Red;
 
                 grd_t0424.Rows[rowIndex].Cells["price"      ].Style.ForeColor = color; //현재가
                 grd_t0424.Rows[rowIndex].Cells["c_sunikrt"  ].Style.ForeColor = color; //손익율
@@ -952,15 +992,13 @@ namespace PackageSellSystemTrading{
 
                 if (최대수익율 == "∞")
                 {
-                    최대수익율 = "0";
+                    this.tradingHistory.maxHisRtUpdate(종목코드, 수익율.ToString());
+                    this.insertListBoxLog("∞ mainForm line 1020");
                 }
 
                 if (수익율 > double.Parse(최대수익율))
                 {
-                    if (최대수익율 == "∞")
-                    {
-                        this.insertListBoxLog("∞ mainForm line 1020");
-                    }
+                    
                     this.tradingHistory.maxHisRtUpdate(종목코드, 수익율.ToString());
                     this.grd_t0424.Rows[rowIndex].Cells["maxRt"].Value = 수익율;   //최대도달 수익율
                 }
@@ -969,11 +1007,11 @@ namespace PackageSellSystemTrading{
                     this.tradingHistory.minHisRtUpdate(종목코드, 수익율.ToString());
                     this.grd_t0424.Rows[rowIndex].Cells["minRt"].Value = 수익율;   //최소도달 수익율
                 }
-            } else {
-                //이력정보가 없으면 에러코드등록해준다.
-                t0424Vo.errorcd = "notHistory";
-                this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
-            }
+            //} else {
+            //    //이력정보가 없으면 에러코드등록해준다.
+            //    t0424Vo.errorcd = "notHistory";
+            //    this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+            //}
             
         }
         
@@ -1079,6 +1117,12 @@ namespace PackageSellSystemTrading{
                     searchCnt = 0;
                 }
             }
+        }
+
+        public void log(String msg)
+        {  
+            Log.WriteLine(msg);
+            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">"+msg);
         }
     }//end class
 }//end namespace

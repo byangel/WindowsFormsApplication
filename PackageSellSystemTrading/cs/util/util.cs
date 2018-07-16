@@ -467,9 +467,33 @@ namespace PackageSellSystemTrading
                 label.Text = appendText;
             }
         }
-       
 
-
+        //매수 가능 시간 비교
+        public static Boolean isBuyTime()
+        {
+            
+            //TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
+            TimeSpan nowTimeSpan = TimeSpan.Parse(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+            DateTime buyTimeFrom = Properties.Settings.Default.BUY_TIME_FROM;
+            DateTime buyTimeTo   = Properties.Settings.Default.BUY_TIME_TO;
+            if (nowTimeSpan >= buyTimeFrom.TimeOfDay && nowTimeSpan <= buyTimeTo.TimeOfDay){
+                return true;
+            }
+            return false;
+        }
+        //매도 가능 시간 비교
+        public static Boolean isSellTime() { 
+            //매도타임
+            TimeSpan nowTimeSpan = TimeSpan.Parse(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+            //매수 가능 시간 비교
+            DateTime sellTimeFrom = Properties.Settings.Default.SELL_TIME_FROM;
+            DateTime sellTimeTo   = Properties.Settings.Default.SELL_TIME_TO;
+            if (nowTimeSpan >= sellTimeFrom.TimeOfDay && nowTimeSpan <= sellTimeTo.TimeOfDay){
+                return true;
+            }
+            
+            return false;
+        }
 
 
 

@@ -191,7 +191,7 @@ namespace PackageSellSystemTrading{
                 }
 
                 //배팅금액 설정
-                int battingAtm = int.Parse(Properties.Settings.Default.BUY_BATTING_AMT) * 10000;
+                //int battingAtm = int.Parse(Properties.Settings.Default.BUY_BATTING_AMT) * 10000;
 
                 //매수금지목록
                 DataTable SellListDt = mainForm.xing_t1857Stop.getSellListDt();
@@ -203,6 +203,17 @@ namespace PackageSellSystemTrading{
                     //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
                     //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
                     itemRow["상태"] = "매수금지";
+                    return false;
+
+                }
+
+                String 종목제한수 = Properties.Settings.Default.MAX_BUY_COUNT;
+                int 보유종목수 = mainForm.grd_t0424.RowCount;
+                if (보유종목수 >= int.Parse(종목제한수))
+                {
+                    //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
+                    //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
+                    itemRow["상태"] = "보유종목초과";
                     return false;
 
                 }
@@ -254,9 +265,9 @@ namespace PackageSellSystemTrading{
                         return false;
                     }
 
-                    ordptnDetail = "추가매수";
-                    //배팅금액 설정
-                    battingAtm = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
+                    ordptnDetail = "신호추가매수";
+                    ////배팅금액 설정
+                    //battingAtm = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
                     //1.반복매수면 투자율 제한 하지 않는다.
                     //2.반복매수면 매수금지 종목이라도 매수한다.
 
@@ -276,9 +287,7 @@ namespace PackageSellSystemTrading{
 
 
                 //매수 가능 시간 비교
-                DateTime buyTimeFrom = Properties.Settings.Default.BUY_TIME_FROM;
-                DateTime buyTimeTo = Properties.Settings.Default.BUY_TIME_TO;
-                if (nowTimeSpan <= buyTimeFrom.TimeOfDay || nowTimeSpan >= buyTimeTo.TimeOfDay)
+                if (!Util.isBuyTime())
                 {
                     itemRow["상태"] = "시간x<" + ordptnDetail + ">";
                     return false;
@@ -291,14 +300,6 @@ namespace PackageSellSystemTrading{
                     itemRow["상태"] = "오류:246";
                     return false;
                 }
-
-                //-매수수량 계산. 주문 클래스에서 계산을 하자.
-                //int Quantity = battingAtm / int.Parse(close);
-                ////호가 계산
-                //if (!Properties.Settings.Default.BUY_HO.Equals("시장가"))
-                //{
-                //    close = Util.getTickPrice(close, double.Parse(Properties.Settings.Default.BUY_HO));
-                //}
 
                 //this 함수가 3번 호출 된다. 주문이 3번 나갈 수가 있어서 추가 해준다.
                 if (itemRow["상태"].ToString().IndexOf("주문전송") >= 0 )
@@ -320,30 +321,18 @@ namespace PackageSellSystemTrading{
                 /// <param name="IsuNo">종목번호</param>
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
-                //Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
-
-                //xing_CSPAT00600.ordptnDetail    = ordptnDetail;         //상세 매매 구분.
-                //xing_CSPAT00600.shcode          = shcode;               //종목코드
-                //xing_CSPAT00600.hname           = hname;                //종목명
-                //xing_CSPAT00600.quantity        = Quantity.ToString();  //수량
-                //xing_CSPAT00600.price           = close;                //가격
-                //xing_CSPAT00600.BnsTpCode       = "2";                  // 매매구분: 1-매도, 2-매수
-                //xing_CSPAT00600.upOrdno         = "";                   //상위매수주문 - 금일매도매수일때만 값이 있다.
-                //xing_CSPAT00600.upExecprc       = "";                   //상위체결금액 
-                //xing_CSPAT00600.searchNm        = searchNm;             //이벤트명(검색조건명이나 매도이유가 들어간다.)
+                
                 //매수 실행
-                //xing_CSPAT00600.call_request();
                 //실시간 가격 모니터링 등록
                 mainForm.real_S3.call_real(shcode);
                 mainForm.real_K3.call_real(shcode);
 
                 Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                 xing_CSPAT00600.call_request(hname, shcode, "매수", 0, Double.Parse(close), searchNm, 0, ordptnDetail);
-                
+               
+                //로그출력
                 itemRow["상태"] = "주문전송<" + ordptnDetail + ">";
-                Log.WriteLine("<t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + searchNm + ">");
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857::검색주문><" + hname + ">" + ordptnDetail + "   <" + close + "원><" + searchNm + ">");
-
+                mainForm.log("<t1857:"+ searchNm +"><" + hname + "> <" + close + "원>"+ ordptnDetail);
             }
             catch (Exception ex)
             {

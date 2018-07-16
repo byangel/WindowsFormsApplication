@@ -68,7 +68,7 @@ namespace PackageSellSystemTrading {
                 //1.계좌 잔고 목록을 그리드에 추가
                 int blockCount = base.GetBlockCount("t0424OutBlock1");
 
-                T0424Vo tmpT0424Vo;
+                T0424Vo tmpT0424Vo=null;
 
                 String expcode;//종목코드
                 String jonggb;//마켓구분
@@ -96,37 +96,61 @@ namespace PackageSellSystemTrading {
                         this.t0424VoList.Add(tmpT0424Vo);
                         findIndex = this.t0424VoList.Count() - 1;
 
-                        mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "N";
+                        //mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "N";
+                        tmpT0424Vo.orderAt = "N";
+                        tmpT0424Vo.errorcd = "";
                     }
+                    else
+                    {
+                        tmpT0424Vo = t0424VoList.ElementAt(findIndex);
+                    }
+                               
+                    tmpT0424Vo.expcode  =               base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
+                    tmpT0424Vo.hname    =              base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
+                    tmpT0424Vo.mdposqt  = Double.Parse(base.GetFieldData("t0424OutBlock1", "mdposqt", i)); //매도가능 수량
+                    tmpT0424Vo.price    = Double.Parse(base.GetFieldData("t0424OutBlock1", "price", i)); //현재가
+                    tmpT0424Vo.appamt   = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt", i)); //평가금액
+                    tmpT0424Vo.dtsunik  = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
+                    tmpT0424Vo.sunikrt  = Double.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
+                    tmpT0424Vo.pamt     = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
+                    tmpT0424Vo.mamt     = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
+                    tmpT0424Vo.fee      = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
+                    tmpT0424Vo.tax      = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
+                    tmpT0424Vo.jonggb   =  base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목시장구분
+
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_expcode"    ].Value = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_hname"      ].Value = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"    ].Value = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능 수량
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["price"        ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "price", i)); //현재가
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["appamt"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt", i)); //평가금액
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["dtsunik"      ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_sunikrt"    ].Value = base.GetFieldData("t0424OutBlock1", "sunikrt", i); //수익율
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["pamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["mamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["fee"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["tax"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
+                    //mainForm.grd_t0424.Rows[findIndex].Cells["jonggb"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "jonggb", i)); //종목시장구분
                     
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_expcode"    ].Value = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_hname"      ].Value = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"    ].Value = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능 수량
-                    mainForm.grd_t0424.Rows[findIndex].Cells["price"        ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "price", i)); //현재가
-                    mainForm.grd_t0424.Rows[findIndex].Cells["appamt"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt", i)); //평가금액
-                    mainForm.grd_t0424.Rows[findIndex].Cells["dtsunik"      ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
-                    mainForm.grd_t0424.Rows[findIndex].Cells["c_sunikrt"    ].Value = base.GetFieldData("t0424OutBlock1", "sunikrt", i); //수익율
-                    mainForm.grd_t0424.Rows[findIndex].Cells["pamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
-                    mainForm.grd_t0424.Rows[findIndex].Cells["mamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
-                    mainForm.grd_t0424.Rows[findIndex].Cells["fee"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
-                    mainForm.grd_t0424.Rows[findIndex].Cells["tax"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
-                    mainForm.grd_t0424.Rows[findIndex].Cells["jonggb"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "jonggb", i)); //종목시장구분
-                    
-                    주문여부 = mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value.ToString();
+                    //주문여부 = mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value.ToString();
+                    주문여부 = tmpT0424Vo.orderAt;
                     //매도 주문후 취소된 종목은 N상태이고 종목 정보가 업데이트 되면 주문여부를 N 으로 다시 돌려놓는다.
                     if (주문여부 == "C")
                     {//주문이 나가 종목은 t0424에서 종목 정보가 넘어오지 않아서 주문한 시점부터 정보가 업데이트 되지 않느다.
-                        mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "N";
+                        //mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "N";
+                        tmpT0424Vo.orderAt = "N";
                     }
-
-                    //row추가시 값 변경 이벤트가 발생하지 않아서 추가해줬다.-리드색 지정 및 확정 요약정보 호출
-                    mainForm.priceChangedProcess(findIndex);
-                    
                     //그리드에서 삭제여부
                     mainForm.grd_t0424.Rows[findIndex].Cells["deleteAt"].Value = "N";
+                    tmpT0424Vo.deleteAt = "N";
+
+                    //확장정보
+                    this.getSummaryVo(tmpT0424Vo);
+                    mainForm.priceChangedProcess(findIndex);
+                    
+
 
                 }//for end
-                
+
                 //2.연속 데이타 정보가 남아있는지 구분
                 if (base.IsNext){
                     //연속 데이타 정보를 호출.
@@ -134,38 +158,7 @@ namespace PackageSellSystemTrading {
                     base.Request(true); //연속조회일경우 true
                 }else{//마지막 데이타일때 메인폼에 출력해준다.
    
-                    this.dtsunik = Double.Parse(this.GetFieldData("t0424OutBlock", "dtsunik", 0));// 실현손익
-
-                    //트레이딩 정보 업데이트
-                    mainForm.tradingInfoUpdate();
-
-                    //로그 및 중복 요청 처리 2:코스닥, 3:코스피
-                    mainForm.input_t0424_log.Text = "[" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "]t0424 :: 잔고조회 완료";
-                    
-                    //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
-                    if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519){
-                        //목표수익율 설정
-                        Double 목표수익율 = Double.Parse(Properties.Settings.Default.STOP_TARGET_RATE);
-                        //일과 매도 시간 체크
-                        if(Properties.Settings.Default.ALL_SELL_AT)
-                        {
-                            TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
-                            DateTime allSellTimeFrom = Properties.Settings.Default.ALL_SELL_TIME_FROM;
-                            DateTime allSellTimeTo = Properties.Settings.Default.ALL_SELL_TIME_TO;
-                            if (nowTimeSpan >= allSellTimeFrom.TimeOfDay && nowTimeSpan <= allSellTimeTo.TimeOfDay)
-                            {
-                                목표수익율 = Double.Parse(Properties.Settings.Default.ALL_SELL_RATE);
-                            }
-                        }
-                       
-                        for (int i = 0; i < this.t0424VoList.Count(); i++)
-                        {
-                            //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
-                            this.tradingStopTest(t0424VoList.ElementAt(i), i, 목표수익율);
-                            this.t0424VoList.ElementAt(i).deleteAt = "Y";
-                        }
-                    }
-
+   
                     //초기화 여부
                     if (initAt){
                         //1.매매이력 동기화 --그냥 에러만 표시하는걸로 확인수 폼에서 클릭
@@ -181,7 +174,26 @@ namespace PackageSellSystemTrading {
                             if (t0424Vo.jonggb == "2")  mainForm.real_K3.call_real(t0424Vo.expcode);
                         }
                         this.initAt = false;
+                    } else {
+                        //매매거래 가능 시간이고 매매가능여부 값이 Y일때 체크후 매도 로직 호출
+                        if (Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) > 901 && Double.Parse(mainForm.xing_t0167.time.Substring(0, 4)) < 1519)
+                        {
+                            //목표수익율 설정
+                            Double 목표수익율 = Double.Parse(Properties.Settings.Default.STOP_TARGET_RATE);
+                            
+                            for (int i = 0; i < this.t0424VoList.Count(); i++)
+                            {
+                                //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
+                                this.tradingStopTest(t0424VoList.ElementAt(i), i, 목표수익율);
+                                this.t0424VoList.ElementAt(i).deleteAt = "Y";
+                            }
+                        }
                     }
+                    this.dtsunik = Double.Parse(this.GetFieldData("t0424OutBlock", "dtsunik", 0));// 실현손익
+                    //트레이딩 정보 업데이트
+                    mainForm.tradingInfoUpdate();
+                    //로그 및 중복 요청 처리 2:코스닥, 3:코스피
+                    mainForm.input_t0424_log.Text = "[" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "]t0424 :: 잔고조회 완료";
                     mainForm.h_totalCount.Text = t0424VoList.Count().ToString();
                     //응답처리 완료
                     completeAt = true;
@@ -193,8 +205,54 @@ namespace PackageSellSystemTrading {
 
         }//receiveDataEventHandler END
 
+        public void getSummaryVo(T0424Vo t0424Vo)
+        {
+            String 종목코드 = t0424Vo.expcode;
+            Double 매도가능수량 = t0424Vo.mdposqt;
+            String 에러코드 = t0424Vo.errorcd;
+            SummaryVo summaryVo = mainForm.tradingHistory.getSummaryVo(종목코드);
+            if (summaryVo != null)
+            {
+                String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
+                String 최소수익율 = Util.nvl(summaryVo.minRt, "0");
 
+                t0424Vo.sellCnt     = summaryVo.sellCnt;    //매도 횟수.
+                t0424Vo.buyCnt      = summaryVo.buyCnt;     //매수 횟수
+                t0424Vo.firstBuyDt  = summaryVo.firstBuyDt; //최초진입일시
+
+                t0424Vo.sumMdposqt  = summaryVo.sumMdposqt; //매도가능이력
+                t0424Vo.ordermtd    = summaryVo.ordermtd;    //주문매체
+                t0424Vo.exclWatchAt = summaryVo.exclWatchAt; //감시제외여부
+                t0424Vo.searchNm    = summaryVo.searchNm;    //검색조건 이름
+                t0424Vo.maxRt       = 최대수익율;            //최대도달 수익율
+                t0424Vo.minRt       = 최소수익율;            //최소도달 수익율
+
+                //매도가능수량이 같지 않으면 에러표시 해주자.
+
+                //String c_mdposqt = this.grd_t0424.Rows[rowIndex].Cells["c_mdposqt"].Value.ToString();
+                if (매도가능수량.ToString() != summaryVo.sumMdposqt)
+                {
+                    t0424Vo.errorcd = "mdposqt not equals";
+                    //this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+                }
+                else if (매도가능수량.ToString() == summaryVo.sumMdposqt)
+                {
+                    if (t0424Vo.errorcd.Equals("mdposqt not equals"))//기존 다른 에러코드가 존재하면 초기화 하지 않는다.
+                    {
+                        t0424Vo.errorcd = "";
+                        //this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+                    }
+                }
+                //확장정보 에러일경우 에러상태를 풀어준다.
+                if (t0424Vo.errorcd != null && t0424Vo.errorcd.Equals("notHistory"))
+                {
+                    t0424Vo.errorcd = "";
+                    //this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+                }
+            }
+        }
         
+
         public Double getSunikrt(Double 현재가, Double 평균단가)
         {
             Double 손익률 = 0;
@@ -283,22 +341,9 @@ namespace PackageSellSystemTrading {
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
         public Boolean tradingStopTest(T0424Vo t0424Vo, int index, Double 목표수익율){
             try{
-                Double 수익율   = t0424Vo.sunikrt;
+                Double 수익율       = t0424Vo.sunikrt;
                 Double 현재가격     = t0424Vo.price;
                 String 감시제외여부 = t0424Vo.exclWatchAt;                    //감시제외여부
-                
-                String  지정시간초과수익율 = Properties.Settings.Default.SELL_TARGET_TIME_OVR_RATE;
-                if (Properties.Settings.Default.SELL_TARGET_TIME_AT && 수익율 < Double.Parse(지정시간초과수익율)) {
-                    Boolean targetTimeFlag = false;
-                    String minute = mainForm.xing_t0167.minute;
-                    if (Properties.Settings.Default.SELL_TARGET_TIME_10) { if (minute == "11") targetTimeFlag = true; }
-                    if (Properties.Settings.Default.SELL_TARGET_TIME_20) { if (minute == "21") targetTimeFlag = true; }
-                    if (Properties.Settings.Default.SELL_TARGET_TIME_30) { if (minute == "31") targetTimeFlag = true; }
-                    if (Properties.Settings.Default.SELL_TARGET_TIME_40) { if (minute == "41") targetTimeFlag = true; }
-                    if (Properties.Settings.Default.SELL_TARGET_TIME_50) { if (minute == "51") targetTimeFlag = true; }
-                    if (Properties.Settings.Default.SELL_TARGET_TIME_00) { if (minute == "01") targetTimeFlag = true; }
-                    if (targetTimeFlag == false) return false;
-                }
                 
                 //종목 에러 있으면 매매 하지 않는다.
                 if (t0424Vo.errorcd != "" && t0424Vo.errorcd != null) return false;
@@ -323,99 +368,115 @@ namespace PackageSellSystemTrading {
 
                 //매도--------------------------------------------------------------------------------
                 if (mainForm.cbx_sell_at.Checked) {
-                    //손절
-                    Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
-                    if (손절기능여부)
+                    if (Util.isSellTime())
                     {
-                        Double 손절율 = Properties.Settings.Default.STOP_LOSS_RATE;
-                        if (수익율 <= 손절율)
+                        //손절
+                        Boolean 손절기능여부 = Properties.Settings.Default.STOP_LOSS_AT;
+                        if (손절기능여부)
                         {
-                            
-                            매매구분     = "매도";
-                            상세매매구분 = "손절";
-                        
-                        }
-                    }
-                    if (종목코드=="005070")
-                    {
-                        String tessst = "3";
-                    }
-                    //목표수익 달성후 지정 비율 하락이상 반전시 매도
-                    Double test = Double.Parse(t0424Vo.maxRt) + Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE);
-                    if (Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE) < 0)
-                    {//설정값이 0이면 사용하지 않는다.
-                        if (Double.Parse(t0424Vo.maxRt) >= 목표수익율 && 수익율 <= test)//최대도달 수익율
-                        {
-                            매매구분     = "매도";
-                            상세매매구분 = "추적청산";
-                        }
-                    } else  {
-                        //목표수익 달성시...
-                        if (수익율 >= 목표수익율)
-                        {
-                            //ordptnDetail(상세주문구분-신규매수|반복매수|금일매도|청산)
-                            //upOrdno(상위매수주문번호-금일매도일때만 셋팅될것같다)
-                            //upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
-                            //IsuNo(종목코드) Quantity(수량) Price(가격)
-                            //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
-                            //청산일때만 체크
-                            if (t0424Vo.sunikrt < 1)
+                            Double 손절율 = Properties.Settings.Default.STOP_LOSS_RATE;
+                            if (수익율 <= 손절율)
                             {
-                                Log.WriteLine("<ERROR-수익청산><t0424-496:" + t0424Vo.hname + "><" + 수익율.ToString() + ">");
-                                t0424Vo.errorcd = "sunikrt error";
-                                return false;
+                                매매구분     = "매도";
+                                상세매매구분 = "손절";
                             }
-                            
-                            매매구분     = "매도";
-                            상세매매구분 = "수익청산";
-                      
                         }
-                    }
+                        if (종목코드 == "005070")
+                        {
+                            String tessst = "3";
+                        }
+                        
+                        //목표수익 달성후 지정 비율 하락이상 반전시 매도
+                        Double 추적청산율 = Double.Parse(t0424Vo.maxRt) + Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE);
+                        if (Double.Parse(Properties.Settings.Default.STOP_TARGET_DOWN_RATE) < 0)
+                        {//설정값이 0이면 사용하지 않는다.
+                            if (Double.Parse(t0424Vo.maxRt) >= 목표수익율 && 수익율 <= 추적청산율)//최대도달 수익율
+                            {
+                                매매구분     = "매도";
+                                상세매매구분 = "추적청산";
+                            }
+                        } else {
+                            //목표수익 달성시...
+                            if (수익율 >= 목표수익율)
+                            {
+                                //ordptnDetail(상세주문구분-신규매수|반복매수|금일매도|청산)
+                                //upOrdno(상위매수주문번호-금일매도일때만 셋팅될것같다)
+                                //upExecprc">상위체결금액-없으면 평균단가 넣어주자</param>
+                                //IsuNo(종목코드) Quantity(수량) Price(가격)
+                                //2틀연속 DataLog 의 매수단가가 잘못 들어가는것들이 있어서 원인을 찾기전에 수익율 < 수익율 2 인경우 주문을 제한하자.메세지창으로 관리하자.
+                                //청산일때만 체크
+                                if (t0424Vo.sunikrt < 1)
+                                {
+                                    Log.WriteLine("<ERROR-수익청산><t0424-496:" + t0424Vo.hname + "><" + 수익율.ToString() + ">");
+                                    t0424Vo.errorcd = "sunikrt error";
+                                    return false;
+                                }
 
+                                매매구분     = "매도";
+                                상세매매구분 = "수익청산";
+                            }
+                        } 
+                    }
+                    // 일괄매도 - 매도시간 설정값 영향 없이 단독 실행
                     if (Properties.Settings.Default.ALL_SELL_AT)
                     {
                         TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
                         DateTime allSellTimeFrom = Properties.Settings.Default.ALL_SELL_TIME_FROM;
                         DateTime allSellTimeTo = Properties.Settings.Default.ALL_SELL_TIME_TO;
+                        목표수익율 = Double.Parse(Properties.Settings.Default.ALL_SELL_RATE);
                         if (nowTimeSpan >= allSellTimeFrom.TimeOfDay && nowTimeSpan <= allSellTimeTo.TimeOfDay)
                         {
-                            if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이상")) {
+                            if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이상"))
+                            {
                                 if (수익율 >= 목표수익율)
                                 {
-                                    매매구분 = "매도";
+                                    매매구분     = "매도";
                                     상세매매구분 = "일괄매도";
                                 }
                             }
-                            if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이하")) {
+                            if (Properties.Settings.Default.ALL_SELL_RATE_SE.Equals("이하"))
+                            {
                                 if (수익율 < 목표수익율)
                                 {
-                                    매매구분 = "매도";
+                                    매매구분     = "매도";
                                     상세매매구분 = "일괄매도";
                                 }
                             }
                         }
-                        
                     }
-                }
+
+                    
+                    String 지정시간초과수익율 = Properties.Settings.Default.SELL_TARGET_TIME_OVR_RATE;
+                    if (Properties.Settings.Default.SELL_TARGET_TIME_AT && 수익율 < Double.Parse(지정시간초과수익율))
+                    {
+                        Boolean targetTimeFlag = false;
+                        String minute = mainForm.xing_t0167.minute;
+                        if (Properties.Settings.Default.SELL_TARGET_TIME_10) { if (minute == "11") targetTimeFlag = true; }
+                        if (Properties.Settings.Default.SELL_TARGET_TIME_20) { if (minute == "21") targetTimeFlag = true; }
+                        if (Properties.Settings.Default.SELL_TARGET_TIME_30) { if (minute == "31") targetTimeFlag = true; }
+                        if (Properties.Settings.Default.SELL_TARGET_TIME_40) { if (minute == "41") targetTimeFlag = true; }
+                        if (Properties.Settings.Default.SELL_TARGET_TIME_50) { if (minute == "51") targetTimeFlag = true; }
+                        if (Properties.Settings.Default.SELL_TARGET_TIME_00) { if (minute == "01") targetTimeFlag = true; }
+                        if (!targetTimeFlag) return false;
+                    }
+
+                }//mainForm.cbx_sell_at.Checked end
+
                 //추가 매수--------------------------------------------------------------------------------
                 if (mainForm.cbx_buy_at.Checked)
                 {
-                    //지정 하락 비율 이하이면 추가매수 1번만.
-                    if (Properties.Settings.Default.ADD_BUY_AT)
-                    {
-                        if (int.Parse(t0424Vo.buyCnt) < 2 && 수익율 < Double.Parse(Properties.Settings.Default.ADD_BUY_RATE))
+                    if (Util.isBuyTime()) { 
+                        //지정 하락 비율 이하이면 추가매수 1번만.
+                        if (Properties.Settings.Default.ADD_BUY_AT)
                         {
-                            if (!mainForm.cbx_buy_at.Checked) return false;
-
-                            매매구분 = "매수";
-                            상세매매구분 = "추가매수";
+                            if (int.Parse(t0424Vo.buyCnt) < 2 && 수익율 < Double.Parse(Properties.Settings.Default.ADD_BUY_RATE))  {
+                                매매구분     = "매수";
+                                상세매매구분 = "추가매수(1회)";
+                            }
                         }
-
                     }
                 }
                 
-
-
                 //주문.
                 if (매매구분 != null)
                 {
@@ -424,9 +485,7 @@ namespace PackageSellSystemTrading {
                     //청산 주문여부를 true로 설정  
                     t0424Vo.orderAt = "Y";
                     
-                    Log.WriteLine("<t0424:"+ 상세매매구분 +"> " + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
-                    mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t0424:" + 상세매매구분 + ">" + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
-                    
+                    mainForm.log("<t0424:" + 상세매매구분 + "> " + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
                 }
 
             }

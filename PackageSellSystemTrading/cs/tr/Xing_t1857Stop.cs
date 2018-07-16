@@ -167,9 +167,7 @@ namespace PackageSellSystemTrading{
 
                 //매도 유효 시간 인지 비교 - 매수는 사태값을 출력하지 않기 때문에 유효 시간이 아니면 아예 매도 테스트를 호출하지 않는다.
                 TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
-                DateTime sellTimeFrom = Properties.Settings.Default.SELL_TIME_FROM;
-                DateTime sellTimeTo = Properties.Settings.Default.SELL_TIME_TO;
-                if (nowTimeSpan <= sellTimeFrom.TimeOfDay || nowTimeSpan >= sellTimeTo.TimeOfDay)
+                if (!Util.isSellTime())
                 {
                     return false;
                 }
@@ -177,7 +175,7 @@ namespace PackageSellSystemTrading{
                 
                 //검색목록 매수 테스트
                 foreach (DataRow itemRow in this.sellListDt.AsEnumerable()){
-                    SellTest(itemRow, configSearchCode, nowTimeSpan);
+                    SellTest(itemRow, configSearchCode);
                 }
 
             } catch (Exception ex){
@@ -189,7 +187,7 @@ namespace PackageSellSystemTrading{
         }
 
         //매도 테스트
-        private Boolean SellTest(DataRow itemRow, int configSearchCode, TimeSpan nowTimeSpan)
+        private Boolean SellTest(DataRow itemRow, int configSearchCode)
         {
             String shcode; //종목코드
             String hname; //종목명
@@ -198,8 +196,8 @@ namespace PackageSellSystemTrading{
             String searchCode; //검색코드
 
             shcode      = itemRow["종목코드"].ToString(); //종목코드
-            hname       = itemRow["종목명"].ToString(); //종목명
-            close       = itemRow["현재가"].ToString(); //현재가
+            hname       = itemRow["종목명"  ].ToString(); //종목명
+            close       = itemRow["현재가"  ].ToString(); //현재가
             searchNm    = itemRow["검색조건"].ToString(); //검색조건
             searchCode  = itemRow["검색코드"].ToString(); //검색코드
 
@@ -239,9 +237,7 @@ namespace PackageSellSystemTrading{
                 xing_CSPAT00600.call_request(종목명, 종목코드, "매도", 수량, 현재가, 매수전량명, 평균단가, "매도검색 매도");
 
                 Double 수익율 = t0424Vo.sunikrt;
-                Log.WriteLine("<t1857Stop:매도검색 매도>" + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857Stop:매도검색 매도>" + 종목명 + " "+ 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
-            
+                mainForm.log("<t1857Stop:"+ 매수전량명 +"><" + 종목명 + ">" + 수익율 + "% " + 수량 + "주 " + 현재가 + "원");
             }
 
             return true;

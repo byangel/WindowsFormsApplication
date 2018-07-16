@@ -254,7 +254,7 @@
             // inp_add_buy_signal_rate
             // 
             this.inp_add_buy_signal_rate.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.inp_add_buy_signal_rate.Location = new System.Drawing.Point(92, 19);
+            this.inp_add_buy_signal_rate.Location = new System.Drawing.Point(100, 19);
             this.inp_add_buy_signal_rate.Name = "inp_add_buy_signal_rate";
             this.inp_add_buy_signal_rate.Size = new System.Drawing.Size(25, 20);
             this.inp_add_buy_signal_rate.TabIndex = 94;
@@ -729,9 +729,9 @@
             this.cbx_add_buy_signal_at.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.cbx_add_buy_signal_at.Location = new System.Drawing.Point(14, 23);
             this.cbx_add_buy_signal_at.Name = "cbx_add_buy_signal_at";
-            this.cbx_add_buy_signal_at.Size = new System.Drawing.Size(68, 15);
+            this.cbx_add_buy_signal_at.Size = new System.Drawing.Size(90, 15);
             this.cbx_add_buy_signal_at.TabIndex = 216;
-            this.cbx_add_buy_signal_at.Text = "추가매수";
+            this.cbx_add_buy_signal_at.Text = "신호추가매수";
             this.cbx_add_buy_signal_at.UseVisualStyleBackColor = true;
             this.cbx_add_buy_signal_at.CheckedChanged += new System.EventHandler(this.cbx_add_buy_signal_at_CheckedChanged);
             // 
@@ -751,7 +751,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(122, 23);
+            this.label4.Location = new System.Drawing.Point(130, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(174, 11);
             this.label4.TabIndex = 212;
@@ -761,7 +761,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(122, 50);
+            this.label1.Location = new System.Drawing.Point(130, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 11);
             this.label1.TabIndex = 211;
@@ -770,7 +770,7 @@
             // inp_add_buy_rate
             // 
             this.inp_add_buy_rate.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.inp_add_buy_rate.Location = new System.Drawing.Point(92, 46);
+            this.inp_add_buy_rate.Location = new System.Drawing.Point(100, 46);
             this.inp_add_buy_rate.Name = "inp_add_buy_rate";
             this.inp_add_buy_rate.Size = new System.Drawing.Size(25, 20);
             this.inp_add_buy_rate.TabIndex = 209;
