@@ -354,7 +354,7 @@ namespace PackageSellSystemTrading{
                 case 0:
                     searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM1;
                     if (searchFileFullPath == ""){
-                        mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857> 검색 조건식 설정 값이 없습니다.");
+                        mainForm.log("<t1857> 검색 조건식 설정 값이 없습니다.");
                         return false;
                     }
                     break;

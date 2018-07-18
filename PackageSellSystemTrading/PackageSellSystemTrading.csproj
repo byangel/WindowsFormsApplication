@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cs\log\ChartData.cs" />
+    <Compile Include="cs\real\Real_IJ.cs" />
     <Compile Include="cs\tr\CSPAT00600Mng.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00700.cs" />
     <Compile Include="cs\tr\Xing_LinkToHTS.cs" />

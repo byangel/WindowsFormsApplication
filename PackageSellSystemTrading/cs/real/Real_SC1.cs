@@ -65,7 +65,7 @@ namespace PackageSellSystemTrading{
             //13                   취소확인
             //14                   거부
            
-            mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><Real:" + realSc1Vo.Isunm + ">" + realSc1Vo.execqty + "주 체결<ordtrxptncode:" + realSc1Vo.ordtrxptncode + ">");
+            mainForm.log("Real:" + realSc1Vo.Isunm + ">" + realSc1Vo.execqty + "주 체결<ordtrxptncode:" + realSc1Vo.ordtrxptncode + ">");
 
             //int tmpindex = mainForm.tradingHistory.getTradingHistoryVoList().Find("ordno", realSc1Vo.ordno);
             var items = from item in mainForm.tradingHistory.getTradingHistoryDt().AsEnumerable()

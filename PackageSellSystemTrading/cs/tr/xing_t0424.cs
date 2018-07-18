@@ -118,18 +118,7 @@ namespace PackageSellSystemTrading {
                     tmpT0424Vo.tax      = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
                     tmpT0424Vo.jonggb   =  base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목시장구분
 
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_expcode"    ].Value = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_hname"      ].Value = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"    ].Value = base.GetFieldData("t0424OutBlock1", "mdposqt", i); //매도가능 수량
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["price"        ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "price", i)); //현재가
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["appamt"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt", i)); //평가금액
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["dtsunik"      ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["c_sunikrt"    ].Value = base.GetFieldData("t0424OutBlock1", "sunikrt", i); //수익율
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["pamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["mamt"         ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["fee"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["tax"          ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
-                    //mainForm.grd_t0424.Rows[findIndex].Cells["jonggb"       ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "jonggb", i)); //종목시장구분
+                   
                     
                     //주문여부 = mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value.ToString();
                     주문여부 = tmpT0424Vo.orderAt;

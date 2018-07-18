@@ -39,17 +39,17 @@ namespace PackageSellSystemTrading{
         public HistoryForm historyForm;        //매매이력 폼
 
         public Real_SC1 real_SC1; //실시간 체결
-        public Real_S3  real_S3;  //코스피 체결체결
-        public Real_K3  real_K3;  //코스닥 체결체결
+        public Real_S3  real_S3;  //코스피 실시가 종목 현재가
+        public Real_K3  real_K3;  //코스닥 실시가 종목 현재가
         public Real_jif real_jif; //장 정보
-
+        public Real_IJ real_IJ; //지수 정보
         public TradingHistory tradingHistory; //데이타로그
         public ChartData chartData;//차트데이타
 
         Xing_LinkToHTS xing_LinkToHTS;
         
-        public Boolean buyAt;
-        public Boolean sellAt;
+        //public Boolean buyAt;
+        //public Boolean sellAt;
 
         public String account; //계좌번호
         public String accountPw;//계좌 비밀번호
@@ -123,6 +123,9 @@ namespace PackageSellSystemTrading{
                 this.real_jif.mainForm = this;
                 this.CSPAT00600Mng = new CSPAT00600Mng(this);
 
+                this.real_IJ = new Real_IJ(); //지수정보
+                this.real_IJ.mainForm = this;
+
                 this.xing_LinkToHTS = new Xing_LinkToHTS();
                 //계좌잔고 그리드 초기화
                 grd_t0424.DataSource = this.xing_t0424.getT0424VoList();
@@ -185,8 +188,8 @@ namespace PackageSellSystemTrading{
                 this.log(this.real_jif.mlabel);
             } catch (Exception ex)
             {
-                Log.WriteLine("t0424 : " + ex.Message);
-                Log.WriteLine("t0424 : " + ex.StackTrace);
+                this.log("t0424 : " + ex.Message);
+                this.log("t0424 : " + ex.StackTrace);
             }
 
 
@@ -251,9 +254,7 @@ namespace PackageSellSystemTrading{
             {
                 if (((Button)sender).Text == "시작")
                 {
-                    tradingStop();
-                    ((Button)sender).Text = "종료";
-
+                    this.tradingStop();
                 } else {
                     if (this.exXASessionClass.IsConnected()) {
                         //계좌번호까지있어야 로그인으로 간주하자.
@@ -261,8 +262,7 @@ namespace PackageSellSystemTrading{
                         {
                             MessageBox.Show("로그인 후 서비스 이용가능합니다.");
                         } else {
-                            tradingStart();
-                            ((Button)sender).Text = "시작";
+                            this.tradingStart();
                         }
                     } else {
                         MessageBox.Show("서버접속정보가 없습니다.");
@@ -272,8 +272,8 @@ namespace PackageSellSystemTrading{
             }
             catch (Exception ex)
             {
-                Log.WriteLine("mainForm : " + ex.Message);
-                Log.WriteLine("mainForm : " + ex.StackTrace);
+                this.log("mainForm : " + ex.Message);
+                this.log("mainForm : " + ex.StackTrace);
             }
         }
        
@@ -283,11 +283,10 @@ namespace PackageSellSystemTrading{
             //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
             this.timer_t1857.Start();//진입검색 타이머
             this.timer_common.Start();//계좌 및 미체결 검색 타이머
-            this.Timer0167.Start();//시간검색
-            
-            Log.WriteLine("Trading Start..!!");
-            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><Trading Start>");
-            
+            //this.Timer0167.Start();//시간검색
+
+            this.btn_start.Text = "시작";
+            this.log("<Trading Start> ");
         }
 
         //자동매매 정지
@@ -295,18 +294,13 @@ namespace PackageSellSystemTrading{
         {
             this.timer_t1857.Stop();//진입검색 타이머
             this.timer_common.Stop();//계좌 및 미체결 검색 타이머
-            this.Timer0167.Stop();//시간검색
-            
-            Log.WriteLine("Trading Stop..!!");
-            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><Trading Stop>");
+            //this.Timer0167.Stop();//시간검색
+
+            this.btn_start.Text = "종료";
+            this.log("<Trading Stop> ");
         }
 
-        //정지버튼 클릭 이벤트
-        private void btn_stop_Click(object sender, EventArgs e)
-        {
-            this.tradingStop();
-        }
-        
+       
         //체결 그리드 row 번호 출력
         private void grd_t0425_chegb1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
@@ -390,9 +384,7 @@ namespace PackageSellSystemTrading{
                             xing_CSPAT00600.call_request(종목명, 종목코드, "매도", 수량, 현재가, 매수전략명, 평균단가, "선택매도");
                             t0424Vo.orderAt = "Y";//일괄 매도시 주문여부를 true로 설정
                             
-                            Log.WriteLine("<main:선택매도> " + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전략명 + ">");
-                            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><main:선택매도>" + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전략명 + ">");
-                        
+                            this.log("<main:선택매도> " + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전략명 + ">");
                     }else{
                         //이미 매도주문 실행 종목
                         MessageBox.Show(종목명 + "이미 매도주문이 이루어 졌습니다.");
@@ -508,10 +500,11 @@ namespace PackageSellSystemTrading{
         //서버시간 호출 타이머
         private void Timer0167_Tick(object sender, EventArgs e)
         {
+
             if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
             {
-                //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
-                Log.WriteLine("Timer0167_Tick:: 미접속");
+                this.tradingStop();
+                this.timerLogin.Start();
 
             } else{
                 xing_t0167.call_request();
@@ -525,8 +518,8 @@ namespace PackageSellSystemTrading{
         {
             if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
             {
-                this.tradingStop();
-                this.timerLogin.Start();
+                //this.tradingStop();
+                //this.timerLogin.Start();
                 
             }else{
 
@@ -553,7 +546,7 @@ namespace PackageSellSystemTrading{
 
         private void timerLogin_Tick(object sender, EventArgs e)
         {
-            Log.WriteLine("로그인타이머 호출");
+            this.log("로그인타이머 호출");
             Boolean b = exXASessionClass.fnLogin();
         }
 
@@ -831,8 +824,8 @@ namespace PackageSellSystemTrading{
             }
             catch (Exception ex)
             {
-                Log.WriteLine("t0424 : " + ex.Message);
-                Log.WriteLine("t0424 : " + ex.StackTrace);
+                this.log("t0424 : " + ex.Message);
+                this.log("t0424 : " + ex.StackTrace);
             }
 
         }//grd_t0424_CellValueChanged END
@@ -993,7 +986,7 @@ namespace PackageSellSystemTrading{
                 if (최대수익율 == "∞")
                 {
                     this.tradingHistory.maxHisRtUpdate(종목코드, 수익율.ToString());
-                    this.insertListBoxLog("∞ mainForm line 1020");
+                    this.log("∞ mainForm line 1020");
                 }
 
                 if (수익율 > double.Parse(최대수익율))
@@ -1095,7 +1088,7 @@ namespace PackageSellSystemTrading{
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                Log.WriteLine("mainForm : " + ex.Message);
+                this.log("mainForm : " + ex.Message);
             }
         }
 
@@ -1105,8 +1098,7 @@ namespace PackageSellSystemTrading{
         {
             if (this.exXASessionClass.loginAt == false || exXASessionClass.IsConnected() != true)
             {
-                //타이머중 접속 끊겼을경우 common timer 가 대표료 login 호출한다.
-                Log.WriteLine("timer_t1833Exclude_Tick:: 미접속");
+                this.log("timer_t1857Exclude_Tick:: 미접속");
             }  else {
                 if (searchCnt == 0) {
                     //매수여부를 확인후 조건검색 실행여부를 판단한다.
@@ -1120,10 +1112,10 @@ namespace PackageSellSystemTrading{
         }
 
         public void log(String msg)
-        {  
+        {
             Log.WriteLine(msg);
-            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">"+msg);
+            this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">" + msg);
         }
     }//end class
-}//end namespace
+    }//end namespace
 

@@ -240,6 +240,10 @@
             this.누적수익금 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label_ks = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label_kd = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0424)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_t0425)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_chart)).BeginInit();
@@ -318,7 +322,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(477, 87);
+            this.label5.Location = new System.Drawing.Point(528, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 11);
             this.label5.TabIndex = 16;
@@ -340,7 +344,7 @@
             // h_totalCount
             // 
             this.h_totalCount.AutoSize = true;
-            this.h_totalCount.Location = new System.Drawing.Point(530, 87);
+            this.h_totalCount.Location = new System.Drawing.Point(581, 87);
             this.h_totalCount.Name = "h_totalCount";
             this.h_totalCount.Size = new System.Drawing.Size(11, 11);
             this.h_totalCount.TabIndex = 38;
@@ -348,7 +352,7 @@
             // 
             // input_t0424_log
             // 
-            this.input_t0424_log.Location = new System.Drawing.Point(479, 542);
+            this.input_t0424_log.Location = new System.Drawing.Point(530, 541);
             this.input_t0424_log.Name = "input_t0424_log";
             this.input_t0424_log.Size = new System.Drawing.Size(795, 20);
             this.input_t0424_log.TabIndex = 39;
@@ -400,7 +404,7 @@
             dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grd_t0424.DefaultCellStyle = dataGridViewCellStyle15;
-            this.grd_t0424.Location = new System.Drawing.Point(479, 100);
+            this.grd_t0424.Location = new System.Drawing.Point(530, 101);
             this.grd_t0424.Name = "grd_t0424";
             dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
@@ -647,7 +651,7 @@
             // 
             this.input_t0425_log.Location = new System.Drawing.Point(2, 541);
             this.input_t0425_log.Name = "input_t0425_log";
-            this.input_t0425_log.Size = new System.Drawing.Size(471, 20);
+            this.input_t0425_log.Size = new System.Drawing.Size(522, 20);
             this.input_t0425_log.TabIndex = 54;
             // 
             // btn_start
@@ -662,7 +666,7 @@
             // 
             // Timer0167
             // 
-            this.Timer0167.Interval = 1000;
+            this.Timer0167.Interval = 1500;
             this.Timer0167.Tick += new System.EventHandler(this.Timer0167_Tick);
             // 
             // label8
@@ -726,7 +730,7 @@
             dataGridViewCellStyle31.NullValue = null;
             this.grd_t0425.RowsDefaultCellStyle = dataGridViewCellStyle31;
             this.grd_t0425.RowTemplate.Height = 23;
-            this.grd_t0425.Size = new System.Drawing.Size(469, 196);
+            this.grd_t0425.Size = new System.Drawing.Size(520, 196);
             this.grd_t0425.TabIndex = 68;
             this.grd_t0425.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellClick);
             this.grd_t0425.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t0425_CellDoubleClick);
@@ -966,7 +970,7 @@
             // 
             // btn_checkSell
             // 
-            this.btn_checkSell.Location = new System.Drawing.Point(1211, 78);
+            this.btn_checkSell.Location = new System.Drawing.Point(1262, 79);
             this.btn_checkSell.Name = "btn_checkSell";
             this.btn_checkSell.Size = new System.Drawing.Size(64, 20);
             this.btn_checkSell.TabIndex = 88;
@@ -980,13 +984,13 @@
             this.listBox_log.ItemHeight = 11;
             this.listBox_log.Location = new System.Drawing.Point(4, 593);
             this.listBox_log.Name = "listBox_log";
-            this.listBox_log.Size = new System.Drawing.Size(469, 191);
+            this.listBox_log.Size = new System.Drawing.Size(520, 191);
             this.listBox_log.TabIndex = 90;
             // 
             // input_searchText
             // 
             this.input_searchText.Font = new System.Drawing.Font("굴림", 8F);
-            this.input_searchText.Location = new System.Drawing.Point(950, 78);
+            this.input_searchText.Location = new System.Drawing.Point(1001, 79);
             this.input_searchText.Name = "input_searchText";
             this.input_searchText.Size = new System.Drawing.Size(118, 20);
             this.input_searchText.TabIndex = 92;
@@ -995,7 +999,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(921, 83);
+            this.label7.Location = new System.Drawing.Point(972, 84);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(27, 11);
             this.label7.TabIndex = 93;
@@ -1009,7 +1013,7 @@
             // button2
             // 
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.button2.Location = new System.Drawing.Point(419, 571);
+            this.button2.Location = new System.Drawing.Point(441, 571);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(49, 20);
             this.button2.TabIndex = 105;
@@ -1107,7 +1111,7 @@
             dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grd_chart.DefaultCellStyle = dataGridViewCellStyle43;
-            this.grd_chart.Location = new System.Drawing.Point(847, 592);
+            this.grd_chart.Location = new System.Drawing.Point(898, 591);
             this.grd_chart.Name = "grd_chart";
             dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Control;
@@ -1305,7 +1309,7 @@
             dataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grd_t0424Excl.DefaultCellStyle = dataGridViewCellStyle50;
-            this.grd_t0424Excl.Location = new System.Drawing.Point(479, 592);
+            this.grd_t0424Excl.Location = new System.Drawing.Point(530, 591);
             this.grd_t0424Excl.Name = "grd_t0424Excl";
             dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle51.BackColor = System.Drawing.SystemColors.Control;
@@ -1380,7 +1384,7 @@
             // 
             // btn_exclWatch
             // 
-            this.btn_exclWatch.Location = new System.Drawing.Point(1143, 78);
+            this.btn_exclWatch.Location = new System.Drawing.Point(1194, 79);
             this.btn_exclWatch.Name = "btn_exclWatch";
             this.btn_exclWatch.Size = new System.Drawing.Size(62, 20);
             this.btn_exclWatch.TabIndex = 117;
@@ -1391,7 +1395,7 @@
             // btn_exclWatchRollback
             // 
             this.btn_exclWatchRollback.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_exclWatchRollback.Location = new System.Drawing.Point(751, 568);
+            this.btn_exclWatchRollback.Location = new System.Drawing.Point(802, 568);
             this.btn_exclWatchRollback.Name = "btn_exclWatchRollback";
             this.btn_exclWatchRollback.Size = new System.Drawing.Size(41, 22);
             this.btn_exclWatchRollback.TabIndex = 118;
@@ -1402,7 +1406,7 @@
             // btn_Capture
             // 
             this.btn_Capture.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_Capture.Location = new System.Drawing.Point(1214, 570);
+            this.btn_Capture.Location = new System.Drawing.Point(1264, 569);
             this.btn_Capture.Name = "btn_Capture";
             this.btn_Capture.Size = new System.Drawing.Size(61, 20);
             this.btn_Capture.TabIndex = 119;
@@ -1413,7 +1417,7 @@
             // btn_exclWatchSave
             // 
             this.btn_exclWatchSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_exclWatchSave.Location = new System.Drawing.Point(798, 568);
+            this.btn_exclWatchSave.Location = new System.Drawing.Point(849, 568);
             this.btn_exclWatchSave.Name = "btn_exclWatchSave";
             this.btn_exclWatchSave.Size = new System.Drawing.Size(41, 22);
             this.btn_exclWatchSave.TabIndex = 120;
@@ -1424,7 +1428,7 @@
             // btn_exclWatchSync
             // 
             this.btn_exclWatchSync.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_exclWatchSync.Location = new System.Drawing.Point(676, 568);
+            this.btn_exclWatchSync.Location = new System.Drawing.Point(727, 568);
             this.btn_exclWatchSync.Name = "btn_exclWatchSync";
             this.btn_exclWatchSync.Size = new System.Drawing.Size(68, 22);
             this.btn_exclWatchSync.TabIndex = 121;
@@ -1434,7 +1438,7 @@
             // 
             // btn_sync
             // 
-            this.btn_sync.Location = new System.Drawing.Point(1075, 78);
+            this.btn_sync.Location = new System.Drawing.Point(1126, 79);
             this.btn_sync.Name = "btn_sync";
             this.btn_sync.Size = new System.Drawing.Size(62, 20);
             this.btn_sync.TabIndex = 122;
@@ -1445,7 +1449,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(845, 576);
+            this.label20.Location = new System.Drawing.Point(896, 577);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(53, 11);
             this.label20.TabIndex = 123;
@@ -1479,7 +1483,7 @@
             this.grd_t1833_dt.RowHeadersWidth = 32;
             this.grd_t1833_dt.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.grd_t1833_dt.RowTemplate.Height = 23;
-            this.grd_t1833_dt.Size = new System.Drawing.Size(469, 190);
+            this.grd_t1833_dt.Size = new System.Drawing.Size(520, 190);
             this.grd_t1833_dt.TabIndex = 126;
             this.grd_t1833_dt.VirtualMode = true;
             this.grd_t1833_dt.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grd_t1833_dt_CellClick);
@@ -1659,11 +1663,11 @@
             this.실현손익,
             this.투자율,
             this.누적수익금});
-            this.grid_traidingInfo.Location = new System.Drawing.Point(397, 7);
+            this.grid_traidingInfo.Location = new System.Drawing.Point(530, 7);
             this.grid_traidingInfo.Name = "grid_traidingInfo";
             this.grid_traidingInfo.RowHeadersVisible = false;
             this.grid_traidingInfo.RowTemplate.Height = 23;
-            this.grid_traidingInfo.Size = new System.Drawing.Size(877, 62);
+            this.grid_traidingInfo.Size = new System.Drawing.Size(795, 62);
             this.grid_traidingInfo.TabIndex = 132;
             // 
             // 날자
@@ -1682,6 +1686,7 @@
             this.예수금.DefaultCellStyle = dataGridViewCellStyle61;
             this.예수금.HeaderText = "예수금";
             this.예수금.Name = "예수금";
+            this.예수금.Visible = false;
             this.예수금.Width = 80;
             // 
             // 예수금D2
@@ -1786,7 +1791,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(520, 579);
+            this.label9.Location = new System.Drawing.Point(530, 578);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(71, 11);
             this.label9.TabIndex = 133;
@@ -1801,11 +1806,51 @@
             this.label6.TabIndex = 18;
             this.label6.Text = "접속서버";
             // 
+            // label_ks
+            // 
+            this.label_ks.AutoSize = true;
+            this.label_ks.Location = new System.Drawing.Point(435, 12);
+            this.label_ks.Name = "label_ks";
+            this.label_ks.Size = new System.Drawing.Size(11, 11);
+            this.label_ks.TabIndex = 135;
+            this.label_ks.Text = "0";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(392, 12);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(38, 11);
+            this.label10.TabIndex = 134;
+            this.label10.Text = "코스피";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(392, 31);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(38, 11);
+            this.label11.TabIndex = 136;
+            this.label11.Text = "코스닥";
+            // 
+            // label_kd
+            // 
+            this.label_kd.AutoSize = true;
+            this.label_kd.Location = new System.Drawing.Point(435, 31);
+            this.label_kd.Name = "label_kd";
+            this.label_kd.Size = new System.Drawing.Size(11, 11);
+            this.label_kd.TabIndex = 137;
+            this.label_kd.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1286, 796);
+            this.ClientSize = new System.Drawing.Size(1330, 796);
+            this.Controls.Add(this.label_kd);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label_ks);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.grid_traidingInfo);
             this.Controls.Add(this.label27);
@@ -1944,17 +1989,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn e_targClearPrc;
         private System.Windows.Forms.DataGridViewTextBoxColumn e_exclWatchAt;
         private System.Windows.Forms.DataGridView grid_traidingInfo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 날자;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 예수금;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 예수금D2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 예탁자산총액;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 매입금액합;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 매입평가금액합;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 손익율합;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 손익금합;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 실현손익;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 투자율;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 누적수익금;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridViewTextBoxColumn 종목코드;
@@ -2012,6 +2046,21 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn useYn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ordermtd;
         private System.Windows.Forms.DataGridViewTextBoxColumn shSunik;
+        public System.Windows.Forms.Label label_ks;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.Label label_kd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 날자;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 예수금;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 예수금D2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 예탁자산총액;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 매입금액합;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 매입평가금액합;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 손익율합;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 손익금합;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 실현손익;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 투자율;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 누적수익금;
     }
 }
 

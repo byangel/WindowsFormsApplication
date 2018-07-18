@@ -56,11 +56,12 @@ namespace PackageSellSystemTrading
                     if (jstatus == "41")
                     {
                         mainForm.dayCapture();
+                        mainForm.tradingStop();
                     }
                     if (jstatus == "23")
                     {
                         //장개시1분전
-                        ;
+                        mainForm.tradingStart();
                     }
                 }
 			}
