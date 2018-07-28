@@ -136,14 +136,15 @@ namespace PackageSellSystemTrading{
                 //MessageBox.Show("dd");
                 ;
             } else if (nMessageCode == "03563") {
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857:03563>정규장 시간이 아닙니다");
+                mainForm.log("<t1857:03563>정규장 시간이 아닙니다");
             } else if (nMessageCode== "  -21") {
                 
             } else {
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + "><t1857:" + nMessageCode + ">" + szMessage);
+                mainForm.log("<t1857:" + nMessageCode + ">" + szMessage);
             }
         }
 
+       
         private Boolean SearchBuy()
         {
             //1.검색코드 설정값
@@ -161,25 +162,118 @@ namespace PackageSellSystemTrading{
 
             //2.현재 시간
             TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
+            //xingAPI의 경우 t8430, t8436을 이용하시어 전 종목 조회 후 해당 종목의 구분값을 확인하셔야 합니다.
+            //코스피 코스닥 옵션 매수가능 -업황지수가 오션설정값 이하이면 매수금지한다.
+            Boolean kosBuyAt = true;
+            Boolean kodBuyAt = true;
+
+            //코스피 매수가능여부
+            if (Properties.Settings.Default.KOS_AT)//코스닥여부
+            {
+                //전일대비
+                if (Properties.Settings.Default.KOS_YESTERDAY_AT)
+                {
+                    Double kosYesterdayVal   = Double.Parse(Properties.Settings.Default.KOS_YESTERDAY_VAL);//전일대비 등락율 설정값
+                    String kosYesterdayValSe = Properties.Settings.Default.KOS_YESTERDAY_VAL_SE;
+                    if (kosYesterdayValSe.Equals("%")){
+                        Double ks_drate  = mainForm.real_IJ.ks_drate; //등락율
+                        if (ks_drate  < kosYesterdayVal) {
+                            kosBuyAt = false;
+                        }
+                    }
+                    if (kosYesterdayValSe.Equals("pt")){
+                        Double ks_change = mainForm.real_IJ.ks_change;//등락 포인트
+                        if (ks_change < kosYesterdayVal){
+                            kosBuyAt = false;
+                        }
+                    }
+                }
+                //시가대비 
+                if (Properties.Settings.Default.KOS_START_AT){
+                    Double kosStartVal   = Double.Parse(Properties.Settings.Default.KOS_START_VAL);//전일대비 등락율 설정값
+                    String kosStartValSe = Properties.Settings.Default.KOS_START_VAL_SE;
+                    if (kosStartValSe.Equals("%")) {
+                        Double ks_drate = mainForm.real_IJ.ks_drate; //등락율
+                        if (ks_drate < kosStartVal) {
+                            kosBuyAt = false;
+                        }
+                    }
+                    if (kosStartValSe.Equals("pt")) {
+                        Double ks_change = mainForm.real_IJ.ks_change;//등락 포인트
+                        if (ks_change < kosStartVal) {
+                            kosBuyAt = false;
+                        }
+                    }
+                }
+            }
+
+            //코스닥 매수가능여부
+            if (Properties.Settings.Default.KOD_AT)
+            {
+                //전일대비
+                if (Properties.Settings.Default.KOS_YESTERDAY_AT)
+                {
+                    Double kodYesterdayVal = Double.Parse(Properties.Settings.Default.KOD_YESTERDAY_VAL);//전일대비 등락율 설정값
+                    String kodYesterdayValSe = Properties.Settings.Default.KOD_YESTERDAY_VAL_SE;
+                    if (kodYesterdayValSe.Equals("%"))
+                    {
+                        Double kd_drate = mainForm.real_IJ.kd_drate; //등락율
+                        if (kd_drate < kodYesterdayVal)
+                        {
+                            kodBuyAt = false;
+                        }
+                    }
+                    if (kodYesterdayValSe.Equals("pt"))
+                    {
+                        Double kd_change = mainForm.real_IJ.kd_change;//등락 포인트
+                        if (kd_change < kodYesterdayVal)
+                        {
+                            kodBuyAt = false;
+                        }
+                    }
+                }
+                //시가대비 
+                if (Properties.Settings.Default.KOS_START_AT)
+                {
+                    Double kodStartVal = Double.Parse(Properties.Settings.Default.KOD_START_VAL);//전일대비 등락율 설정값
+                    String kodStartValSe = Properties.Settings.Default.KOD_START_VAL_SE;
+                    if (kodStartValSe.Equals("%"))
+                    {
+                        Double kd_drate = mainForm.real_IJ.kd_drate; //등락율
+                        if (kd_drate < kodStartVal)
+                        {
+                            kodBuyAt = false;
+                        }
+                    }
+                    if (kodStartValSe.Equals("pt"))
+                    {
+                        Double kd_change = mainForm.real_IJ.kd_change;//등락 포인트
+                        if (kd_change < kodStartVal)
+                        {
+                            kodBuyAt = false;
+                        }
+                    }
+                }
+            }
 
             //3.검색목록 매수 테스트
             int rowIndex = 0;
             foreach (DataRow itemRow in this.buyListDt.AsEnumerable())
             {
-                BuyTest(itemRow, configSearchCode, nowTimeSpan, rowIndex);
+                BuyTest(itemRow, configSearchCode, nowTimeSpan, rowIndex, kosBuyAt, kodBuyAt);
                 rowIndex++;
             }
             return true;
         }
 
         //매수 테스트
-        private Boolean BuyTest(DataRow itemRow, int configSearchCode, TimeSpan nowTimeSpan,int rowIndex)
+        private Boolean BuyTest(DataRow itemRow, int configSearchCode, TimeSpan nowTimeSpan,int rowIndex ,Boolean kosBuyAt, Boolean kodBuyAt)
         {
             try
             {
                 String shcode     = itemRow["종목코드"].ToString(); //종목코드
-                String hname      = itemRow["종목명"].ToString(); //종목명
-                String close      = itemRow["현재가"].ToString(); //현재가
+                String hname      = itemRow["종목명"  ].ToString(); //종목명
+                String close      = itemRow["현재가"  ].ToString(); //현재가
                 String searchNm   = itemRow["검색조건"].ToString(); //검색조건
                 String searchCode = itemRow["검색코드"].ToString(); //검색코드
 
@@ -260,7 +354,7 @@ namespace PackageSellSystemTrading{
                     //-매수신호시마다 추가매수 여부 
                     if (sunikrt > double.Parse(Properties.Settings.Default.ADD_BUY_SIGNAL_RATE))
                     {
-                        //mainForm.insertListBoxLog("<" + mainForm.label_time.Text.Substring(0, 5) + "><추가매수제한><" + searchNm + "><t1857:" + hname + ">");
+                       
                         itemRow["상태"] = "하락비율미달 추가매수x";
                         return false;
                     }
@@ -384,7 +478,7 @@ namespace PackageSellSystemTrading{
             {
                 nSuccess = base.RequestService("t1857", ""); ;
                 Thread.Sleep(250);
-                //mainForm.insertListBoxLog(nSuccess.ToString());
+               
             }
 
             

@@ -534,11 +534,11 @@ namespace PackageSellSystemTrading{
                 
                 //4.매도/매수 카운트
                 var varT0425VoList = from item in this.xing_t0425.getT0425VoList()
-                                     where item.medosu == "매도" && item.cancelOrdAt != "Y"
+                                     where item.medosu == "매도"  && item.cheqty > 0
                                      select item;
                 this.label_sellCnt.Text = varT0425VoList.Count().ToString();
                 varT0425VoList = from item in this.xing_t0425.getT0425VoList()
-                                 where item.medosu == "매수" && item.cancelOrdAt != "Y"
+                                 where item.medosu == "매수" && item.cheqty > 0
                                  select item;
                 this.label_buyCnt.Text = varT0425VoList.Count().ToString(); 
             }
@@ -792,6 +792,7 @@ namespace PackageSellSystemTrading{
                                 //MessageBox.Show(grd_t0424.Rows[e.RowIndex].Cells["price"].Value.ToString());
                                 //현재 가격이 변경되면 
                                 EBindingList<T0424Vo> t0424VoList = this.xing_t0424.getT0424VoList();
+                                String 종목명 = t0424VoList.ElementAt(e.RowIndex).hname;
                                 Double 현재가 = t0424VoList.ElementAt(e.RowIndex).price;
                                 Double 평균단가 = t0424VoList.ElementAt(e.RowIndex).pamt;
                                 Double 매도가능 = t0424VoList.ElementAt(e.RowIndex).mdposqt;
@@ -801,9 +802,9 @@ namespace PackageSellSystemTrading{
                                 Double 손익금 = 평가금액 - 매입금액;
                                 Double 수익율 = this.xing_t0424.getSunikrt(평가금액, 매입금액);
                                 String 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value.ToString();
-                                if (종목코드== "220630")
+                                if (종목명 == "피엔티")
                                 {
-                                    String testc = "";
+                                    String tessst = "3";
                                 }
 
                                 //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금

@@ -108,11 +108,8 @@ namespace PackageSellSystemTrading {
                     msg = szCode + " :: " + szMsg;
                 }
                 
-             //MessageBox.Show(msg);
-                Log.WriteLine("ExXASession :: " + msg);
-                mainForm.insertListBoxLog(msg);
-  
-              
+                mainForm.log("ExXASession :: " + msg);
+                
             }
 
             

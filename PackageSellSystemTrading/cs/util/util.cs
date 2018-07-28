@@ -393,6 +393,16 @@ namespace PackageSellSystemTrading
             return returnValue;
         }
 
+        //비율계산
+        public static Double getRate(Double val0, Double val1)
+        {
+            Double returnValue = 0;
+            
+            returnValue = Math.Round(((val0 / val1) * 100), 2);
+           
+            return returnValue;
+        }
+
         //옵션에서 사용 파일선택 콤보 박스에서 파일명을 추출하여 key,value 로 추가한다.--나중에 배열 처리도 추가해야한다.
         public static void setComBoByKeyValue(ComboBox combo, String fileFullNm)
         {

@@ -47,10 +47,9 @@ namespace PackageSellSystemTrading{
             
                 String IsuNm = base.GetFieldData("CSPAT00700OutBlock1", "IsuNm", 0);//종목명 -안넘어온다.
 
-                mainForm.insertListBoxLog("<CSPAT00700::정정주문완료>" + IsuNm + "<주문번호:" + OrdNo + ">");
-                Log.WriteLine("<CSPAT00700::정정주문완료>" + IsuNm + "<주문번호:" + OrdNo + ">");
-                
-
+               
+                mainForm.log("<CSPAT00700::정정주문완료>" + IsuNm + "<주문번호:" + OrdNo + ">");
+          
                 //정정주문
                 if (OrgOrdNo != "")
                 {

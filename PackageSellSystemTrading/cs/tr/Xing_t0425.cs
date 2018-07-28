@@ -450,12 +450,10 @@ namespace PackageSellSystemTrading {
             {
                 items.First()["cancelOrdAt"] = "Y";
                 mainForm.tradingHistory.cancelOrdAtUpdate(items.First());//매도주문 여부 상태 업데이트
-
-                Log.WriteLine("<t0425:"+ 매매구분+ changeSe+"><" + 종목명 + ">");
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">< t0425:"+ 매매구분+ changeSe+" >< " + 종목명 + " > ");
+                
+                mainForm.log("< t0425:"+ 매매구분+ changeSe+" >< " + 종목명 + " > ");
             } else {
-                Log.WriteLine("<t0425:" + 매매구분 + changeSe + "><" + 종목명 + "> DB 매핑정보 없음.");
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">< t0425:" + 매매구분 + changeSe + " >< " + 종목명 + " > DB 매핑정보 없음.");
+                mainForm.log("< t0425:" + 매매구분 + changeSe + " >< " + 종목명 + " > DB 매핑정보 없음.");
             }
         }
 

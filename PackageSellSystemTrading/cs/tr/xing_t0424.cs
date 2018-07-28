@@ -370,7 +370,7 @@ namespace PackageSellSystemTrading {
                                 상세매매구분 = "손절";
                             }
                         }
-                        if (종목코드 == "005070")
+                        if (종목명 == "피엔티")
                         {
                             String tessst = "3";
                         }

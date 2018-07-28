@@ -139,7 +139,7 @@ namespace PackageSellSystemTrading{
             if (nMessageCode == "00000") {//정상동작일때는 메세지이벤트헨들러가 아예 호출이 안되는것같다
                 ;
             } else { 
-                mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857Stop:" + nMessageCode + ">" + szMessage);
+                mainForm.log("<t1857Stop:" + nMessageCode + ">" + szMessage);
             }
             
         }
@@ -179,8 +179,7 @@ namespace PackageSellSystemTrading{
                 }
 
             } catch (Exception ex){
-                mainForm.insertListBoxLog("t0424 : " + ex.Message);
-                Log.WriteLine("t0424 : " + ex.Message);
+                mainForm.log("t0424 : " + ex.Message);
                 Log.WriteLine("t0424 : " + ex.StackTrace);
             }
             return true;
@@ -286,13 +285,9 @@ namespace PackageSellSystemTrading{
                 
                 nSuccess = base.RequestService("t1857", "");
                 Thread.Sleep(250);
-                //mainForm.insertListBoxLog(nSuccess.ToString());
+              
             }
-            //호출 성공 여부
-            //if (nSuccess < 0){
-            //    mainForm.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t1857:" + nSuccess.ToString() + "> 매도 검색식 파일을 찾을 수 없습니다.");
-            //    return false;
-            //}
+           
             return true;
         }
 

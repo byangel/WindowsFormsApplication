@@ -58,11 +58,19 @@ namespace PackageSellSystemTrading
                         mainForm.dayCapture();
                         mainForm.tradingStop();
                     }
-                    if (jstatus == "23")
+
+                    if (jstatus == "11")
+                    {
+                        //장전 동시호가 개시
+                        mainForm.tradingStart();
+                    }
+
+                    if (jstatus == "23" && mainForm.btn_start.Text == "종료")
                     {
                         //장개시1분전
                         mainForm.tradingStart();
                     }
+                    
                 }
 			}
 			catch (Exception ex)

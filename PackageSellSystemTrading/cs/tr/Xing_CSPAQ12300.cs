@@ -81,7 +81,7 @@ namespace PackageSellSystemTrading{
 
                     //필요없는 데이타 삭제.--2018-03-08 통계를 위해 주석처리한다.
                     //int deletedCnt= mainForm.tradingHistory.initDelete();
-                    //mainForm.insertListBoxLog("CSPAQ12300:" + deletedCnt + ":삭제(초기화)");
+                 
 
                     //로그인 완료시(계좌선택후) 미리 호출할 필료가 있는것들
                     //매수금지종목 조회 --데이타보장을 위해 타이머를 시작하지만 최초 매수금지목록을 확보후 타이머를 시작한다.
@@ -96,7 +96,7 @@ namespace PackageSellSystemTrading{
                     mainForm.xing_t0424.call_request(this.account, this.accountPw);//잔고 데이타
                     mainForm.xing_t0425.call_request(this.account, this.accountPw);//매매이력 데이타
                     mainForm.xing_CSPAQ12200.call_request(this.account, this.accountPw);//계좌정보
-                    mainForm.xing_t0167.call_request();//시간데이타
+                    
 
 
                     //타이머 시작 --여기서 타이머 시작해주면 타이머 스톱해줄일은 없어진다.그리고  잔고정보,잔고목록,매매이력 등등을 호출안해줘도 된다.
@@ -122,20 +122,24 @@ namespace PackageSellSystemTrading{
                     //계좌번호와 페스워드가 인증되었으면 계좌번호선택폼을 닫아준다.
                     accountForm.Close();
 
-                    //트레이딩 시작
-                    mainForm.tradingStart();
+                    //트레이딩 시작 --실시간 장정보 받았을때 실행 시켜주기위해 주석.
+                    //mainForm.tradingStart();
 
-                    Log.WriteLine("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
+                    //시간은 트레이딩 시작 종료 상관없이 프로그램시작시 무조건 실행
+                    mainForm.Timer0167.Start();//시간검색
+                    //mainForm.xing_t0167.call_request();//시간데이타
 
+                    //Log.WriteLine("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
+                    mainForm.log("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
                 } else{
                     MessageBox.Show("CSPAQ12300 :: " + nMessageCode + " :: " + szMessage);
-                    Log.WriteLine("CSPAQ12300:: 예외 발생:" + nMessageCode + " :: " + szMessage);
+                    mainForm.log("CSPAQ12300:: 예외 발생:" + nMessageCode + " :: " + szMessage);
                 }
                 
             }
             catch (Exception ex)
             {
-                Log.WriteLine("t0424 : " + ex.Message);
+                mainForm.log("CSPAQ12300"+ex.Message);
                 Log.WriteLine("t0424 : " + ex.StackTrace);
             }
             completeAt = true;

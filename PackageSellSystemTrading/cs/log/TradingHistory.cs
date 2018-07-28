@@ -235,7 +235,8 @@ namespace PackageSellSystemTrading
             }
             catch (Exception e)
             {
-                mainForm.insertListBoxLog(e.Message);
+                mainForm.log(e.Message);
+                Log.WriteLine("t0424 : " + e.StackTrace);
             }
             return result;
         }
