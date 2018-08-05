@@ -221,11 +221,11 @@
     <Setting Name="ADD_BUY_SEARCH_NM" Description="추가매수 조건검색 이름" Type="System.String" Scope="User">
       <Value Profile="(Default)">선택</Value>
     </Setting>
-    <Setting Name="ADD_BUY_SEARCH_TIME_FROM" Description="추가매수 조건검색 시작시간" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2018-06-25 오전 9:00</Value>
+    <Setting Name="ADD_BUY_SEARCH_TIME_FROM" Description="추가매수 조건검색 시작시간" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 09:00:00</Value>
     </Setting>
-    <Setting Name="ADD_BUY_SEARCH_TIME_TO" Description="추가매수 조건검색 종료시간" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2018-06-25 오후 3:20</Value>
+    <Setting Name="ADD_BUY_SEARCH_TIME_TO" Description="추가매수 조건검색 종료시간" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 15:20:00</Value>
     </Setting>
     <Setting Name="SEARCH_SERVER_AT" Description="서버 조건식 검색 여부" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

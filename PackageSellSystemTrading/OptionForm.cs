@@ -200,28 +200,25 @@ namespace PackageSellSystemTrading
             this.ADD_BUY_RATE           = inp_add_buy_rate.Text;			                    //추가매수 하락 비율
             this.ADD_BUY_AMT            = inp_add_buy_amt.Text;		                            //추가매수 금액(만원)
 
-            this.ADD_BUY_SEARCH_AT      = cbx_add_buy_search_at.Checked;		                //추가매수 조건검색 여부
-            this.ADD_BUY_SEARCH_NM      = inp_add_buy_search_nm.Text;		                    //추가매수 조건검색 이름
+            this.ADD_BUY_SEARCH_AT        = cbx_add_buy_search_at.Checked;		                //추가매수 조건검색 여부
+            this.ADD_BUY_SEARCH_NM        = sel_add_buy_search_nm.Text;		                    //추가매수 조건검색 이름
             this.ADD_BUY_SEARCH_TIME_FROM = inp_add_buy_search_time_from.Value;	    //추가매수 조건검색 시작시간
-            this.ADD_BUY_SEARCH_TIME_TO = inp_add_buy_search_time_to.Value;          //추가매수 조건검색 종료시간
+            this.ADD_BUY_SEARCH_TIME_TO   = inp_add_buy_search_time_to.Value;          //추가매수 조건검색 종료시간
 
             
             //기본설정
             cbx_sell_to_re_buy_at.Checked       = Properties.Settings.Default.SELL_TO_RE_BUY_AT;            //매도종목 재매수 허용
             cbx_not_money_buy_at.Checked        = Properties.Settings.Default.NOT_MONEY_BUY_AT;           	//미수 금지 여부
-
-
+            
             cbx_max_funds_limited_at.Checked    = Properties.Settings.Default.MAX_FUNDS_LIMITED_AT;       	//최대 운영자금 제한 여부 
             inp_max_funds_limited_amt.Text      = Properties.Settings.Default.MAX_FUNDS_LIMITED_AMT;      	//최대 운영자금 금액(만원)
-
-
+            
             cbx_base_money_buy_at.Checked       = Properties.Settings.Default.BASE_MONEY_BUY_AT;          	//자본금대비 매수 제한 여부
             inp_base_money_buy_rate.Text        = Properties.Settings.Default.BASE_MONEY_BUY_RATE;        	//자본금대비 매수 제한 비율
             
             inp_buy_batting_amt.Text            = Properties.Settings.Default.BUY_BATTING_AMT;            	//1회매수금액(만워)
             inp_max_buy_count.Text              = Properties.Settings.Default.MAX_BUY_COUNT;              	//최대 매수 가능 종목수
-
-
+            
             cbx_kos_at.Checked                  = Properties.Settings.Default.KOS_AT;                     	//코스피 여부
             cbx_kos_yesterday_at.Checked        = Properties.Settings.Default.KOS_YESTERDAY_AT;           	//코스피 전일대비 여부
             inp_kos_yesterday_val.Text          = Properties.Settings.Default.KOS_YESTERDAY_VAL;            //코스피 전일대비 값
@@ -253,8 +250,7 @@ namespace PackageSellSystemTrading
             sel_buy_ho_change_se.Text           = Properties.Settings.Default.BUY_HO_CHANGE_SE;           	//매수 호가 정정 구분
             inp_buy_time_from.Value             = Properties.Settings.Default.BUY_TIME_FROM;              	//매수 동작 시간 FROM
             inp_buy_time_to.Value               = Properties.Settings.Default.BUY_TIME_TO;                  //매수 동작 시간 TO
-
-
+            
             Util.setComBoByKeyValue(sel_sell_search_nm1, Properties.Settings.Default.SELL_SEARCH_NM1);      //매도 조건검색 파일 이름1
             Util.setComBoByKeyValue(sel_sell_search_nm2, Properties.Settings.Default.SELL_SEARCH_NM2);      //매도 조건검색 파일 이름2
             Util.setComBoByKeyValue(sel_sell_search_nm3, Properties.Settings.Default.SELL_SEARCH_NM3);      //매도 조건검색 파일 이름3
@@ -271,19 +267,16 @@ namespace PackageSellSystemTrading
             //트레이딩 스탑
             inp_stop_target_rate.Text           = Properties.Settings.Default.STOP_TARGET_RATE;           	//목표 수익
             inp_stop_target_down_rate.Text      = Properties.Settings.Default.STOP_TARGET_DOWN_RATE;      	//목표 수익 대비 하락율
-
-
+            
             cbx_all_sell_at.Checked             = Properties.Settings.Default.ALL_SELL_AT;                	//일괄 매도 여부
             inp_all_sell_time_from.Value        = Properties.Settings.Default.ALL_SELL_TIME_FROM;         	//일괄 매도 시작시간
             inp_all_sell_time_to.Value          = Properties.Settings.Default.ALL_SELL_TIME_TO;           	//일괄 매도 종료시간 
             inp_all_sell_rate.Text              = Properties.Settings.Default.ALL_SELL_RATE;              	//일괄 매도 비율 
             sel_all_sell_rate_se.Text           = Properties.Settings.Default.ALL_SELL_RATE_SE;             //일괄 매도 구분
-
-
+            
             cbx_stop_loss_at.Checked            = Properties.Settings.Default.STOP_LOSS_AT;               	//손절 여부
             inp_stop_loss_rate.Text             = Properties.Settings.Default.STOP_LOSS_RATE.ToString();             	//손절 하락 비율
-
-
+            
             cbx_sell_target_time_at.Checked     = Properties.Settings.Default.SELL_TARGET_TIME_AT;        	//지정 시간 매도 여부
             inp_sell_target_time_ovr_rate.Text  = Properties.Settings.Default.SELL_TARGET_TIME_OVR_RATE;  	//지정시간 오버 수익 비율
             cbx_sell_target_time_10.Checked     = Properties.Settings.Default.SELL_TARGET_TIME_10;
@@ -303,9 +296,9 @@ namespace PackageSellSystemTrading
 
 
             cbx_add_buy_search_at.Checked       = Properties.Settings.Default.ADD_BUY_SEARCH_AT;          	//추가매수 조건검색 여부
-            inp_add_buy_search_nm.Text          = Properties.Settings.Default.ADD_BUY_SEARCH_NM;            //추가매수 조건검색 이름
-            inp_add_buy_search_time_from.Text   = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM;     //추가매수 조건검색 시작시간
-            inp_add_buy_search_time_to.Text     = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_TO;     	//추가매수 조건검색 종료시간
+            Util.setComBoByKeyValue(sel_add_buy_search_nm, Properties.Settings.Default.ADD_BUY_SEARCH_NM);  //추가매수 조건검색 이름
+            inp_add_buy_search_time_from.Value  = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM;     //추가매수 조건검색 시작시간
+            inp_add_buy_search_time_to.Value    = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_TO;     	//추가매수 조건검색 종료시간
             
             //체크박스 화면 초기화
             cbx_add_buy_search_at_CheckedChanged    (this.cbx_add_buy_search_at     , new EventArgs());
@@ -392,8 +385,7 @@ namespace PackageSellSystemTrading
                 //트레이딩 스탑
                 inp_stop_target_rate.Text           = this.STOP_TARGET_RATE;                 //목표 수익
                 inp_stop_target_down_rate.Text      = this.STOP_TARGET_DOWN_RATE;            //목표 수익 대비 하락율
-
-
+                
                 cbx_all_sell_at.Checked             = this.ALL_SELL_AT;                      //일괄 매도 여부
                 inp_all_sell_time_from.Value        = this.ALL_SELL_TIME_FROM;               //일괄 매도 시작시간
                 inp_all_sell_time_to.Value          = this.ALL_SELL_TIME_TO;                 //일괄 매도 종료시간 
@@ -421,12 +413,10 @@ namespace PackageSellSystemTrading
                 inp_add_buy_amt.Text                = this.ADD_BUY_AMT;                            //추가매수 금액(만원)
                 
                 cbx_add_buy_search_at.Checked       = this.ADD_BUY_SEARCH_AT;             //추가매수 조건검색 여부
-                inp_add_buy_search_nm.Text          = this.ADD_BUY_SEARCH_NM;                //추가매수 조건검색 이름
+                sel_add_buy_search_nm.Text          = this.ADD_BUY_SEARCH_NM;                //추가매수 조건검색 이름
                 inp_add_buy_search_time_from.Value  = this.ADD_BUY_SEARCH_TIME_FROM;  //추가매수 조건검색 시작시간
                 inp_add_buy_search_time_to.Value    = this.ADD_BUY_SEARCH_TIME_TO;     	//추가매수 조건검색 종료시간
-            }
-                catch (Exception ex)
-            {
+            } catch (Exception ex){
                 Log.WriteLine("OptionForm : " + ex.Message);
                 Log.WriteLine("OptionForm : " + ex.StackTrace);
             }
@@ -468,7 +458,7 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.KOD_START_VAL_SE = sel_kod_start_val_se.Text;		            //코스닥 시작가대비 구분[%|pt]                  
             
             // 조건식설정
-            Properties.Settings.Default.BUY_SEARCH_NM1 = sel_buy_search_nm1.SelectedIndex > -1 ? sel_buy_search_nm1.SelectedValue.ToString() :""; //매수 조건검색 파일 이름1 
+            Properties.Settings.Default.BUY_SEARCH_NM1 = sel_buy_search_nm1.SelectedIndex > -1 ? sel_buy_search_nm1.SelectedValue.ToString() : ""; //매수 조건검색 파일 이름1 
             Properties.Settings.Default.BUY_SEARCH_NM2 = sel_buy_search_nm2.SelectedIndex > -1 ? sel_buy_search_nm2.SelectedValue.ToString() : "";
             Properties.Settings.Default.BUY_SEARCH_NM3 = sel_buy_search_nm3.SelectedIndex > -1 ? sel_buy_search_nm3.SelectedValue.ToString() : "";
             Properties.Settings.Default.BUY_SEARCH_SE1 = sel_buy_search_se1.Text;                       //매수 조건검색 구분1                  
@@ -523,9 +513,10 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.ADD_BUY_AMT = inp_add_buy_amt.Text;                             //추가매수 금액(만원)                                 
 
             Properties.Settings.Default.ADD_BUY_SEARCH_AT = cbx_add_buy_search_at.Checked;              //추가매수 조건검색 여부                     
-            Properties.Settings.Default.ADD_BUY_SEARCH_NM = inp_add_buy_search_nm.Text;                 //추가매수 조건검색 이름                        
-            Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM = inp_add_buy_search_time_from.Text;   //추가매수 조건검색 시작시간                         
-            Properties.Settings.Default.ADD_BUY_SEARCH_TIME_TO = inp_add_buy_search_time_to.Text;       //추가매수 조건검색 종료시간   
+            
+            Properties.Settings.Default.ADD_BUY_SEARCH_NM = sel_add_buy_search_nm.SelectedIndex > -1 ? sel_add_buy_search_nm.SelectedValue.ToString() : ""; //추가매수 조건검색 이름  
+            Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM = inp_add_buy_search_time_from.Value;   //추가매수 조건검색 시작시간                         
+            Properties.Settings.Default.ADD_BUY_SEARCH_TIME_TO = inp_add_buy_search_time_to.Value;       //추가매수 조건검색 종료시간   
 
             Properties.Settings.Default.Save();
             MessageBox.Show("설정을 저장하였습니다.");
@@ -658,13 +649,13 @@ namespace PackageSellSystemTrading
         {
             if (((CheckBox)sender).Checked)
             {
-                this.inp_add_buy_search_nm.Enabled = true;
+                this.sel_add_buy_search_nm.Enabled = true;
                 this.inp_add_buy_search_time_from.Enabled = true;
                 this.inp_add_buy_search_time_to.Enabled = true;
             }
             else
             {
-                this.inp_add_buy_search_nm.Enabled = false;
+                this.sel_add_buy_search_nm.Enabled = false;
                 this.inp_add_buy_search_time_from.Enabled = false;
                 this.inp_add_buy_search_time_to.Enabled = false;
             }
@@ -815,6 +806,20 @@ namespace PackageSellSystemTrading
             }
         }
 
-        
+        private void btn_add_buy_search_nm_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            //openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.InitialDirectory = Application.StartupPath.Replace("\\bin\\Debug", "") + "\\Resources\\";
+            openFileDialog1.Filter = "All files (*.*)|*.*|ACF files (*.ACF)|*.ACF";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Util.setComBoByKeyValue(sel_add_buy_search_nm, openFileDialog1.FileName.ToString());
+            }
+        }
     }//class end
 }//name end

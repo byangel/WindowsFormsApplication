@@ -23,17 +23,15 @@ namespace PackageSellSystemTrading{
         public ExXASessionClass exXASessionClass;
        
         public Xing_t1857 xing_t1857;        //조건검색
+        public Xing_t1857Stop xing_t1857Stop; //손절 종목(매수금지종목)
+        public Xing_t1857Add xing_t1857Add;        //조건검색
 
-        //public Xing_t1857Exclude xing_t1857Exclude; //매수금지종목
-        public Xing_t1857Stop xing_t1857Stop; //손절 종목
         public Xing_t0424 xing_t0424;        //잔고2
-
         public Xing_t0425 xing_t0425;        //체결/미체결
         public Xing_t0167 xing_t0167;        //시간조회
-        //public Xing_CSPAT00600 xing_CSPAT00600;   //주식주문
-        //public Xing_CSPAT00800 xing_CSPAT00800;   //현물 취소주문
-        public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
 
+        public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
+        public Xing_t8436 xing_t8436;        //상장된 전종목 조회 로그인시 최초 1회 실행
         public AccountForm accountForm;       //계좌 선택
         public OptionForm  optionForm;        //프로그램 설정 폼
         public HistoryForm historyForm;        //매매이력 폼
@@ -83,44 +81,57 @@ namespace PackageSellSystemTrading{
                 
                 this.xing_t1857 = new Xing_t1857();//종목검색
                 this.xing_t1857.mainForm = this;
-
-                //this.xing_t1857Exclude = new Xing_t1857Exclude();//매수금지종목검색
-                //this.xing_t1857Exclude.mainForm = this;
-
-                this.xing_t1857Stop = new Xing_t1857Stop();//손절 종목 검색
+                
+                this.xing_t1857Stop = new Xing_t1857Stop();//손절 종목 검색(매수금지종목)
                 this.xing_t1857Stop.mainForm = this;
+
+                this.xing_t1857Add = new Xing_t1857Add();//종목검색
+                this.xing_t1857Add.mainForm = this;
 
                 this.xing_t0424 = new Xing_t0424();//주식잔고2
                 this.xing_t0424.mainForm = this;
+
                 this.xing_t0425 = new Xing_t0425();//체결/미체결
                 this.xing_t0425.mainForm = this;
+
                 this.xing_t0167 = new Xing_t0167();//서버시간조회
                 this.xing_t0167.mainForm = this;
-              
+
                 this.xing_CSPAQ12200 = new Xing_CSPAQ12200(); //현물계좌예수금/주문가능금액/총평가 조회
                 this.xing_CSPAQ12200.mainForm = this;
 
+                this.xing_t8436 = new Xing_t8436();//상장된 전종목 조회 로그인시 최초 1회 실행
+                this.xing_t8436.mainForm = this;
+
                 this.tradingHistory = new TradingHistory();//매매이력정보
                 this.tradingHistory.mainForm = this;
+
                 this.chartData = new ChartData();//챠트데이타 저장
                 this.chartData.mainForm = this;
 
                 this.accountForm = new AccountForm();//계좌선택폼
                 this.accountForm.mainForm = this;
+
                 this.accountForm.exXASessionClass = exXASessionClass;
+
                 this.optionForm = new OptionForm();
                 this.optionForm.mainForm = this;
+
                 this.historyForm = new HistoryForm();
                 this.historyForm.mainForm = this;
 
                 this.real_SC1 = new Real_SC1();    //실시간 체결
                 this.real_SC1.mainForm = this;
+
                 this.real_S3 = new Real_S3();    //코스피 실시간 체결
                 this.real_S3.mainForm = this;
+
                 this.real_K3 = new Real_K3();    //코스닥 실시간 체결
                 this.real_K3.mainForm = this;
+
                 this.real_jif = new Real_jif();    //장정보
                 this.real_jif.mainForm = this;
+
                 this.CSPAT00600Mng = new CSPAT00600Mng(this);
 
                 this.real_IJ = new Real_IJ(); //지수정보
@@ -188,8 +199,8 @@ namespace PackageSellSystemTrading{
                 this.log(this.real_jif.mlabel);
             } catch (Exception ex)
             {
-                this.log("t0424 : " + ex.Message);
-                this.log("t0424 : " + ex.StackTrace);
+                this.log("mainForm.initForm : " + ex.Message);
+                this.log("mainForm.initForm : " + ex.StackTrace);
             }
 
 
@@ -1101,14 +1112,27 @@ namespace PackageSellSystemTrading{
             {
                 this.log("timer_t1857Exclude_Tick:: 미접속");
             }  else {
-                if (searchCnt == 0) {
-                    //매수여부를 확인후 조건검색 실행여부를 판단한다.
-                    if (this.cbx_sell_at.Checked) xing_t1857Stop.call_index(0);
-                    searchCnt = 1;
-                } else {
-                    if (this.cbx_buy_at.Checked) xing_t1857.call_index(0);
-                    searchCnt = 0;
+                //매수여부를 확인후 조건검색 실행여부를 판단한다.
+                if (this.cbx_sell_at.Checked)
+                {
+                    if (searchCnt == 0)
+                    {
+                        
+                        xing_t1857Stop.call_index(0);
+                        searchCnt = 1;
+                    }
+                    else if (searchCnt == 1)
+                    {
+                        xing_t1857.call_index(0);
+                        searchCnt = 2;
+                    }
+                    else
+                    {
+                        xing_t1857Add.call_index();
+                        searchCnt = 0;
+                    }
                 }
+                    
             }
         }
 

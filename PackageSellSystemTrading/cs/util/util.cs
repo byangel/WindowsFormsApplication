@@ -440,9 +440,10 @@ namespace PackageSellSystemTrading
         //확장자를 제거한 파일명만 리턴한다.
         public static String getShortFileNm(String fileFullNm)
         {   String returnVal="";
-            if (fileFullNm != "")
+            if (fileFullNm != "" && fileFullNm != "선택")
             {
                 returnVal = fileFullNm.Substring(fileFullNm.LastIndexOf("\\") + 1);
+                if (returnVal.IndexOf(".") < 0) return "";
                 returnVal = returnVal.Substring(0, returnVal.IndexOf("."));
             }
             return returnVal;
@@ -491,6 +492,22 @@ namespace PackageSellSystemTrading
             }
             return false;
         }
+
+        //추가매수 가능시간 여부
+        public static Boolean isAddBuyTime()
+        {
+
+            //TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
+            TimeSpan nowTimeSpan = TimeSpan.Parse(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+            DateTime buyTimeFrom = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM;
+            DateTime buyTimeTo = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_TO;
+            if (nowTimeSpan >= buyTimeFrom.TimeOfDay && nowTimeSpan <= buyTimeTo.TimeOfDay)
+            {
+                return true;
+            }
+            return false;
+        }
+
         //매도 가능 시간 비교
         public static Boolean isSellTime() { 
             //매도타임
@@ -505,7 +522,99 @@ namespace PackageSellSystemTrading
             return false;
         }
 
-
+        //코스피 매수 가능 여부 - 코스피 등락율과 등락포인트를 인자로 넣어준다.
+        public static Boolean isKosBuyAt(Double ks_drate, Double ks_change)
+        {
+            Boolean returnVal = true;
+            
+            //코스피 매수가능여부
+            if (Properties.Settings.Default.KOS_AT)//코스닥여부
+            {
+                //전일대비
+                if (Properties.Settings.Default.KOS_YESTERDAY_AT)
+                {
+                    Double kosYesterdayVal = Double.Parse(Properties.Settings.Default.KOS_YESTERDAY_VAL);//전일대비 등락율 설정값
+                    String kosYesterdayValSe = Properties.Settings.Default.KOS_YESTERDAY_VAL_SE;
+                    if (kosYesterdayValSe.Equals("%"))
+                    {
+                        
+                        if (ks_drate < kosYesterdayVal){
+                            returnVal = false;
+                        }
+                    }
+                    if (kosYesterdayValSe.Equals("pt")){
+                        if (ks_change < kosYesterdayVal){
+                            returnVal = false;
+                        }
+                    }
+                }
+                //시가대비 
+                if (Properties.Settings.Default.KOS_START_AT)
+                {
+                    Double kosStartVal = Double.Parse(Properties.Settings.Default.KOS_START_VAL);//전일대비 등락율 설정값
+                    String kosStartValSe = Properties.Settings.Default.KOS_START_VAL_SE;
+                    if (kosStartValSe.Equals("%")){
+                      
+                        if (ks_drate < kosStartVal){
+                            returnVal = false;
+                        }
+                    }
+                    if (kosStartValSe.Equals("pt")){
+                       
+                        if (ks_change < kosStartVal){
+                            returnVal = false;
+                        }
+                    }
+                }
+            }
+            return returnVal;
+        }
+     
+        //코스닥 매수 가능 여부- 코스닥 등락율과 등락 포인트를 인자로 넣어준다.
+        public static Boolean isKodBuyAt(Double kd_drate, Double kd_change)
+        {
+            Boolean returnVal = true;
+            //코스닥 매수가능여부
+            if (Properties.Settings.Default.KOD_AT)
+            {
+                //전일대비
+                if (Properties.Settings.Default.KOS_YESTERDAY_AT)
+                {
+                    Double kodYesterdayVal = Double.Parse(Properties.Settings.Default.KOD_YESTERDAY_VAL);//전일대비 등락율 설정값
+                    String kodYesterdayValSe = Properties.Settings.Default.KOD_YESTERDAY_VAL_SE;
+                    if (kodYesterdayValSe.Equals("%")){
+                        if (kd_drate < kodYesterdayVal){
+                            returnVal = false;
+                        }
+                    }
+                    if (kodYesterdayValSe.Equals("pt")){
+                        
+                        if (kd_change < kodYesterdayVal){
+                            returnVal = false;
+                        }
+                    }
+                }
+                //시가대비 
+                if (Properties.Settings.Default.KOS_START_AT)
+                {
+                    Double kodStartVal = Double.Parse(Properties.Settings.Default.KOD_START_VAL);//전일대비 등락율 설정값
+                    String kodStartValSe = Properties.Settings.Default.KOD_START_VAL_SE;
+                    if (kodStartValSe.Equals("%")){
+                        
+                        if (kd_drate < kodStartVal){
+                            returnVal = false;
+                        }
+                    }
+                    if (kodStartValSe.Equals("pt")){
+                        
+                        if (kd_change < kodStartVal){
+                            returnVal = false;
+                        }
+                    }
+                }
+            }
+            return returnVal;
+        }
 
     }	// end class
 }	// end namespace

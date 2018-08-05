@@ -142,12 +142,14 @@
             this.inp_stop_target_down_rate = new System.Windows.Forms.TextBox();
             this.inp_all_sell_time_from = new System.Windows.Forms.DateTimePicker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btn_add_buy_search_nm = new System.Windows.Forms.Button();
             this.cbx_add_buy_search_at = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.inp_add_buy_search_nm = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.inp_add_buy_search_time_to = new System.Windows.Forms.DateTimePicker();
             this.inp_add_buy_search_time_from = new System.Windows.Forms.DateTimePicker();
+            this.label12 = new System.Windows.Forms.Label();
+            this.sel_add_buy_search_nm = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -377,6 +379,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.cbx_base_money_buy_at);
             this.groupBox1.Controls.Add(this.inp_buy_batting_amt);
             this.groupBox1.Controls.Add(this.sel_kod_yesterday_val_se);
@@ -557,7 +560,7 @@
             // inp_max_buy_count
             // 
             this.inp_max_buy_count.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.inp_max_buy_count.Location = new System.Drawing.Point(265, 88);
+            this.inp_max_buy_count.Location = new System.Drawing.Point(259, 88);
             this.inp_max_buy_count.Name = "inp_max_buy_count";
             this.inp_max_buy_count.Size = new System.Drawing.Size(25, 20);
             this.inp_max_buy_count.TabIndex = 197;
@@ -572,7 +575,7 @@
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(86, 11);
             this.label37.TabIndex = 196;
-            this.label37.Text = "최대매수 종목수";
+            this.label37.Text = "최대보유 종목수";
             // 
             // label36
             // 
@@ -1507,9 +1510,10 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.sel_add_buy_search_nm);
+            this.groupBox4.Controls.Add(this.btn_add_buy_search_nm);
             this.groupBox4.Controls.Add(this.cbx_add_buy_search_at);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.inp_add_buy_search_nm);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.inp_add_buy_search_time_to);
             this.groupBox4.Controls.Add(this.inp_add_buy_amt);
@@ -1531,6 +1535,17 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "추가매수";
             // 
+            // btn_add_buy_search_nm
+            // 
+            this.btn_add_buy_search_nm.Font = new System.Drawing.Font("돋움", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_add_buy_search_nm.Location = new System.Drawing.Point(250, 73);
+            this.btn_add_buy_search_nm.Name = "btn_add_buy_search_nm";
+            this.btn_add_buy_search_nm.Size = new System.Drawing.Size(30, 18);
+            this.btn_add_buy_search_nm.TabIndex = 225;
+            this.btn_add_buy_search_nm.Text = "찾기";
+            this.btn_add_buy_search_nm.UseVisualStyleBackColor = true;
+            this.btn_add_buy_search_nm.Click += new System.EventHandler(this.btn_add_buy_search_nm_Click);
+            // 
             // cbx_add_buy_search_at
             // 
             this.cbx_add_buy_search_at.AutoSize = true;
@@ -1547,22 +1562,11 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label15.Location = new System.Drawing.Point(274, 76);
+            this.label15.Location = new System.Drawing.Point(279, 76);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(49, 11);
             this.label15.TabIndex = 179;
             this.label15.Text = "동작시간";
-            // 
-            // inp_add_buy_search_nm
-            // 
-            this.inp_add_buy_search_nm.Enabled = false;
-            this.inp_add_buy_search_nm.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.inp_add_buy_search_nm.Location = new System.Drawing.Point(143, 72);
-            this.inp_add_buy_search_nm.Name = "inp_add_buy_search_nm";
-            this.inp_add_buy_search_nm.Size = new System.Drawing.Size(120, 20);
-            this.inp_add_buy_search_nm.TabIndex = 177;
-            this.inp_add_buy_search_nm.Text = "선택";
-            this.inp_add_buy_search_nm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label17
             // 
@@ -1597,6 +1601,26 @@
             this.inp_add_buy_search_time_from.Size = new System.Drawing.Size(94, 20);
             this.inp_add_buy_search_time_from.TabIndex = 177;
             this.inp_add_buy_search_time_from.Value = new System.DateTime(2018, 6, 17, 9, 0, 0, 0);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label12.Location = new System.Drawing.Point(286, 92);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(16, 11);
+            this.label12.TabIndex = 218;
+            this.label12.Text = "개";
+            // 
+            // sel_add_buy_search_nm
+            // 
+            this.sel_add_buy_search_nm.Font = new System.Drawing.Font("돋움", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.sel_add_buy_search_nm.FormattingEnabled = true;
+            this.sel_add_buy_search_nm.Location = new System.Drawing.Point(134, 73);
+            this.sel_add_buy_search_nm.Name = "sel_add_buy_search_nm";
+            this.sel_add_buy_search_nm.Size = new System.Drawing.Size(115, 19);
+            this.sel_add_buy_search_nm.TabIndex = 226;
+            this.sel_add_buy_search_nm.Text = "선택";
             // 
             // OptionForm
             // 
@@ -1722,7 +1746,6 @@
         public System.Windows.Forms.TextBox inp_add_buy_signal_amt;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox4;
-        public System.Windows.Forms.TextBox inp_add_buy_search_nm;
         private System.Windows.Forms.CheckBox cbx_add_buy_search_at;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label17;
@@ -1746,5 +1769,8 @@
         private System.Windows.Forms.Button btn_buy_search_nm2;
         private System.Windows.Forms.Button btn_buy_search_nm1;
         private System.Windows.Forms.CheckBox cbx_sell_search_only_at;
+        private System.Windows.Forms.Button btn_add_buy_search_nm;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox sel_add_buy_search_nm;
     }
 }

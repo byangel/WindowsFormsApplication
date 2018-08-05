@@ -129,6 +129,8 @@ namespace PackageSellSystemTrading{
                     mainForm.Timer0167.Start();//시간검색
                     //mainForm.xing_t0167.call_request();//시간데이타
 
+                    //상장된 전종목 조회
+                    mainForm.xing_t8436.call_request();
                     //Log.WriteLine("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
                     mainForm.log("CSPAQ12300::" + nMessageCode + " :: " + szMessage);
                 } else{

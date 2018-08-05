@@ -10,10 +10,9 @@ using System.Threading;
 
 
 namespace PackageSellSystemTrading{
-    public class Xing_t1857 : XAQueryClass{
+    public class Xing_t1857Add : XAQueryClass{
         public MainForm mainForm;
         
-        private int int_callIndex;
         private String str_searchFileNm = "";
         private DataTable buyListDt=null;
         public DataTable getBuyListDt(){
@@ -25,7 +24,7 @@ namespace PackageSellSystemTrading{
         //public Boolean initAt = false;
 
         // 생성자
-        public Xing_t1857(){
+        public Xing_t1857Add(){
 
             base.ResFileName = "₩res₩t1857.res";
             base.ReceiveData    += new _IXAQueryEvents_ReceiveDataEventHandler(receiveDataEventHandler);
@@ -45,8 +44,6 @@ namespace PackageSellSystemTrading{
             buyListDt.Columns.Add("검색코드"     , typeof(string));
             buyListDt.Columns.Add("상태"         , typeof(string));
 
-            buyListDt.Columns.Add("시장구분"     , typeof(string));
-
         }   // end function
 
 
@@ -55,34 +52,21 @@ namespace PackageSellSystemTrading{
 		void receiveDataEventHandler(string szTrCode){
 
             //매수검색목록,매도검색목록 초기화.
-            if (this.int_callIndex == 0) buyListDt.Clear();
-            String searchBuySe1 = Properties.Settings.Default.BUY_SEARCH_SE1 == "AND" ? " & " : " || ";
-            String searchBuySe2 = Properties.Settings.Default.BUY_SEARCH_SE2 == "AND" ? " & " : " || ";
+            buyListDt.Clear();
+           
             try {
                 int iCount = base.GetBlockCount("t1857OutBlock1");
 
                 DataRow tmpRow;
-                DataRow t8436Row;
                 DataRow[] foundRows = new DataRow[] { };
-                DataRow[] t8436Rows = new DataRow[] { };
                 String shcode;
                 //String sunikrt;//수익률
                 for (int i = 0; i < iCount; i++) {
                     shcode = base.GetFieldData("t1857OutBlock1", "shcode", i);//종목코드
-                    if (this.int_callIndex != 0)
-                    {
-                        foundRows = buyListDt.Select("종목코드 = '" + shcode + "'");
-                    }
-                    //종목이 없으면 추가 있으면 수정
-                    if (foundRows.Count() > 0)
-                    {
-                        tmpRow = foundRows[0];
-                    }else{//new
-                        tmpRow = buyListDt.NewRow();
-                        tmpRow["검색조건"] = "";
-                        tmpRow["검색코드"] = 0;
-                        buyListDt.Rows.Add(tmpRow);
-                    }
+                    
+                    tmpRow = buyListDt.NewRow();
+                    buyListDt.Rows.Add(tmpRow);
+                  
                     
                     tmpRow["종목코드"     ] = base.GetFieldData("t1857OutBlock1", "shcode",  i); //종목코드
                     tmpRow["종목명"       ] = base.GetFieldData("t1857OutBlock1", "hname" ,  i); //종목명
@@ -92,51 +76,18 @@ namespace PackageSellSystemTrading{
                     tmpRow["등락율"       ] = base.GetFieldData("t1857OutBlock1", "diff"  ,  i); //등락율
                     tmpRow["거래량"       ] = base.GetFieldData("t1857OutBlock1", "volume",  i); //거래량
                     tmpRow["연속봉수"     ] = base.GetFieldData("t1857OutBlock1", "jobFlag", i);//연속봉수
-
-                    //시장구분
-                    t8436Rows = mainForm.xing_t8436.getT8436DataTable().Select("shcode = '" + shcode + "'");
-                    if (t8436Rows.Count() > 0)
-                    {
-                        t8436Row = t8436Rows[0];
-                        tmpRow["시장구분"] = t8436Row["gubun"];//시장구분(1:코스피 2:코드닥)
-                    }
-
-                    switch (this.int_callIndex)
-                    {
-                        case 0:
-                            tmpRow["검색조건"] = Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM1) ;        //검색조건
-                            tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 1;                           //검색코드
-                            break;
-                        case 1:
-                            tmpRow["검색조건"] += (tmpRow["검색조건"].ToString().Length > 0 ? searchBuySe1 : "")+Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM2); //검색조건
-                            tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 2;                           //검색코드
-                            break;
-                        case 2:
-                            tmpRow["검색조건"] += (tmpRow["검색조건"].ToString().Length > 0 ? searchBuySe2 : "")+Util.getShortFileNm(Properties.Settings.Default.BUY_SEARCH_NM3); //검색조건
-                            tmpRow["검색코드"] = int.Parse(tmpRow["검색코드"].ToString()) + 4;                           //검색코드
-                            break;
-                    };
+                    tmpRow["검색조건"     ] = Util.getShortFileNm(Properties.Settings.Default.ADD_BUY_SEARCH_NM);//추가매수 조건검색명
+                    tmpRow["검색코드"     ] = 99;
+                   
                 }
-                mainForm.input_t1857_log1.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">t1857:" + int_callIndex;
-                switch (this.int_callIndex)
-                {
-                    case 0:
-                        //재귀호출
-                        this.call_index(1);
-                        break;
-                    case 1:
-                        //재귀호출
-                        this.call_index(2);
-                        break;
-                    case 2:
-                        break;
-                };
+                mainForm.input_t1857_log1.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">t1857Add:추가매수" ;
+                
                 this.SearchBuy();
 
             }
             catch (Exception ex){
-                Log.WriteLine("t1857 : " + ex.Message);
-                Log.WriteLine("t1857 : " + ex.StackTrace);
+                Log.WriteLine("t1857Add : " + ex.Message);
+                Log.WriteLine("t1857Add : " + ex.StackTrace);
             }
         }
 
@@ -176,21 +127,23 @@ namespace PackageSellSystemTrading{
             TimeSpan nowTimeSpan = TimeSpan.Parse(mainForm.xing_t0167.hour + ":" + mainForm.xing_t0167.minute + ":" + mainForm.xing_t0167.second);
             //xingAPI의 경우 t8430, t8436을 이용하시어 전 종목 조회 후 해당 종목의 구분값을 확인하셔야 합니다.
             //코스피 코스닥 옵션 매수가능 -업황지수가 오션설정값 이하이면 매수금지한다.
-            Boolean kosBuyAt = Util.isKosBuyAt(mainForm.real_IJ.ks_drate, mainForm.real_IJ.ks_change);
-            Boolean kodBuyAt = Util.isKodBuyAt(mainForm.real_IJ.kd_drate, mainForm.real_IJ.kd_change); 
-          
+            //추가매수는 업황에따라 매수여부를 체크 하는것을 제한하지 않는다.
+            //Boolean kosBuyAt = true;
+            //Boolean kodBuyAt = true;
+            
+
             //3.검색목록 매수 테스트
             int rowIndex = 0;
             foreach (DataRow itemRow in this.buyListDt.AsEnumerable())
             {
-                BuyTest(itemRow, configSearchCode, nowTimeSpan, rowIndex, kosBuyAt, kodBuyAt);
+                BuyTest(itemRow, nowTimeSpan, rowIndex);
                 rowIndex++;
             }
             return true;
         }
 
         //매수 테스트
-        private Boolean BuyTest(DataRow itemRow, int configSearchCode, TimeSpan nowTimeSpan,int rowIndex ,Boolean kosBuyAt, Boolean kodBuyAt)
+        private Boolean BuyTest(DataRow itemRow, TimeSpan nowTimeSpan,int rowIndex)
         {
             try
             {
@@ -199,41 +152,7 @@ namespace PackageSellSystemTrading{
                 String close      = itemRow["현재가"  ].ToString(); //현재가
                 String searchNm   = itemRow["검색조건"].ToString(); //검색조건
                 String searchCode = itemRow["검색코드"].ToString(); //검색코드
-                String gubun      = itemRow["시장구분"].ToString(); //시장구분(1:코스피 2:코드닥)
-
-
-                //시장구분 코스피
-                if (gubun.Equals("1"))
-                {
-                    //코스피 체크
-                    if (!kosBuyAt)
-                    {
-                        itemRow["상태"] = "코스피x";
-                        return false;
-                    }
-
-                }
-                else if (gubun.Equals("2")){
-                    //코스닥 체크
-                    if (!kodBuyAt)
-                    {
-                        itemRow["상태"] = "코스닥x";
-                        return false;
-                    }
-                } else{
-                    itemRow["상태"] = "시장구분x";
-                    return false;
-                }
-                //검색코드 설정값 비교
-                if (int.Parse(searchCode) < configSearchCode)
-                {
-                    itemRow["상태"] = "조건식매수 금지 ";
-                    return false;
-                }
-
-                //배팅금액 설정
-                //int battingAtm = int.Parse(Properties.Settings.Default.BUY_BATTING_AMT) * 10000;
-
+                
                 //매수금지목록
                 DataTable SellListDt = mainForm.xing_t1857Stop.getSellListDt();
                 DataRow[] SellListDtRow = null;
@@ -245,7 +164,6 @@ namespace PackageSellSystemTrading{
                     mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
                     itemRow["상태"] = "매수금지";
                     return false;
-
                 }
 
                 
@@ -279,13 +197,7 @@ namespace PackageSellSystemTrading{
 
                 if (t0424VoListFindIndex >= 0)
                 {
-                    //검색종목 추가매수 여부 옵션 체크
-                    if (!Properties.Settings.Default.ADD_BUY_SIGNAL_AT)
-                    {
-                        itemRow["상태"] = "보유중 추가매수X";
-                        return false;
-                    }
-
+                    
                     //기존 종목 수익률
                     EBindingList<T0424Vo> t0424VoList = mainForm.xing_t0424.getT0424VoList();
                     Double sunikrt = t0424VoList.ElementAt(t0424VoListFindIndex).sunikrt;
@@ -293,49 +205,33 @@ namespace PackageSellSystemTrading{
                     //추가매수 하락율 체크 
                     if (sunikrt > double.Parse(Properties.Settings.Default.ADD_BUY_SIGNAL_RATE))
                     {
-                       
                         itemRow["상태"] = "하락율 미달x";
                         return false;
                     }
 
-                    ordptnDetail = "신호 추가매수";
+                    ordptnDetail = "추가매수";
                     ////배팅금액 설정
                     //battingAtm = int.Parse(Properties.Settings.Default.ADD_BUY_AMT) * 10000;
                     //1.반복매수면 투자율 제한 하지 않는다.
                     //2.반복매수면 매수금지 종목이라도 매수한다.
 
-                } else {//-보유종목이 아니고 신규매수해야 한다면.
-
-                    //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
-                    Double 투자율 = Double.Parse(mainForm.tradingInfoDt.Rows[0]["투자율"].ToString());
-                    if (투자율 >= Double.Parse(Properties.Settings.Default.BASE_MONEY_BUY_RATE))
-                    {
-                        itemRow["상태"] = "투자율제한 매수X";
-                        return false;
-                    }
-                    ordptnDetail = "신규매수";
-
                 }
-
-                //추가 매수일수 있기때문에 추가매수 체크위에 위치하자
-                if (ordptnDetail == "신규매수")
+                else
                 {
-                    String 종목제한수 = Properties.Settings.Default.MAX_BUY_COUNT;
-                    int 보유종목수 = mainForm.grd_t0424.RowCount;
-                    if (보유종목수 >= int.Parse(종목제한수))
-                    {
-                        //mainForm.grd_t0424.Rows[t0424VoListFindIndex].Cells["c_expcode"].Style.BackColor = Color.Red;
-                        //mainForm.grd_t1833_dt.Rows[rowIndex].Cells["종목명"].Style.BackColor = Color.Red;
-                        itemRow["상태"] = "종목수초과";
-                        return false;
-
-                    }
+                    //자본금대비 투자 비율이 높으면 신규매수 하지 않는다.
+                    //Double 투자율 = Double.Parse(mainForm.tradingInfoDt.Rows[0]["투자율"].ToString());
+                    //if (투자율 > Double.Parse(Properties.Settings.Default.BASE_MONEY_BUY_RATE))
+                    //{
+                    //    itemRow["상태"] = "투자율제한 매수X";
+                    //    return false;
+                    //}
+                    itemRow["상태"] = "신규x";
+                    return false;
                 }
-                
 
 
-                //매수 가능 시간 비교
-                if (!Util.isBuyTime())
+                //추가매수 가능 시간 비교
+                if (!Util.isAddBuyTime())
                 {
                     itemRow["상태"] = "시간x<" + ordptnDetail + ">";
                     return false;
@@ -369,7 +265,7 @@ namespace PackageSellSystemTrading{
                 /// <param name="Quantity">수량</param>
                 /// <param name="Price">가격</param>
                 
-               
+                
                 //실시간 가격 모니터링 등록
                 mainForm.real_S3.call_real(shcode);
                 mainForm.real_K3.call_real(shcode);
@@ -379,62 +275,42 @@ namespace PackageSellSystemTrading{
                
                 //로그출력
                 itemRow["상태"] = "주문전송<" + ordptnDetail + ">";
-                mainForm.log("<t1857:"+ searchNm +"><" + hname + "> <" + close + "원>"+ ordptnDetail);
+                mainForm.log("<t1857Add:"+ searchNm +"><" + hname + "> <" + close + "원>"+ ordptnDetail);
             }
             catch (Exception ex)
             {
-                Log.WriteLine("t1857 : " + ex.Message);
-                Log.WriteLine("t1857 : " + ex.StackTrace);
+                Log.WriteLine("t1857Add : " + ex.Message);
+                Log.WriteLine("t1857Add : " + ex.StackTrace);
             }
             return true;
 
         }//buyTest END
         
 
-        public Boolean call_index(int callIndex)
+        public Boolean call_index()
         {
-            this.int_callIndex = callIndex;
+            
             String searchFileFullPath   = "";
             //검색 조건 명을 확장자 제거
 
-            switch (callIndex){
-                case 0:
-                    searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM1;
-                    if (searchFileFullPath == ""){
-                        mainForm.log("<t1857> 검색 조건식 설정 값이 없습니다.");
-                        return false;
-                    }
-                    break;
-                case 1:
-                    searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM2;
-                    if (searchFileFullPath == "") return false;
-                    break;
-                case 2:
-                    searchFileFullPath = Properties.Settings.Default.BUY_SEARCH_NM3;
-                    if (searchFileFullPath == "") return false;
-                    break;
-            };
+            searchFileFullPath = Properties.Settings.Default.ADD_BUY_SEARCH_NM;
+            if (searchFileFullPath == "" || searchFileFullPath == "선택")
+            {
+                //mainForm.log("<t1857Add> 검색 조건식 설정 값이 없습니다.");
+                mainForm.input_t1857_log1.Text = "미설정";
+                return false;
+            }
+                   
             //파일명만 추출
             this.str_searchFileNm = Util.getShortFileNm(searchFileFullPath);
 
             base.SetFieldData("t1857InBlock", "sRealFlag"  , 0, "0");                // 실시간구분   : 0:조회, 1:실시간
             base.SetFieldData("t1857InBlock", "sSearchFlag", 0, "F");                // 종목검색구분 : F:파일, S:서버
             base.SetFieldData("t1857InBlock", "query_index", 0, searchFileFullPath); //
-
-            //재귀호출하면서 이전 데이타를 참조하여 블럭카운터를 0으로 초기화 해준다.
-            base.SetBlockCount("t1857OutBlock1", 0);
-
-            //호출
-            int nSuccess = -1 ;
-
-            while (nSuccess < 0)
-            {
-                nSuccess = base.RequestService("t1857", "");
-                Thread.Sleep(250);
-               
-            }
-
             
+            //호출
+            int nSuccess = base.RequestService("t1857", "");
+           
             return true;
         }
 
