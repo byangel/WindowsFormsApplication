@@ -72,10 +72,11 @@
     <Compile Include="cs\tr\CSPAT00600Mng.cs" />
     <Compile Include="cs\tr\Xing_CSPAT00700.cs" />
     <Compile Include="cs\tr\Xing_LinkToHTS.cs" />
+    <Compile Include="cs\tr\Xing_t1857Stop.cs" />
     <Compile Include="cs\tr\Xing_t1857Add.cs" />
     <Compile Include="cs\tr\Xing_t8436.cs" />
-    <Compile Include="cs\tr\Xing_t1857Stop.cs" />
-    <Compile Include="cs\tr\Xing_t1857.cs" />
+    <Compile Include="cs\tr\Xing_t1857Sell.cs" />
+    <Compile Include="cs\tr\Xing_t1857Buy.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>

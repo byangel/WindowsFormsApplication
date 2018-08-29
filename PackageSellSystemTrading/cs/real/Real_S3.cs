@@ -10,8 +10,9 @@ using System.Drawing;
 using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
-
-namespace PackageSellSystemTrading{
+//코스피 실시간 가격 수신
+namespace PackageSellSystemTrading
+{
  //코스피 현재가 실시간
     public class Real_S3 : XARealClass{
         

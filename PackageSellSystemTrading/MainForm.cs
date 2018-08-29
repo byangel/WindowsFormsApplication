@@ -22,19 +22,20 @@ namespace PackageSellSystemTrading{
 
         public ExXASessionClass exXASessionClass;
        
-        public Xing_t1857 xing_t1857;        //조건검색
-        public Xing_t1857Stop xing_t1857Stop; //손절 종목(매수금지종목)
-        public Xing_t1857Add xing_t1857Add;        //조건검색
+        public Xing_t1857Buy  xing_t1857Buy;  //매수검색
+        public Xing_t1857Sell xing_t1857Sell; //매도검색
+        public Xing_t1857Add  xing_t1857Add;  //조건검색
+        public Xing_t1857Stop xing_t1857Stop;  //손절
 
         public Xing_t0424 xing_t0424;        //잔고2
         public Xing_t0425 xing_t0425;        //체결/미체결
         public Xing_t0167 xing_t0167;        //시간조회
 
-        public Xing_CSPAQ12200 xing_CSPAQ12200;   //현물계좌예수금/주문가능금액/총평가 조회
-        public Xing_t8436 xing_t8436;        //상장된 전종목 조회 로그인시 최초 1회 실행
-        public AccountForm accountForm;       //계좌 선택
-        public OptionForm  optionForm;        //프로그램 설정 폼
-        public HistoryForm historyForm;        //매매이력 폼
+        public Xing_CSPAQ12200 xing_CSPAQ12200; //현물계좌예수금/주문가능금액/총평가 조회
+        public Xing_t8436 xing_t8436;           //상장된 전종목 조회 로그인시 최초 1회 실행
+        public AccountForm accountForm;         //계좌 선택
+        public OptionForm  optionForm;          //프로그램 설정 폼
+        public HistoryForm historyForm;         //매매이력 폼
 
         public Real_SC1 real_SC1; //실시간 체결
         public Real_S3  real_S3;  //코스피 실시가 종목 현재가
@@ -79,15 +80,18 @@ namespace PackageSellSystemTrading{
                 exXASessionClass = new ExXASessionClass();//로그인
                 exXASessionClass.mainForm = this;
                 
-                this.xing_t1857 = new Xing_t1857();//종목검색
-                this.xing_t1857.mainForm = this;
+                this.xing_t1857Buy = new Xing_t1857Buy();//매수검색
+                this.xing_t1857Buy.mainForm = this;
                 
-                this.xing_t1857Stop = new Xing_t1857Stop();//손절 종목 검색(매수금지종목)
-                this.xing_t1857Stop.mainForm = this;
+                this.xing_t1857Sell = new Xing_t1857Sell();//매도검색
+                this.xing_t1857Sell.mainForm = this;
 
-                this.xing_t1857Add = new Xing_t1857Add();//종목검색
+                this.xing_t1857Add = new Xing_t1857Add();//추가매수검색
                 this.xing_t1857Add.mainForm = this;
 
+                this.xing_t1857Stop = new Xing_t1857Stop();//손절
+                this.xing_t1857Stop.mainForm = this;
+                
                 this.xing_t0424 = new Xing_t0424();//주식잔고2
                 this.xing_t0424.mainForm = this;
 
@@ -143,7 +147,7 @@ namespace PackageSellSystemTrading{
                 grd_t0424Excl.DataSource = this.xing_t0424.getExcludeT0424VoList();//감시제외종목 바인딩
 
                 //진입검색 그리드.바인딩
-                grd_t1833_dt.DataSource = this.xing_t1857.getBuyListDt();
+                grd_t1833_dt.DataSource = this.xing_t1857Buy.getSearchListDt();
                 //체결미체결 그리드 DataSource 설정
                 grd_t0425.DataSource = this.xing_t0425.getT0425VoList(); //체결/미체결 그리드
                 //챠트(스냅샷) 그리드 바인딩
@@ -178,19 +182,19 @@ namespace PackageSellSystemTrading{
                 tradingInfoDt.Columns.Add("예수금"          , typeof(double));
                 tradingInfoDt.Columns.Add("예수금(D2)"      , typeof(double));
                 tradingInfoDt.Columns.Add("예탁자산총액"    , typeof(double));
-                tradingInfoDt.Columns.Add("매입금액합"      , typeof(double));
-                tradingInfoDt.Columns.Add("매입평가금액합"  , typeof(double));
-                tradingInfoDt.Columns.Add("손익율합"        , typeof(double));
-                tradingInfoDt.Columns.Add("손익금합"        , typeof(double));
+                tradingInfoDt.Columns.Add("매입금액"        , typeof(double));//매입금액합
+                tradingInfoDt.Columns.Add("평가금액"        , typeof(double));//매입평가금액합
+                tradingInfoDt.Columns.Add("수익률"          , typeof(double));//손익율합
+                tradingInfoDt.Columns.Add("평가손익"        , typeof(double));//손익금합
                 tradingInfoDt.Columns.Add("실현손익"        , typeof(double));
                 tradingInfoDt.Columns.Add("투자율"          , typeof(double));
-                tradingInfoDt.Columns.Add("누적수익금"      , typeof(double));
+                tradingInfoDt.Columns.Add("누적수익"        , typeof(double));
 
                 DataRow tmpRow = tradingInfoDt.NewRow();
                 tradingInfoDt.Rows.Add(tmpRow);
 
                 //누적수익율 출력
-                tmpRow["누적수익금"] = Util.GetNumberFormat(this.chartData.getSumDtsunik());
+                tmpRow["누적수익"] = Util.GetNumberFormat(this.chartData.getSumDtsunik());
 
 
                 //장상태 정보
@@ -307,7 +311,7 @@ namespace PackageSellSystemTrading{
             this.timer_common.Stop();//계좌 및 미체결 검색 타이머
             //this.Timer0167.Stop();//시간검색
 
-            this.btn_start.Text = "종료";
+            this.btn_start.Text = "정지";
             this.log("<Trading Stop> ");
         }
 
@@ -704,10 +708,10 @@ namespace PackageSellSystemTrading{
             chartVo.date            = DateTime.Now.ToString("yyyy-MM-dd");                    //날자              
             chartVo.d2Dps           = Double.Parse(tmpRow["예수금(D2)"].ToString());       //예수금(D2)         
             chartVo.dpsastTotamt    = Double.Parse(tmpRow["예탁자산총액"].ToString());//예탁자산총액          
-            chartVo.mamt            = Double.Parse(tmpRow["매입금액합"].ToString());        //매입금액            
-            chartVo.balEvalAmt      = Double.Parse(tmpRow["매입평가금액합"].ToString());  //매입평가금액          
-            chartVo.pnlRat          = Double.Parse(tmpRow["손익율합"].ToString());      //손익율             
-            chartVo.tdtsunik        = Double.Parse(tmpRow["손익금합"].ToString());    //평가손익            
+            chartVo.mamt            = Double.Parse(tmpRow["매입금액"].ToString());        //매입금액            
+            chartVo.balEvalAmt      = Double.Parse(tmpRow["평가금액"].ToString());  //매입평가금액          
+            chartVo.pnlRat          = Double.Parse(tmpRow["수익률"].ToString());      //손익율             
+            chartVo.tdtsunik        = Double.Parse(tmpRow["평가손익"].ToString());    //평가손익            
             chartVo.dtsunik         = Double.Parse(tmpRow["실현손익"].ToString());     //실현손익            
             chartVo.battingAtm      = double.Parse(Properties.Settings.Default.BUY_BATTING_AMT)*10000;  //배팅금액            
             //chartVo.toDaysunik      = Double.Parse(this.label_toDaysunik.Text.Replace(",", ""));  //당일매도 실현손익       
@@ -792,8 +796,8 @@ namespace PackageSellSystemTrading{
             try {
                 if(this.xing_t0424!=null) {
 
-                    if (!this.xing_t0424.initAt)
-                    {
+                    //if (!this.xing_t0424.initAt)
+                    //{
                         if (e.RowIndex >= 0)
                         {
                             //MessageBox.Show(e.ColumnIndex.ToString());
@@ -809,8 +813,8 @@ namespace PackageSellSystemTrading{
                                 Double 매도가능 = t0424VoList.ElementAt(e.RowIndex).mdposqt;
                                 Double 매입금액 = t0424VoList.ElementAt(e.RowIndex).mamt;
 
-                                Double 평가금액 = 현재가 * 매도가능;
-                                Double 손익금 = 평가금액 - 매입금액;
+                                Double 평가금액 = 현재가   * 매도가능;
+                                Double 평가손익 = 평가금액 - 매입금액;
                                 Double 수익율 = this.xing_t0424.getSunikrt(평가금액, 매입금액);
                                 String 종목코드 = this.grd_t0424.Rows[e.RowIndex].Cells["c_expcode"].Value.ToString();
                                 if (종목명 == "피엔티")
@@ -821,7 +825,7 @@ namespace PackageSellSystemTrading{
                                 //현재가 * 매도가능 = 평가금액     현재가, 평균단가 = 수익율   매입금액 - 평가금액 = 손익금
                                 this.grd_t0424.Rows[e.RowIndex].Cells["appamt"   ].Value = 평가금액;
                                 this.grd_t0424.Rows[e.RowIndex].Cells["c_sunikrt"].Value = 수익율;
-                                this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"  ].Value = 손익금;
+                                this.grd_t0424.Rows[e.RowIndex].Cells["dtsunik"  ].Value = 평가손익;
 
                                 //트레이딩 정보 업데이트
                                 this.tradingInfoUpdate();
@@ -830,7 +834,7 @@ namespace PackageSellSystemTrading{
                                 priceChangedProcess(e.RowIndex);
                             }
 
-                        }
+                        //}
                     }
                 }
             }
@@ -852,27 +856,27 @@ namespace PackageSellSystemTrading{
             Double 예수금D2        = Double.Parse(xing_CSPAQ12200.D2Dps);
             Double 실현손익        = xing_t0424.dtsunik;
             Double 종목수          = t0424VoList.Count();
-            Double 매입금액합      = t0424VoList.Select(item => item.mamt).Sum();
-            Double 매입평가금액합  = t0424VoList.Select(item => item.appamt).Sum();
-            Double 손익금합        = 매입평가금액합 - 매입금액합;
-            Double 손익율합        = this.xing_t0424.getSunikrt(매입평가금액합, 매입금액합);
-            Double 예탁자산총액    = 매입평가금액합 + 예수금D2;
+            Double 매입금액        = t0424VoList.Select(item => item.mamt).Sum();
+            Double 평가금액        = t0424VoList.Select(item => item.appamt).Sum();
+            Double 평가손익        = 평가금액 - 매입금액;
+            Double 수익률          = this.xing_t0424.getSunikrt(평가금액, 매입금액);
+            Double 예탁자산총액    = 평가금액 + 예수금D2;
 
             Double 누적수익        = this.chartData.getSumDtsunik() + 실현손익;
-            Double 투자율          = Util.getInputRate(매입금액합, 예수금D2);
+            Double 투자율          = Util.getInputRate(매입금액, 예수금D2);
            
             DataRow tmpRow = tradingInfoDt.Rows[0];
             //tradingInfoDt.Columns.Add("날자", typeof(string));
             tmpRow["예수금"        ] = 예수금;
             tmpRow["예수금(D2)"    ] = 예수금D2;
             tmpRow["예탁자산총액"  ] = 예탁자산총액;
-            tmpRow["매입금액합"    ] = 매입금액합;
-            tmpRow["매입평가금액합"] = 매입평가금액합;
-            tmpRow["손익율합"      ] = 손익율합;
-            tmpRow["손익금합"      ] = 손익금합;
+            tmpRow["매입금액"      ] = 매입금액;
+            tmpRow["평가금액"      ] = 평가금액;
+            tmpRow["수익률"        ] = 수익률;
+            tmpRow["평가손익"      ] = 평가손익;
             tmpRow["실현손익"      ] = 실현손익;
             tmpRow["투자율"        ] = 투자율;
-            tmpRow["누적수익금"    ] = 누적수익;
+            tmpRow["누적수익"      ] = 누적수익;
 
             
         }
@@ -897,8 +901,8 @@ namespace PackageSellSystemTrading{
             String 에러코드     = t0424Vo.errorcd == null ? "" : t0424Vo.errorcd;
             Double 매도가능수량 = t0424Vo.mdposqt;
 
-            String 최대수익율 = t0424Vo.maxRt;
-            String 최소수익율 = t0424Vo.minRt;
+            String 최대수익율 = t0424Vo.maxRt == null ? "0" : t0424Vo.maxRt; 
+            String 최소수익율 = t0424Vo.minRt == null ? "0" : t0424Vo.minRt;
             //매매이력정보 호출
             //if (종목코드=="081660")
             //{
@@ -1117,17 +1121,22 @@ namespace PackageSellSystemTrading{
                 {
                     if (searchCnt == 0)
                     {
-                        
-                        xing_t1857Stop.call_index(0);
+                        //매도검색 호출
+                        xing_t1857Sell.call_index(0);
                         searchCnt = 1;
                     }
                     else if (searchCnt == 1)
-                    {
-                        xing_t1857.call_index(0);
+                    {   //매수검색 호출
+                        xing_t1857Buy.call_index(0);
                         searchCnt = 2;
                     }
+                    else if (searchCnt == 2)
+                    {   //매수검색 호출
+                        xing_t1857Stop.call_index();
+                        searchCnt = 3;
+                    }
                     else
-                    {
+                    {   //추가매수 호출
                         xing_t1857Add.call_index();
                         searchCnt = 0;
                     }
@@ -1141,6 +1150,8 @@ namespace PackageSellSystemTrading{
             Log.WriteLine(msg);
             this.insertListBoxLog("<" + DateTime.Now.TimeOfDay.ToString().Substring(0, 8) + ">" + msg);
         }
+
+        
     }//end class
     }//end namespace
 

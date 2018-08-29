@@ -1215,19 +1215,75 @@ namespace PackageSellSystemTrading.Properties {
             }
         }
         
-        /// <summary>
-        /// 매도 검색시 매수금지만
-        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsDescriptionAttribute("매도 검색시 매수금지만")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SELL_SEARCH_ONLY_AT {
+        public bool STOP_AT {
             get {
-                return ((bool)(this["SELL_SEARCH_ONLY_AT"]));
+                return ((bool)(this["STOP_AT"]));
             }
             set {
-                this["SELL_SEARCH_ONLY_AT"] = value;
+                this["STOP_AT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool STOP_STOP_BUYOFF_AT {
+            get {
+                return ((bool)(this["STOP_STOP_BUYOFF_AT"]));
+            }
+            set {
+                this["STOP_STOP_BUYOFF_AT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("선택")]
+        public string STOP_SEARCH_NM {
+            get {
+                return ((string)(this["STOP_SEARCH_NM"]));
+            }
+            set {
+                this["STOP_SEARCH_NM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 09:00:00")]
+        public global::System.DateTime STOP_TIME_FROM {
+            get {
+                return ((global::System.DateTime)(this["STOP_TIME_FROM"]));
+            }
+            set {
+                this["STOP_TIME_FROM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("06/25/2018 15:20:00")]
+        public global::System.DateTime STOP_TIME_TO {
+            get {
+                return ((global::System.DateTime)(this["STOP_TIME_TO"]));
+            }
+            set {
+                this["STOP_TIME_TO"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SELL_PLUS_ONLY_AT {
+            get {
+                return ((bool)(this["SELL_PLUS_ONLY_AT"]));
+            }
+            set {
+                this["SELL_PLUS_ONLY_AT"] = value;
             }
         }
     }

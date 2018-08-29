@@ -77,15 +77,19 @@ namespace PackageSellSystemTrading
                 string orgsvalue = base.GetFieldData("OutBlock", "orgsvalue"); //기관순매수금액
 
                 //코스피
+                String tmpUpDown=null;
                 if (upcode.Equals("001"))
                 {
                     if (Double.Parse(drate) < 0){
                         mainForm.label_ks.ForeColor = Color.Blue;
-                    }else{
+                        tmpUpDown = "▼";
+                    }
+                    else{
                         mainForm.label_ks.ForeColor = Color.Red;
+                        tmpUpDown = "▲";
                     }
                    
-                    mainForm.label_ks.Text = jisu + " " + change + " " + drate;
+                    mainForm.label_ks.Text = jisu+"(" + tmpUpDown + " " + change + "pt) " + drate +"%";
                     this.ks_jisu     = jisu;
                     this.ks_change   = Double.Parse(change);
                     this.ks_drate    = Double.Parse(drate);
@@ -99,11 +103,14 @@ namespace PackageSellSystemTrading
                 {
                     if (Double.Parse(drate) < 0){
                         mainForm.label_kd.ForeColor = Color.Blue;
+                        tmpUpDown = "▼";
 
-                    }else{
-                        mainForm.label_kd.ForeColor = Color.Red;
                     }
-                    mainForm.label_kd.Text = jisu + " " + change + " " + drate;
+                    else{
+                        mainForm.label_kd.ForeColor = Color.Red;
+                        tmpUpDown = "▲";
+                    }
+                    mainForm.label_kd.Text = jisu + "(" + tmpUpDown +" "+ change + "pts) " + drate + "%";
                     this.kd_jisu     = jisu;
                     this.kd_change   = Double.Parse(change);
                     this.kd_drate    = Double.Parse(drate);

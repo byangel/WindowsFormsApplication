@@ -47,7 +47,7 @@ namespace PackageSellSystemTrading
         public String  KOD_START_VAL;		        //코스닥 시작가대비 값
         public String  KOD_START_VAL_SE;	        //코스닥 시작가대비 구분[%| pt]
 
-        //조건식설정
+        //매수 조건식설정
         public String BUY_SEARCH_NM1; 		        //매수 조건검색 파일 이름1
         public String BUY_SEARCH_NM2;		        //매수 조건검색 파일 이름2
         public String BUY_SEARCH_NM3;		        //매수 조건검색 파일 이름3
@@ -59,6 +59,7 @@ namespace PackageSellSystemTrading
         public DateTime BUY_TIME_FROM; 		        //매수 동작 시간 FROM
         public DateTime BUY_TIME_TO; 		        //매수 동작 시간 TO
 
+        //매도 조건식설정
         public String  SELL_SEARCH_NM1; 	            //매도 조건검색 파일 이름1
         public String  SELL_SEARCH_NM2;		        //매도 조건검색 파일 이름2
         public String  SELL_SEARCH_NM3;		        //매도 조건검색 파일 이름3
@@ -69,15 +70,15 @@ namespace PackageSellSystemTrading
         public String  SELL_HO_CHANGE_SE; 	        //매도 호가 정정 구분
         public DateTime  SELL_TIME_FROM; 		        //매도 동작 시간 FROM
         public DateTime  SELL_TIME_TO; 		        //매도 동작 시간 TO
-        public Boolean SELL_SEARCH_ONLY_AT;          //매도 조건검색 매도 금지 여부
+        public Boolean SELL_PLUS_ONLY_AT;           //+수익일때만 매도
 
-        //트레이딩 스탑
+        //트레이딩스탑
         public String STOP_TARGET_RATE; 	        //목표 수익
         public String STOP_TARGET_DOWN_RATE; 	    //목표 수익 대비 하락율
 
         public Boolean ALL_SELL_AT; 		        //일괄 매도 여부
-        public DateTime  ALL_SELL_TIME_FROM; 	        //일괄 매도 시작시간
-        public DateTime  ALL_SELL_TIME_TO;	        //일괄 매도 종료시간
+        public DateTime ALL_SELL_TIME_FROM; 	        //일괄 매도 시작시간
+        public DateTime ALL_SELL_TIME_TO;	        //일괄 매도 종료시간
         public String  ALL_SELL_RATE;		        //일괄 매도 비율
         public String  ALL_SELL_RATE_SE;	        //일괄 매도 구분
 
@@ -92,6 +93,13 @@ namespace PackageSellSystemTrading
         public Boolean SELL_TARGET_TIME_40;
         public Boolean SELL_TARGET_TIME_50;
         public Boolean SELL_TARGET_TIME_00;
+
+        //트레이딩스탑-손절
+        public Boolean STOP_AT;                     //손절검색 여부
+        public Boolean STOP_STOP_BUYOFF_AT;         //손절검색된 종목 매수금지 여부
+        public String STOP_SEARCH_NM;               //손절검색 파일 이름
+        public DateTime STOP_TIME_FROM;             //손절검색 시작시간
+        public DateTime STOP_TIME_TO;               //손절검색 종료시간
 
         //추가 매수
         public Boolean ADD_BUY_SIGNAL_AT; 	        //추가매수 신호 여부
@@ -168,9 +176,9 @@ namespace PackageSellSystemTrading
             this.SELL_HO_CHANGE_SE      = sel_sell_ho_change_se.Text;		                //매도 호가 정정 구분
             this.SELL_TIME_FROM         = inp_sell_time_from.Value;				            //매도 동작 시간 FROM
             this.SELL_TIME_TO           = inp_sell_time_to.Value;				            //매도 동작 시간 TO
-            this.SELL_SEARCH_ONLY_AT    = cbx_sell_search_only_at.Checked;                  //매도 조건검색 매도 금지 여부
+            this.SELL_PLUS_ONLY_AT      = cbx_sell_plus_only_at.Checked;                    //+수익일때만 매도
 
-            //트레이딩 스탑
+            //트레이딩스탑
             this.STOP_TARGET_RATE       = inp_stop_target_rate.Text;			            //목표 수익
             this.STOP_TARGET_DOWN_RATE  = inp_stop_target_down_rate.Text;		            //목표 수익 대비 하락율
 
@@ -181,7 +189,7 @@ namespace PackageSellSystemTrading
             this.ALL_SELL_RATE_SE       = sel_all_sell_rate_se.Text;		                //일괄 매도 구분
 
             this.STOP_LOSS_AT           = cbx_stop_loss_at.Checked;			                //손절 여부
-            this.STOP_LOSS_RATE         = Double.Parse(inp_stop_loss_rate.Text);			                //손절 하락 비율
+            this.STOP_LOSS_RATE         = Double.Parse(inp_stop_loss_rate.Text);			//손절 하락 비율
 
             this.SELL_TARGET_TIME_AT    = cbx_sell_target_time_at.Checked;			        //지정 시간 매도 여부
             this.SELL_TARGET_TIME_OVR_RATE = inp_sell_target_time_ovr_rate.Text;	        //지정시간 오버 수익 비율
@@ -192,18 +200,26 @@ namespace PackageSellSystemTrading
             this.SELL_TARGET_TIME_50    = cbx_sell_target_time_50.Checked;
             this.SELL_TARGET_TIME_00    = cbx_sell_target_time_00.Checked;
 
-            //추가 매수
-            this.ADD_BUY_SIGNAL_AT      = cbx_add_buy_signal_at.Checked; 		                //추가매수 신호 여부
-            this.ADD_BUY_SIGNAL_RATE    = inp_add_buy_signal_rate.Text; 		                //추가매수 신호 하락 비율
-            this.ADD_BUY_SIGNAL_AMT     = inp_add_buy_signal_amt.Text;  		                //추가매수 신호 금액(만원)
-            this.ADD_BUY_AT             = cbx_add_buy_at.Checked; 			                    //추가매수 여부
-            this.ADD_BUY_RATE           = inp_add_buy_rate.Text;			                    //추가매수 하락 비율
-            this.ADD_BUY_AMT            = inp_add_buy_amt.Text;		                            //추가매수 금액(만원)
+            //트레이딩스탑-손절
+            this.STOP_AT                = cbx_stop_at.Checked; 	        //손절검색 여부
+            this.STOP_STOP_BUYOFF_AT    = cbx_stop_buyoff_at.Checked;   //손절검색된 종목 매수금지 여부
+            this.STOP_SEARCH_NM         = sel_stop_search_nm.Text;		//손절검색 파일 이름
+            this.STOP_TIME_FROM         = inp_stop_time_from.Value;	    //손절검색 시작시간
+            this.STOP_TIME_TO           = inp_stop_time_to.Value;       //손절검색 종료시간
+            
+            //추가매수
+            this.ADD_BUY_SIGNAL_AT      = cbx_add_buy_signal_at.Checked; 		   //추가매수 신호 여부
+            this.ADD_BUY_SIGNAL_RATE    = inp_add_buy_signal_rate.Text; 		   //추가매수 신호 하락 비율
+            this.ADD_BUY_SIGNAL_AMT     = inp_add_buy_signal_amt.Text;  		   //추가매수 신호 금액(만원)
+            this.ADD_BUY_AT             = cbx_add_buy_at.Checked; 			       //추가매수 여부
+            this.ADD_BUY_RATE           = inp_add_buy_rate.Text;			       //추가매수 하락 비율
+            this.ADD_BUY_AMT            = inp_add_buy_amt.Text;		               //추가매수 금액(만원)
 
-            this.ADD_BUY_SEARCH_AT        = cbx_add_buy_search_at.Checked;		                //추가매수 조건검색 여부
-            this.ADD_BUY_SEARCH_NM        = sel_add_buy_search_nm.Text;		                    //추가매수 조건검색 이름
-            this.ADD_BUY_SEARCH_TIME_FROM = inp_add_buy_search_time_from.Value;	    //추가매수 조건검색 시작시간
-            this.ADD_BUY_SEARCH_TIME_TO   = inp_add_buy_search_time_to.Value;          //추가매수 조건검색 종료시간
+            //추가매수-검색식
+            this.ADD_BUY_SEARCH_AT        = cbx_add_buy_search_at.Checked;		   //추가매수 조건검색 여부
+            this.ADD_BUY_SEARCH_NM        = sel_add_buy_search_nm.Text;		       //추가매수 조건검색 이름
+            this.ADD_BUY_SEARCH_TIME_FROM = inp_add_buy_search_time_from.Value;	   //추가매수 조건검색 시작시간
+            this.ADD_BUY_SEARCH_TIME_TO   = inp_add_buy_search_time_to.Value;      //추가매수 조건검색 종료시간
 
             
             //기본설정
@@ -263,8 +279,9 @@ namespace PackageSellSystemTrading
             sel_sell_ho_change_se.Text          = Properties.Settings.Default.SELL_HO_CHANGE_SE;            //매도 호가 정정 구분
             inp_sell_time_from.Value            = Properties.Settings.Default.SELL_TIME_FROM;     			//매도 동작 시간 FROM
             inp_sell_time_to.Value              = Properties.Settings.Default.SELL_TIME_TO;                 //매도 동작 시간 TO
-            cbx_sell_search_only_at.Checked     = Properties.Settings.Default.SELL_SEARCH_ONLY_AT;          //매도 조건검색 매도 금지 여부
-            //트레이딩 스탑
+            cbx_sell_plus_only_at.Checked       = Properties.Settings.Default.SELL_PLUS_ONLY_AT;          //매도 조건검색 매도 금지 여부
+            
+            //트레이딩스탑
             inp_stop_target_rate.Text           = Properties.Settings.Default.STOP_TARGET_RATE;           	//목표 수익
             inp_stop_target_down_rate.Text      = Properties.Settings.Default.STOP_TARGET_DOWN_RATE;      	//목표 수익 대비 하락율
             
@@ -275,7 +292,7 @@ namespace PackageSellSystemTrading
             sel_all_sell_rate_se.Text           = Properties.Settings.Default.ALL_SELL_RATE_SE;             //일괄 매도 구분
             
             cbx_stop_loss_at.Checked            = Properties.Settings.Default.STOP_LOSS_AT;               	//손절 여부
-            inp_stop_loss_rate.Text             = Properties.Settings.Default.STOP_LOSS_RATE.ToString();             	//손절 하락 비율
+            inp_stop_loss_rate.Text             = Properties.Settings.Default.STOP_LOSS_RATE.ToString();    //손절 하락 비율
             
             cbx_sell_target_time_at.Checked     = Properties.Settings.Default.SELL_TARGET_TIME_AT;        	//지정 시간 매도 여부
             inp_sell_target_time_ovr_rate.Text  = Properties.Settings.Default.SELL_TARGET_TIME_OVR_RATE;  	//지정시간 오버 수익 비율
@@ -286,7 +303,14 @@ namespace PackageSellSystemTrading
             cbx_sell_target_time_50.Checked     = Properties.Settings.Default.SELL_TARGET_TIME_50;
             cbx_sell_target_time_00.Checked     = Properties.Settings.Default.SELL_TARGET_TIME_00;
 
-            //추가 매수
+            //트레이딩스탑-손절
+            cbx_stop_at.Checked                 = Properties.Settings.Default.STOP_AT;          	        //손절검색 여부
+            cbx_stop_buyoff_at.Checked          = Properties.Settings.Default.STOP_STOP_BUYOFF_AT;          //손절검색된 종목 매수금지 여부
+            Util.setComBoByKeyValue(sel_stop_search_nm, Properties.Settings.Default.STOP_SEARCH_NM);        //손절검색 파일 이름
+            inp_stop_time_from.Value            = Properties.Settings.Default.STOP_TIME_FROM;               //손절검색 시작시간
+            inp_stop_time_to.Value              = Properties.Settings.Default.STOP_TIME_TO;     	        //손절검색 종료시간
+            
+            //추가매수
             cbx_add_buy_signal_at.Checked       = Properties.Settings.Default.ADD_BUY_SIGNAL_AT;          	//추가매수 신호 여부
             inp_add_buy_signal_rate.Text        = Properties.Settings.Default.ADD_BUY_SIGNAL_RATE;        	//추가매수 신호 하락 비율
             inp_add_buy_signal_amt.Text         = Properties.Settings.Default.ADD_BUY_SIGNAL_AMT;         	//추가매수 신호 금액(만원)
@@ -294,7 +318,7 @@ namespace PackageSellSystemTrading
             inp_add_buy_rate.Text               = Properties.Settings.Default.ADD_BUY_RATE;               	//추가매수 하락 비율
             inp_add_buy_amt.Text                = Properties.Settings.Default.ADD_BUY_AMT;                  //추가매수 금액(만원)
 
-
+            //추가매수-검색식
             cbx_add_buy_search_at.Checked       = Properties.Settings.Default.ADD_BUY_SEARCH_AT;          	//추가매수 조건검색 여부
             Util.setComBoByKeyValue(sel_add_buy_search_nm, Properties.Settings.Default.ADD_BUY_SEARCH_NM);  //추가매수 조건검색 이름
             inp_add_buy_search_time_from.Value  = Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM;     //추가매수 조건검색 시작시간
@@ -371,8 +395,8 @@ namespace PackageSellSystemTrading
                 sel_sell_search_nm1.Text            = this.SELL_SEARCH_NM1;                  //매도 조건검색 파일 이름1
                 sel_sell_search_nm2.Text            = this.SELL_SEARCH_NM2;                  //매도 조건검색 파일 이름2
                 sel_sell_search_nm3.Text            = this.SELL_SEARCH_NM3;                  //매도 조건검색 파일 이름3
-                cbx_sell_search_only_at.Checked     = this.SELL_SEARCH_ONLY_AT;              //매도 조건검색 매도 금지 여부
-              
+                cbx_sell_plus_only_at.Checked     = this.SELL_PLUS_ONLY_AT;              //+수익일때만 매도
+
 
                 sel_sell_search_se1.Text            = this.SELL_SEARCH_SE1;                  //매도 조건검색 구분1
                 sel_sell_search_se2.Text            = this.SELL_SEARCH_SE2;                  //매도 조건검색 구분2
@@ -382,7 +406,7 @@ namespace PackageSellSystemTrading
                 inp_sell_time_from.Value            = this.SELL_TIME_FROM;                   //매도 동작 시간 FROM
                 inp_sell_time_to.Value              = this.SELL_TIME_TO;                     //매도 동작 시간 TO
 
-                //트레이딩 스탑
+                //트레이딩스탑
                 inp_stop_target_rate.Text           = this.STOP_TARGET_RATE;                 //목표 수익
                 inp_stop_target_down_rate.Text      = this.STOP_TARGET_DOWN_RATE;            //목표 수익 대비 하락율
                 
@@ -404,14 +428,22 @@ namespace PackageSellSystemTrading
                 cbx_sell_target_time_50.Checked     = this.SELL_TARGET_TIME_50;
                 cbx_sell_target_time_00.Checked     = this.SELL_TARGET_TIME_00;
 
-                //추가 매수
+                //트레이딩스탑-손절
+                cbx_stop_at.Checked                 = this.STOP_AT;                     //손절검색 여부
+                cbx_stop_buyoff_at.Checked          = this.STOP_STOP_BUYOFF_AT;         //손절검색된 종목 매수금지 여부
+                sel_stop_search_nm.Text             = this.STOP_SEARCH_NM;              //손절검색 파일 이름
+                inp_stop_time_from.Value            = this.STOP_TIME_FROM;              //손절검색 시작시간
+                inp_stop_time_to.Value              = this.STOP_TIME_TO;     	        //손절검색 종료시간
+
+                //추가매수
                 cbx_add_buy_signal_at.Checked       = this.ADD_BUY_SIGNAL_AT;             //추가매수 신호 여부
-                inp_add_buy_signal_rate.Text        = this.ADD_BUY_SIGNAL_RATE;            //추가매수 신호 하락 비율
-                inp_add_buy_signal_amt.Text         = this.ADD_BUY_SIGNAL_AMT;              //추가매수 신호 금액(만원)
-                cbx_add_buy_at.Checked              = this.ADD_BUY_AT;                           //추가매수 여부
-                inp_add_buy_rate.Text               = this.ADD_BUY_RATE;                          //추가매수 하락 비율
-                inp_add_buy_amt.Text                = this.ADD_BUY_AMT;                            //추가매수 금액(만원)
-                
+                inp_add_buy_signal_rate.Text        = this.ADD_BUY_SIGNAL_RATE;           //추가매수 신호 하락 비율
+                inp_add_buy_signal_amt.Text         = this.ADD_BUY_SIGNAL_AMT;            //추가매수 신호 금액(만원)
+                cbx_add_buy_at.Checked              = this.ADD_BUY_AT;                    //추가매수 여부
+                inp_add_buy_rate.Text               = this.ADD_BUY_RATE;                  //추가매수 하락 비율
+                inp_add_buy_amt.Text                = this.ADD_BUY_AMT;                   //추가매수 금액(만원)
+
+                //추가매수-검색식
                 cbx_add_buy_search_at.Checked       = this.ADD_BUY_SEARCH_AT;             //추가매수 조건검색 여부
                 sel_add_buy_search_nm.Text          = this.ADD_BUY_SEARCH_NM;                //추가매수 조건검색 이름
                 inp_add_buy_search_time_from.Value  = this.ADD_BUY_SEARCH_TIME_FROM;  //추가매수 조건검색 시작시간
@@ -480,15 +512,15 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.SELL_HO_CHANGE_SE = sel_sell_ho_change_se.Text;                 //매도 호가 정정 구분                         
             Properties.Settings.Default.SELL_TIME_FROM = inp_sell_time_from.Value;                       //매도 동작 시간 FROM     
             Properties.Settings.Default.SELL_TIME_TO = inp_sell_time_to.Value;			 		        //매도 동작 시간 TO    
-            Properties.Settings.Default.SELL_SEARCH_ONLY_AT = cbx_sell_search_only_at.Checked;          //매도 조건검색 매도 금지 여부
+            Properties.Settings.Default.SELL_PLUS_ONLY_AT = cbx_sell_plus_only_at.Checked;              //+수익일때만 매도
 
-            // 트레이딩 스탑
+            // 트레이딩스탑
             Properties.Settings.Default.STOP_TARGET_RATE = inp_stop_target_rate.Text;                   //목표 수익                                         
             Properties.Settings.Default.STOP_TARGET_DOWN_RATE = inp_stop_target_down_rate.Text;         //목표 수익 대비 하락율                                 
 
             Properties.Settings.Default.ALL_SELL_AT = cbx_all_sell_at.Checked;                          //일괄 매도 여부                      
-            Properties.Settings.Default.ALL_SELL_TIME_FROM = inp_all_sell_time_from.Value;               //일괄 매도 시작시간                       
-            Properties.Settings.Default.ALL_SELL_TIME_TO = inp_all_sell_time_to.Value;                   //일괄 매도 종료시간                       
+            Properties.Settings.Default.ALL_SELL_TIME_FROM = inp_all_sell_time_from.Value;              //일괄 매도 시작시간                       
+            Properties.Settings.Default.ALL_SELL_TIME_TO = inp_all_sell_time_to.Value;                  //일괄 매도 종료시간                       
             Properties.Settings.Default.ALL_SELL_RATE = inp_all_sell_rate.Text;                         //일괄 매도 비율                                  
             Properties.Settings.Default.ALL_SELL_RATE_SE = sel_all_sell_rate_se.Text;                   //일괄 매도 구분                             
 
@@ -503,8 +535,15 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.SELL_TARGET_TIME_40 = cbx_sell_target_time_40.Checked;
             Properties.Settings.Default.SELL_TARGET_TIME_50 = cbx_sell_target_time_50.Checked;
             Properties.Settings.Default.SELL_TARGET_TIME_00 = cbx_sell_target_time_00.Checked;
+   
+            //트레이딩스탑-손절
+            Properties.Settings.Default.STOP_AT             = cbx_stop_at.Checked;                      //손절검색 여부
+            Properties.Settings.Default.STOP_STOP_BUYOFF_AT = cbx_stop_buyoff_at.Checked;               //손절검색된 종목 매수금지 여부
+            Properties.Settings.Default.STOP_SEARCH_NM      = sel_stop_search_nm.SelectedIndex > -1 ? sel_stop_search_nm.SelectedValue.ToString() : ""; //손절검색 파일 이름
+            Properties.Settings.Default.STOP_TIME_FROM      = inp_stop_time_from.Value;                 //손절검색 시작시간                    
+            Properties.Settings.Default.STOP_TIME_TO        = inp_stop_time_to.Value;                   //손절검색 종료시간
             
-            // 추가 매수
+            //추가매수
             Properties.Settings.Default.ADD_BUY_SIGNAL_AT = cbx_add_buy_signal_at.Checked;              //추가매수 신호 여부                       
             Properties.Settings.Default.ADD_BUY_SIGNAL_RATE = inp_add_buy_signal_rate.Text;             //추가매수 신호 하락 비율                                
             Properties.Settings.Default.ADD_BUY_SIGNAL_AMT = inp_add_buy_signal_amt.Text;               //추가매수 신호 금액(만원)                               
@@ -512,8 +551,8 @@ namespace PackageSellSystemTrading
             Properties.Settings.Default.ADD_BUY_RATE = inp_add_buy_rate.Text;                           //추가매수 하락 비율                               
             Properties.Settings.Default.ADD_BUY_AMT = inp_add_buy_amt.Text;                             //추가매수 금액(만원)                                 
 
+            //추가매수-검색식
             Properties.Settings.Default.ADD_BUY_SEARCH_AT = cbx_add_buy_search_at.Checked;              //추가매수 조건검색 여부                     
-            
             Properties.Settings.Default.ADD_BUY_SEARCH_NM = sel_add_buy_search_nm.SelectedIndex > -1 ? sel_add_buy_search_nm.SelectedValue.ToString() : ""; //추가매수 조건검색 이름  
             Properties.Settings.Default.ADD_BUY_SEARCH_TIME_FROM = inp_add_buy_search_time_from.Value;   //추가매수 조건검색 시작시간                         
             Properties.Settings.Default.ADD_BUY_SEARCH_TIME_TO = inp_add_buy_search_time_to.Value;       //추가매수 조건검색 종료시간   
@@ -819,6 +858,22 @@ namespace PackageSellSystemTrading
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Util.setComBoByKeyValue(sel_add_buy_search_nm, openFileDialog1.FileName.ToString());
+            }
+        }
+
+        private void btn_stop_search_nm_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            //openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.InitialDirectory = Application.StartupPath.Replace("\\bin\\Debug", "") + "\\Resources\\";
+            openFileDialog1.Filter = "All files (*.*)|*.*|ACF files (*.ACF)|*.ACF";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Util.setComBoByKeyValue(sel_stop_search_nm, openFileDialog1.FileName.ToString());
             }
         }
     }//class end

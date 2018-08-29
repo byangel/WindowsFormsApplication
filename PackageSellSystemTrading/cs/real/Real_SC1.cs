@@ -149,7 +149,7 @@ namespace PackageSellSystemTrading{
                     {
                         //mainForm.grd_t0424.Rows[findIndex].Cells["pamt2"].Value = summaryVo.pamt2;//평균단가
                         mainForm.grd_t0424.Rows[findIndex].Cells["sellCnt"].Value = summaryVo.sellCnt;//매도횟수
-                        mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value = summaryVo.buyCnt;//매수욋수
+                        mainForm.grd_t0424.Rows[findIndex].Cells["buyCnt"].Value = summaryVo.buyCnt;//매수회수
                         //mainForm.grd_t0424.Rows[findIndex].Cells["sellSunik"].Value = summaryVo.sellSunik;//중간매도손익
                      //여기서는 평균단가만 적용해주자...실시간 현재가 이벤트 발생시에만 수익률을 계산하여 매매를 하자.
                      //평균단가 구한후 평균단가를 기준으로 수익율을 구한다.

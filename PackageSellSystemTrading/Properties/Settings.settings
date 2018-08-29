@@ -230,8 +230,23 @@
     <Setting Name="SEARCH_SERVER_AT" Description="서버 조건식 검색 여부" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="SELL_SEARCH_ONLY_AT" Description="매도 검색시 매수금지만" Type="System.Boolean" Scope="User">
+    <Setting Name="STOP_AT" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="STOP_STOP_BUYOFF_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="STOP_SEARCH_NM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">선택</Value>
+    </Setting>
+    <Setting Name="STOP_TIME_FROM" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 09:00:00</Value>
+    </Setting>
+    <Setting Name="STOP_TIME_TO" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/25/2018 15:20:00</Value>
+    </Setting>
+    <Setting Name="SELL_PLUS_ONLY_AT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -479,7 +479,7 @@ namespace PackageSellSystemTrading
             }
         }
 
-        //매수 가능 시간 비교
+        //매수가능시간 비교
         public static Boolean isBuyTime()
         {
             
@@ -508,7 +508,7 @@ namespace PackageSellSystemTrading
             return false;
         }
 
-        //매도 가능 시간 비교
+        //매도가능시간 체크
         public static Boolean isSellTime() { 
             //매도타임
             TimeSpan nowTimeSpan = TimeSpan.Parse(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
@@ -519,6 +519,22 @@ namespace PackageSellSystemTrading
                 return true;
             }
             
+            return false;
+        }
+
+        //손절가능시간 체크
+        public static Boolean isStopTime()
+        {
+            //매도타임
+            TimeSpan nowTimeSpan = TimeSpan.Parse(DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+            //매수 가능 시간 비교
+            DateTime sellTimeFrom = Properties.Settings.Default.STOP_TIME_FROM;
+            DateTime sellTimeTo = Properties.Settings.Default.STOP_TIME_TO;
+            if (nowTimeSpan >= sellTimeFrom.TimeOfDay && nowTimeSpan <= sellTimeTo.TimeOfDay)
+            {
+                return true;
+            }
+
             return false;
         }
 

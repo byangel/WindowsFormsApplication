@@ -71,7 +71,6 @@ namespace PackageSellSystemTrading {
                 T0424Vo tmpT0424Vo=null;
 
                 String expcode;//종목코드
-                String jonggb;//마켓구분
                 String mdposqt;//매도가능
                 String 주문여부;
                 int findIndex;
@@ -99,25 +98,34 @@ namespace PackageSellSystemTrading {
                         //mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value = "N";
                         tmpT0424Vo.orderAt = "N";
                         tmpT0424Vo.errorcd = "";
-                    }
-                    else
-                    {
+
+                        tmpT0424Vo.expcode  = base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
+                        tmpT0424Vo.hname    = base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
+                        tmpT0424Vo.mdposqt  = Double.Parse(base.GetFieldData("t0424OutBlock1", "mdposqt", i)); //매도가능 수량
+                        tmpT0424Vo.price    = Double.Parse(base.GetFieldData("t0424OutBlock1", "price", i)); //현재가
+                        tmpT0424Vo.appamt   = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt", i)); //평가금액
+                        tmpT0424Vo.dtsunik  = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
+                        tmpT0424Vo.sunikrt  = Double.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
+                        tmpT0424Vo.pamt     = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
+                        tmpT0424Vo.mamt     = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
+                        tmpT0424Vo.fee      = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
+                        tmpT0424Vo.tax      = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
+                        tmpT0424Vo.jonggb   = base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목시장구분
+
+                    } else {
                         tmpT0424Vo = t0424VoList.ElementAt(findIndex);
+                        mainForm.grd_t0424.Rows[findIndex].Cells["c_mdposqt"].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "mdposqt", i)); //매도가능 수량
+                        mainForm.grd_t0424.Rows[findIndex].Cells["price"    ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "price"  , i)); //현재가
+                        mainForm.grd_t0424.Rows[findIndex].Cells["appamt"   ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt" , i)); //평가금액
+                        mainForm.grd_t0424.Rows[findIndex].Cells["dtsunik"  ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
+                        mainForm.grd_t0424.Rows[findIndex].Cells["c_sunikrt"].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
+                        mainForm.grd_t0424.Rows[findIndex].Cells["pamt"     ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt"   , i)); //평균단가
+                        mainForm.grd_t0424.Rows[findIndex].Cells["mamt"     ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt"   , i)); //매입금액
+                        mainForm.grd_t0424.Rows[findIndex].Cells["fee"      ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee"    , i)); //수수료
+                        mainForm.grd_t0424.Rows[findIndex].Cells["tax"      ].Value = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax"    , i)); //제세금 
                     }
                                
-                    tmpT0424Vo.expcode  =               base.GetFieldData("t0424OutBlock1", "expcode", i); //종목코드
-                    tmpT0424Vo.hname    =              base.GetFieldData("t0424OutBlock1", "hname", i); //종목명
-                    tmpT0424Vo.mdposqt  = Double.Parse(base.GetFieldData("t0424OutBlock1", "mdposqt", i)); //매도가능 수량
-                    tmpT0424Vo.price    = Double.Parse(base.GetFieldData("t0424OutBlock1", "price", i)); //현재가
-                    tmpT0424Vo.appamt   = Double.Parse(base.GetFieldData("t0424OutBlock1", "appamt", i)); //평가금액
-                    tmpT0424Vo.dtsunik  = Double.Parse(base.GetFieldData("t0424OutBlock1", "dtsunik", i)); //평가손익
-                    tmpT0424Vo.sunikrt  = Double.Parse(base.GetFieldData("t0424OutBlock1", "sunikrt", i)); //수익율
-                    tmpT0424Vo.pamt     = Double.Parse(base.GetFieldData("t0424OutBlock1", "pamt", i)); //평균단가
-                    tmpT0424Vo.mamt     = Double.Parse(base.GetFieldData("t0424OutBlock1", "mamt", i)); //매입금액
-                    tmpT0424Vo.fee      = Double.Parse(base.GetFieldData("t0424OutBlock1", "fee", i)); //수수료
-                    tmpT0424Vo.tax      = Double.Parse(base.GetFieldData("t0424OutBlock1", "tax", i)); //제세금 
-                    tmpT0424Vo.jonggb   =  base.GetFieldData("t0424OutBlock1", "jonggb", i); //종목시장구분
-
+                    
                    
                     
                     //주문여부 = mainForm.grd_t0424.Rows[findIndex].Cells["orderAt"].Value.ToString();
@@ -134,6 +142,7 @@ namespace PackageSellSystemTrading {
 
                     //확장정보
                     this.getSummaryVo(tmpT0424Vo);
+                  
                     mainForm.priceChangedProcess(findIndex);
                     
 
@@ -173,7 +182,16 @@ namespace PackageSellSystemTrading {
                             for (int i = 0; i < this.t0424VoList.Count(); i++)
                             {
                                 //1.거래가능여부 && 주문중상태가 아니고 && 종목거래 에러 여부
-                                this.tradingStopTest(t0424VoList.ElementAt(i), i, 목표수익율);
+                                T0424Vo tmpt0424Vo = t0424VoList.ElementAt(i);
+                                if(tmpt0424Vo.errorcd == "")
+                                {
+                                    this.tradingStopTest(t0424VoList.ElementAt(i), i, 목표수익율);
+                                }
+                                else
+                                {
+                                    ;
+                                }
+                                
                                 this.t0424VoList.ElementAt(i).deleteAt = "Y";
                             }
                         }
@@ -200,21 +218,26 @@ namespace PackageSellSystemTrading {
             Double 매도가능수량 = t0424Vo.mdposqt;
             String 에러코드 = t0424Vo.errorcd;
             SummaryVo summaryVo = mainForm.tradingHistory.getSummaryVo(종목코드);
-            if (summaryVo != null)
+            if (summaryVo == null)
+            {
+                t0424Vo.errorcd = "summaryVo is null";
+
+            }
+            else
             {
                 String 최대수익율 = Util.nvl(summaryVo.maxRt, "0");
                 String 최소수익율 = Util.nvl(summaryVo.minRt, "0");
 
-                t0424Vo.sellCnt     = summaryVo.sellCnt;    //매도 횟수.
-                t0424Vo.buyCnt      = summaryVo.buyCnt;     //매수 횟수
-                t0424Vo.firstBuyDt  = summaryVo.firstBuyDt; //최초진입일시
+                t0424Vo.sellCnt = summaryVo.sellCnt;    //매도 횟수.
+                t0424Vo.buyCnt = summaryVo.buyCnt;     //매수 횟수
+                t0424Vo.firstBuyDt = summaryVo.firstBuyDt; //최초진입일시
 
-                t0424Vo.sumMdposqt  = summaryVo.sumMdposqt; //매도가능이력
-                t0424Vo.ordermtd    = summaryVo.ordermtd;    //주문매체
+                t0424Vo.sumMdposqt = summaryVo.sumMdposqt; //매도가능이력
+                t0424Vo.ordermtd = summaryVo.ordermtd;    //주문매체
                 t0424Vo.exclWatchAt = summaryVo.exclWatchAt; //감시제외여부
-                t0424Vo.searchNm    = summaryVo.searchNm;    //검색조건 이름
-                t0424Vo.maxRt       = 최대수익율;            //최대도달 수익율
-                t0424Vo.minRt       = 최소수익율;            //최소도달 수익율
+                t0424Vo.searchNm = summaryVo.searchNm;    //검색조건 이름
+                t0424Vo.maxRt = 최대수익율;            //최대도달 수익율
+                t0424Vo.minRt = 최소수익율;            //최소도달 수익율
 
                 //매도가능수량이 같지 않으면 에러표시 해주자.
 
@@ -233,7 +256,7 @@ namespace PackageSellSystemTrading {
                     }
                 }
                 //확장정보 에러일경우 에러상태를 풀어준다.
-                if (t0424Vo.errorcd != null && t0424Vo.errorcd.Equals("notHistory"))
+                if (t0424Vo.errorcd != null && t0424Vo.errorcd.Equals("summaryVo is null"))//summaryVo is null
                 {
                     t0424Vo.errorcd = "";
                     //this.grd_t0424.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
@@ -329,7 +352,7 @@ namespace PackageSellSystemTrading {
 
         //목표 수익율 도달 Test 후 도달여부에 따라 매도 호출
         public Boolean tradingStopTest(T0424Vo t0424Vo, int index, Double 목표수익율){
-            try{
+            //try{
                 Double 수익율       = t0424Vo.sunikrt;
                 Double 현재가격     = t0424Vo.price;
                 String 감시제외여부 = t0424Vo.exclWatchAt;                    //감시제외여부
@@ -469,19 +492,21 @@ namespace PackageSellSystemTrading {
                 //주문.
                 if (매매구분 != null)
                 {
+                    t0424Vo.orderAt = "Y";
+
                     Xing_CSPAT00600 xing_CSPAT00600 = mainForm.CSPAT00600Mng.get600();
                     xing_CSPAT00600.call_request(종목명, 종목코드, 매매구분, 수량,  현재가, 매수전량명, 평균단가, 상세매매구분);
                     //청산 주문여부를 true로 설정  
-                    t0424Vo.orderAt = "Y";
+                    
                     
                     mainForm.log("<t0424:" + 상세매매구분 + "> " + 종목명 + " " + 수익율 + "% " + 수량 + "주 " + 현재가 + "원<" + 매수전량명 + ">");
                 }
 
-            }
-            catch (Exception ex){
-                Log.WriteLine("t0424 : " + ex.Message);
-                Log.WriteLine("t0424 : " + ex.StackTrace);
-            }
+           // }
+            //catch (Exception ex){
+            //    Log.WriteLine("t0424 : " + ex.Message);
+            //    Log.WriteLine("t0424 : " + ex.StackTrace);
+            //}
             return false;
         }//stopProFitTarget end
 
@@ -555,8 +580,8 @@ namespace PackageSellSystemTrading {
         public void call_request(String account, String accountPw)
         {
 
-            if (completeAt)
-            {
+            //if (completeAt)
+            //{
                 this.completeAt = false;//중복호출 방지
 
                 base.SetFieldData("t0424InBlock", "accno"       , 0, account);    // 계좌번호
@@ -572,16 +597,16 @@ namespace PackageSellSystemTrading {
                 //폼 메세지.
                 mainForm.input_t0424_log.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0424:잔고조회>";
 
-            }else{
-                mainForm.input_t0424_log.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0424:중복>";
+            ////}else{
+            //    mainForm.input_t0424_log.Text = "<" + DateTime.Now.TimeOfDay.ToString().Substring(0,8) + "><t0424:중복>";
 
-                callCnt++;
-                if (callCnt == 5)
-                {
-                    this.completeAt = true;
-                    callCnt = 0;
-                }
-            }
+            //    callCnt++;
+            //    if (callCnt == 5)
+            //    {
+            //        this.completeAt = true;
+            //        callCnt = 0;
+            //    }
+            ////}
         }	// end function
 
     } //end class 

@@ -59,13 +59,19 @@ namespace PackageSellSystemTrading
                         mainForm.tradingStop();
                     }
 
-                    if (jstatus == "11")
+                    if (jstatus == "21" && mainForm.btn_start.Text == "정지")
+                    {
+                        //장시작
+                        mainForm.tradingStart();
+                    }
+
+                    if (jstatus == "11" && mainForm.btn_start.Text == "정지")
                     {
                         //장전 동시호가 개시
                         mainForm.tradingStart();
                     }
 
-                    if (jstatus == "23" && mainForm.btn_start.Text == "종료")
+                    if (jstatus == "23" && mainForm.btn_start.Text == "정지")
                     {
                         //장개시1분전
                         mainForm.tradingStart();

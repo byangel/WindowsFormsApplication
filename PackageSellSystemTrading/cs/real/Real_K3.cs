@@ -10,7 +10,7 @@ using System.Drawing;
 using XA_SESSIONLib;
 using XA_DATASETLib;
 using System.Threading;
-
+//코스닥 실시간 가격 수신
 namespace PackageSellSystemTrading{
  //코스닥 현재가 실시간
     public class Real_K3 : XARealClass{
